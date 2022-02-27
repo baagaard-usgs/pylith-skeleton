@@ -1,0 +1,22 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
+
+import pyre
+from PyLithApp import PyLithApp
+
+if __name__ == "__main__":
+    #name = pyre.executive.nameserver.get(name='sim', default="sim")
+    app = PyLithApp(name="pylith4")
+
+    # print out the application configuration
+    app.info.line("application {!r}".format(app.pyre_name))
+    app.info.line("  metadata: {!r}".format(app.metadata.pyre_family()))
+    app.info.line("  problems: {!r}".format([problem.pyre_name for problem in app.problems]))
+    app.info.log()
+
+    status = app.main()
+    raise SystemExit(status)
+
+
+# end of file

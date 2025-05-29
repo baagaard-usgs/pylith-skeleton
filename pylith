@@ -3,10 +3,11 @@
 
 
 import pyre
+
 from PyLithApp import PyLithApp
 
 if __name__ == "__main__":
-    #name = pyre.executive.nameserver.get(name='sim', default="sim")
+    # name = pyre.executive.nameserver.get(name='sim', default="sim")
     app = PyLithApp(name="pylith4")
 
     # print out the application configuration
@@ -17,6 +18,3 @@ if __name__ == "__main__":
 
     status = app.main()
     raise SystemExit(status)
-
-
-# end of file

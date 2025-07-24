@@ -20,31 +20,34 @@ class Problem(pyre.protocol, family="pylith.problems"):
         """Solve problem."""
 
 
-class ProblemBase(pyre.component, implements=Problem):
-    from Material import Material, Elasticity
-    from BoundaryCondition import BoundaryCondition, DirichletBC
-    from Interface import Interface, Fault
-    from Normalizer import Normalizer
+class ProblemBase(pyre.component):
+    # from Material import Material, Elasticity
+    from BoundaryCondition import BoundaryCondition
+    from DirichletBC import DirichletBC
 
-    materials = pyre.properties.list(schema=Material(default=Elasticity))
-    materials.doc = "Materials in problem."
+    # from Interface import Interface, Fault
+    # from Normalizer import Normalizer
+
+    # materials = pyre.properties.list(schema=Material(default=Elasticity))
+    # materials.doc = "Materials in problem."
 
     boundary_conditions = pyre.properties.list(schema=BoundaryCondition(default=DirichletBC))
     boundary_conditions.doc = "Boundary conditions"
 
-    interfaces = pyre.properties.list(schema=Interface(default=Fault))
-    interfaces.doc = "Interfaces"
+    # interfaces = pyre.properties.list(schema=Interface(default=Fault))
+    # interfaces.doc = "Interfaces"
 
-    solution_observers = pyre.properties.list(schema=Observer(default=SolutionObserver))
-    solution_observers.doc = "Solution observers"
+    # solution_observers = pyre.properties.list(schema=Observer(default=SolutionObserver))
+    # solution_observers.doc = "Solution observers"
 
-    normalizer = Normalizer()
+    # normalizer = Normalizer()
 
     @pyre.export
     def initialize(self):
         """Initialize the problem."""
         print("\n".join(list(self.pyre_showConfiguration())))
-        for material in self.materials:
-            material.initialize()
+        # for material in self.materials:
+        #    material.initialize()
+        print(f"# bcs {len(self.boundary_conditions)}")
         for bc in self.boundary_conditions:
             bc.initialize()

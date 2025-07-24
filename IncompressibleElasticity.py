@@ -1,43 +1,40 @@
 import pyre
+from pyre.units.mass import kg
+from pyre.units.time import s
+from pyre.units.length import m
 
-from Elasticity import Elasticity
+from Material import MaterialBase
 
 
-class Material(pyre.protocol, family="pylith.materials"):
-    """Protocol declarator for materials."""
+class IncompressibleElasticity(MaterialBase, family="pylith.materials.incompressibleelasticity"):
+    """Incompressible elastic material behavior."""
 
-    @classmethod
-    def pyre_default(cls, **kwds):
-        """The default {Material} implementation"""
-        return Elasticity
+    density = pyre.properties.dimensional(default=3000 * kg / m**3)
+    density.doc = "Mass density."
 
-    @pyre.provides
+    vs = pyre.properties.dimensional(default=5200.0 * m / s)
+    vs.doc = "S wave speed."
+
+    @pyre.export
     def initialize(self):
         """Initialize material."""
+        print(f"Incompressible elasticity material '{self.pyre_name}'")
+        print("\n".join(list(self.pyre_showConfiguration())))
 
-    @pyre.provides
+    @pyre.export
     def setState(self, t):
         """Set material state."""
+        print(f"Setting state for incompressible elasticity material '{self.pyre_name}'...")
 
-    @pyre.provides
+    @pyre.export
     def computeState(self, t):
         """Compute material state."""
-
-    @pyre.provides
-    def finalState(self, t):
-        """Set material end state."""
-
-
-class MaterialBase(Material, implements=Material):
-    from Observer import Observer
-
-    observer = Observer()
-    observer.doc = "Observer of material state."
+        print(f"Computing state for incompressible elasticity material '{self.pyre_name}'...")
 
     @pyre.export
     def finalState(self, t):
         """Set material end state."""
-        self.observer.update(t)
+        return
 
 
 class Injector(pyre.component, family="pylith.injectors.material"):

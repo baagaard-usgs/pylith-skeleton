@@ -1,10 +1,10 @@
 import pyre
 from pyre.units.time import second
 
-from Problem import ProblemBase
+from Problem import Problem, ProblemBase
 
 
-class TimeDependent(ProblemBase, family="pylith.problems.timedependent"):
+class TimeDependent(ProblemBase, family="pylith.problems.timedependent", implements=Problem):
     """A time dependent problem."""
 
     start_time = pyre.properties.dimensional(default=0.0 * second)
@@ -24,8 +24,8 @@ class TimeDependent(ProblemBase, family="pylith.problems.timedependent"):
             print(f"t={t}")
             for bc in self.boundary_conditions:
                 bc.setState(t)
-            for material in self.materials:
-                material.computeState(t)
+            # for material in self.materials:
+            #    material.computeState(t)
             t += self.time_step
-        for material in self.materials:
-            material.finalState(t)
+        # for material in self.materials:
+        #    material.finalState(t)

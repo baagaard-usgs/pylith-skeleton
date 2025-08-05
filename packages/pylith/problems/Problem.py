@@ -1,5 +1,7 @@
 import pyre
 
+from pylith.utils import component
+
 
 class Problem(pyre.protocol, family="pylith.problems"):
     """Problem to solve."""
@@ -7,7 +9,7 @@ class Problem(pyre.protocol, family="pylith.problems"):
     @classmethod
     def pyre_default(cls, **kwds):
         """The default {Problem} implementation"""
-        from TimeDependent import TimeDependent
+        from .TimeDependent import TimeDependent
 
         return TimeDependent
 
@@ -20,10 +22,10 @@ class Problem(pyre.protocol, family="pylith.problems"):
         """Solve problem."""
 
 
-class ProblemBase(pyre.component):
+class ProblemBase(component):
     # from Material import Material, Elasticity
-    from BoundaryCondition import BoundaryCondition
-    from DirichletBC import DirichletBC
+    from pylith.boundary_conditions import boundary_condition
+    from pylith.boundary_conditions import dirichlet
 
     # from Interface import Interface, Fault
     # from Normalizer import Normalizer
@@ -31,7 +33,9 @@ class ProblemBase(pyre.component):
     # materials = pyre.properties.list(schema=Material(default=Elasticity))
     # materials.doc = "Materials in problem."
 
-    boundary_conditions = pyre.properties.list(schema=BoundaryCondition(default=DirichletBC))
+    boundary_conditions = pyre.properties.list(
+        schema=boundary_condition(default=dirichlet)
+    )
     boundary_conditions.doc = "Boundary conditions"
 
     # interfaces = pyre.properties.list(schema=Interface(default=Fault))
@@ -45,9 +49,9 @@ class ProblemBase(pyre.component):
     @pyre.export
     def initialize(self):
         """Initialize the problem."""
-        print("\n".join(list(self.pyre_showConfiguration())))
+        channel = self.info
         # for material in self.materials:
         #    material.initialize()
-        print(f"# bcs {len(self.boundary_conditions)}")
+        channel.line(f"# boundary conditions {len(self.boundary_conditions)}")
         for bc in self.boundary_conditions:
             bc.initialize()

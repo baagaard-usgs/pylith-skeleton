@@ -1,0 +1,21 @@
+#!/usr/bin/env python3
+
+import pyre
+import journal
+
+
+from pylith.apps import pylith_app
+
+if __name__ == "__main__":
+    name = pyre.executive.nameserver.get(name="sim", default="sim")
+    app = pylith_app(name=name)
+
+    # Print out the application configuration
+    channel = app.info
+    channel.line("application {!r}".format(app.pyre_name))
+    channel.report(app.pyre_showConfiguration(deep=True))
+    channel.log()
+    journal.decor(3)
+
+    status = app.run()
+    raise SystemExit(status)

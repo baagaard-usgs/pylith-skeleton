@@ -1,15 +1,15 @@
 import pyre
 
 
-class BoundaryCondition(pyre.protocol, family="pylith.boundary_condition"):
+class BoundaryCondition(pyre.protocol, family="pylith.boundary_conditions"):
     """Protocol declarator for materials."""
 
     @classmethod
     def pyre_default(cls, **kwds):
         """The default {BoundaryCondition} implementation"""
-        from DirichletBC import DirichletBC
+        from .Dirichlet import Dirichlet
 
-        return DirichletBC
+        return Dirichlet
 
     @pyre.provides
     def initialize(self):

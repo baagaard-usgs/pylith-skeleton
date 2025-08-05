@@ -3,7 +3,7 @@ from pyre.units.mass import kg
 from pyre.units.time import s
 from pyre.units.length import m
 
-from Material import MaterialBase
+from .Material import MaterialBase
 
 
 class Elasticity(MaterialBase, family="pylith.materials.elasticity"):

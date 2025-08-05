@@ -9,10 +9,6 @@ class Metadata(pyre.protocol, family="pylith.metadata"):
         """
         The default {Shape} implementation
         """
-        from SimulationMetadata import SimulationMetadata
+        from .Simulation import Simulation
 
-        return SimulationMetadata
-
-    @pyre.provides
-    def display(self):
-        """Display my metadata."""
+        return Simulation

@@ -1,0 +1,18 @@
+"pylith.metadata.simulation #sim.metadata":
+  author: Joe
+  description: Testing configuration
+
+"pylith.problems.time_dependent #sim.time_dependent":
+  end_time: 5.0*s
+  #materials:
+  #  - Material.Elasticity#block
+  #  - Material.IncompressibleElasticity#plate
+  boundary_conditions:
+    - pylith.bcs.dirichlet#bc_x
+    - pylith.bcs.dirichlet#bc_y
+
+"pylith.bcs.dirichlet #bc_x":
+  value: 2.0*m
+
+"pylith.bcs.dirichlet #bc_y":
+  value: -1.0*m

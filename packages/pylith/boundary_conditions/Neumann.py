@@ -1,10 +1,14 @@
 import pyre
 
+from pylith.utils import component
+from .BoundaryCondition import BoundaryCondition
 
-from BoundaryCondition import BoundaryCondition
 
-
-class NeumannBC(pyre.component, implements=BoundaryCondition):
+class Neumann(
+    component,
+    family="pylith.boundary_conditions.neumann",
+    implements=BoundaryCondition,
+):
     """Neumann boundary condition."""
 
     traction = pyre.properties.array(default=(0, 0, 0))

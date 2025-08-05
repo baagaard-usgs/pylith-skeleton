@@ -8,11 +8,15 @@
   #  - Material.Elasticity#block
   #  - Material.IncompressibleElasticity#plate
   boundary_conditions:
-    - pylith.bcs.dirichlet#bc_x
-    - pylith.bcs.dirichlet#bc_y
+    - pylith.boundary_conditions.dirichlet#bc_x
+    - pylith.boundary_conditions.dirichlet#bc_y
 
-"pylith.bcs.dirichlet #bc_x":
+  materials:
+    - pylith.materials.elasticity#crust
+    - pylith.materials.elasticity#mantle
+
+"pylith.boundary_conditions.dirichlet #bc_x":
   value: 2.0*m
 
-"pylith.bcs.dirichlet #bc_y":
+"pylith.boundary_conditions.dirichlet #bc_y":
   value: -1.0*m

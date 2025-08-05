@@ -15,7 +15,7 @@ if __name__ == "__main__":
     channel.line("application {!r}".format(app.pyre_name))
     channel.report(app.pyre_showConfiguration(deep=True))
     channel.log()
-    journal.decor(3)
+    journal.decor(1)
 
     status = app.run()
     raise SystemExit(status)

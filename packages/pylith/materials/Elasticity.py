@@ -21,15 +21,14 @@ class Elasticity(MaterialBase, family="pylith.materials.elasticity"):
     @pyre.export
     def initialize(self):
         """Initialize material."""
-        print(f"Elasticity material '{self.pyre_name}'")
-        print("\n".join(list(self.pyre_showConfiguration())))
+        self.info.log(f"Initializing material '{self.pyre_name}'")
 
     @pyre.export
     def setState(self, t):
         """Set material state."""
-        print(f"Setting state for elasticity material '{self.pyre_name}'...")
+        self.info.log(f"Setting state for elasticity material '{self.pyre_name}'...")
 
     @pyre.export
     def computeState(self, t):
         """Compute material state."""
-        print(f"Computing state for elasticity material '{self.pyre_name}'...")
+        self.info.log(f"Computing state for elasticity material '{self.pyre_name}'...")

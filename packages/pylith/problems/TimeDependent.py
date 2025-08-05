@@ -29,8 +29,9 @@ class TimeDependent(
             channel.log("Solving at t={}.".format(t))
             for bc in self.boundary_conditions:
                 bc.setState(t)
-            # for material in self.materials:
-            #    material.computeState(t)
+            for mat in self.materials:
+                mat.computeState(t)
             t += self.time_step
-        # for material in self.materials:
-        #    material.finalState(t)
+
+        for mat in self.materials:
+            mat.finalState(t)

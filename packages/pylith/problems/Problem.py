@@ -23,15 +23,11 @@ class Problem(pyre.protocol, family="pylith.problems"):
 
 
 class ProblemBase(component):
-    # from Material import Material, Elasticity
-    from pylith.boundary_conditions import boundary_condition
-    from pylith.boundary_conditions import dirichlet
+    from pylith.boundary_conditions import boundary_condition, dirichlet
+    from pylith.materials import material, elasticity
 
-    # from Interface import Interface, Fault
-    # from Normalizer import Normalizer
-
-    # materials = pyre.properties.list(schema=Material(default=Elasticity))
-    # materials.doc = "Materials in problem."
+    materials = pyre.properties.list(schema=material(default=elasticity))
+    materials.doc = "Materials in problem."
 
     boundary_conditions = pyre.properties.list(
         schema=boundary_condition(default=dirichlet)
@@ -50,8 +46,11 @@ class ProblemBase(component):
     def initialize(self):
         """Initialize the problem."""
         channel = self.info
-        # for material in self.materials:
-        #    material.initialize()
-        channel.line(f"# boundary conditions {len(self.boundary_conditions)}")
+
+        channel.log(f"# materials {len(self.materials)}")
+        for mat in self.materials:
+            mat.initialize()
+
+        channel.log(f"# boundary conditions {len(self.boundary_conditions)}")
         for bc in self.boundary_conditions:
             bc.initialize()

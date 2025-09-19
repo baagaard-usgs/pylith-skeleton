@@ -1,7 +1,5 @@
 import pyre
 
-from pylith.utils import component
-
 
 class Material(pyre.protocol, family="pylith.materials"):
     """Protocol declarator for materials."""
@@ -30,7 +28,7 @@ class Material(pyre.protocol, family="pylith.materials"):
         """Set material end state."""
 
 
-class MaterialBase(component):
+class MaterialBase(pyre.component):
     # from pylith.observers import observer, observer_solution
 
     # observers = pyre.properties.list(schema=observer(default=observer_solution))

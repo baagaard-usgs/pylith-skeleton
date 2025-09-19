@@ -1,4 +1,4 @@
 SRC_DIR=`pwd`/packages
 
-PYTHONPATH=${SRC_DIR}
+export PYTHONPATH=${SRC_DIR}
 

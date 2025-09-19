@@ -1,7 +1,5 @@
 # To-do
 
-- Add `Interface`, `Fault`
-- Use `journal`
+- Create notebook matching static.yml.
+- Convert pylith to Plexus?
 - Add use of validator
-- Update cfg file
-- Attempt YAML file ("family #NAME":)

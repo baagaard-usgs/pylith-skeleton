@@ -1,22 +1,20 @@
-"pylith.metadata.simulation #sim.metadata":
+"pylith.metadata.simulation#pylith.app.metadata":
   author: Joe
   description: Testing configuration
 
-"pylith.problems.time_dependent #sim.time_dependent":
+"pylith.problems.time_dependent#problem":
   end_time: 5.0*s
-  #materials:
-  #  - Material.Elasticity#block
-  #  - Material.IncompressibleElasticity#plate
-  boundary_conditions:
-    - pylith.boundary_conditions.dirichlet#bc_x
-    - pylith.boundary_conditions.dirichlet#bc_y
 
   materials:
     - pylith.materials.elasticity#crust
     - pylith.materials.elasticity#mantle
 
-"pylith.boundary_conditions.dirichlet #bc_x":
+  boundary_conditions:
+    - pylith.boundary_conditions.dirichlet#bc_x
+    - pylith.boundary_conditions.dirichlet#bc_y
+
+bc_x:
   value: 2.0*m
 
-"pylith.boundary_conditions.dirichlet #bc_y":
+"pylith.boundary_conditions.dirichlet#bc_y":
   value: -1.0*m

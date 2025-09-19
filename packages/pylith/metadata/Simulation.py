@@ -1,10 +1,13 @@
 import pyre
 
-from pylith.utils import component
 from .Metadata import Metadata
 
+from pylith.metadata import features as meta_features
 
-class Simulation(component, family="pylith.metadata.simulation", implements=Metadata):
+
+class Simulation(
+    pyre.component, family="pylith.metadata.simulation", implements=Metadata
+):
     """Simulation metadata."""
 
     author = pyre.properties.str()
@@ -12,3 +15,6 @@ class Simulation(component, family="pylith.metadata.simulation", implements=Meta
 
     description = pyre.properties.str()
     description.doc = "Description of simulation."
+
+    features = meta_features()
+    features.doc = "Simulation features"

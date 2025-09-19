@@ -1,13 +1,13 @@
+import journal
 import pyre
 
 from pyre.units.length import meter
 
-from pylith.utils import component
 from .BoundaryCondition import BoundaryCondition
 
 
 class Dirichlet(
-    component,
+    pyre.component,
     family="pylith.boundary_conditions.dirichlet",
     implements=BoundaryCondition,
 ):
@@ -19,16 +19,14 @@ class Dirichlet(
     @pyre.export
     def initialize(self):
         """Initialize Dirichlet boundary condition."""
-        self.info.log(
-            "Initializing Dirichlet boundary condition {!r}...".format(self.pyre_name)
+        self.info_flow = journal.info("application-flow", detail=2)
+        self.info_flow.log(
+            f"Initializing Dirichlet boundary condition '{self.pyre_name}'."
         )
 
     @pyre.export
     def setState(self, t):
         """Set Dirichlet boundary condition state."""
-        self.info.log(
-            "Setting Dirichlet boundary condition state {!r} value={}...".format(
-                self.pyre_name, self.value
-            )
+        self.info_flow.log(
+            f"Setting state for Dirichlet boundary condition '{self.pyre_name}', value={self.value}."
         )
-        self.info.log()

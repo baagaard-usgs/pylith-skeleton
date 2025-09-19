@@ -1,13 +1,13 @@
+import journal
 import pyre
 from pyre.units.time import second
 
-from .Problem import Problem, ProblemBase
+from .Problem import ProblemBase
 
 
 class TimeDependent(
     ProblemBase,
     family="pylith.problems.time_dependent",
-    implements=Problem,
 ):
     """A time dependent problem."""
 
@@ -23,10 +23,9 @@ class TimeDependent(
     @pyre.export
     def solve(self):
         """Solve the time-dependent problem."""
-        channel = self.info
         t = self.start_time
         while t <= self.end_time:
-            channel.log("Solving at t={}.".format(t))
+            self.info_flow.log(f"Problem '{self.pyre_name}' solving at t={t}.")
             for bc in self.boundary_conditions:
                 bc.setState(t)
             for mat in self.materials:

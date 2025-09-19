@@ -1,6 +1,5 @@
 import pyre
-
-from pylith.utils import component
+import journal
 
 
 class Problem(pyre.protocol, family="pylith.problems"):
@@ -22,9 +21,10 @@ class Problem(pyre.protocol, family="pylith.problems"):
         """Solve problem."""
 
 
-class ProblemBase(component):
+class ProblemBase(pyre.component, implements=Problem):
     from pylith.boundary_conditions import boundary_condition, dirichlet
     from pylith.materials import material, elasticity
+    from pylith.normalizers import normalizer as normalizer_scales
 
     materials = pyre.properties.list(schema=material(default=elasticity))
     materials.doc = "Materials in problem."
@@ -40,17 +40,25 @@ class ProblemBase(component):
     # solution_observers = pyre.properties.list(schema=Observer(default=SolutionObserver))
     # solution_observers.doc = "Solution observers"
 
-    # normalizer = Normalizer()
+    normalizer = normalizer_scales()
+    normalizer.doc = "Scales for nondimensionalization."
 
     @pyre.export
     def initialize(self):
         """Initialize the problem."""
-        channel = self.info
+        self.info_flow = journal.info("application-flow", detail=1)
+        self.info_flow.log(
+            f"Initializing problem '{self.pyre_name}' with {len(self.materials)} materials and {len(self.boundary_conditions)} boundary conditions."
+        )
 
-        channel.log(f"# materials {len(self.materials)}")
         for mat in self.materials:
             mat.initialize()
 
-        channel.log(f"# boundary conditions {len(self.boundary_conditions)}")
         for bc in self.boundary_conditions:
             bc.initialize()
+
+    @pyre.export
+    def solve(self):
+        raise NotImplementedError(
+            f"class '{type(self).__name__}' must implement 'Problem.solve()'"
+        )

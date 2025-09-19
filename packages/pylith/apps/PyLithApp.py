@@ -1,4 +1,5 @@
 import pyre
+import journal
 
 from pylith.metadata import metadata as app_metadata
 
@@ -14,7 +15,7 @@ class PyLithApp(pyre.application):
 
     problems = pyre.properties.list(
         schema=problem(default=time_dependent),
-        default=[time_dependent(name="sim.time_dependent")],
+        default=[time_dependent(name="problem")],
     )
     problems.doc = "Problems to solve."
 
@@ -23,23 +24,20 @@ class PyLithApp(pyre.application):
         """
         Solve problem.
         """
-        self.welcome()
         self.initialize()
         self.solve()
         return 0
 
-    def welcome(self):
-        """Show greetings from journals."""
-        self.metadata.welcome()
-        for a_problem in self.problems:
-            a_problem.welcome()
-
     def initialize(self):
         """Initialize problems."""
+        channel = journal.info("application-flow")
+        channel.log("Initializing application")
         for a_problem in self.problems:
             a_problem.initialize()
 
     def solve(self):
         """Solve problems."""
+        channel = journal.info("application-flow")
+        channel.log("Solving problems")
         for a_problem in self.problems:
             a_problem.solve()

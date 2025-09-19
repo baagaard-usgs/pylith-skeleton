@@ -1,11 +1,10 @@
 import pyre
 
-from pylith.utils import component
 from .BoundaryCondition import BoundaryCondition
 
 
 class Neumann(
-    component,
+    pyre.component,
     family="pylith.boundary_conditions.neumann",
     implements=BoundaryCondition,
 ):

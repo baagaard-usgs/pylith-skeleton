@@ -1,3 +1,4 @@
+import journal
 import pyre
 from pyre.units.mass import kg
 from pyre.units.time import s
@@ -21,14 +22,17 @@ class Elasticity(MaterialBase, family="pylith.materials.elasticity"):
     @pyre.export
     def initialize(self):
         """Initialize material."""
-        self.info.log(f"Initializing material '{self.pyre_name}'")
+        self.info_flow = journal.info("application-flow", detail=2)
+        self.info_flow.log(f"Initializing material '{self.pyre_name}'")
 
     @pyre.export
     def setState(self, t):
         """Set material state."""
-        self.info.log(f"Setting state for elasticity material '{self.pyre_name}'...")
+        self.info_flow.log(f"Setting state for elasticity material '{self.pyre_name}'.")
 
     @pyre.export
     def computeState(self, t):
         """Compute material state."""
-        self.info.log(f"Computing state for elasticity material '{self.pyre_name}'...")
+        self.info_flow.log(
+            f"Computing state for elasticity material '{self.pyre_name}'."
+        )

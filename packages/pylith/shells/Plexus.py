@@ -1,14 +1,24 @@
 import pyre
 import journal
 
-import pylith
+from pylith.metadata import metadata as app_metadata
+from pylith.problems import problem
+from pylith.problems import time_dependent
 
 
-# declaration
 class Plexus(pyre.plexus, family="pylith.shells.plexus"):
     """The main action dispatcher."""
 
     from .Action import Action as pyre_action
+
+    metadata = app_metadata()
+    metadata.doc = "Application metadata"
+
+    problems = pyre.properties.list(
+        schema=problem(default=time_dependent),
+        default=[time_dependent(name="problem")],
+    )
+    problems.doc = "Problems to solve."
 
     # journal control; useful until journal is once again configurable
     logfile = pyre.properties.path()

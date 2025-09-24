@@ -2,7 +2,6 @@ import journal
 import pyre
 
 import pylith
-from pylith.apps import pylith_app
 
 
 class Run(pylith.shells.command, family="pyre.cli.run"):
@@ -10,10 +9,24 @@ class Run(pylith.shells.command, family="pyre.cli.run"):
 
     @pyre.export(tip="generate completions candidates from a partial command line")
     def main(self, plexus, argv, **kwds):
-        # set default journal parameters
+        # :KLUDGE: set default journal parameters
         journal.decor(1)
         journal.detail(1)
 
-        app = pylith_app(name="pylith.app")
-        status = app.run()
-        return status
+        self.initialize(plexus)
+        self.solve(plexus)
+        return 0
+
+    def initialize(self, app):
+        """Initialize problems."""
+        channel = journal.info("application-flow")
+        channel.log("Initializing application")
+        for problem in app.problems:
+            problem.initialize()
+
+    def solve(self, app):
+        """Solve problems."""
+        channel = journal.info("application-flow")
+        channel.log("Solving problems")
+        for problem in app.problems:
+            problem.solve()

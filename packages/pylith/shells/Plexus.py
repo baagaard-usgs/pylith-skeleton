@@ -15,6 +15,7 @@ import pylith
 from pylith.metadata import metadata as app_metadata
 from pylith.defaults import defaults as sim_defaults
 from pylith.problems import problem as app_problem
+from pylith.petsc import options as petsc_options
 from pylith import journal as pylith_journal
 
 
@@ -28,6 +29,9 @@ class Plexus(pyre.plexus, family="pylith.shells.plexus"):
 
     defaults = sim_defaults()
     defaults.doc = "Simulation defaults."
+
+    petsc_options = petsc_options.options()
+    petsc_options.doc = "PETSc options."
 
     problem = app_problem()
     problem.doc = "Boundary value problem to solve."
@@ -49,6 +53,7 @@ class Plexus(pyre.plexus, family="pylith.shells.plexus"):
 
         self.metadata
         self.defaults
+        self.petsc_options
         self.problem
 
     def run_cxx(self):

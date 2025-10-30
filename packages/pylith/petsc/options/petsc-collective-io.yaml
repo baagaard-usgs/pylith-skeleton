@@ -1,0 +1,4 @@
+# Turn on collective HDF5 output.
+pylith.app.petsc_options:
+  options:
+    - viewer_hdf5_collective

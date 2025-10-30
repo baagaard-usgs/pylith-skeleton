@@ -4,7 +4,30 @@
 
 1. I want to set defaults for the mesh initialization phases in `mesh_initializers.MeshInitializer` and allow them to be overwritten by the user. I have put the values in `serial_phases.yaml`. This is an application (not user) configuration file. How do I load it?
 
-2. What is the relationship between the family name for a component and the name in __init__? In udnerstand why it is nice that they match, but must they be the same?
+2. Similar to #1, but I want to add to a list of PETSc options based upon use of a component or a user flag.
+
+    ```yaml
+    pylith.app.petsc_options:
+        testing: True
+    ```
+
+    ```python
+    # pylith.petsc.options.OptionsManager
+    if self.testing:
+        pyre.loadConfiguration("petsc-testing.yaml")
+    ```
+
+    ```yaml
+    # petsc-testing.yaml
+    pylith.app.petsc_options:
+      # Use different key (options-testing?) if we are appending manually to avoid overwriting?
+      options:
+        - malloc
+        - malloc_debug
+        - malloc_dump
+    ```
+
+3. What is the relationship between the family name for a component and the name in __init__? In udnerstand why it is nice that they match, but must they be the same?
 
     ```python
     # pylith/problems.__init__.py

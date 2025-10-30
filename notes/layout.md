@@ -4,12 +4,7 @@
 
 - Problem
   - governing_equation
-- TimeDependent
-  - progress_monitor
-- ProgressMonitorTime
-- Green's function
-  - progress_monitor
-- ProgressMonitorStep
+- Petsc options
 - GoverningEquation
 
 ## Python directory structure

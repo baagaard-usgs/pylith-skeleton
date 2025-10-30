@@ -7,36 +7,31 @@
 #
 # See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
+import pyre
+from pyre.units.time import year
+
+import pylith
 from pylith import journal
-from pylith import monitors
 
-from .Problem import ProblemBase
+from .ProgressMonitor import ProgressMonitorBase
 
 
-class GreensFns(
-    ProblemBase,
-    family="pylith.problems.greens_fns",
-):
-    """Problem for generating Green's functions."""
+class ProgressMonitorTime(ProgressMonitorBase, family="pylith.monitors.progress_monitor_time"):
+    """Monitor progress of a time-dependent simulation."""
 
-    # - fields
-    # - sources
-
-    progress_monitor = monitors.progress_monitor(default=monitors.progress_monitor_step)
-    progress_monitor.doc = "Monitor for reporting progress of simulation."
+    time_units = pylith.properties.dimensional(default=1.0 * year)
+    time_units.validators = pyre.constraints.isGreater(value=0.0 * year)
+    time_units.doc = "Units used for simulation time in output."
 
     def __init__(self, name, locator, implicit, **kwds):
         """Constructor."""
-        # self.cxx = CxxTimeDependent()
         super().__init__(name, locator, implicit, **kwds)
 
-        self.progress_monitor
-
-        channel = journal.warning(":TODO:")
-        channel.report(
+        todo = journal.warning(":TODO:")
+        todo.report(
             (
-                "Implement GreensFns.__init__(). Pass parameters to C++.",
-                f"progress monitor={self.progress_monitor}",
+                "Implement ProgressMonitorTime.__init__(). Pass parameters to C++.",
+                f"time units={self.time_units}",
             )
         )
-        channel.log()
+        todo.log()

@@ -7,3 +7,15 @@
 #
 # See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
+import pylith
+
+
+class MeshIO(pylith.protocol, family="pylith.mesh_io"):
+    """Read and write a finite-element mesh."""
+
+    @classmethod
+    def pyre_default(cls, **kwds):
+        """The default {MeshIO} implementation"""
+        from .MeshIOPetsc import MeshIOPetsc
+
+        return MeshIOPetsc

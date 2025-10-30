@@ -7,3 +7,7 @@
 #
 # See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
+from .Scales import Scales as scales
+from .QuasistaticElasticity import QuasistaticElasticity as quasistatic_elasticity
+from .DynamicElasticity import DynamicElasticity as dynamic_elasticity
+from .QuasistaticPoroelasticity import QuasistaticPoroelasticity as quasistatic_poroelasticity

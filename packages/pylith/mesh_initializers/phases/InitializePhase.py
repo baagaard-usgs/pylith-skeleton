@@ -7,3 +7,15 @@
 #
 # See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
+import pylith
+
+
+class InitializePhase(pylith.protocol, family="pylith.mesh_initializers.phases"):
+    """Mesh initialize phase."""
+
+    @classmethod
+    def pyre_default(cls, **kwds):
+        """The default {Initializer} implementation"""
+        from .MeshReader import MeshReader
+
+        return MeshReader

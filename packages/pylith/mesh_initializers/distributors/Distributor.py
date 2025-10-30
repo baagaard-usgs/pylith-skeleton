@@ -7,3 +7,15 @@
 #
 # See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
+import pylith
+
+
+class Distributor(pylith.protocol, family="pylith.mesh_initializers.distributors"):
+    """Partition and distribute the mesh."""
+
+    @classmethod
+    def pyre_default(cls, **kwds):
+        """The default {Distributor} implementation"""
+        from .DistributorPetsc import DistributorPetsc
+
+        return DistributorPetsc

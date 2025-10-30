@@ -7,3 +7,15 @@
 #
 # See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
+import pylith
+
+
+class Refiner(pylith.protocol, family="pylith.meshing.refiners"):
+    """Refine finite-element mesh."""
+
+    @classmethod
+    def pyre_default(cls, **kwds):
+        """The default {Refiner} implementation"""
+        from .RefineUniform import RefineUniform
+
+        return RefineUniform

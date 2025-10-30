@@ -7,3 +7,12 @@
 #
 # See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
+"""Additional constraints for validating parameters."""
+
+
+def notEmptyString(*constraints):
+    return
+
+
+def notEmptyList(*constraints):
+    return

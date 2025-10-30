@@ -7,3 +7,15 @@
 #
 # See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
+import pylith
+
+
+class Initializer(pylith.protocol, family="pylith.mesh_initializers"):
+    """Mesh initializer."""
+
+    @classmethod
+    def pyre_default(cls, **kwds):
+        """The default {Initializer} implementation"""
+        from .MeshInitializer import MeshInitializer
+
+        return MeshInitializer

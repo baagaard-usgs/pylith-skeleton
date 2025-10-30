@@ -7,3 +7,6 @@
 #
 # See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
+
+from .Distributor import Distributor as distributor
+from .DistributorPetsc import DistributorPetsc as petsc

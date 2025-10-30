@@ -1,8 +1,20 @@
-import pyre
-import journal
+# =================================================================================================
+# This code is part of PyLith, developed through the Computational Infrastructure
+# for Geodynamics (https://github.com/geodynamics/pylith).
+#
+# Copyright (c) 2010-2025, University of California, Davis and the PyLith Development Team.
+# All rights reserved.
+#
+# See https://mit-license.org/ and LICENSE.md and for license information.
+# =================================================================================================
+import pylith
+from pylith import journal
+
+from pylith import scales
+from pylith import mesh_initializers
 
 
-class Problem(pyre.protocol, family="pylith.problems"):
+class Problem(pylith.protocol, family="pylith.problems"):
     """Problem to solve."""
 
     @classmethod
@@ -12,53 +24,49 @@ class Problem(pyre.protocol, family="pylith.problems"):
 
         return TimeDependent
 
-    @pyre.provides
-    def initialize(self):
-        """Initialize the problem."""
 
-    @pyre.provides
-    def solve(self):
-        """Solve problem."""
+class ProblemBase(pylith.component, implements=Problem):
 
+    # from pylith.materials import material, elasticity
 
-class ProblemBase(pyre.component, implements=Problem):
-    from pylith.boundary_conditions import boundary_condition, dirichlet
-    from pylith.materials import material, elasticity
-    from pylith.normalizers import normalizer as normalizer_scales
+    # - governing_equation
+    #   - materials
+    #   - boundary_conditions
+    #   - interfaces
+    #   - gravity_field
+    #   - initial_conditions
+    #   - solver
+    #     - formulation (implicit, explicit, implicit_explicit)
+    #     - petsc_defaults
+    #   - solution_observers
 
-    materials = pyre.properties.list(schema=material(default=elasticity))
-    materials.doc = "Materials in problem."
+    initialize_only = pylith.properties.bool(default=False)
+    initialize_only.doc = "Initialize problem and then exit."
 
-    boundary_conditions = pyre.properties.list(
-        schema=boundary_condition(default=dirichlet)
-    )
-    boundary_conditions.doc = "Boundary conditions"
+    scales = scales.scales(default=scales.quasistatic_elasticity)
+    scales.doc = "Scales for nondimensionalizing problem."
 
-    # interfaces = pyre.properties.list(schema=Interface(default=Fault))
-    # interfaces.doc = "Interfaces"
+    mesh_initializer = mesh_initializers.initializer(default=mesh_initializers.mesh_initializer)
+    mesh_initializer.doc = "Initializer to read and setup finite-element mesh."
+
+    # boundary_conditions = pylith.properties.list(schema=boundary_condition(default=dirichlet))
+    # boundary_conditions.doc = "Boundary conditions"
 
     # solution_observers = pyre.properties.list(schema=Observer(default=SolutionObserver))
     # solution_observers.doc = "Solution observers"
 
-    normalizer = normalizer_scales()
-    normalizer.doc = "Scales for nondimensionalization."
+    def __init__(self, name, locator, implicit, **kwds):
+        """Constructor."""
+        super().__init__(name, locator, implicit, **kwds)
 
-    @pyre.export
-    def initialize(self):
-        """Initialize the problem."""
-        self.info_flow = journal.info("application-flow", detail=1)
-        self.info_flow.log(
-            f"Initializing problem '{self.pyre_name}' with {len(self.materials)} materials and {len(self.boundary_conditions)} boundary conditions."
+        self.scales
+        self.mesh_initializer
+
+        todo = journal.warning(":TODO:")
+        todo.report(
+            (
+                "Implement Problem.__init__(). Pass parameters to C++.",
+                f"initialize only={self.initialize_only}",
+            )
         )
-
-        for mat in self.materials:
-            mat.initialize()
-
-        for bc in self.boundary_conditions:
-            bc.initialize()
-
-    @pyre.export
-    def solve(self):
-        raise NotImplementedError(
-            f"class '{type(self).__name__}' must implement 'Problem.solve()'"
-        )
+        todo.log()

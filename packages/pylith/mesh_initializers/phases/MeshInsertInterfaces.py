@@ -7,3 +7,21 @@
 #
 # See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
+
+import pylith
+from pylith import journal
+
+from .InitializePhase import InitializePhase
+
+
+class MeshInsertInterfaces(
+    pylith.component, implements=InitializePhase, famlly="pylith.mesh_initializers.phases.insert_interfaces"
+):
+
+    def __init__(self, name, locator, implicit, **kwds):
+        """Constructor."""
+        super().__init__(name, locator, implicit, **kwds)
+
+        todo = journal.warning(":TODO:")
+        todo.report(("Implement MeshInsertInterfaces.__init__().",))
+        todo.log()

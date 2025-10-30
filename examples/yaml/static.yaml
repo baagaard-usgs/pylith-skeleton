@@ -1,0 +1,21 @@
+problems:
+  - pylith.problems.time_dependent#static
+
+"pylith.metadata.simulation#pylith.app.metadata":
+  author: Joe
+  description: Testing configuration
+
+"pylith.problems.time_dependent#static":
+  materials:
+    - pylith.materials.elasticity#crust
+    - pylith.materials.elasticity#mantle
+
+  boundary_conditions:
+    - pylith.boundary_conditions.dirichlet#bc_x
+    - pylith.boundary_conditions.dirichlet#bc_y
+
+bc_x:
+  value: 2.0*m
+
+bc_y:
+  value: -1.0*m

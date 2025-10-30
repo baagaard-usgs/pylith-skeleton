@@ -1,0 +1,7 @@
+pylith.mesh_initializers.mesh_initializer:
+  phases:
+    - pylith.mesh_initializers.phases.reader#read_mesh
+    - pylith.mesh_initializers.phases.reordering#reorder_mesh
+    - pylith.mesh_initializers.phases.distributor#distribute_mesh
+    - pylith.mesh_initializers.phases.insert_interfaces#insert_interfaces
+    - pylith.mesh_initializers.phases.refiner#refine_mesh

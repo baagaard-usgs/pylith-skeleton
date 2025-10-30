@@ -4,6 +4,16 @@
 
 1. I want to set defaults for the mesh initialization phases in `mesh_initializers.MeshInitializer` and allow them to be overwritten by the user. I have put the values in `serial_phases.yaml`. This is an application (not user) configuration file. How do I load it?
 
+2. What is the relationship between the family name for a component and the name in __init__? In udnerstand why it is nice that they match, but must they be the same?
+
+    ```python
+    # pylith/problems.__init__.py
+    from pylith.problems.TimeDependent import TimeDependent as time_dependent
+
+    # pylith/problems/TimeDependent.py
+    class TimeDependent(pylith.protocol, implements=Problem, family="pylith.problems.time_dependent"):
+    ```
+
 ## Pyre filesystem
 
 1. We want to specify a default output directory and root for output files. What Pyre features might help with this?

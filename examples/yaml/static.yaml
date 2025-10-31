@@ -1,5 +1,5 @@
 pylith.app:
-  problem: pylith.problems.time_dependent#static
+  problem: pylith.problems.time_dependent#static_problem
 
 pylith.app.metadata:
   author: Joe

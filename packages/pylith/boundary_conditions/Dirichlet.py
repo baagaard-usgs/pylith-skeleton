@@ -1,5 +1,14 @@
-import journal
+# =================================================================================================
+# This code is part of PyLith, developed through the Computational Infrastructure
+# for Geodynamics (https://github.com/geodynamics/pylith).
+#
+# Copyright (c) 2010-2025, University of California, Davis and the PyLith Development Team.
+# All rights reserved.
+#
+# See https://mit-license.org/ and LICENSE.md and for license information.
+# =================================================================================================
 import pylith
+from pylith import journal
 
 from pyre.units.length import meter
 
@@ -24,9 +33,19 @@ class Dirichlet(BoundaryConditionBase, family="pylith.boundary_conditions.dirich
     # time_history = db_time_history()
     # time_history.doc = "Time history with normalized amplitude."
 
-    def __init__(self):
-        super().__init__(self)
+    def __init__(self, name, locator, implicit, **kwds):
+        """Constructor."""
+        super().__init__(name, locator, implicit, **kwds)
 
-        channel = journal.debug(":TODO:")
-        channel.log("Implement Dirichlet time_history attribute. Requires spatialdata.")
-        channel.log("Implement Dirichlet.__init__(). Pass parameters to C++.")
+        todo = journal.warning(":TODO:")
+        todo.report(
+            (
+                "Implement Dirichlet time_history attribute. Requires spatialdata.",
+                "Implement Dirichlet.__init__(). Pass parameters to C++.",
+                f"constrained dof={self.constrained_dof}",
+                f"use initial={self.use_initial}",
+                f"use rate={self.use_rate}",
+                f"use time history={self.use_time_history}",
+            )
+        )
+        todo.log()

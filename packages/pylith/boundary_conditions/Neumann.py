@@ -1,5 +1,14 @@
-import journal
+# =================================================================================================
+# This code is part of PyLith, developed through the Computational Infrastructure
+# for Geodynamics (https://github.com/geodynamics/pylith).
+#
+# Copyright (c) 2010-2025, University of California, Davis and the PyLith Development Team.
+# All rights reserved.
+#
+# See https://mit-license.org/ and LICENSE.md and for license information.
+# =================================================================================================
 import pylith
+from pylith import journal
 
 from .BoundaryCondition import BoundaryConditionBase
 
@@ -49,9 +58,21 @@ class Neumann(
     ref_dir_2 = pylith.properties.array(default=[0.0, 1.0, 0.0], validator=validateDir)
     ref_dir_2.doc = "Second choice for reference direction to discriminate among tangential directions in 3D."
 
-    def __init__(self):
-        super().__init__(self)
+    def __init__(self, name, locator, implicit, **kwds):
+        """Constructor."""
+        super().__init__(name, locator, implicit, **kwds)
 
-        channel = journal.debug(":TODO:")
-        channel.log("Implement Neumann time_history attribute. Requires spatialdata.")
-        channel.log("Implement Neumann.__init__(). Pass parameters to C++.")
+        todo = journal.warning(":TODO:")
+        todo.report(
+            (
+                "Implement Neumann time_history attribute. Requires spatialdata.",
+                "Implement Neumann.__init__(). Pass parameters to C++.",
+                f"scale name={self.scale_name}",
+                f"use initial={self.use_initial}",
+                f"use rate={self.use_rate}",
+                f"use time history={self.use_time_history}",
+                f"ref dir 1={self.ref_dir_1}",
+                f"ref dir 2={self.ref_dir_2}",
+            )
+        )
+        todo.log()

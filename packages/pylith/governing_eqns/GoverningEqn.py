@@ -1,0 +1,41 @@
+# =================================================================================================
+# This code is part of PyLith, developed through the Computational Infrastructure
+# for Geodynamics (https://github.com/geodynamics/pylith).
+#
+# Copyright (c) 2010-2025, University of California, Davis and the PyLith Development Team.
+# All rights reserved.
+#
+# See https://mit-license.org/ and LICENSE.md and for license information.
+# =================================================================================================
+import pylith
+
+from pylith.boundary_conditions import boundary_condition, dirichlet
+from pylith import initial_conditions
+from pylith.observers import solution_observer
+
+
+class GoverningEqn(pylith.protocol, family="pylith.governing_eqns"):
+    """Protocol declarator for governing equations." """
+
+    @classmethod
+    def pyre_default(cls, **kwds):
+        """
+        The default {Defaults} implementation
+        """
+        from .Elasticity import Elasticity
+
+        return Elasticity
+
+
+class GoverningEqnBase(pylith.component, implements=GoverningEqn):
+
+    boundary_conditions = pylith.properties.list(schema=boundary_condition(default=dirichlet))
+    boundary_conditions.doc = "Boundary conditions."
+
+    initial_conditions = pylith.properties.list(
+        schema=initial_conditions.initial_condition(default=initial_conditions.domain)
+    )
+    initial_conditions.doc = "Boundary conditions."
+
+    observers = pylith.properties.list(schema=solution_observer())
+    observers.doc = "Observers of solution to governing equation."

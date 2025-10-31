@@ -1,12 +1,5 @@
 # Layout
 
-## To-do
-
-- Problem
-  - governing_equation
-- Petsc options
-- GoverningEquation
-
 ## Python directory structure
 
 - shells

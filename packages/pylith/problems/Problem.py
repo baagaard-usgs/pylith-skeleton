@@ -15,7 +15,7 @@ from pylith import mesh_initializers
 
 
 class Problem(pylith.protocol, family="pylith.problems"):
-    """Problem to solve."""
+    """Boundary value problem to solve."""
 
     @classmethod
     def pyre_default(cls, **kwds):
@@ -27,19 +27,6 @@ class Problem(pylith.protocol, family="pylith.problems"):
 
 class ProblemBase(pylith.component, implements=Problem):
 
-    # from pylith.materials import material, elasticity
-
-    # - governing_equation
-    #   - materials
-    #   - boundary_conditions
-    #   - interfaces
-    #   - gravity_field
-    #   - initial_conditions
-    #   - solver
-    #     - formulation (implicit, explicit, implicit_explicit)
-    #     - petsc_defaults
-    #   - solution_observers
-
     initialize_only = pylith.properties.bool(default=False)
     initialize_only.doc = "Initialize problem and then exit."
 
@@ -48,12 +35,6 @@ class ProblemBase(pylith.component, implements=Problem):
 
     mesh_initializer = mesh_initializers.initializer(default=mesh_initializers.mesh_initializer)
     mesh_initializer.doc = "Initializer to read and setup finite-element mesh."
-
-    # boundary_conditions = pylith.properties.list(schema=boundary_condition(default=dirichlet))
-    # boundary_conditions.doc = "Boundary conditions"
-
-    # solution_observers = pyre.properties.list(schema=Observer(default=SolutionObserver))
-    # solution_observers.doc = "Solution observers"
 
     def __init__(self, name, locator, implicit, **kwds):
         """Constructor."""

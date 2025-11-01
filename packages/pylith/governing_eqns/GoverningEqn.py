@@ -9,9 +9,11 @@
 # =================================================================================================
 import pylith
 
+from pylith import solvers
+from pylith import fields
 from pylith.boundary_conditions import boundary_condition, dirichlet
 from pylith import initial_conditions
-from pylith.observers import solution_observer
+from pylith.observers import solution_domain
 
 
 class GoverningEqn(pylith.protocol, family="pylith.governing_eqns"):
@@ -29,6 +31,12 @@ class GoverningEqn(pylith.protocol, family="pylith.governing_eqns"):
 
 class GoverningEqnBase(pylith.component, implements=GoverningEqn):
 
+    solver = solvers.solver(default=solvers.petsc)
+    solver.doc = "Solver for elasticity equation."
+
+    solution = fields.field(default=fields.petsc)
+    solution.doc = "Solution field for elasticity equation."
+
     boundary_conditions = pylith.properties.list(schema=boundary_condition(default=dirichlet))
     boundary_conditions.doc = "Boundary conditions."
 
@@ -37,5 +45,5 @@ class GoverningEqnBase(pylith.component, implements=GoverningEqn):
     )
     initial_conditions.doc = "Boundary conditions."
 
-    observers = pylith.properties.list(schema=solution_observer())
+    observers = pylith.properties.list(schema=solution_domain())
     observers.doc = "Observers of solution to governing equation."

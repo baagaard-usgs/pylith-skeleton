@@ -1,0 +1,196 @@
+# Default settings for the PyLith application.
+
+# -----------------------------------------------------------------------------
+# Mesh initialization
+# -----------------------------------------------------------------------------
+
+# Default mesh initialization phases; assumes reading mesh in serial.
+pylith.app.problem.mesh_initializer.phases:
+  - reader#read_mesh
+  - reordering#reorder_mesh
+  - distributor#distribute_mesh
+  - insert_interfaces#insert_interfaces
+  - refiner#refine_mesh
+
+# Mesh initialization phases when reading a mesh in parallel.
+# :TODO: Describe how to set the component name.
+pylith.mesh_initializers.mesh_initializer#parallel_initializer:
+  phases:
+    - reader#read_mesh
+    - distributor#distribute_mesh
+    - insert_interfaces#insert_interfaces
+    - refiner#refine_mesh
+
+# -----------------------------------------------------------------------------
+# Solution fields
+# -----------------------------------------------------------------------------
+
+# Subfields
+pylith.fields.subfield#displacement:
+  name: displacement
+  scale: displacement
+  vector_field_type: vector
+
+pylith.fields.subfield#velocity:
+  name: velocity
+  scale: velocity
+  vector_field_type: vector
+
+pylith.fields.subfield#lagrange_multiplier_fault:
+  name: lagrange_multiplier_fault
+  scale: stress
+  vector_field_type: vector
+
+pylith.fields.subfield#pressure:
+  name: pressure
+  scale: stress
+  vector_field_type: scalar
+
+pylith.fields.subfield#fluid_pressure:
+  name: fluid_pressure
+  scale: stress
+  vector_field_type: scalar
+
+pylith.fields.subfield#trace_strain:
+  name: trace_strain
+  scale: strain
+  vector_field_type: scalar
+
+# Default: Elasticity, no fault
+pylith.app.problem.governing_eqn.solution.subfields:
+  - pylith.fields.subfield#displacement
+  - pylith.fields.subfield#velocity
+
+# Elasticity, no fault
+pylith.governing_eqns.elasticity#elasticity:
+  solution.subfields:
+    - pylith.fields.subfield#displacement
+    - pylith.fields.subfield#velocity
+
+# Elasticity + fault(s)
+pylith.governing_eqns.elasticity#elasticity-fault:
+  solution.subfields:
+    - pylith.fields.subfield#displacement
+    - pylith.fields.subfield#velocity
+    - pylith.fields.subfield#lagrange_multiplier_fault
+
+# Incompressible elasticity, no fault
+pylith.governing_eqns.incompressible_elasticity#incompressible_elasticity:
+  - pylith.fields.subfield#displacement
+  - pylith.fields.subfield#pressure
+
+# Poroelasticity, no fault, no state variables
+pylith.governing_eqns.poroelasticity#poroelasticity:
+  - pylith.fields.subfield#displacement
+  - pylith.fields.subfield#velocity
+  - pylith.fields.subfield#fluid_pressure
+  - pylith.fields.subfield#trace_strain
+
+# Poroelasticity + fault, no state variables
+pylith.governing_eqns.poroelasticity#poroelasticity-fault:
+  - pylith.fields.subfield#displacement
+  - pylith.fields.subfield#velocity
+  - pylith.fields.subfield#fluid_pressure
+  - pylith.fields.subfield#trace_strain
+  - pylith.fields.subfield#lagrange_multiplier_fault
+
+# -----------------------------------------------------------------------------
+# General PETSc options
+# -----------------------------------------------------------------------------
+pylith.app.petsc_options.groups:
+  - pylith.petsc.options.group_list#testing
+  - pylith.petsc.options.group_list#collective_io
+  - pylith.petsc.options.group_list#attach_debugger
+
+pylith.petsc.options.group_list#testing:
+  enabled: False
+  options:
+    - malloc_debug
+
+pylith.petsc.options.group_list#collective_io:
+  enabled: True
+  options:
+    - viewer_hdf5_collective
+
+pylith.petsc.options.group_list#attach_debugger:
+  enabled: False
+  options:
+    - stop_for_debugger
+    - debugger_pause, 10
+
+    - malloc_debug, False
+    - check_pointer_intensity, False
+
+# -----------------------------------------------------------------------------
+# Solver settings
+# -----------------------------------------------------------------------------
+
+# Default: Elasticity, no fault
+pylith.app.problem.governing_eqn.solver:
+  solver_options:
+    enabled: True
+    options:
+      - ts_type, beuler
+      - pc_type, gamg
+
+      - pc_gamg_coarse_eq_limit, 200
+      - mg_fine_ksp_max_it, 5
+      - mg_levels_pc_type, pbjacobi
+
+  petsc_options:
+    - pylith.petsc.options.group_list#initial_guess
+    - pylith.petsc.options.group_list#tolerances
+    - pylith.petsc.options.group_list#adaptive_ts
+    - pylith.petsc.options.group_list#monitoring
+
+pylith.petsc.options.group_list#initial_guess:
+  enabled: True
+  options:
+    - ksp_guess_type, pod
+    - ksp_guess_pod_size,  8
+
+pylith.petsc.options.group_list#tolerances:
+  enabled: True
+  options:
+    - ksp_rtol, 1.0e-12
+    - ksp_atol, 1.0e-7
+
+    - snes_rtol, 5.0e-6
+    - snes_atol, 5.0e-2
+
+pylith.petsc.options.group_list#adaptive_ts:
+  enabled: False
+  options:
+    - ts_adapt_type, basic
+    - ts_adapt_safety, 0.2
+    - ts_adapt_reject_safety, 0.1
+    - ts_atol, 0.05
+    - ts_rtol, 0.05
+
+    - ts_adapt_monitor, true
+
+pylith.petsc.options.group_list#monitoring:
+  enabled: False
+  options:
+    - ts_monitor
+    - ksp_monitor
+    - snes_monitor
+
+    - ksp_converged_reason
+    - snes_converged_reason
+
+    - ts_error_if_step_fails
+    - ksp_error_if_not_converged
+    - snes_error_if_not_converged
+
+# Elasticity, no fault
+pylith.solvers.petsc#elasticity:
+  solver_options:
+    enabled: True
+    options:
+      - ts_type, beuler
+      - pc_type, gamg
+
+      - pc_gamg_coarse_eq_limit, 200
+      - mg_fine_ksp_max_it, 5
+      - mg_levels_pc_type, pbjacobi

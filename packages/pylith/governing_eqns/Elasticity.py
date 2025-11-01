@@ -11,22 +11,14 @@ import pyre
 
 import pylith
 from pylith import journal
-from pylith import solvers
-from pylith import solutions
 from pylith import materials
 from pylith import interior_interfaces
 
-from .GoverningEqn import GoverningEqn
+from .GoverningEqn import GoverningEqnBase
 
 
-class Elasticity(GoverningEqn, family="pylith.governing_eqns.elasticity"):
+class Elasticity(GoverningEqnBase, family="pylith.governing_eqns.elasticity"):
     """Elasticity governing equation."""
-
-    solver = solvers.solver(default=solvers.petsc_solver)
-    solver.doc = "Solver for elasticity equation."
-
-    solution = solutions.solution(default=solutions.elasticity)
-    solution.doc = "Solution field for elasticity equation."
 
     materials = pylith.properties.list(schema=materials.material(default=materials.elasticity))
     materials.doc = "Materials in boundary value problem."
@@ -39,13 +31,6 @@ class Elasticity(GoverningEqn, family="pylith.governing_eqns.elasticity"):
     def __init__(self, name, locator, implicit, **kwds):
         """Constructor."""
         super().__init__(name, locator, implicit, **kwds)
-
-        if len(self.interior_interfaces):
-            pyre.loadConfiguration("solver-elasticity-fault.yaml")
-            pyre.loadConfiguration("solution-elasticity-fault.yaml")
-        else:
-            pyre.loadConfiguration("solver-elasticity.yaml")
-            pyre.loadConfiguration("solution-elasticity.yaml")
 
         todo = journal.warning(":TODO:")
         todo.report(

@@ -7,32 +7,34 @@
 #
 # See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
-import pyre
-
 import pylith
 from pylith import journal
 
-from .Options import Options
-from .groups import group
+from .Group import Group
 
 
-class OptionsManager(pyre.component, implements=Options, family="pylith.petsc.options"):
+class GroupList(pylith.component, implements=Group, family="pylith.petsc.options.group_list"):
     """PETSc options manager."""
 
-    groups = pylith.properties.list(schema=group())
-    groups.doc = "List of groups of PETSc options."
+    enabled = pylith.properties.bool()
+    enabled.doc = "Use group of options if True."
+
+    options = pylith.properties.list(schema=pylith.properties.tuple(schema=pylith.properties.str()))
+    options.doc = "List of PETSc options as tuples."
 
     def __init__(self, name, locator, implicit, **kwds):
         """Constructor."""
         super().__init__(name, locator, implicit, **kwds)
 
-        self.groups
+        self.enabled
+        self.options
 
         todo = journal.warning(":TODO:")
         todo.report(
             (
-                "Implement OptionsManager.__init__(). Pass parameters to C++.",
-                f"groups={self.groups}",
+                "Implement Group.__init__(). Pass parameters to C++.",
+                f"enabled={self.enabled}",
+                f"options={self.options}",
             )
         )
         todo.log()

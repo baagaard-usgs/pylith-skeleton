@@ -5,11 +5,15 @@
   - Elasticity
   - IncompressibleElasticity
   - Poroelasticity
-- observers
-  - output_triggers
-    - Trigger
-    - TriggerTime
-    - TriggerStep
-- solver (formulation, petsc_options)
-- solution_fields
+
+- fields
+  - Field
+  - FieldPetsc
+  - Subfield
+  - SubfieldPetsc
+  - Discretization
+  - DiscretizationPetsc
+- solvers
+  - Solver
+  - SolverPetsc (formulation, solver_options, petsc_options)
 

@@ -15,7 +15,7 @@ from .InitializePhase import InitializePhase
 
 
 class MeshInsertInterfaces(
-    pylith.component, implements=InitializePhase, famlly="pylith.mesh_initializers.phases.insert_interfaces"
+    pylith.component, implements=InitializePhase, family="pylith.mesh_initializers.phases.insert_interfaces"
 ):
 
     def __init__(self, name, locator, implicit, **kwds):

@@ -26,9 +26,6 @@ class MeshInitializer(pylith.component, implements=Initializer, family="pylith.m
         """Constructor."""
         super().__init__(name, locator, implicit, **kwds)
 
-        filePath = "/Users/brad/work/src/cig/pylith-skeleton/packages/pylith/mesh_initializers"
-        pyre.loadConfiguration(uri=f"{filePath}/serial_phases.yaml")
-
         self.phases
 
         todo = journal.warning(":TODO:")

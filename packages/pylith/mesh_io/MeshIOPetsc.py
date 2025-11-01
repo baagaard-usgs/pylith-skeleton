@@ -16,7 +16,7 @@ from pylith import journal
 from .MeshIO import MeshIO
 
 
-class MeshIOPetsc(pylith.component, implements=MeshIO, famlly="pylith.mesh_io.petsc"):
+class MeshIOPetsc(pylith.component, implements=MeshIO, family="pylith.mesh_io.petsc"):
 
     filename = pylith.properties.uri()
     filename.doc = "URI of mesh file."

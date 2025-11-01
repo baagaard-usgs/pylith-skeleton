@@ -16,7 +16,7 @@ from .InitializePhase import InitializePhase
 
 
 class MeshDistributor(
-    pylith.component, implements=InitializePhase, famlly="pylith.mesh_initializers.phases.distributor"
+    pylith.component, implements=InitializePhase, family="pylith.mesh_initializers.phases.distributor"
 ):
 
     distributor = distributors.distributor(default=distributors.petsc)

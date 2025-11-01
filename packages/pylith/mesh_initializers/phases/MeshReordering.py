@@ -14,7 +14,7 @@ from pylith import journal
 from .InitializePhase import InitializePhase
 
 
-class MeshReordering(pylith.component, implements=InitializePhase, famlly="pylith.mesh_initializers.phases.reordering"):
+class MeshReordering(pylith.component, implements=InitializePhase, family="pylith.mesh_initializers.phases.reordering"):
 
     def __init__(self, name, locator, implicit, **kwds):
         """Constructor."""

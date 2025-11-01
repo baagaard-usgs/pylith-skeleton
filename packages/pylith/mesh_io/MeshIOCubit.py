@@ -17,7 +17,7 @@ from pylith.utils import constraints
 from .MeshIO import MeshIO
 
 
-class MeshIOCubit(pylith.component, implements=MeshIO, famlly="pylith.mesh_io.cubit"):
+class MeshIOCubit(pylith.component, implements=MeshIO, family="pylith.mesh_io.cubit"):
 
     filename = pylith.properties.uri()
     filename.validators = constraints.notEmptyString()

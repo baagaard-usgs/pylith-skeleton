@@ -15,7 +15,7 @@ from pylith.meshing import refiners
 from .InitializePhase import InitializePhase
 
 
-class MeshRefiner(pylith.component, implements=InitializePhase, famlly="pylith.mesh_initializers.phases.refiner"):
+class MeshRefiner(pylith.component, implements=InitializePhase, family="pylith.mesh_initializers.phases.refiner"):
 
     refiner = refiners.refiner(default=refiners.uniform)
     refiner.doc = "Refine finite-element mesh."

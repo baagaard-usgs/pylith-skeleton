@@ -17,7 +17,7 @@ from pylith.utils import constraints
 from .MeshIO import MeshIO
 
 
-class MeshIOAscii(pylith.component, implements=MeshIO, famlly="pylith.mesh_io.ascii"):
+class MeshIOAscii(pylith.component, implements=MeshIO, family="pylith.mesh_io.ascii"):
 
     filename = pylith.properties.uri()
     filename.validators = constraints.notEmptyString()

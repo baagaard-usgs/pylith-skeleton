@@ -15,7 +15,7 @@ from pylith import mesh_io
 from .InitializePhase import InitializePhase
 
 
-class MeshReader(pylith.component, implements=InitializePhase, famlly="pylith.mesh_initializers.phases.reader"):
+class MeshReader(pylith.component, implements=InitializePhase, family="pylith.mesh_initializers.phases.reader"):
 
     reader = mesh_io.mesh_io(default=mesh_io.petsc)
     reader.doc = "Mesh reader."

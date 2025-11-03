@@ -1,12 +1,11 @@
 # To-do
 
+- create test configuration with one material
+
 - governing_eqns
-  - GoverningEquation
-  - Elasticity
   - IncompressibleElasticity
   - Poroelasticity
 - materials
-  - Elasticity
   - IncompressibleElasticity
   - Poroelasticity
 - utils/VersionInfo.py

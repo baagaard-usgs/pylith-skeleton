@@ -7,16 +7,15 @@
 #
 # See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
-"""Additional constraints for validating parameters."""
+import pylith
 
 
-def notEmptyString(*constraints):
-    return
+class InteriorInterface(pylith.protocol, family="pylith.interior_interfaces"):
+    """Protocol declarator for interior interfaces."""
 
+    @classmethod
+    def pyre_default(cls, **kwds):
+        """The default {InteriorInterface} implementation"""
+        from .FaultCohesiveKin import FaultCohesiveKin
 
-def notEmptyList(*constraints):
-    return
-
-
-def unitVector(*constraints):
-    return
+        return FaultCohesiveKin

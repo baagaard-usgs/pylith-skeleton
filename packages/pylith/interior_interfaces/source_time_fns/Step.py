@@ -7,16 +7,19 @@
 #
 # See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
-"""Additional constraints for validating parameters."""
+import pylith
+from pylith import journal
+
+from .SourceTimeFn import SourceTimeFnBase
 
 
-def notEmptyString(*constraints):
-    return
+class Step(SourceTimeFnBase, family="pylith.interior_interfaces.source_time_fns.step"):
+    """Step source time function."""
 
+    def __init__(self, name, locator, implicit, **kwds):
+        """Constructor."""
+        super().__init__(name, locator, implicit, **kwds)
 
-def notEmptyList(*constraints):
-    return
-
-
-def unitVector(*constraints):
-    return
+        todo = journal.warning(":TODO:")
+        todo.report(("Implement Step.__init__(). Pass parameters to C++.",))
+        todo.log()

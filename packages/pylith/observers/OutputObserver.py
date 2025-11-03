@@ -20,7 +20,7 @@ from .Observer import Observer
 class OutputObserver(Observer):
     """Abstract base class for output observers."""
 
-    trigger = output_triggers.trigger(default=output_triggers.step())
+    trigger = output_triggers.output_trigger(default=output_triggers.step())
     trigger.doc = "Trigger defining how often output is written."
 
     writer = data_writers.data_writer(default=data_writers.hdf5())

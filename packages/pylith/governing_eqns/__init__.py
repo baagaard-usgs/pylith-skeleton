@@ -9,5 +9,6 @@
 # =================================================================================================
 from .GoverningEqn import GoverningEqn as governing_eqn
 from .Elasticity import Elasticity as elasticity
-from .IncompressibleElasticityElasticity import IncompressibleElasticityElasticity as incompressible_elasticity
-from .Poroelasticity import Poroelasticity as poroelasticity
+
+# from .IncompressibleElasticity import IncompressibleElasticity as incompressible_elasticity
+# from .Poroelasticity import Poroelasticity as poroelasticity

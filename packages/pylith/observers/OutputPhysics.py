@@ -7,16 +7,19 @@
 #
 # See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
-"""Additional constraints for validating parameters."""
+from pylith import journal
 
 
-def notEmptyString(*constraints):
-    return
+from .OutputObserver import OutputObserver
 
 
-def notEmptyList(*constraints):
-    return
+class OutputPhysics(OutputObserver, family="pylith.observers.output_physics"):
+    """Output of the solution over the domain."""
 
+    def __init__(self, name, locator, implicit, **kwds):
+        """Constructor."""
+        super().__init__(name, locator, implicit, **kwds)
 
-def unitVector(*constraints):
-    return
+        todo = journal.warning(":TODO:")
+        todo.report(("Implement OutputPhysics.__init__(). Pass parameters to C++.",))
+        todo.log()

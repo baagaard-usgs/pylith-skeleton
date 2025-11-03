@@ -7,16 +7,17 @@
 #
 # See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
-"""Additional constraints for validating parameters."""
+import pylith
 
 
-def notEmptyString(*constraints):
-    return
+class Solver(pylith.protocol, family="pylith.solvers"):
+    """Protocol declarator for solvers." """
 
+    @classmethod
+    def pyre_default(cls, **kwds):
+        """
+        The default {Solver} implementation
+        """
+        from .SolverPetsc import SolverPetsc
 
-def notEmptyList(*constraints):
-    return
-
-
-def unitVector(*constraints):
-    return
+        return SolverPetsc

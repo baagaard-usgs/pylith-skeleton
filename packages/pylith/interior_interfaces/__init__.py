@@ -7,16 +7,7 @@
 #
 # See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
-"""Additional constraints for validating parameters."""
 
-
-def notEmptyString(*constraints):
-    return
-
-
-def notEmptyList(*constraints):
-    return
-
-
-def unitVector(*constraints):
-    return
+from .InteriorInterface import InteriorInterface as interior_interface
+from .FaultCohesiveKinematic import FaultCohesiveKinematic as fault_cohesive_kinematic
+from .FaultCohesiveImpulses import FaultCohesiveImpulses as fault_cohesive_impulses

@@ -7,16 +7,17 @@
 #
 # See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
-"""Additional constraints for validating parameters."""
+import pylith
 
 
-def notEmptyString(*constraints):
-    return
+class Subfield(pylith.protocol, family="pylith.fields.subfields"):
+    """Protocol declarator for Subfield." """
 
+    @classmethod
+    def pyre_default(cls, **kwds):
+        """
+        The default {Defaults} implementation
+        """
+        from .SubfieldBasic import SubfieldBasic
 
-def notEmptyList(*constraints):
-    return
-
-
-def unitVector(*constraints):
-    return
+        return SubfieldBasic

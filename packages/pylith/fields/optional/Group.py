@@ -7,16 +7,17 @@
 #
 # See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
-"""Additional constraints for validating parameters."""
+import pylith
 
 
-def notEmptyString(*constraints):
-    return
+class Group(pylith.protocol, family="pylith.fields.optional"):
+    """Protocol declarator for group of PETSc options." """
 
+    @classmethod
+    def pyre_default(cls, **kwds):
+        """
+        The default {Group} implementation
+        """
+        from .GroupList import GroupList
 
-def notEmptyList(*constraints):
-    return
-
-
-def unitVector(*constraints):
-    return
+        return GroupList

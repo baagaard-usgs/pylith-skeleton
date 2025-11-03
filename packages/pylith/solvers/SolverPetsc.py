@@ -7,35 +7,37 @@
 #
 # See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
+import pyre
+
 import pylith
 from pylith import journal
-from pylith import materials
-from pylith.interior_interfaces import interior_interface
+from pylith.petsc.options import groups
 
-from .GoverningEqn import GoverningEqnBase
+from .Solver import Solver
 
 
-class Elasticity(GoverningEqnBase, family="pylith.governing_eqns.elasticity"):
-    """Elasticity governing equation."""
+class SolverPetsc(pyre.component, implements=Solver, family="pylith.solvers.petsc"):
+    """PETSc solver."""
 
-    materials = pylith.properties.list(schema=materials.material(default=materials.elasticity))
-    materials.doc = "Materials in boundary value problem."
+    formulation = pylith.properties.str(default="implicit")
+    formulation.validators = pyre.constraints.isMember("implicit", "explicit", "implicit_explicit")
+    formulation.doc = "Formulation for solver."
 
-    interior_interfaces = pylith.properties.list(schema=interior_interface())
-    interior_interfaces.doc = "Interior interfaces (faults) in boundary value problem."
-
-    # - gravity_field
+    petsc_options = pylith.properties.list(schema=groups.group())
+    petsc_options.doc = "Groups of solver related PETSc options."
 
     def __init__(self, name, locator, implicit, **kwds):
         """Constructor."""
         super().__init__(name, locator, implicit, **kwds)
 
+        self.petsc_options
+
         todo = journal.warning(":TODO:")
         todo.report(
             (
-                "Implement Elasticity.__init__(). Pass parameters to C++.",
-                f"materials={self.materials}",
-                f"interior interfaces={self.interior_interfaces}",
+                "Implement SolverPetsc.__init__(). Pass parameters to C++.",
+                f"formulation={self.formulation}",
+                f"PETSc options={self.petsc_options}",
             )
         )
         todo.log()

@@ -7,16 +7,6 @@
 #
 # See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
-"""Additional constraints for validating parameters."""
 
-
-def notEmptyString(*constraints):
-    return
-
-
-def notEmptyList(*constraints):
-    return
-
-
-def unitVector(*constraints):
-    return
+from .Discretization import Discretization as discretization
+from .DiscretizationPetsc import DiscretizationPetsc as petsc

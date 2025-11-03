@@ -11,3 +11,23 @@ from .Scales import Scales as scales
 from .QuasistaticElasticity import QuasistaticElasticity as quasistatic_elasticity
 from .DynamicElasticity import DynamicElasticity as dynamic_elasticity
 from .QuasistaticPoroelasticity import QuasistaticPoroelasticity as quasistatic_poroelasticity
+
+
+def string_list():
+    scales = (
+        # base
+        "length",
+        "displacement",
+        "rigidity",
+        "time",
+        "temperature",
+        # derived
+        "velocity",
+        "acceleration",
+        "strain",
+        "stress",
+        "density",
+        "permeability",
+        "viscosity",
+    )
+    return scales

@@ -7,16 +7,5 @@
 #
 # See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
-"""Additional constraints for validating parameters."""
-
-
-def notEmptyString(*constraints):
-    return
-
-
-def notEmptyList(*constraints):
-    return
-
-
-def unitVector(*constraints):
-    return
+from .Group import Group as group
+from .GroupList import GroupList as group_list

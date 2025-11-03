@@ -9,33 +9,33 @@
 # =================================================================================================
 import pylith
 from pylith import journal
-from pylith import materials
-from pylith.interior_interfaces import interior_interface
 
-from .GoverningEqn import GoverningEqnBase
+from .Group import Group
+from ..subfields import subfield
 
 
-class Elasticity(GoverningEqnBase, family="pylith.governing_eqns.elasticity"):
-    """Elasticity governing equation."""
+class GroupList(pylith.component, implements=Group, family="pylith.fields.optional.group_list"):
+    """PETSc options manager."""
 
-    materials = pylith.properties.list(schema=materials.material(default=materials.elasticity))
-    materials.doc = "Materials in boundary value problem."
+    enabled = pylith.properties.bool()
+    enabled.doc = "Use group of optional fields if True."
 
-    interior_interfaces = pylith.properties.list(schema=interior_interface())
-    interior_interfaces.doc = "Interior interfaces (faults) in boundary value problem."
-
-    # - gravity_field
+    subfields = pylith.properties.list(schema=subfield)
+    subfields.doc = "List of subfields."
 
     def __init__(self, name, locator, implicit, **kwds):
         """Constructor."""
         super().__init__(name, locator, implicit, **kwds)
 
+        self.enabled
+        self.subfields
+
         todo = journal.warning(":TODO:")
         todo.report(
             (
-                "Implement Elasticity.__init__(). Pass parameters to C++.",
-                f"materials={self.materials}",
-                f"interior interfaces={self.interior_interfaces}",
+                "Implement GroupList.__init__(). Pass parameters to C++.",
+                f"enabled={self.enabled}",
+                f"options={self.subfields}",
             )
         )
         todo.log()

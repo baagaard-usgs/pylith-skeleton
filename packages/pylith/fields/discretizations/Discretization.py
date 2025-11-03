@@ -7,16 +7,17 @@
 #
 # See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
-"""Additional constraints for validating parameters."""
+import pylith
 
 
-def notEmptyString(*constraints):
-    return
+class Discretization(pylith.protocol, family="pylith.fields.discretizations"):
+    """Protocol declarator for PETSc subfield discretization." """
 
+    @classmethod
+    def pyre_default(cls, **kwds):
+        """
+        The default {Defaults} implementation
+        """
+        from .DiscretizationPetsc import DiscretizationPetsc
 
-def notEmptyList(*constraints):
-    return
-
-
-def unitVector(*constraints):
-    return
+        return DiscretizationPetsc

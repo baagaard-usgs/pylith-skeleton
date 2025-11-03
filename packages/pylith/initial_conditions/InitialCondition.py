@@ -25,8 +25,8 @@ class InitialCondition(pylith.protocol, family="pylith.initial_conditions"):
 class InitialConditionBase(pylith.component, implements=InitialCondition):
     """Base class for initial conditions."""
 
-    subfields = pylith.properties.list(default=["displacement"])
-    subfields.meta["tip"] = "Names of solution subfields for initial condition."
+    subfields = pylith.properties.list(schema=pylith.properties.str(), default=["displacement"])
+    subfields.doc = "Names of solution subfields for initial condition."
 
     # db = spatialdb.spatial_database(default=spatialdb.simpledb)
     # db.doc = "Spatial database with values for initial condition."

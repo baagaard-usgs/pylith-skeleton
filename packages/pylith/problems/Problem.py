@@ -10,8 +10,9 @@
 import pylith
 from pylith import journal
 
-from pylith import scales
+from pylith.scales import scales
 from pylith import mesh_initializers
+from pylith import governing_eqns
 
 
 class Problem(pylith.protocol, family="pylith.problems"):
@@ -30,11 +31,14 @@ class ProblemBase(pylith.component, implements=Problem):
     initialize_only = pylith.properties.bool(default=False)
     initialize_only.doc = "Initialize problem and then exit."
 
-    scales = scales.scales(default=scales.quasistatic_elasticity)
+    scales = scales()
     scales.doc = "Scales for nondimensionalizing problem."
 
-    mesh_initializer = mesh_initializers.initializer(default=mesh_initializers.mesh_initializer)
+    mesh_initializer = mesh_initializers.initializer()
     mesh_initializer.doc = "Initializer to read and setup finite-element mesh."
+
+    governing_eqn = governing_eqns.governing_eqn()
+    governing_eqn.doc = "Governing equations for boundary value problem."
 
     def __init__(self, name, locator, implicit, **kwds):
         """Constructor."""
@@ -42,12 +46,16 @@ class ProblemBase(pylith.component, implements=Problem):
 
         self.scales
         self.mesh_initializer
+        self.governing_eqn
 
         todo = journal.warning(":TODO:")
         todo.report(
             (
                 "Implement Problem.__init__(). Pass parameters to C++.",
                 f"initialize only={self.initialize_only}",
+                f"scales={self.scales}",
+                f"mesh initializer={self.mesh_initializer}",
+                f"governing equation={self.governing_eqn}",
             )
         )
         todo.log()

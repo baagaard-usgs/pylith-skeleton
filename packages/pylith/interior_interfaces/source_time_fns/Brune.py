@@ -7,16 +7,18 @@
 #
 # See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
-"""Additional constraints for validating parameters."""
+from pylith import journal
+
+from .SourceTimeFn import SourceTimeFnBase
 
 
-def notEmptyString(*constraints):
-    return
+class Brune(SourceTimeFnBase, family="pylith.interior_interfaces.source_time_fns.brune"):
+    """Brune source time function."""
 
+    def __init__(self, name, locator, implicit, **kwds):
+        """Constructor."""
+        super().__init__(name, locator, implicit, **kwds)
 
-def notEmptyList(*constraints):
-    return
-
-
-def unitVector(*constraints):
-    return
+        todo = journal.warning(":TODO:")
+        todo.report(("Implement Brune.__init__(). Pass parameters to C++.",))
+        todo.log()

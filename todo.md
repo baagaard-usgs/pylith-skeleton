@@ -5,15 +5,12 @@
   - Elasticity
   - IncompressibleElasticity
   - Poroelasticity
-
-- fields
-  - Field
-  - FieldPetsc
-  - Subfield
-  - SubfieldPetsc
-  - Discretization
-  - DiscretizationPetsc
-- solvers
-  - Solver
-  - SolverPetsc (formulation, solver_options, petsc_options)
-
+- materials
+  - Elasticity
+  - IncompressibleElasticity
+  - Poroelasticity
+- utils/VersionInfo.py
+- dependencies
+  - VersionInfo.py
+- observers
+  - output_physics

@@ -9,22 +9,17 @@
 # =================================================================================================
 import pylith
 from pylith import journal
-from pylith import materials
-from pylith.interior_interfaces import interior_interface
-
-from .GoverningEqn import GoverningEqnBase
 
 
-class Elasticity(GoverningEqnBase, family="pylith.governing_eqns.elasticity"):
-    """Elasticity governing equation."""
+from .FaultCohesive import FaultCohesive
+from .source_time_fns import source_time_fn
 
-    materials = pylith.properties.list(schema=materials.material(default=materials.elasticity))
-    materials.doc = "Materials in boundary value problem."
 
-    interior_interfaces = pylith.properties.list(schema=interior_interface())
-    interior_interfaces.doc = "Interior interfaces (faults) in boundary value problem."
+class FaultCohesiveKinematic(FaultCohesive, family="pylith.interior_interfaces.fault_cohesive_kinematic"):
+    """Fault with kinematic earthquake sources."""
 
-    # - gravity_field
+    eq_ruptures = pylith.properties.list(schema=source_time_fn())
+    eq_ruptures.doc = "Earthquake ruptures with kinematic source parameters (prescribed slip)."
 
     def __init__(self, name, locator, implicit, **kwds):
         """Constructor."""
@@ -33,9 +28,8 @@ class Elasticity(GoverningEqnBase, family="pylith.governing_eqns.elasticity"):
         todo = journal.warning(":TODO:")
         todo.report(
             (
-                "Implement Elasticity.__init__(). Pass parameters to C++.",
-                f"materials={self.materials}",
-                f"interior interfaces={self.interior_interfaces}",
+                "Implement FaultCohesiveKinematic.__init__(). Pass parameters to C++.",
+                f"earthquake ruptures={self.eq_ruptures}",
             )
         )
         todo.log()

@@ -7,16 +7,18 @@
 #
 # See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
-"""Additional constraints for validating parameters."""
+from pylith import journal
+
+from .BulkRheology import BulkRheologyBase
 
 
-def notEmptyString(*constraints):
-    return
+class IsotropicLinear(BulkRheologyBase, family="pylith.materials.elasticity_rheologies.isotropic_linear"):
+    """Isostropic linear bulk rheology for elasticity."""
 
+    def __init__(self, name, locator, implicit, **kwds):
+        """Constructor."""
+        super().__init__(name, locator, implicit, **kwds)
 
-def notEmptyList(*constraints):
-    return
-
-
-def unitVector(*constraints):
-    return
+        todo = journal.warning(":TODO:")
+        todo.report(("Implement IsotropicLinear.__init__(). Pass parameters to C++.",))
+        todo.log()

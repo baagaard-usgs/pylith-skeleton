@@ -10,30 +10,19 @@
 import pylith
 from pylith import journal
 
-from .Group import Group
+from .SourceTimeFn import SourceTimeFnBase
 
 
-class GroupList(pylith.component, implements=Group, family="pylith.petsc.options.group_list"):
-    """PETSc options manager."""
+class TimeHistory(SourceTimeFnBase, family="pylith.interior_interfaces.source_time_fns.time_history"):
+    """TimeHistory source time function."""
 
-    enabled = pylith.properties.bool()
-    enabled.doc = "Use group of options if True."
-
-    options = pylith.properties.list(schema=pylith.properties.tuple(schema=pylith.properties.str()))
-    options.doc = "List of PETSc options as tuples."
+    # time_history = db_time_history()
+    # time_history.doc = "Time history."
 
     def __init__(self, name, locator, implicit, **kwds):
         """Constructor."""
         super().__init__(name, locator, implicit, **kwds)
 
-        self.options
-
         todo = journal.warning(":TODO:")
-        todo.report(
-            (
-                "Implement GroupList.__init__(). Pass parameters to C++.",
-                f"enabled={self.enabled}",
-                f"options={self.options}",
-            )
-        )
+        todo.report(("Implement TimeHistory.__init__(). Pass parameters to C++.",))
         todo.log()

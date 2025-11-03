@@ -13,3 +13,4 @@ from .OutputObserver import OutputObserver as output_observer
 from .OutputSolnDomain import OutputSolnDomain as solution_domain
 from .OutputSolnBoundary import OutputSolnBoundary as solution_boundary
 from .OutputSolnPoints import OutputSolnPoints as solution_points
+from .OutputPhysics import OutputPhysics as output_physics

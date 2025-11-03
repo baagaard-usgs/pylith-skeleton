@@ -7,16 +7,8 @@
 #
 # See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
-"""Additional constraints for validating parameters."""
+from .Material import Material as material
+from .Elasticity import Elasticity as elasticity
 
-
-def notEmptyString(*constraints):
-    return
-
-
-def notEmptyList(*constraints):
-    return
-
-
-def unitVector(*constraints):
-    return
+# from .IncompressibleElasticity import IncompressibleElasticity as incompressible_elasticity
+# from .Poroelasticity import Poroelasticity as poroelasticity

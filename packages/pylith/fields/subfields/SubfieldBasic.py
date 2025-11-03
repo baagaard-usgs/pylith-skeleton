@@ -33,8 +33,8 @@ class SubfieldBasic(pyre.component, implements=Subfield, family="pylith.fields.s
     # scale.validators = pyre.constraints.isMember(scales.string_list())
     scale.doc = "Scale for nondimensionalizing field."
 
-    vector_field_type = pylith.properties.str()
-    # vector_field_type.validators = pyre.constraints.isMember("scalar", "vector", "tensor")
+    vector_field_type = pylith.properties.str(default="scalar")
+    vector_field_type.validators = pyre.constraints.isMember("scalar", "vector", "tensor")
     vector_field_type.doc = "Type of vector field."
 
     discretization = discretization(default=petsc)

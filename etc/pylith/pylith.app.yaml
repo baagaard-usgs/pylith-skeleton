@@ -66,43 +66,43 @@ pylith.app.problem.governing_eqn.solution:
 # Elasticity, no fault
 pylith.governing_eqns.elasticity#elasticity:
   solution.subfields:
-    - pylith.fields.subfields.basic#displacement
-    - pylith.fields.subfields.basic#velocity
+    - basic#displacement
+    - basic#velocity
 
 # Elasticity + fault(s)
 pylith.governing_eqns.elasticity#elasticity-fault:
   solution.subfields:
-    - pylith.fields.subfields.basic#displacement
-    - pylith.fields.subfields.basic#velocity
-    - pylith.fields.subfields.basic#lagrange_multiplier_fault
+    - basic#displacement
+    - basic#velocity
+    - basic#lagrange_multiplier_fault
 
 # Incompressible elasticity, no fault
 pylith.governing_eqns.incompressible_elasticity#incompressible_elasticity:
-  - pylith.fields.subfields.basic#displacement
-  - pylith.fields.subfields.basic#pressure
+  - basic#displacement
+  - basic#pressure
 
 # Poroelasticity, no fault, no state variables
 pylith.governing_eqns.poroelasticity#poroelasticity:
-  - pylith.fields.subfields.basic#displacement
-  - pylith.fields.subfields.basic#velocity
-  - pylith.fields.subfields.basic#fluid_pressure
-  - pylith.fields.subfields.basic#trace_strain
+  - basic#displacement
+  - basic#velocity
+  - basic#fluid_pressure
+  - basic#trace_strain
 
 # Poroelasticity + fault, no state variables
 pylith.governing_eqns.poroelasticity#poroelasticity-fault:
-  - pylith.fields.subfields.basic#displacement
-  - pylith.fields.subfields.basic#velocity
-  - pylith.fields.subfields.basic#fluid_pressure
-  - pylith.fields.subfields.basic#trace_strain
-  - pylith.fields.subfields.basic#lagrange_multiplier_fault
+  - basic#displacement
+  - basic#velocity
+  - basic#fluid_pressure
+  - basic#trace_strain
+  - basic#lagrange_multiplier_fault
 
 # -----------------------------------------------------------------------------
 # General PETSc options
 # -----------------------------------------------------------------------------
 pylith.app.petsc_options.groups:
-  - pylith.petsc.options.group_list#testing
-  - pylith.petsc.options.group_list#collective_io
-  - pylith.petsc.options.group_list#attach_debugger
+  - group_list#testing
+  - group_list#collective_io
+  - group_list#attach_debugger
 
 pylith.petsc.options.group_list#testing:
   enabled: False
@@ -130,11 +130,11 @@ pylith.petsc.options.group_list#attach_debugger:
 # Default: Elasticity, no fault
 pylith.app.problem.governing_eqn.solver:
   petsc_options:
-    - pylith.petsc.options.group_list#solver
-    - pylith.petsc.options.group_list#initial_guess
-    - pylith.petsc.options.group_list#tolerances
-    - pylith.petsc.options.group_list#adaptive_ts
-    - pylith.petsc.options.group_list#monitoring
+    - group_list#solver
+    - group_list#initial_guess
+    - group_list#tolerances
+    - group_list#adaptive_ts
+    - group_list#monitoring
 
 pylith.petsc.options.group_list#solver:
   enabled: True
@@ -216,10 +216,10 @@ pylith.fields.subfields.basic#shear_modulus:
 # Default: Elasticity
 pylith.materials.material#elasticity.auxiliary_field:
   required_subfields:
-    - pylith.fields.subfields.basic#density
+    - basic#density
   optional_subfields:
-    - pylith.fields.optional.group_list#body_force
-    - pylith.fields.optional.group_list#gravitational_acceleration
+    - group_list#body_force
+    - group_list#gravitational_acceleration
 
 # -----------------------------------------------------------------------------
 # Auxiliary fields: bulk rheologies
@@ -228,13 +228,13 @@ pylith.materials.material#elasticity.auxiliary_field:
 # Isotropic linear elasticity
 pylith.materials.bulk_rheologies.bulk_rheology#isotropic_linear_elastic:
   required_subfields:
-    - pylith.fields.subfields.basic#shear_modulus
-    - pylith.fields.subfields.basic#bulk_modulus
+    - basic#shear_modulus
+    - basic#bulk_modulus
   optional_subfields:
-    - pylith.fields.optional.group_list#reference_state
+    - group_list#reference_state
 
 pylith.fields.optional.group_list#reference_state:
   enabled: False
   subfields:
-    - pylith.fields.subfields.basic#reference_stress
-    - pylith.fields.subfields.basic#reference_strain
+    - basic#reference_stress
+    - basic#reference_strain

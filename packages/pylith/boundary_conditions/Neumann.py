@@ -7,8 +7,11 @@
 #
 # See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
+import pyre
+
 import pylith
 from pylith import journal
+from pylith.utils import constraints
 
 from .BoundaryCondition import BoundaryConditionBase
 
@@ -34,28 +37,19 @@ class Neumann(
         :::
     """
 
-    scale_name = pylith.properties.str(
-        default="stress",
-        validator=pylith.properties.choice(["displacement", "stress"]),
-    )
+    scale_name = pylith.properties.str(default="stress")
+    scale_name.validators = pyre.constraints.isMember("displacement", "stress")
     scale_name.doc = "Type of scale for nondimensionalizing Neumann boundary condition ('stress' for elasticity)."
-
-    use_initial = pylith.properties.bool(default=True)
-    use_initial.meta["tip"] = "Use initial term in time-dependent expression."
-
-    use_rate = pylith.properties.bool(default=False)
-    use_rate.meta["tip"] = "Use rate term in time-dependent expression."
-
-    use_time_history = pylith.properties.bool(default=False)
-    use_time_history.meta["tip"] = "Use time history term in time-dependent expression."
 
     # time_history = db_time_history()
     # time_history.doc = "Time history with normalized amplitude."
 
-    ref_dir_1 = pylith.properties.array(default=[0.0, 0.0, 1.0], validator=validateDir)
+    ref_dir_1 = pylith.properties.list(schema=pylith.properties.float(), default=[0.0, 0.0, 1.0])
+    ref_dir_1.validators = constraints.unitVector()
     ref_dir_1.doc = "First choice for reference direction to discriminate among tangential directions in 3D."
 
-    ref_dir_2 = pylith.properties.array(default=[0.0, 1.0, 0.0], validator=validateDir)
+    ref_dir_2 = pylith.properties.list(schema=pylith.properties.float(), default=[0.0, 1.0, 0.0])
+    ref_dir_2.validators = constraints.unitVector()
     ref_dir_2.doc = "Second choice for reference direction to discriminate among tangential directions in 3D."
 
     def __init__(self, name, locator, implicit, **kwds):
@@ -68,11 +62,8 @@ class Neumann(
                 "Implement Neumann time_history attribute. Requires spatialdata.",
                 "Implement Neumann.__init__(). Pass parameters to C++.",
                 f"scale name={self.scale_name}",
-                f"use initial={self.use_initial}",
-                f"use rate={self.use_rate}",
-                f"use time history={self.use_time_history}",
-                f"ref dir 1={self.ref_dir_1}",
-                f"ref dir 2={self.ref_dir_2}",
+                # f"ref dir 1={self.ref_dir_1}",
+                # f"ref dir 2={self.ref_dir_2}",
             )
         )
         todo.log()

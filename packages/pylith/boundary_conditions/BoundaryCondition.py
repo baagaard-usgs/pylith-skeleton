@@ -32,10 +32,10 @@ class BoundaryConditionBase(pylith.component, implements=BoundaryCondition):
 
     label_name = pylith.properties.str()
     label_name.validators = constraints.notEmptyString()
-    label_name.meta["tip"] = "Name of label identifying boundary ()name of physical group in Gmsh files."
+    label_name.doc = "Name of label identifying boundary ()name of physical group in Gmsh files."
 
     label_value = pylith.properties.int(default=1)
-    label_value.meta["tip"] = "Value of label identifying boundary (tag of physical group in Gmsh files)."
+    label_value.doc = "Value of label identifying boundary (tag of physical group in Gmsh files)."
 
     def __init__(self, name, locator, implicit, **kwds):
         """Constructor."""

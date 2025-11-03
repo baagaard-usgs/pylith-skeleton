@@ -7,10 +7,10 @@
 #
 # See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
+import pyre
+
 import pylith
 from pylith import journal
-
-from pyre.units.length import meter
 
 from .BoundaryCondition import BoundaryConditionBase
 
@@ -18,17 +18,18 @@ from .BoundaryCondition import BoundaryConditionBase
 class Dirichlet(BoundaryConditionBase, family="pylith.boundary_conditions.dirichlet"):
     """Dirichlet boundary condition."""
 
-    constrained_dof = pylith.properties.array(converter=int)
+    constrained_dof = pylith.properties.list(schema=int)
+    constraind_dof = pyre.constraints.isSubset(choices=(0, 1, 2))
     constrained_dof.doc = "Array of constrained degrees of freedom (0=1st DOF, 1=2nd DOF, etc)."
 
     use_initial = pylith.properties.bool(default=True)
-    use_initial.meta["tip"] = "Use initial term in time-dependent expression."
+    use_initial.doc = "Use initial term in time-dependent expression."
 
     use_rate = pylith.properties.bool(default=False)
-    use_rate.meta["tip"] = "Use rate term in time-dependent expression."
+    use_rate.doc = "Use rate term in time-dependent expression."
 
     use_time_history = pylith.properties.bool(default=False)
-    use_time_history.meta["tip"] = "Use time history term in time-dependent expression."
+    use_time_history.doc = "Use time history term in time-dependent expression."
 
     # time_history = db_time_history()
     # time_history.doc = "Time history with normalized amplitude."

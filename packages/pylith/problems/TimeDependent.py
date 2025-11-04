@@ -47,6 +47,7 @@ class TimeDependent(ProblemBase, family="pylith.problems.time_dependent"):
         todo = journal.warning(":TODO:")
         todo.report(
             (
+                f"{self}",
                 "Implement TimeDependent.__init__(). Pass parameters to C++.",
                 f"start time={self.start_time}",
                 f"end time={self.end_time}",

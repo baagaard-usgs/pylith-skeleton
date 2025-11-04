@@ -39,6 +39,7 @@ class DistributorPetsc(pylith.component, implements=Distributor, family="pylith.
         todo = journal.warning(":TODO:")
         todo.report(
             (
+                f"{self}",
                 "Implement DistributorPetsc.__init__(). Pass parameters to C++.",
                 f"partitioner={self.partitioner}",
                 f"use edge weighting={self.use_edge_weighting}",

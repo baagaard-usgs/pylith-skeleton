@@ -27,26 +27,26 @@ class SimulationMetadata(pylith.component, implements=Metadata, family="pylith.m
     # description.validators = constraints.notEmptyString()
     description.doc = "Description of this simulation."
 
-    authors = pylith.properties.list()
+    authors = pylith.properties.list(schema=pylith.properties.str())
     authors.doc = "Creator(s) of this simulation."
 
-    keywords = pylith.properties.list()
+    keywords = pylith.properties.list(schema=pylith.properties.str())
     keywords.doc = "Keywords describing this simulation."
 
-    features = pylith.properties.list()
+    features = pylith.properties.list(schema=pylith.properties.str())
     features.doc = "PyLith features used in this simulation."
 
-    arguments = pylith.properties.list()
+    arguments = pylith.properties.list(schema=pylith.properties.str())
     # description.validators = constraints.notEmptyList()
     arguments.doc = "Command line arguments for running this simulation."
 
-    base = pylith.properties.list()
+    base = pylith.properties.list(schema=pylith.properties.str())
     base.doc = "Parameter files with metadata that complement this metadata."
 
     version = pylith.properties.str()
     version.doc = "Version of this simulation."
 
-    pylith_version = pylith.properties.list()
+    pylith_version = pylith.properties.list(schema=pylith.properties.str())
     # pylith_version.validators = constraints.notEmptyList()
     pylith_version.doc = "PyLith versions compatible with simulation input files."
 
@@ -57,6 +57,7 @@ class SimulationMetadata(pylith.component, implements=Metadata, family="pylith.m
         todo = journal.warning(":TODO:")
         todo.report(
             (
+                f"{self}",
                 "Implement SimulationMetadata.__init__(). Pass parameters to C++.",
                 f"description={self.description}",
                 f"authors={self.authors}",

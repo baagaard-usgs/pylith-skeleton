@@ -1,0 +1,16 @@
+test.app:
+  ints:
+    x: 1
+    y: 2
+    z: "lmn" # shouldn't this be an error?
+  objs:
+    x: # What goes here?
+      description: my simulation
+      authors:
+        - Brad
+    y: pylith.metadata.simulation_metadata#one # this value is a str not an instance of SimulationMetadata
+
+test.app.ints.y: 4
+
+test.app.objs.x:
+  description: other simulation

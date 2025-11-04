@@ -26,10 +26,9 @@ class MeshInitializer(pylith.component, implements=Initializer, family="pylith.m
         """Constructor."""
         super().__init__(name, locator, implicit, **kwds)
 
-        self.phases
-
         todo = journal.warning(":TODO:")
         lines = [
+            f"{self}",
             "Implement MeshInitializer.__init__(). Pass parameters to C++.",
             f"Phases={self.phases}",
         ]

@@ -35,4 +35,9 @@ class DataWriterHDF5(DataWriterBase, family="pylith.data_writers.hdf5"):
         DataWriterBase.makePath(filename)
 
         todo = journal.debug(":TODO:")
-        todo.log("Implement DataWriterHDF5.setFilename(). Pass parameters to C++.")
+        todo.log(
+            (
+                f"{self}",
+                "Implement DataWriterHDF5.setFilename(). Pass parameters to C++.",
+            )
+        )

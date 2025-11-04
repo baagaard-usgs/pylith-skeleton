@@ -34,7 +34,7 @@ class SubfieldBasic(pyre.component, implements=Subfield, family="pylith.fields.s
     scale.doc = "Scale for nondimensionalizing field."
 
     vector_field_type = pylith.properties.str(default="scalar")
-    vector_field_type.validators = pyre.constraints.isMember("scalar", "vector", "tensor")
+    vector_field_type.validators = pyre.constraints.isMember("scalar", "vector", "tensor", "other")
     vector_field_type.doc = "Type of vector field."
 
     discretization = discretization(default=petsc)
@@ -47,6 +47,7 @@ class SubfieldBasic(pyre.component, implements=Subfield, family="pylith.fields.s
         todo = journal.warning(":TODO:")
         todo.report(
             (
+                f"{self}",
                 "Implement SubfieldBasic.__init__(). Pass parameters to C++.",
                 f"name={self.name}",
                 f"alias={self.alias}",

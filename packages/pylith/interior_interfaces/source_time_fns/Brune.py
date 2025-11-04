@@ -20,5 +20,10 @@ class Brune(SourceTimeFnBase, family="pylith.interior_interfaces.source_time_fns
         super().__init__(name, locator, implicit, **kwds)
 
         todo = journal.warning(":TODO:")
-        todo.report(("Implement Brune.__init__(). Pass parameters to C++.",))
+        todo.report(
+            (
+                f"{self}",
+                "Implement Brune.__init__(). Pass parameters to C++.",
+            )
+        )
         todo.log()

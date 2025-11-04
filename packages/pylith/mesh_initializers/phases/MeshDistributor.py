@@ -29,6 +29,7 @@ class MeshDistributor(
         todo = journal.warning(":TODO:")
         todo.report(
             (
+                f"{self}",
                 "Implement MeshDistributor.__init__(). Pass parameters to C++.",
                 f"distributor={self.distributor}",
             )

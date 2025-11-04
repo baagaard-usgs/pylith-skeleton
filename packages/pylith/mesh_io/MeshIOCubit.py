@@ -33,6 +33,7 @@ class MeshIOCubit(pylith.component, implements=MeshIO, family="pylith.mesh_io.cu
         todo = journal.warning(":TODO:")
         todo.report(
             (
+                f"{self}",
                 "Implement MeshIOCubit.__init__(). Pass parameters to C++.",
                 f"filename={self.filename}",
             )

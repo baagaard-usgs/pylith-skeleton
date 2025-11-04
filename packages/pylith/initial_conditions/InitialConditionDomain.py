@@ -21,5 +21,10 @@ class InitialConditionDomain(InitialConditionBase, family="pylith.intial_conditi
         super().__init__(name, locator, implicit, **kwds)
 
         todo = journal.warning(":TODO:")
-        todo.report(("Implement InitialConditionDomain.__init__(). Pass parameters to C++.",))
+        todo.report(
+            (
+                f"{self}",
+                "Implement InitialConditionDomain.__init__(). Pass parameters to C++.",
+            )
+        )
         todo.log()

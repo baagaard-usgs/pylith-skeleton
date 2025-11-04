@@ -32,6 +32,7 @@ class OutputSolnBoundary(OutputObserver, family="pylith.observers.solution_bound
         todo = journal.warning(":TODO:")
         todo.report(
             (
+                f"{self}",
                 "Implement OutputSolnBoundary.__init__(). Pass parameters to C++.",
                 f"label name={self.label_name}",
                 f"label value={self.label_value}",

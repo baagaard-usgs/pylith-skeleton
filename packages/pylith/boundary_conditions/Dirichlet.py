@@ -41,6 +41,7 @@ class Dirichlet(BoundaryConditionBase, family="pylith.boundary_conditions.dirich
         todo = journal.warning(":TODO:")
         todo.report(
             (
+                f"{self}",
                 "Implement Dirichlet time_history attribute. Requires spatialdata.",
                 "Implement Dirichlet.__init__(). Pass parameters to C++.",
                 f"constrained dof={self.constrained_dof}",

@@ -59,11 +59,12 @@ class Neumann(
         todo = journal.warning(":TODO:")
         todo.report(
             (
+                f"{self}",
                 "Implement Neumann time_history attribute. Requires spatialdata.",
                 "Implement Neumann.__init__(). Pass parameters to C++.",
                 f"scale name={self.scale_name}",
-                # f"ref dir 1={self.ref_dir_1}",
-                # f"ref dir 2={self.ref_dir_2}",
+                f"ref dir 1={self.ref_dir_1}",
+                f"ref dir 2={self.ref_dir_2}",
             )
         )
         todo.log()

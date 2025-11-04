@@ -28,6 +28,7 @@ class FaultCohesiveKinematic(FaultCohesive, family="pylith.interior_interfaces.f
         todo = journal.warning(":TODO:")
         todo.report(
             (
+                f"{self}",
                 "Implement FaultCohesiveKinematic.__init__(). Pass parameters to C++.",
                 f"earthquake ruptures={self.eq_ruptures}",
             )

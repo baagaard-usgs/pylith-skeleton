@@ -20,10 +20,10 @@ from .Observer import Observer
 class OutputObserver(Observer):
     """Abstract base class for output observers."""
 
-    trigger = output_triggers.output_trigger(default=output_triggers.step())
+    trigger = output_triggers.output_trigger(default=output_triggers.step)
     trigger.doc = "Trigger defining how often output is written."
 
-    writer = data_writers.data_writer(default=data_writers.hdf5())
+    writer = data_writers.data_writer(default=data_writers.hdf5)
     writer.doc = "Writer for data."
 
     output_basis_order = pylith.properties.int(default=1)
@@ -41,6 +41,7 @@ class OutputObserver(Observer):
         todo = journal.warning(":TODO:")
         todo.report(
             (
+                f"{self}",
                 "Implement OutputObserver.__init__(). Pass parameters to C++.",
                 f"trigger={self.trigger}",
                 f"writer={self.writer}",

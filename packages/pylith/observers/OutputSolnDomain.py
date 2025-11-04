@@ -21,5 +21,10 @@ class OutputSolnDomain(OutputObserver, family="pylith.observers.solution_domain"
         super().__init__(name, locator, implicit, **kwds)
 
         todo = journal.warning(":TODO:")
-        todo.report(("Implement OutputSolnDomain.__init__(). Pass parameters to C++.",))
+        todo.report(
+            (
+                f"{self}",
+                "Implement OutputSolnDomain.__init__(). Pass parameters to C++.",
+            )
+        )
         todo.log()

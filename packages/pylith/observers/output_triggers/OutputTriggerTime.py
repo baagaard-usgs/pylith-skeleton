@@ -30,6 +30,7 @@ class OutputTriggerTime(pyre.component, implements=OutputTrigger, family="pylith
         todo = journal.warning(":TODO:")
         todo.report(
             (
+                f"{self}",
                 "Implement OutputTriggerStep.__init__(). Pass parameters to C++.",
                 f"elapsed time={self.elapsed_time}",
             )

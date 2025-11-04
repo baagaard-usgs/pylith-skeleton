@@ -51,6 +51,7 @@ class ProblemBase(pylith.component, implements=Problem):
         todo = journal.warning(":TODO:")
         todo.report(
             (
+                f"{self}",
                 "Implement Problem.__init__(). Pass parameters to C++.",
                 f"initialize only={self.initialize_only}",
                 f"scales={self.scales}",

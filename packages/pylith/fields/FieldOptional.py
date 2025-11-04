@@ -15,21 +15,19 @@ from pylith.utils import constraints
 
 from .Field import Field
 from .subfields import subfield
-from .optional import group
+from .groups import group
 
 
 class FieldOptional(pyre.component, implements=Field, family="pylith.fields.optional"):
     """Field with required and optional subfields."""
 
-    name = pylith.properties.str()
-    name.validators = constraints.notEmptyString()
-    name.doc = "Name of field."
+    # :TODO: Convert to dict
+    required = pylith.properties.list(schema=subfield())
+    required.doc = "Required subfields in field."
 
-    required_subfields = pylith.properties.list(schema=subfield())
-    required_subfields.doc = "Required subfields in field."
-
-    optional_subfields = pylith.properties.list(schema=group())
-    optional_subfields.doc = "Optional subfields in field."
+    # :TODO: Convert to dict
+    optional = pylith.properties.list(schema=group())
+    optional.doc = "Optional subfields in field."
 
     def __init__(self, name, locator, implicit, **kwds):
         """Constructor."""
@@ -38,10 +36,10 @@ class FieldOptional(pyre.component, implements=Field, family="pylith.fields.opti
         todo = journal.warning(":TODO:")
         todo.report(
             (
+                f"{self}",
                 "Implement FieldOptional.__init__(). Pass parameters to C++.",
-                f"name={self.name}",
-                f"required_subfields={self.required_subfields}",
-                f"optional_subfields={self.optional_subfields}",
+                f"required={self.required}",
+                f"optional={self.optional}",
             )
         )
         todo.log()

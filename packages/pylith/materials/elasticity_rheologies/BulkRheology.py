@@ -26,10 +26,10 @@ class BulkRheology(pylith.protocol, family="pylith.materials.elasticity_rheologi
 
 class BulkRheologyBase(pylith.component, implements=BulkRheology):
 
-    auxiliary_subfields = fields.optional()
+    auxiliary_subfields = fields.field(default=fields.optional)
     auxiliary_subfields.doc = "Rheologic-specific material parameters."
 
-    derived_subfields = fields.optional()
+    derived_subfields = fields.field(default=fields.optional)
     derived_subfields.doc = "Rheologic-specific output subfields derived from solution and bulk rheology."
 
     def __init__(self, name, locator, implicit, **kwds):

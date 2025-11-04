@@ -21,5 +21,10 @@ class LiuCosine(SourceTimeFnBase, family="pylith.interior_interfaces.source_time
         super().__init__(name, locator, implicit, **kwds)
 
         todo = journal.warning(":TODO:")
-        todo.report(("Implement LiuCosine.__init__(). Pass parameters to C++.",))
+        todo.report(
+            (
+                f"{self}",
+                "Implement LiuCosine.__init__(). Pass parameters to C++.",
+            )
+        )
         todo.log()

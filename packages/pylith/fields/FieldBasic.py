@@ -20,10 +20,7 @@ from .subfields import subfield
 class FieldBasic(pyre.component, implements=Field, family="pylith.fields.basic"):
     """Basic Field."""
 
-    name = pylith.properties.str()
-    name.validators = constraints.notEmptyString()
-    name.doc = "Name of field."
-
+    # :TODO: Convert to dict
     subfields = pylith.properties.list(schema=subfield())
     subfields.doc = "Subfields in field."
 
@@ -34,8 +31,8 @@ class FieldBasic(pyre.component, implements=Field, family="pylith.fields.basic")
         todo = journal.warning(":TODO:")
         todo.report(
             (
+                f"{self}",
                 "Implement FieldBasic.__init__(). Pass parameters to C++.",
-                f"name={self.name}",
                 f"subfields={self.subfields}",
             )
         )

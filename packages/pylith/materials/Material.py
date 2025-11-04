@@ -35,12 +35,13 @@ class MaterialBase(pylith.component, implements=Material):
     label_value = pylith.properties.int(default=1)
     label_value.doc = "Value of label identifying boundary (tag of physical group in Gmsh files)."
 
-    auxiliary_subfields = fields.optional()
+    auxiliary_subfields = fields.field(default=fields.optional)
     auxiliary_subfields.doc = "Subfields in auxiliary field with material parameters."
 
-    derived_subfields = fields.optional()
+    derived_subfields = fields.field(default=fields.optional)
     derived_subfields.doc = "Output subfields derived from solution or auxiliary field."
 
+    # :TODO: Convert to dict or just use names?
     observers = pylith.properties.list(schema=observers.observer(default=observers.output_physics))
     observers.doc = "Observer of material state."
 
@@ -48,12 +49,20 @@ class MaterialBase(pylith.component, implements=Material):
         """Constructor."""
         super().__init__(name, locator, implicit, **kwds)
 
+        import pdb
+
+        pdb.set_trace()
+
         todo = journal.warning(":TODO:")
         todo.report(
             (
+                f"{self}",
                 "Implement MaterialBase.__init__(). Pass parameters to C++.",
-                f"materials={self.materials}",
-                f"interior interfaces={self.interior_interfaces}",
+                f"label name={self.label_name}",
+                f"label value={self.label_value}",
+                f"auxiliary subfields={self.auxiliary_subfields}",
+                f"derived subfields={self.derived_subfields}",
+                f"observers={self.observers}",
             )
         )
         todo.log()

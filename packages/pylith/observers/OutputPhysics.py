@@ -21,5 +21,10 @@ class OutputPhysics(OutputObserver, family="pylith.observers.output_physics"):
         super().__init__(name, locator, implicit, **kwds)
 
         todo = journal.warning(":TODO:")
-        todo.report(("Implement OutputPhysics.__init__(). Pass parameters to C++.",))
+        todo.report(
+            (
+                f"{self}",
+                "Implement OutputPhysics.__init__(). Pass parameters to C++.",
+            )
+        )
         todo.log()

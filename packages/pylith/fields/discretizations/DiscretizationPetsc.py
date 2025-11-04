@@ -52,6 +52,7 @@ class DiscretizationPetsc(pyre.component, implements=Discretization, family="pyl
         todo = journal.warning(":TODO:")
         todo.report(
             (
+                f"{self}",
                 "Implement DiscretizationPetsc.__init__(). Pass parameters to C++.",
                 f"basis order={self.basis_order}",
                 f"quadrature order={self.quadrature_order}",

@@ -14,28 +14,27 @@ from .Group import Group
 from ..subfields import subfield
 
 
-class GroupList(pylith.component, implements=Group, family="pylith.fields.optional.group_list"):
+class GroupList(pylith.component, implements=Group, family="pylith.fields.groups.group_list"):
     """PETSc options manager."""
 
-    enabled = pylith.properties.bool()
+    enabled = pylith.properties.bool(default=False)
     enabled.doc = "Use group of optional fields if True."
 
-    subfields = pylith.properties.list(schema=subfield)
+    # :TODO: Convert to dict
+    subfields = pylith.properties.list(schema=subfield())
     subfields.doc = "List of subfields."
 
     def __init__(self, name, locator, implicit, **kwds):
         """Constructor."""
         super().__init__(name, locator, implicit, **kwds)
 
-        self.enabled
-        self.subfields
-
         todo = journal.warning(":TODO:")
         todo.report(
             (
+                f"{self}",
                 "Implement GroupList.__init__(). Pass parameters to C++.",
                 f"enabled={self.enabled}",
-                f"options={self.subfields}",
+                f"subfields={self.subfields}",
             )
         )
         todo.log()

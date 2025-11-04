@@ -29,6 +29,7 @@ class OutputSolnPoints(OutputObserver, family="pylith.observers.solution_points"
         todo = journal.warning(":TODO:")
         todo.report(
             (
+                f"{self}",
                 "Implement OutputSolnPoints.__init__(). Pass parameters to C++.",
                 f"filename={self.filename}",
             )

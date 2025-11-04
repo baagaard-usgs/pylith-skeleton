@@ -33,6 +33,7 @@ class MeshIOAscii(pylith.component, implements=MeshIO, family="pylith.mesh_io.as
         todo = journal.warning(":TODO:")
         todo.report(
             (
+                f"{self}",
                 "Implement MeshIOAscii.__init__(). Pass parameters to C++.",
                 f"filename={self.filename}",
             )

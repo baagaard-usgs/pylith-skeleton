@@ -35,6 +35,7 @@ class GreensFns(
         channel = journal.warning(":TODO:")
         channel.report(
             (
+                f"{self}",
                 "Implement GreensFns.__init__(). Pass parameters to C++.",
                 f"progress monitor={self.progress_monitor}",
             )

@@ -20,5 +20,10 @@ class ProgressMonitorStep(ProgressMonitorBase, family="pylith.monitors.progress_
         super().__init__(name, locator, implicit, **kwds)
 
         todo = journal.warning(":TODO:")
-        todo.report(("Implement ProgressMonitorStep.__init__(). Pass parameters to C++.",))
+        todo.report(
+            (
+                f"{self}",
+                "Implement ProgressMonitorStep.__init__(). Pass parameters to C++.",
+            )
+        )
         todo.log()

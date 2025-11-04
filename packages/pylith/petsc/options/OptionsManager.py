@@ -19,6 +19,7 @@ from .groups import group
 class OptionsManager(pyre.component, implements=Options, family="pylith.petsc.options"):
     """PETSc options manager."""
 
+    # :TODO: Convert to dict or just use names?
     groups = pylith.properties.list(schema=group())
     groups.doc = "List of groups of PETSc options."
 
@@ -31,6 +32,7 @@ class OptionsManager(pyre.component, implements=Options, family="pylith.petsc.op
         todo = journal.warning(":TODO:")
         todo.report(
             (
+                f"{self}",
                 "Implement OptionsManager.__init__(). Pass parameters to C++.",
                 f"groups={self.groups}",
             )

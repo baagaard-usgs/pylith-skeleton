@@ -23,5 +23,10 @@ class MeshInsertInterfaces(
         super().__init__(name, locator, implicit, **kwds)
 
         todo = journal.warning(":TODO:")
-        todo.report(("Implement MeshInsertInterfaces.__init__().",))
+        todo.report(
+            (
+                f"{self}",
+                "Implement MeshInsertInterfaces.__init__().",
+            )
+        )
         todo.log()

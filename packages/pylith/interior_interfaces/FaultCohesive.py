@@ -46,6 +46,7 @@ class FaultCohesive(pylith.component, implements=InteriorInterface):
         todo = journal.warning(":TODO:")
         todo.report(
             (
+                f"{self}",
                 "Implement BoundaryCondition.__init__(). Pass parameters to C++.",
                 f"label name={self.label_name}",
                 f"label value={self.label_value}",

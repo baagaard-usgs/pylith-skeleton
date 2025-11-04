@@ -26,6 +26,7 @@ class Elasticity(MaterialBase, family="pylith.materials.elasticity"):
         todo = journal.warning(":TODO:")
         todo.report(
             (
+                f"{self}",
                 "Implement Elasticity.__init__(). Pass parameters to C++.",
                 f"rheology={self.rheology}",
             )

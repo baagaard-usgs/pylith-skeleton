@@ -27,6 +27,7 @@ class MeshReader(pylith.component, implements=InitializePhase, family="pylith.me
         todo = journal.warning(":TODO:")
         todo.report(
             (
+                f"{self}",
                 "Implement MeshReader.__init__(). Pass parameters to C++.",
                 f"reader={self.reader}",
             )

@@ -36,6 +36,7 @@ class SourceTimeFnBase(pylith.component, implements=SourceTimeFn):
         todo = journal.warning(":TODO:")
         todo.report(
             (
+                f"{self}",
                 "Implement SourceTimeFnBase.__init__(). Pass parameters to C++.",
                 f"auxiliary field={self.auxiliary_field}",
             )

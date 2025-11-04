@@ -8,6 +8,7 @@
 # See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
 import pylith
+from pylith import journal
 
 from pylith.solvers import solver
 from pylith.fields import field
@@ -37,11 +38,32 @@ class GoverningEqnBase(pylith.component, implements=GoverningEqn):
     solution = field()
     solution.doc = "Solution field for elasticity equation."
 
+    # :TODO: Convert to dict or just use names?
     boundary_conditions = pylith.properties.list(schema=boundary_condition())
     boundary_conditions.doc = "Boundary conditions."
 
+    # :TODO: Convert to dict or just use names?
     initial_conditions = pylith.properties.list(schema=initial_condition())
     initial_conditions.doc = "Boundary conditions."
 
+    # :TODO: Convert to dict or just use names?
     observers = pylith.properties.list(schema=solution_domain())
     observers.doc = "Observers of solution to governing equation."
+
+    def __init__(self, name, locator, implicit, **kwds):
+        """Constructor."""
+        super().__init__(name, locator, implicit, **kwds)
+
+        todo = journal.warning(":TODO:")
+        todo.report(
+            (
+                f"{self}",
+                "Implement GoverningEqn.__init__(). Pass parameters to C++.",
+                f"solver={self.solver}",
+                f"solution={self.solution}",
+                f"boundary conditions={self.boundary_conditions}",
+                f"initial conditions={self.initial_conditions}",
+                f"observers={self.observers}",
+            )
+        )
+        todo.log()

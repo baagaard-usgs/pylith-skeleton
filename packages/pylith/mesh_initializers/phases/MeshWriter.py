@@ -27,6 +27,7 @@ class MeshWriter(pylith.component, implements=InitializePhase, family="pylith.me
         todo = journal.warning(":TODO:")
         todo.report(
             (
+                f"{self}",
                 "Implement MeshWriter.__init__(). Pass parameters to C++.",
                 f"writer={self.writer}",
             )

@@ -18,9 +18,11 @@ from .GoverningEqn import GoverningEqnBase
 class Elasticity(GoverningEqnBase, family="pylith.governing_eqns.elasticity"):
     """Elasticity governing equation."""
 
+    # :TODO: Convert to dict or just use names?
     materials = pylith.properties.list(schema=materials.material(default=materials.elasticity))
     materials.doc = "Materials in boundary value problem."
 
+    # :TODO: Convert to dict or just use names?
     interior_interfaces = pylith.properties.list(schema=interior_interface())
     interior_interfaces.doc = "Interior interfaces (faults) in boundary value problem."
 
@@ -33,6 +35,7 @@ class Elasticity(GoverningEqnBase, family="pylith.governing_eqns.elasticity"):
         todo = journal.warning(":TODO:")
         todo.report(
             (
+                f"{self}",
                 "Implement Elasticity.__init__(). Pass parameters to C++.",
                 f"materials={self.materials}",
                 f"interior interfaces={self.interior_interfaces}",

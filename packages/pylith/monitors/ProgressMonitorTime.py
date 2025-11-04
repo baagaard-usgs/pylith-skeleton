@@ -30,6 +30,7 @@ class ProgressMonitorTime(ProgressMonitorBase, family="pylith.monitors.progress_
         todo = journal.warning(":TODO:")
         todo.report(
             (
+                f"{self}",
                 "Implement ProgressMonitorTime.__init__(). Pass parameters to C++.",
                 f"time units={self.time_units}",
             )

@@ -39,6 +39,7 @@ class FaultCohesiveImpulses(FaultCohesive, family="pylith.interior_interfaces.fa
         todo = journal.warning(":TODO:")
         todo.report(
             (
+                f"{self}",
                 "Implement FaultCohesiveImpulses.__init__(). Pass parameters to C++.",
                 f"threshold={self.threshold}",
             )

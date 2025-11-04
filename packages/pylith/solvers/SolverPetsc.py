@@ -23,6 +23,7 @@ class SolverPetsc(pyre.component, implements=Solver, family="pylith.solvers.pets
     formulation.validators = pyre.constraints.isMember("implicit", "explicit", "implicit_explicit")
     formulation.doc = "Formulation for solver."
 
+    # :TODO: Convert to dict or just use names?
     petsc_options = pylith.properties.list(schema=groups.group())
     petsc_options.doc = "Groups of solver related PETSc options."
 
@@ -30,11 +31,10 @@ class SolverPetsc(pyre.component, implements=Solver, family="pylith.solvers.pets
         """Constructor."""
         super().__init__(name, locator, implicit, **kwds)
 
-        self.petsc_options
-
         todo = journal.warning(":TODO:")
         todo.report(
             (
+                f"{self}",
                 "Implement SolverPetsc.__init__(). Pass parameters to C++.",
                 f"formulation={self.formulation}",
                 f"PETSc options={self.petsc_options}",

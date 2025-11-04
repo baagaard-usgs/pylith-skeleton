@@ -10,7 +10,7 @@
 import pylith
 
 
-class Group(pylith.protocol, family="pylith.fields.optional"):
+class Group(pylith.protocol, family="pylith.fields.groups"):
     """Protocol declarator for group of PETSc options." """
 
     @classmethod

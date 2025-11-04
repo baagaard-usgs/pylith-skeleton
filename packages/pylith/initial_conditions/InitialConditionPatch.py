@@ -32,6 +32,7 @@ class InitialConditionPatch(InitialConditionBase, family="pylith.intial_conditio
         todo = journal.warning(":TODO:")
         todo.report(
             (
+                f"{self}",
                 "Implement InitialConditionPatch.__init__(). Pass parameters to C++.",
                 f"label name={self.label_name}",
                 f"label value={self.label_value}",

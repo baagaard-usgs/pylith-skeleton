@@ -37,6 +37,7 @@ class MeshIOPetsc(pylith.component, implements=MeshIO, family="pylith.mesh_io.pe
         todo = journal.warning(":TODO:")
         todo.report(
             (
+                f"{self}",
                 "Implement MeshIOPetsc.__init__(). Pass parameters to C++.",
                 f"filename={self.filename}",
                 f"Gmsh mark recursive={self.gmsh_mark_recursive}",

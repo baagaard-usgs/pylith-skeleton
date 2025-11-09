@@ -49,10 +49,6 @@ class MaterialBase(pylith.component, implements=Material):
         """Constructor."""
         super().__init__(name, locator, implicit, **kwds)
 
-        import pdb
-
-        pdb.set_trace()
-
         todo = journal.warning(":TODO:")
         todo.report(
             (

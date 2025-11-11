@@ -1,0 +1,7 @@
+# Default settings for the `pylith_convertmesh` application.
+
+# Default mesh initialization phases.
+convert_mesh.app.mesh_initializer.phases:
+  - reader#read_mesh
+  - reordering#reorder_mesh
+  - refiner#write_mesh

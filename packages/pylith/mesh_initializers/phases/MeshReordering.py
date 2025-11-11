@@ -14,12 +14,17 @@ from pylith import journal
 from .InitializePhase import InitializePhase
 
 
-class MeshReordering(pylith.component, implements=InitializePhase, famlly="pylith.mesh_initializers.phases.reordering"):
+class MeshReordering(pylith.component, implements=InitializePhase, family="pylith.mesh_initializers.phases.reordering"):
 
     def __init__(self, name, locator, implicit, **kwds):
         """Constructor."""
         super().__init__(name, locator, implicit, **kwds)
 
         todo = journal.warning(":TODO:")
-        todo.report(("Implement MeshReordering.__init__().",))
+        todo.report(
+            (
+                f"{self}",
+                "Implement MeshReordering.__init__().",
+            )
+        )
         todo.log()

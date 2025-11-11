@@ -41,6 +41,7 @@ class SimulationDefaults(pyre.component, implements=Defaults, family="pylith.def
         todo = journal.warning(":TODO:")
         todo.report(
             (
+                f"{self}",
                 "Implement SimulationDefaults.__init__(). Pass parameters to C++.",
                 f"output directory={self.output_dir}",
                 f"output name={self.output_name}",

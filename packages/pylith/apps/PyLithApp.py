@@ -13,6 +13,7 @@ class PyLithApp(pyre.application):
     metadata = app_metadata()
     metadata.doc = "Application metadata"
 
+    # :TODO: Convert to dict
     problems = pyre.properties.list(
         schema=problem(default=time_dependent),
         default=[time_dependent(name="problem")],

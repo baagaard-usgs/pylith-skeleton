@@ -7,6 +7,10 @@
 #
 # See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
+import pyre
+from pyre.units.time import second
+
+
 import pylith
 from pylith import journal
 
@@ -22,16 +26,17 @@ class DataWriterVTK(DataWriterBase, family="pylith.data_writers.vtk"):
     time_format = pylith.properties.str(default="%f")
     time_format.doc = "C style format string for time stamp in filename."
 
-    from pythia.pyre.units.time import second
-
-    time_scale = pylith.properties.dimensional(default=1.0 * second, validator=pylith.properties.greater(0.0 * second))
+    time_scale = pylith.properties.dimensional(default=1.0 * second)
+    time_scale.validators = pyre.constraints.isGreater(value=0.0 * second)
     time_scale.doc = "Values used to normalize time stamp in filename."
 
-    float_precision = pylith.properties.int(default=6, validator=pylith.properties.greater(0))
+    float_precision = pylith.properties.int(default=6)
+    float_prevision = pyre.constraints.isPositive()
     float_precision.doc = "Precision of floating point values in output."
 
-    def __init__(self):
-        super().__init__(self)
+    def __init__(self, name, locator, implicit, **kwds):
+        """Constructor."""
+        super().__init__(name, locator, implicit, **kwds)
 
         todo = journal.debug(":TODO:")
         todo.log("Implement DataWriterVTK time_history attribute. Requires spatialdata.")
@@ -45,4 +50,9 @@ class DataWriterVTK(DataWriterBase, family="pylith.data_writers.vtk"):
         DataWriterBase.makePath(filename)
 
         todo = journal.debug(":TODO:")
-        todo.log("Implement DataWriterHDF5.setFilename(). Pass parameters to C++.")
+        todo.log(
+            (
+                f"{self}",
+                "Implement DataWriterHDF5.setFilename(). Pass parameters to C++.",
+            )
+        )

@@ -15,7 +15,7 @@ from .InitializePhase import InitializePhase
 
 
 class MeshInsertInterfaces(
-    pylith.component, implements=InitializePhase, famlly="pylith.mesh_initializers.phases.insert_interfaces"
+    pylith.component, implements=InitializePhase, family="pylith.mesh_initializers.phases.insert_interfaces"
 ):
 
     def __init__(self, name, locator, implicit, **kwds):
@@ -23,5 +23,10 @@ class MeshInsertInterfaces(
         super().__init__(name, locator, implicit, **kwds)
 
         todo = journal.warning(":TODO:")
-        todo.report(("Implement MeshInsertInterfaces.__init__().",))
+        todo.report(
+            (
+                f"{self}",
+                "Implement MeshInsertInterfaces.__init__().",
+            )
+        )
         todo.log()

@@ -28,6 +28,7 @@ class RefineUniform(pylith.component, implements=Refiner, family="pylith.meshing
         todo = journal.warning(":TODO:")
         todo.report(
             (
+                f"{self}",
                 "Implement RefineUniform.__init__(). Pass parameters to C++.",
                 f"levels={self.levels}",
             )

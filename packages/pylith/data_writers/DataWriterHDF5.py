@@ -19,8 +19,9 @@ class DataWriterHDF5(DataWriterBase, family="pylith.data_writers.hdf5"):
     filename = pylith.properties.str()
     filename.doc = "Name of VTK file."
 
-    def __init__(self):
-        super().__init__(self)
+    def __init__(self, name, locator, implicit, **kwds):
+        """Constructor."""
+        super().__init__(name, locator, implicit, **kwds)
 
         todo = journal.debug(":TODO:")
         todo.log("Implement DataWriterHDF5 time_history attribute. Requires spatialdata.")
@@ -34,4 +35,9 @@ class DataWriterHDF5(DataWriterBase, family="pylith.data_writers.hdf5"):
         DataWriterBase.makePath(filename)
 
         todo = journal.debug(":TODO:")
-        todo.log("Implement DataWriterHDF5.setFilename(). Pass parameters to C++.")
+        todo.log(
+            (
+                f"{self}",
+                "Implement DataWriterHDF5.setFilename(). Pass parameters to C++.",
+            )
+        )

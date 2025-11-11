@@ -16,7 +16,7 @@ from pylith import journal
 from .MeshIO import MeshIO
 
 
-class MeshIOPetsc(pylith.component, implements=MeshIO, famlly="pylith.mesh_io.petsc"):
+class MeshIOPetsc(pylith.component, implements=MeshIO, family="pylith.mesh_io.petsc"):
 
     filename = pylith.properties.uri()
     filename.doc = "URI of mesh file."
@@ -37,6 +37,7 @@ class MeshIOPetsc(pylith.component, implements=MeshIO, famlly="pylith.mesh_io.pe
         todo = journal.warning(":TODO:")
         todo.report(
             (
+                f"{self}",
                 "Implement MeshIOPetsc.__init__(). Pass parameters to C++.",
                 f"filename={self.filename}",
                 f"Gmsh mark recursive={self.gmsh_mark_recursive}",

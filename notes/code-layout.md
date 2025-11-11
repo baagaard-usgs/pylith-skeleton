@@ -1,17 +1,5 @@
 # Layout
 
-## To-do
-
-- Problem
-  - governing_equation
-- TimeDependent
-  - progress_monitor
-- ProgressMonitorTime
-- Green's function
-  - progress_monitor
-- ProgressMonitorStep
-- GoverningEquation
-
 ## Python directory structure
 
 - shells

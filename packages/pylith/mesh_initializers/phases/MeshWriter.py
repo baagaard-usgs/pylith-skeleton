@@ -15,7 +15,7 @@ from pylith import mesh_io
 from .InitializePhase import InitializePhase
 
 
-class MeshWriter(pylith.component, implements=InitializePhase, famlly="pylith.mesh_initializers.phases.writer"):
+class MeshWriter(pylith.component, implements=InitializePhase, family="pylith.mesh_initializers.phases.writer"):
 
     writer = mesh_io.mesh_io(default=mesh_io.petsc)
     writer.doc = "Mesh writer."
@@ -27,6 +27,7 @@ class MeshWriter(pylith.component, implements=InitializePhase, famlly="pylith.me
         todo = journal.warning(":TODO:")
         todo.report(
             (
+                f"{self}",
                 "Implement MeshWriter.__init__(). Pass parameters to C++.",
                 f"writer={self.writer}",
             )

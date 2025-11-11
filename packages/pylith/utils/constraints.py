@@ -16,3 +16,7 @@ def notEmptyString(*constraints):
 
 def notEmptyList(*constraints):
     return
+
+
+def unitVector(*constraints):
+    return

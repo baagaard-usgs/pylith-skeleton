@@ -8,6 +8,7 @@
 # See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
 from pylith import journal
+from pylith import monitors
 
 from .Problem import ProblemBase
 
@@ -20,13 +21,23 @@ class GreensFns(
 
     # - fields
     # - sources
-    # - progress monitor
+
+    progress_monitor = monitors.progress_monitor(default=monitors.progress_monitor_step)
+    progress_monitor.doc = "Monitor for reporting progress of simulation."
 
     def __init__(self, name, locator, implicit, **kwds):
         """Constructor."""
         # self.cxx = CxxTimeDependent()
         super().__init__(name, locator, implicit, **kwds)
 
+        self.progress_monitor
+
         channel = journal.warning(":TODO:")
-        channel.report(("Implement GreensFns.__init__(). Pass parameters to C++.",))
+        channel.report(
+            (
+                f"{self}",
+                "Implement GreensFns.__init__(). Pass parameters to C++.",
+                f"progress monitor={self.progress_monitor}",
+            )
+        )
         channel.log()

@@ -1,16 +1,138 @@
 # Notes
 
-## Configuration
+## Installation
 
-1. I want to set defaults for the mesh initialization phases in `mesh_initializers.MeshInitializer` and allow them to be overwritten by the user. I have put the values in `serial_phases.yaml`. This is an application (not user) configuration file. How do I load it?
+1. How do I set `isysroot`?
 
-## Pyre filesystem
+Michael will fix.
 
-1. We want to specify a default output directory and root for output files. What Pyre features might help with this?
+## Default configuration settings
 
-## Code review
+1. `$src/etc/pylith/pylith.app.yaml` is not getting read. `pylith_plexus` is in `$src/bin`.
 
-1. `shells/Plexus.py`
-2. `cli/Run.py`
-3. `mesh_initializers/MeshInitializer.py`
-4. `mesh_initializers/phases/MeshRefiner.py`
+Needs to go in `~/.config/pyre/pylith/`
+
+Where to store YAML file so it gets installed at compile time. Make `$SRC/share`.
+
+TODO: Create feature request to read `$PREFIX/share/$PACKAGE`.
+
+## Pyre configuration
+
+1. How do I include multiple YAML files on the command line?
+
+    Does not work (neither YAML file appears to be read)
+
+    ```bash
+    pylith_plexus --config=FILENAME1.yaml,FILENAME2.yaml
+    ```
+
+TODO: Create feature request.
+
+2. How do I get Pyre to report errors when it tries to instantiate an object and it fails? I don't seem to be getting any reports of configuration errors.
+
+TODO: Create feature request if necessary.
+
+Maybe a bootstrap problem. Need sufficient infrastructure to report errors. Don't want journal to interfere with Pyre bootstrapping.
+
+See qed: bin/qed try block. All errors should have been converted to ApplicationError.
+
+ConfigurationError gets called when components get instatiated.
+
+1. How do I programmatically create a component with values for properties? I want to set values so validation passes (for example, a `material` requires `label_name` to be provided by the user)
+
+    ```python
+    mat_elastic = pylith.materials.elasticity(label_name="material-id", label_value=2)
+    ```
+
+Failing when class traits are being configured. Class configuration provides defaults, so its states are checked. `None` is a valid value regardless. Interpretation is "uninitialized". In Pyre sometimes `object`.
+
+In application validator, check for `None`.
+
+
+2. I want to create a dictionary of components that I can refer to in a nested sense. I think this is pyre.properties.dict() but I don't know how to use it.
+
+    Background: For materials, boundary conditions, faults, initial conditions, etc, I have some number of components with the same facilities but each instance may have different values for parameters. I would like to setup the hierarchy of components via generic configuration settings (class) and be able to adjust the defaults via user configuration settings.
+
+    CIG Pyre (Leif Strand)
+
+    ```cfg
+    [ materials.elasticity ]
+    auxiliary_fields = [density, shear_modulus, bulk_modulus]
+    auxiliary_fields.density = pylith.fields.basic
+    auxiliary_fields.shear_modulus = pylith.fields.basic
+    auxiliary_fields.bulk_modulus = pylith.fields.basic    
+    ```
+
+    General defaults set via application provided configuration file
+
+    ```yaml
+    materials.elasticity: # Application defaults set via configuration settings
+        auxiliary_fields: # Want this to be a dictionary
+            density: pylith.fields.basic # Don't use name (want each material to have its own object)
+            shear_modulus: pylith.fields.basic
+            bulk_modulus: pylith.fields.basic
+
+    materials.elasticity.auxiliary_fields:
+        density:
+            name: density
+            scale: density
+            vector_field_type: scalar
+        shear_modulus:
+            name: shear_modulus
+            scale: rigidity
+            vector_field_type: scalar
+        bulk_modulus:
+            name: shear_modulus
+            scale: rigidity
+            vector_field_type: scalar
+    ```
+
+    Simulation-specific via configuration settings
+
+    ```yaml
+    materials:
+        - elasticity#crust
+        - elasticity#mantle
+
+    crust:
+        auxiliary_fields:
+            density.discretization.basis_order: 0
+            shear_modulus.discretization.basis_order: 0
+            bulk_modulus.discretization.basis_order: 0
+    
+    mantle:
+        auxiliary_fields:
+            density.discretization.basis_order: 1
+            shear_modulus.discretization.basis_order: 1
+            bulk_modulus.discretization.basis_order: 1
+    ```
+
+3. Are nested components supposed to work in YAML files?
+
+    Does not work:
+
+    ```yaml
+    pylith.materials.elasticity:
+        auxiliary_subfields: # fields.field(default=fields.optional)
+            required:
+                - basic#density
+            optional:
+                - basic#body_force
+                - basic#gravitational_acceleration
+    ```
+
+    Does work:
+
+    ```yaml
+    pylith.materials.elasticity:
+        auxiliary_subfields: optional#elasticity_auxiliary_subfields
+
+    pylith.fields.optional#elasticity_auxiliary_subfields:
+        required:
+            - basic#density
+        optional:
+            - basic#body_force
+            - basic#gravitational_acceleration
+    ```
+
+4. It would really help if `pyre_showConfiguration(deep=True)` traversed into lists of objects.

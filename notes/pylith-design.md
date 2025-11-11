@@ -41,7 +41,7 @@
 2. The solution field spans all degrees of freedom of the domain.
 3. The subfields of the solution field are set based on the governing equation used.
 4. Subfield not be defined at all degrees of freedom, for example, the Lagrange multiplier field only exists for degrees of freedom on cohesive cells (interior interfaces).
-5. Integration of terms in the finite-element weak form is done by Integrators (domain, boundary, interface). The physics is implemented via point-wise functions (integration of terms in weak form; projection of fields for output) associated with each material, boundary condition, and interface.
+5. Integration of terms in the finite-element weak form is done by Integrators (domain, boundary, interface). The physics is implemented via point-wise functions (integration of terms in weak form; projection of fields for output) associated with each material, boundary condition, and interface. Point-wise functions are passed the auxiliary field and the solution field evaluated at the (quadrature) point.
 6. Can have an arbitrary number of boundary conditions, initial conditions, and interior interfaces.
 
 ### Elasticity governing equation
@@ -80,15 +80,17 @@
 - vector field type
 - discretization (basis order, basis, etc)
 
+1. PETSc Section holds mapping from points (vertices, edges, faces, cells) to degrees of freedom for each subfield.
+2. PETSc Vec (array) holds values at degrees of freedom.
+
 ## Solver
 
 ### PETSc solver
 
 Want to enable/disable groups of options
 
-- Solver options (defaults based on governing equation)
-- Tolerances
+- Solver options (defaults based on governing equation; preconditioner, etc)
+- Tolerances (SNES, KSP)
 - Initial guess
 - Adaptive time-stepping
-- Monitoring
-
+- Monitoring (TS, SNES, KSP)

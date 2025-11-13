@@ -22,20 +22,20 @@ from ..discretizations import discretization, petsc
 class SubfieldBasic(pyre.component, implements=Subfield, family="pylith.fields.subfields.basic"):
     """Subfield in PETSc field."""
 
-    name = pylith.properties.str()
-    name.validators = constraints.notEmptyString()
-    name.doc = "Name of Subfield."
+    # name = pylith.properties.str()
+    # name.validators = constraints.notEmptyString()
+    # name.doc = "Name of Subfield."
 
     alias = pylith.properties.str()
     alias.doc = "User preferred name of Subfield (used in output)."
 
-    scale = pylith.properties.str()
+    # scale = pylith.properties.str()
     # scale.validators = pyre.constraints.isMember(scales.string_list())
-    scale.doc = "Scale for nondimensionalizing field."
+    # scale.doc = "Scale for nondimensionalizing field."
 
-    vector_field_type = pylith.properties.str(default="scalar")
-    vector_field_type.validators = pyre.constraints.isMember("scalar", "vector", "tensor", "other")
-    vector_field_type.doc = "Type of vector field."
+    # vector_field_type = pylith.properties.str(default="scalar")
+    # vector_field_type.validators = pyre.constraints.isMember("scalar", "vector", "tensor", "other")
+    # vector_field_type.doc = "Type of vector field."
 
     discretization = discretization(default=petsc)
     discretization.doc = "Discretization of subfield."

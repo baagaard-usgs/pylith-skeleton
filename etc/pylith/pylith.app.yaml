@@ -238,39 +238,18 @@ pylith.fields.subfields.basic#bulk_modulus:
 
 # Default: Elasticity
 pylith.materials.elasticity:
-  auxiliary_subfields: pylith.fields.optional#elasticity_auxiliary_subfields
-
-pylith.fields.optional#elasticity_auxiliary_subfields:
-  required:
-    - basic#density
-  optional:
-    - group_list#body_force_group
-    - group_list#gravitational_acceleration_group
-
-pylith.fields.groups.group_list#body_force_group:
-  enabled: False
-  subfields:
-    - basic#body_force
-
-pylith.fields.groups.group_list#gravitational_acceleration_group:
-  enabled: False
-  subfields:
-    - basic#gravitational_acceleration
+  auxiliary_subfields: pylith.fields.containers.elasticity_subfields
 
 # Want something like
 pylith.materials.elasticity_NOTES:
   auxiliary_subfields:
-    required: # Convert to dictionary
-      - basic#density
-    optional: # Convert to dictionary (syntax like below if using default component for body_force)
-      body_force:
-        enabled: False
-        subfields:
-          - basic#body_force
-      gravitational_acceleration:
-        enabled: False
-        subfields:
-          - basic#gravitational_acceleration
+    density:
+      discretization:
+        basis_order: 0
+    body_force:
+      enabled: False
+    gravitational_acceleration:
+      enabled: False
 
 # -----------------------------------------------------------------------------
 # Auxiliary fields: bulk rheologies

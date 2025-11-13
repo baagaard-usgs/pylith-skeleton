@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 import pyre
-from pylith import metadata
+from . import metadata
 import journal
 
 

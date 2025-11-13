@@ -9,15 +9,15 @@
 
 ## PETSc options
 
-- Collective I/O
+- Collective I/O ()
 - Testing (malloc_debug)
 - Attach debugger
 
 1. Want to enable/disable groups of options
 2. Groups should be easily extensible by users and PyLith developers.
-3. Loop over groups to assemble list of all options to pass to PetscInitialize(). 
+3. Loop over groups to assemble list of all options to pass to PetscInitialize().
 
-### Options group
+### PETSc Options group
 
 - enabled: Flag indicating whether group of options is enabled or disabled.
 - list(tuple(str)): list of options
@@ -40,7 +40,10 @@
 1. User can customize the discretization of each solution subfield (Pyre properties).
 2. The solution field spans all degrees of freedom of the domain.
 3. The subfields of the solution field are set based on the governing equation used.
-4. Subfield not be defined at all degrees of freedom, for example, the Lagrange multiplier field only exists for degrees of freedom on cohesive cells (interior interfaces).
+   1. Elasticity: displacement (no fault), displacement + Lagrange multiplier (with fault);
+   2. Incompressible elasticity: displacement + pressure (no fault).
+   3. Poroelasticity: displacement, fluid pressure, trace strain (no fault), displacement, fluid pressure, trace strain, Lagrange multipler (with fault).
+4. Subfield need not have values at points, for example, the Lagrange multiplier field only exists for degrees of freedom on cohesive cells (interior interfaces).
 5. Integration of terms in the finite-element weak form is done by Integrators (domain, boundary, interface). The physics is implemented via point-wise functions (integration of terms in weak form; projection of fields for output) associated with each material, boundary condition, and interface. Point-wise functions are passed the auxiliary field and the solution field evaluated at the (quadrature) point.
 6. Can have an arbitrary number of boundary conditions, initial conditions, and interior interfaces.
 

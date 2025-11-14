@@ -25,61 +25,34 @@ pylith.mesh_initializers.mesh_initializer#parallel_initializer:
 # General PETSc options
 # -----------------------------------------------------------------------------
 # Need this to be a dictionary in order to make it easy to disable/enable..
-pylith.app.petsc_options.groups:
-  - group_list#testing
-  - group_list#collective_io
-  - group_list#attach_debugger
-
-pylith.petsc.options.group_list#testing:
-  enabled: False
-  options:
-    - malloc_debug
-
-pylith.petsc.options.group_list#collective_io:
-  enabled: True
-  options:
-    - viewer_hdf5_collective
-
-pylith.petsc.options.group_list#attach_debugger:
-  enabled: False
-  options:
-    - stop_for_debugger
-    - debugger_pause, 10
-
-    - malloc_debug, False
-    - check_pointer_intensity, False
+pylith.app.petsc_options:
+  testing:
+    enabled: False
+    options:
+      - malloc_debug
+  collective_io:
+    enabled: True
+    options:
+      - viewer_hdf5_collective
+  attach_debugger:
+    enabled: False
+    options:
+      - stop_for_debugger
+      - debugger_pause, 10
+      - malloc_debug, False
+      - check_pointer_intensity, False
 
 # -----------------------------------------------------------------------------
 # Solver settings
 # -----------------------------------------------------------------------------
-# Need this to be a dictionary in order to make it easy to disable/enable..
 
-# Default: Elasticity, no fault
-pylith.app.problem.governing_eqn.solver:
-  petsc_options:
-    - group_list#solver
-    - group_list#initial_guess
-    - group_list#tolerances
-    - group_list#adaptive_ts
-    - group_list#monitoring
-
-pylith.petsc.options.group_list#solver:
-  enabled: True
-  options:
-    - ts_type, beuler
-    - pc_type, gamg
-
-    - pc_gamg_coarse_eq_limit, 200
-    - mg_fine_ksp_max_it, 5
-    - mg_levels_pc_type, pbjacobi
-
-pylith.petsc.options.group_list#initial_guess:
+pylith.app.problem.governing_eqn.solver.petsc_options.initial_guess:
   enabled: True
   options:
     - ksp_guess_type, pod
     - ksp_guess_pod_size,  8
 
-pylith.petsc.options.group_list#tolerances:
+pylith.app.problem.governing_eqn.solver.petsc_options.tolerances:
   enabled: True
   options:
     - ksp_rtol, 1.0e-12
@@ -88,7 +61,7 @@ pylith.petsc.options.group_list#tolerances:
     - snes_rtol, 5.0e-6
     - snes_atol, 5.0e-2
 
-pylith.petsc.options.group_list#adaptive_ts:
+pylith.app.problem.governing_eqn.solver.petsc_options.adaptive_ts:
   enabled: False
   options:
     - ts_adapt_type, basic
@@ -99,7 +72,7 @@ pylith.petsc.options.group_list#adaptive_ts:
 
     - ts_adapt_monitor, true
 
-pylith.petsc.options.group_list#monitoring:
+pylith.app.problem.governing_eqn.solver.petsc_options.monitoring:
   enabled: False
   options:
     - ts_monitor
@@ -113,158 +86,36 @@ pylith.petsc.options.group_list#monitoring:
     - ksp_error_if_not_converged
     - snes_error_if_not_converged
 
-# Elasticity, no fault
-pylith.solvers.petsc#elasticity:
-  petsc_options.solver:
-    enabled: True
-    options:
-      - ts_type, beuler
-      - pc_type, gamg
+# :QUESTION: I want to make these settings the defaults for solver options
+# if the governing equation is elasticity.
+pylith.app.problem.governing_eqn.solver.petsc_options.solver:
+  #pylith.governing_eqns.elasticity.solver.petsc_options.solver:
+  enabled: True
+  options:
+    - ts_type, beuler
+    - pc_type, gamg
 
-      - pc_gamg_coarse_eq_limit, 200
-      - mg_fine_ksp_max_it, 5
-      - mg_levels_pc_type, pbjacobi
-
-# -----------------------------------------------------------------------------
-# Solution fields
-# -----------------------------------------------------------------------------
-
-# Subfields
-pylith.fields.subfields.basic#displacement:
-  name: displacement
-  scale: displacement
-  vector_field_type: vector
-
-pylith.fields.subfields.basic#velocity:
-  name: velocity
-  scale: velocity
-  vector_field_type: vector
-
-pylith.fields.subfields.basic#lagrange_multiplier_fault:
-  name: lagrange_multiplier_fault
-  scale: stress
-  vector_field_type: vector
-
-pylith.fields.subfields.basic#pressure:
-  name: pressure
-  scale: stress
-  vector_field_type: scalar
-
-pylith.fields.subfields.basic#fluid_pressure:
-  name: fluid_pressure
-  scale: stress
-  vector_field_type: scalar
-
-pylith.fields.subfields.basic#trace_strain:
-  name: trace_strain
-  scale: strain
-  vector_field_type: scalar
-
-# Default: Elasticity, no fault
-pylith.app.problem.governing_eqn.solution:
-  name: solution
-  subfields:
-    - basic#displacement
-    - basic#velocity
-
-# Elasticity, no fault
-pylith.governing_eqns.elasticity#elasticity:
-  solution.subfields:
-    - basic#displacement
-    - basic#velocity
-
-# Elasticity + fault(s)
-pylith.governing_eqns.elasticity#elasticity-fault:
-  solution.subfields:
-    - basic#displacement
-    - basic#velocity
-    - basic#lagrange_multiplier_fault
-
-# Incompressible elasticity, no fault
-pylith.governing_eqns.incompressible_elasticity#incompressible_elasticity:
-  - basic#displacement
-  - basic#pressure
-
-# Poroelasticity, no fault, no state variables
-pylith.governing_eqns.poroelasticity#poroelasticity:
-  - basic#displacement
-  - basic#velocity
-  - basic#fluid_pressure
-  - basic#trace_strain
-
-# Poroelasticity + fault, no state variables
-pylith.governing_eqns.poroelasticity#poroelasticity-fault:
-  - basic#displacement
-  - basic#velocity
-  - basic#fluid_pressure
-  - basic#trace_strain
-  - basic#lagrange_multiplier_fault
+    - pc_gamg_coarse_eq_limit, 200
+    - mg_fine_ksp_max_it, 5
 
 # -----------------------------------------------------------------------------
-# Materials
+# Governing equations
 # -----------------------------------------------------------------------------
-pylith.app.problem.governing_eqn.materials:
-  - elasticity#mat_elastic
+# Default is one material named `material`
 
+pylith.governing_eqns.elasticity.materials:
+  - elasticity#material
+
+pylith.governing_eqns.incompressible_elasticity.materials:
+  - incompressible_elasticity#material
+
+pylith.governing_eqns.poroelasticity.materials:
+  - poroelasticity#material
 # -----------------------------------------------------------------------------
-# Auxiliary fields: materials
-# -----------------------------------------------------------------------------
-
-# Subfields
-pylith.fields.subfields.basic#density:
-  name: density
-  scale: density
-  vector_field_type: scalar
-
-pylith.fields.subfields.basic#body_force:
-  name: body_force
-  scale: force
-  vector_field_type: vector
-
-pylith.fields.subfields.basic#gravitational_acceleration:
-  name: gravitational_acceleration
-  scale: acceleration
-  vector_field_type: vector
-
-pylith.fields.subfields.basic#shear_modulus:
-  name: shear_modulus
-  scale: rigidity
-  vector_field_type: scalar
-
-pylith.fields.subfields.basic#bulk_modulus:
-  name: bulk_modulus
-  scale: rigidity
-  vector_field_type: scalar
-
-# Default: Elasticity
-pylith.materials.elasticity:
-  auxiliary_subfields: pylith.fields.containers.elasticity_subfields
-
-# Want something like
-pylith.materials.elasticity_NOTES:
-  auxiliary_subfields:
-    density:
-      discretization:
-        basis_order: 0
-    body_force:
-      enabled: False
-    gravitational_acceleration:
-      enabled: False
-
-# -----------------------------------------------------------------------------
-# Auxiliary fields: bulk rheologies
+# Temporary
 # -----------------------------------------------------------------------------
 
-# Isotropic linear elasticity
-pylith.materials.elasticity_rheologies.isotropic_linear:
-  required:
-    - basic#shear_modulus
-    - basic#bulk_modulus
-  optional:
-    - group_list#reference_state_group
-
-pylith.fields.groups.group_list#reference_state_group:
-  enabled: False
-  subfields:
-    - basic#reference_stress
-    - basic#reference_strain
+pylith.app.problem.governing_eqn.solution: pylith.fields.solutions.elasticity_nofault
+# pylith.materials.fields.elasticity_auxiliary_subfields
+# pylith.materials.elasticity_rheologies.fields.isotropic_linear_auxiliary
+# pylith.materials.elasticity_rheologies.fields.isotropic_linear_derived

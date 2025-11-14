@@ -11,8 +11,6 @@ import pyre
 
 import pylith
 from pylith import journal
-from pylith import scales
-from pylith.utils import constraints
 
 from .Subfield import Subfield
 
@@ -22,20 +20,13 @@ from ..discretizations import discretization, petsc
 class SubfieldBasic(pyre.component, implements=Subfield, family="pylith.fields.subfields.basic"):
     """Subfield in PETSc field."""
 
-    # name = pylith.properties.str()
-    # name.validators = constraints.notEmptyString()
-    # name.doc = "Name of Subfield."
+    name = None
+    scale = None
+    vector_field_type = None
+    component_names = None
 
     alias = pylith.properties.str()
     alias.doc = "User preferred name of Subfield (used in output)."
-
-    # scale = pylith.properties.str()
-    # scale.validators = pyre.constraints.isMember(scales.string_list())
-    # scale.doc = "Scale for nondimensionalizing field."
-
-    # vector_field_type = pylith.properties.str(default="scalar")
-    # vector_field_type.validators = pyre.constraints.isMember("scalar", "vector", "tensor", "other")
-    # vector_field_type.doc = "Type of vector field."
 
     discretization = discretization(default=petsc)
     discretization.doc = "Discretization of subfield."
@@ -53,6 +44,7 @@ class SubfieldBasic(pyre.component, implements=Subfield, family="pylith.fields.s
                 f"alias={self.alias}",
                 f"scale={self.scale}",
                 f"vector field type={self.vector_field_type}",
+                f"components={self.component_names}",
                 f"discretization={self.discretization}",
             )
         )

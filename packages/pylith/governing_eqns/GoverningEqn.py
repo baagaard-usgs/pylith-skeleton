@@ -11,7 +11,7 @@ import pylith
 from pylith import journal
 
 from pylith.solvers import solver
-from pylith.fields import field
+from pylith.fields import solutions
 from pylith.boundary_conditions import boundary_condition
 from pylith.initial_conditions import initial_condition
 from pylith.observers import solution_domain
@@ -35,18 +35,15 @@ class GoverningEqnBase(pylith.component, implements=GoverningEqn):
     solver = solver()
     solver.doc = "Solver for elasticity equation."
 
-    solution = field()
+    solution = solutions.solution()
     solution.doc = "Solution field for elasticity equation."
 
-    # :TODO: Convert to dict or just use names?
     boundary_conditions = pylith.properties.list(schema=boundary_condition())
     boundary_conditions.doc = "Boundary conditions."
 
-    # :TODO: Convert to dict or just use names?
     initial_conditions = pylith.properties.list(schema=initial_condition())
     initial_conditions.doc = "Boundary conditions."
 
-    # :TODO: Convert to dict or just use names?
     observers = pylith.properties.list(schema=solution_domain())
     observers.doc = "Observers of solution to governing equation."
 

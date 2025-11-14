@@ -11,7 +11,7 @@ import pyre
 
 import pylith
 from pylith import journal
-from pylith.petsc.options import groups
+from pylith.petsc import options
 
 from .Solver import Solver
 
@@ -23,8 +23,7 @@ class SolverPetsc(pyre.component, implements=Solver, family="pylith.solvers.pets
     formulation.validators = pyre.constraints.isMember("implicit", "explicit", "implicit_explicit")
     formulation.doc = "Formulation for solver."
 
-    # :TODO: Convert to dict or just use names?
-    petsc_options = pylith.properties.list(schema=groups.group())
+    petsc_options = options.options(default=options.solver_sections)
     petsc_options.doc = "Groups of solver related PETSc options."
 
     def __init__(self, name, locator, implicit, **kwds):

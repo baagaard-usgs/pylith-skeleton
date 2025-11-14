@@ -13,28 +13,21 @@ import pylith
 from pylith import journal
 
 from .Options import Options
-from .groups import group
 
 
 class OptionsManager(pyre.component, implements=Options, family="pylith.petsc.options"):
     """PETSc options manager."""
 
-    # :TODO: Convert to dict or just use names?
-    groups = pylith.properties.list(schema=group())
-    groups.doc = "List of groups of PETSc options."
-
     def __init__(self, name, locator, implicit, **kwds):
         """Constructor."""
         super().__init__(name, locator, implicit, **kwds)
 
-        self.groups
-
         todo = journal.warning(":TODO:")
-        todo.report(
-            (
-                f"{self}",
-                "Implement OptionsManager.__init__(). Pass parameters to C++.",
-                f"groups={self.groups}",
-            )
-        )
+        lines = [
+            f"{self}",
+            "Implement OptionsManager.__init__(). Pass parameters to C++.",
+            "Option sections:",
+        ]
+        lines += [f"    {trait}" for trait in self.pyre_traits()]
+        todo.report(lines)
         todo.log()

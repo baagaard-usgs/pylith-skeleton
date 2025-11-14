@@ -30,7 +30,7 @@ class MeshInitializer(pylith.component, implements=Initializer, family="pylith.m
         lines = [
             f"{self}",
             "Implement MeshInitializer.__init__(). Pass parameters to C++.",
-            f"Phases={self.phases}",
+            "Phases:",
         ]
         lines += [f"   {phase}" for phase in self.phases]
         todo.report(lines)

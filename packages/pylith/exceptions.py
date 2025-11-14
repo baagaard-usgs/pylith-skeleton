@@ -7,3 +7,12 @@
 #
 # See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
+
+from pyre import PyreError
+
+
+# the base class for my exceptions
+class PyLithError(PyreError):
+    """
+    Base class for all qed errors
+    """

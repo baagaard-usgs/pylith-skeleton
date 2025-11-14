@@ -1,7 +1,7 @@
 import journal
 
 
-class Warning(journal.warning, active=True, fatal=False):
+class Warning(journal.warning):
     """Pylith warning journal."""
 
     def record(self):

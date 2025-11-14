@@ -1,7 +1,7 @@
 import journal
 
 
-class Debug(journal.debug, active=False, fatal=False):
+class Debug(journal.debug):
     """Pylith debug journal."""
 
     def record(self):

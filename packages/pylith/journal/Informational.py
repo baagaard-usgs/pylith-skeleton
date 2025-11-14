@@ -1,7 +1,7 @@
 import journal
 
 
-class Informational(journal.info, active=True, fatal=False):
+class Informational(journal.info):
     """Pylith info journal."""
 
     def record(self):

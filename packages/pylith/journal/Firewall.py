@@ -1,7 +1,7 @@
 import journal
 
 
-class Firewall(journal.firewall, active=True, fatal=True):
+class Firewall(journal.firewall):
     """Pylith firewall journal."""
 
     def record(self):

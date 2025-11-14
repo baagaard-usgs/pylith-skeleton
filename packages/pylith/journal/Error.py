@@ -1,7 +1,7 @@
 import journal
 
 
-class Error(journal.error, active=True, fatal=True):
+class Error(journal.error):
     """Pylith error journal."""
 
     def record(self):

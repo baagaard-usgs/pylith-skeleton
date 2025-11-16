@@ -43,60 +43,46 @@ pylith.app.petsc_options:
       - check_pointer_intensity, False
 
 # -----------------------------------------------------------------------------
-# Solver settings
+# General solver related settings
 # -----------------------------------------------------------------------------
 
-pylith.app.problem.governing_eqn.solver.petsc_options.initial_guess:
-  enabled: True
-  options:
-    - ksp_guess_type, pod
-    - ksp_guess_pod_size,  8
+pylith.app.problem.governing_eqn.solver.petsc_options:
+  initial_guess:
+    enabled: True
+    options:
+      - ksp_guess_type, pod
+      - ksp_guess_pod_size,  8
+  tolerances:
+    enabled: True
+    options:
+      - ksp_rtol, 1.0e-12
+      - ksp_atol, 1.0e-7
 
-pylith.app.problem.governing_eqn.solver.petsc_options.tolerances:
-  enabled: True
-  options:
-    - ksp_rtol, 1.0e-12
-    - ksp_atol, 1.0e-7
+      - snes_rtol, 5.0e-6
+      - snes_atol, 5.0e-2
+  adaptive_ts:
+    enabled: False
+    options:
+      - ts_adapt_type, basic
+      - ts_adapt_safety, 0.2
+      - ts_adapt_reject_safety, 0.1
+      - ts_atol, 0.05
+      - ts_rtol, 0.05
 
-    - snes_rtol, 5.0e-6
-    - snes_atol, 5.0e-2
+      - ts_adapt_monitor, true
+  monitoring:
+    enabled: False
+    options:
+      - ts_monitor
+      - ksp_monitor
+      - snes_monitor
 
-pylith.app.problem.governing_eqn.solver.petsc_options.adaptive_ts:
-  enabled: False
-  options:
-    - ts_adapt_type, basic
-    - ts_adapt_safety, 0.2
-    - ts_adapt_reject_safety, 0.1
-    - ts_atol, 0.05
-    - ts_rtol, 0.05
+      - ksp_converged_reason
+      - snes_converged_reason
 
-    - ts_adapt_monitor, true
-
-pylith.app.problem.governing_eqn.solver.petsc_options.monitoring:
-  enabled: False
-  options:
-    - ts_monitor
-    - ksp_monitor
-    - snes_monitor
-
-    - ksp_converged_reason
-    - snes_converged_reason
-
-    - ts_error_if_step_fails
-    - ksp_error_if_not_converged
-    - snes_error_if_not_converged
-
-# :QUESTION: I want to make these the default settings for the solver options
-# if the governing equation is elasticity.
-#pylith.app.problem.governing_eqn.solver.petsc_options.solver:
-pylith.petsc.options.group_list#solver_elasticity_nofault:
-  enabled: True
-  options:
-    - ts_type, beuler
-    - pc_type, gamg
-
-    - pc_gamg_coarse_eq_limit, 200
-    - mg_fine_ksp_max_it, 5
+      - ts_error_if_step_fails
+      - ksp_error_if_not_converged
+      - snes_error_if_not_converged
 
 # -----------------------------------------------------------------------------
 # Governing equations
@@ -111,12 +97,3 @@ pylith.governing_eqns.incompressible_elasticity.materials:
 
 pylith.governing_eqns.poroelasticity.materials:
   - poroelasticity#material
-# -----------------------------------------------------------------------------
-# Temporary
-# -----------------------------------------------------------------------------
-
-pylith.app.problem.governing_eqn.solution: pylith.fields.solutions.elasticity_nofault
-pylith.app.problem.governing_eqn.solver.petsc_options.solver: group_list#solver_elasticity_nofault
-# pylith.materials.fields.elasticity_auxiliary_subfields
-# pylith.materials.elasticity_rheologies.fields.isotropic_linear_auxiliary
-# pylith.materials.elasticity_rheologies.fields.isotropic_linear_derived

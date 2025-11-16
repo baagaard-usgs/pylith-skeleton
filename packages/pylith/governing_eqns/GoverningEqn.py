@@ -23,7 +23,7 @@ class GoverningEqn(pylith.protocol, family="pylith.governing_eqns"):
     @classmethod
     def pyre_default(cls, **kwds):
         """
-        The default {Defaults} implementation
+        The default {GoverningEqn} implementation
         """
         from .Elasticity import Elasticity
 

@@ -86,10 +86,10 @@ pylith.app.problem.governing_eqn.solver.petsc_options.monitoring:
     - ksp_error_if_not_converged
     - snes_error_if_not_converged
 
-# :QUESTION: I want to make these settings the defaults for solver options
+# :QUESTION: I want to make these the default settings for the solver options
 # if the governing equation is elasticity.
-pylith.app.problem.governing_eqn.solver.petsc_options.solver:
-  #pylith.governing_eqns.elasticity.solver.petsc_options.solver:
+#pylith.app.problem.governing_eqn.solver.petsc_options.solver:
+pylith.petsc.options.group_list#solver_elasticity_nofault:
   enabled: True
   options:
     - ts_type, beuler
@@ -116,6 +116,7 @@ pylith.governing_eqns.poroelasticity.materials:
 # -----------------------------------------------------------------------------
 
 pylith.app.problem.governing_eqn.solution: pylith.fields.solutions.elasticity_nofault
+pylith.app.problem.governing_eqn.solver.petsc_options.solver: group_list#solver_elasticity_nofault
 # pylith.materials.fields.elasticity_auxiliary_subfields
 # pylith.materials.elasticity_rheologies.fields.isotropic_linear_auxiliary
 # pylith.materials.elasticity_rheologies.fields.isotropic_linear_derived

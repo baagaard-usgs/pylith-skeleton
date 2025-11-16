@@ -10,18 +10,23 @@
 import pylith
 from pylith import journal
 from pylith import materials
-from pylith.interior_interfaces import interior_interface
+from pylith import interior_interfaces
 
 from .GoverningEqn import GoverningEqnBase
-
+import .solution_subfields
 
 class Elasticity(GoverningEqnBase, family="pylith.governing_eqns.elasticity"):
     """Elasticity governing equation."""
 
+    solution_subfields = solution_subfields.solution(default=solution_subfields.elasticity_nofault)
+    solution_subfields.doc = "Solution subfields for elasticity equation."
+
     materials = pylith.properties.list(schema=materials.material(default=materials.elasticity))
     materials.doc = "Materials in boundary value problem."
 
-    interior_interfaces = pylith.properties.list(schema=interior_interface())
+    interior_interfaces = pylith.properties.list(
+        schema=interior_interfaces.interior_interface(default=interior_interfaces.elasticity)
+    )
     interior_interfaces.doc = "Interior interfaces (faults) in boundary value problem."
 
     # - gravity_field
@@ -35,6 +40,7 @@ class Elasticity(GoverningEqnBase, family="pylith.governing_eqns.elasticity"):
             (
                 f"{self}",
                 "Implement Elasticity.__init__(). Pass parameters to C++.",
+                f"solution subfields={self.solution.subfields}",
                 f"materials={self.materials}",
                 f"interior interfaces={self.interior_interfaces}",
             )

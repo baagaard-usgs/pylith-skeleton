@@ -33,10 +33,7 @@ class GoverningEqn(pylith.protocol, family="pylith.governing_eqns"):
 class GoverningEqnBase(pylith.component, implements=GoverningEqn):
 
     solver = solver()
-    solver.doc = "Solver for elasticity equation."
-
-    solution = solutions.solution()
-    solution.doc = "Solution field for elasticity equation."
+    solver.doc = "Solver for governing equation."
 
     boundary_conditions = pylith.properties.list(schema=boundary_condition())
     boundary_conditions.doc = "Boundary conditions."
@@ -57,7 +54,6 @@ class GoverningEqnBase(pylith.component, implements=GoverningEqn):
                 f"{self}",
                 "Implement GoverningEqn.__init__(). Pass parameters to C++.",
                 f"solver={self.solver}",
-                f"solution={self.solution}",
                 f"boundary conditions={self.boundary_conditions}",
                 f"initial conditions={self.initial_conditions}",
                 f"observers={self.observers}",

@@ -7,17 +7,22 @@
 #
 # See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
-import pyre
-
 import pylith
+
 from pylith import journal
-from pylith.utils import constraints
 
-from .Field import Field
+from pylith.fields import Field, subfields
 
 
-class FieldBasic(pyre.component, implements=Field, family="pylith.fields.basic"):
-    """Basic Field."""
+class DerivedSubfields(
+    pylith.component, implements=Field, family="pylith.materials.elastic_rheologies.derived_subfields.isotropic_linear"
+):
+
+    cauchy_stress = subfields.subfield(default=subfields.cauchy_stress_optional)
+    cauchy_stress.doc = "Cauchy stress (optional)."
+
+    cauchy_strain = subfields.subfield(default=subfields.cauchy_strain_optional)
+    cauchy_strain.doc = "Cauchy strain (optional)."
 
     def __init__(self, name, locator, implicit, **kwds):
         """Constructor."""
@@ -26,9 +31,10 @@ class FieldBasic(pyre.component, implements=Field, family="pylith.fields.basic")
         todo = journal.warning(":TODO:")
         todo.report(
             (
-                f"{self}",
-                "Implement FieldBasic.__init__(). Pass parameters to C++.",
-                f"subfields={self.subfields}",
+                f"{self.pyre_name}",
+                "Implement IsotropicLinear.__init__(). Pass parameters to C++.",
+                f"{self.cauchy_stress}",
+                f"{self.cauchy_strain}",
             )
         )
         todo.log()

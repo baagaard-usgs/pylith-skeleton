@@ -8,13 +8,27 @@
 # See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
 import pylith
+
 from pylith import journal
 
-from .Solution import Solution
+from pylith.fields import Field, subfields
 
 
-class SolutionBasic(pylith.component, implements=Solution, family="pylith.fields.solutions.basic"):
-    """Generic container for solution subfields."""
+class Elasticity(
+    pylith.component,
+    implements=Field,
+    family="pylith.materials.auxiliary_subfields.elasticity",
+):
+    """Auxiliary subfields for elasticity."""
+
+    density = subfields.subfield(default=subfields.density)
+    density.doc = "Mass density."
+
+    body_force = subfields.subfield(default=subfields.body_force_optional)
+    body_force.doc = "Body force (optional)."
+
+    gravitational_acceleration = subfields.subfield(default=subfields.gravitational_acceleration_optional)
+    gravitational_acceleration.doc = "Gravitational acceleration (optional)."
 
     def __init__(self, name, locator, implicit, **kwds):
         """Constructor."""
@@ -24,7 +38,10 @@ class SolutionBasic(pylith.component, implements=Solution, family="pylith.fields
         todo.report(
             (
                 f"{self}",
-                "Implement SolutionBasic.__init__(). Pass parameters to C++.",
+                "Implement IsotropicLinear.__init__(). Pass parameters to C++.",
+                f"{self.density}",
+                f"{self.body_force}",
+                f"{self.gravitational_acceleration}",
             )
         )
         todo.log()

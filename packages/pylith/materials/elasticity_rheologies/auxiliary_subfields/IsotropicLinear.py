@@ -7,17 +7,25 @@
 #
 # See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
-import pyre
-
 import pylith
+
 from pylith import journal
-from pylith.utils import constraints
 
-from .Field import Field
+from pylith.fields import Field, subfields
 
 
-class FieldBasic(pyre.component, implements=Field, family="pylith.fields.basic"):
-    """Basic Field."""
+class AuxiliarySubfields(
+    pylith.component,
+    implements=Field,
+    family="pylith.materials.elastic_rheologies.auxiliary_subfields.isotropic_linear",
+):
+    """Auxiliary subfields for isotropic linear bulk rheology."""
+
+    shear_modulus = subfields.subfield(default=subfields.shear_modulus)
+    shear_modulus.doc = "Shear modulus."
+
+    bulk_modulus = subfields.subfield(default=subfields.shear_modulus)
+    bulk_modulus.doc = "Shear modulus."
 
     def __init__(self, name, locator, implicit, **kwds):
         """Constructor."""
@@ -27,8 +35,9 @@ class FieldBasic(pyre.component, implements=Field, family="pylith.fields.basic")
         todo.report(
             (
                 f"{self}",
-                "Implement FieldBasic.__init__(). Pass parameters to C++.",
-                f"subfields={self.subfields}",
+                "Implement IsotropicLinear.__init__(). Pass parameters to C++.",
+                f"{self.shear_modulus}",
+                f"{self.bulk_modulus}",
             )
         )
         todo.log()

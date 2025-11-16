@@ -10,5 +10,5 @@
 import pylith
 
 
-class Solution(pylith.protocol, family="pylith.fields.solutions"):
+class Solution(pylith.protocol, family="pylith.governing_eqns.solutions"):
     """Protocol declarator for Solution." """

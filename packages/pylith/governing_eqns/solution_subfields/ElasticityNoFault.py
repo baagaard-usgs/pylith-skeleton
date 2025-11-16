@@ -8,25 +8,24 @@
 # See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
 import pylith
+
 from pylith import journal
 
-from .Container import Container
-from .. import subfields
+from pylith.fields import subfields
+
+from .Solution import Solution
 
 
-class ElasticitySubfields(
-    pylith.component, implements=Container, family="pylith.fields.containers.elasticity_subfields"
+class ElasticityNoFault(
+    pylith.component, implements=Solution, family="pylith.governing_eqns.solutions.elasticity_fault"
 ):
-    """Elasticity subfields."""
+    """Solution subfields for elasticity equation without a fault."""
 
-    density = subfields.density()
-    density.doc = "Density subfield."
+    displacement = subfields.subfield(default=subfields.displacement)
+    displacement.doc = "Displacment subfield."
 
-    body_force = subfields.body_force_optional()
-    body_force.doc = "Body force (optional)."
-
-    gravitational_acceleration = subfields.gravity_optional()
-    gravitational_acceleration.doc = "Gravitational acceleration (optional)."
+    velocity = subfields.subfield(default=subfields.velocity)
+    velocity.doc = "Velocity subfield."
 
     def __init__(self, name, locator, implicit, **kwds):
         """Constructor."""
@@ -36,10 +35,10 @@ class ElasticitySubfields(
         todo.report(
             (
                 f"{self}",
-                "Implement Elasticity.__init__(). Pass parameters to C++.",
-                f"density={self.density}",
-                f"body force={self.body_force}",
-                f"gravitational acceleration={self.gravitational_acceleration}",
+                "Implement ElasticityFault.__init__(). Pass parameters to C++.",
+                f"displacement={self.displacement}",
+                f"velocity={self.velocity}",
+                f"Lagrange multiplier fault={self.lagrange_multiplier_fault}",
             )
         )
         todo.log()

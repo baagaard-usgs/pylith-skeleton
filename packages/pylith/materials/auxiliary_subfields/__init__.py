@@ -7,8 +7,4 @@
 #
 # See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
-import pylith
-
-
-class Container(pylith.protocol, family="pylith.fields.containers"):
-    """Protocol declarator for a container of subfields." """
+from .Elasticity import Elasticity as elasticity

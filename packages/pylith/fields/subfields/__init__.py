@@ -41,11 +41,14 @@ pressure = subfield_class(name="pressure", scale="stress", vector_field_type="sc
 fluid_pressure = subfield_class(name="fluid_pressure", scale="stress", vector_field_type="scalar")
 trace_strain = subfield_class(name="trace_strain", scale="strain", vector_field_type="scalar")
 
-# Material subfields
+# Governing equation and material subfields
 density = subfield_class(name="density", scale="density", vector_field_type="scalar")
 shear_modulus = subfield_class(name="shear_modulus", scale="rigidity", vector_field_type="scalar")
 bulk_modulus = subfield_class(name="bulk_modulus", scale="rigidity", vector_field_type="scalar")
 body_force = subfield_class(name="body_force", scale="body_force", vector_field_type="vector")
+gravitational_acceleration = subfield_class(
+    name="gravitational_acceleration", scale="acceleration", vector_field_type="vector"
+)
 
 cauchy_stress = subfield_class(name="cauchy_stress", scale="stress", vector_field_type="tensor")
 cauchy_strain = subfield_class(name="cauchy_strain", scale="strain", vector_field_type="tensor")

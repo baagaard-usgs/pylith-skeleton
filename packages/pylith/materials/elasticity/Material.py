@@ -7,25 +7,22 @@
 #
 # See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
-import pylith
-
 from pylith import journal
 
-from pylith.fields import Field, subfields
+from ... import fields
+from ..MaterialBase import MaterialBase
+from .BulkRheology import BulkRheology as bulk_rheology
+from . import isotropic_linear
 
 
-class AuxiliarySubfields(
-    pylith.component,
-    implements=Field,
-    family="pylith.materials.elastic_rheologies.auxiliary_subfields.isotropic_linear",
-):
-    """Auxiliary subfields for isotropic linear bulk rheology."""
+class Material(MaterialBase, family="pylith.materials.elasticity"):
+    """Elasticity material behavior."""
 
-    shear_modulus = subfields.subfield(default=subfields.shear_modulus)
-    shear_modulus.doc = "Shear modulus."
+    rheology = bulk_rheology(default=isotropic_linear.bulk_rheology)
+    rheology.doc = "Bulk rheology for elastic material."
 
-    bulk_modulus = subfields.subfield(default=subfields.shear_modulus)
-    bulk_modulus.doc = "Shear modulus."
+    auxiliary_subfields = fields.field(default=isotropic_linear.auxiliary_subfields)
+    auxiliary_subfields.doc = "Rheology-specific material parameters."
 
     def __init__(self, name, locator, implicit, **kwds):
         """Constructor."""
@@ -35,9 +32,9 @@ class AuxiliarySubfields(
         todo.report(
             (
                 f"{self}",
-                "Implement IsotropicLinear.__init__(). Pass parameters to C++.",
-                f"{self.shear_modulus}",
-                f"{self.bulk_modulus}",
+                f"Implement {__class__}.__init__(). Pass parameters to C++.",
+                f"rheology={self.rheology}",
+                f"auxiliary subfields={self.auxiliary_subfields}",
             )
         )
         todo.log()

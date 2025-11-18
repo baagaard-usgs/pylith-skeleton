@@ -11,7 +11,6 @@ import pyre
 
 import pylith
 from pylith import journal
-from pylith.utils import constraints
 
 from .Field import Field
 from .subfields import subfield

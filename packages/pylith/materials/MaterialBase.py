@@ -9,23 +9,22 @@
 # =================================================================================================
 import pylith
 
-from pylith import journal
+from .. import journal
+from .. import observers
 
-from pylith.fields import subfields
-
-from .Solution import Solution
+from .Material import Material
 
 
-class ElasticityNoFault(
-    pylith.component, implements=Solution, family="pylith.governing_eqns.solutions.elasticity_nofault"
-):
-    """Solution subfields for elasticity equation without a fault."""
+class MaterialBase(pylith.component, implements=Material):
 
-    displacement = subfields.subfield(default=subfields.displacement)
-    displacement.doc = "Displacment subfield."
+    label_name = pylith.properties.str(default=None)
+    label_name.doc = "Name of label identifying boundary ()name of physical group in Gmsh files."
 
-    velocity = subfields.subfield(default=subfields.velocity)
-    velocity.doc = "Velocity subfield."
+    label_value = pylith.properties.int(default=1)
+    label_value.doc = "Value of label identifying boundary (tag of physical group in Gmsh files)."
+
+    observers = pylith.properties.list(schema=observers.observer(default=observers.output_physics))
+    observers.doc = "Observer of material state."
 
     def __init__(self, name, locator, implicit, **kwds):
         """Constructor."""
@@ -35,9 +34,10 @@ class ElasticityNoFault(
         todo.report(
             (
                 f"{self}",
-                "Implement ElasticityFault.__init__(). Pass parameters to C++.",
-                f"displacement={self.displacement}",
-                f"velocity={self.velocity}",
+                "Implement MaterialBase.__init__(). Pass parameters to C++.",
+                f"label name={self.label_name}",
+                f"label value={self.label_value}",
+                f"observers={self.observers}",
             )
         )
         todo.log()

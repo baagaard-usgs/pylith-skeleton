@@ -9,24 +9,24 @@
 # =================================================================================================
 import pylith
 
-from pylith import journal
+from .... import journal
 
-from .BulkRheology import BulkRheology
-from ... import fields
-from . import auxiliary_subfields
-from . import derived_subfields
+from ..BulkRheology import BulkRheology as ElasticityRheology
+from .... import fields
+from .AuxiliarySubfields import AuxiliarySubfields as auxiliary_subfields
+from .DerivedSubfields import DerivedSubfields as derived_subfields
 
 
-class IsotropicLinear(
-    pylith.component, implements=BulkRheology, family="pylith.materials.elasticity_rheologies.isotropic_linear"
+class BulkRheology(
+    pylith.component, implements=ElasticityRheology, family="pylith.materials.elasticity_rheologies.isotropic_linear"
 ):
     """Isostropic linear bulk rheology for elasticity."""
 
-    auxiliary_subfields = fields.field(default=auxiliary_subfields.isotropic_linear)
-    auxiliary_subfields.doc = "Rheologic-specific material parameters."
+    auxiliary_subfields = fields.field(default=auxiliary_subfields)
+    auxiliary_subfields.doc = "Rheology-specific material parameters."
 
-    derived_subfields = fields.field(default=derived_subfields.isotropic_linear)
-    derived_subfields.doc = "Rheologic-specific output subfields derived from solution and bulk rheology."
+    derived_subfields = fields.field(default=derived_subfields)
+    derived_subfields.doc = "Rheology-specific output subfields derived from solution and bulk rheology."
 
     def __init__(self, name, locator, implicit, **kwds):
         """Constructor."""
@@ -36,7 +36,7 @@ class IsotropicLinear(
         todo.report(
             (
                 f"{self.pyre_name}",
-                "Implement IsotropicLinear.__init__(). Pass parameters to C++.",
+                f"Implement {__class__}.__init__(). Pass parameters to C++.",
                 f"{self.auxiliary_subfields}",
                 f"{self.derived_subfields}",
             )

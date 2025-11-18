@@ -9,15 +9,11 @@
 # =================================================================================================
 from pylith import journal
 
-from .Material import MaterialBase
-from .elasticity_rheologies import bulk_rheology
+from ...solvers import SolverPetsc
 
 
-class Elasticity(MaterialBase, family="pylith.materials.elasticity"):
-    """Elasticity material behavior."""
-
-    rheology = bulk_rheology()
-    rheology.doc = "Bulk rheology for elastic material."
+class Elasticity(SolverPetsc, family="pylith.governing_eqns.solvers.elasticity_nofault"):
+    """Solver for elasticity governing equation without a fault."""
 
     def __init__(self, name, locator, implicit, **kwds):
         """Constructor."""
@@ -27,8 +23,7 @@ class Elasticity(MaterialBase, family="pylith.materials.elasticity"):
         todo.report(
             (
                 f"{self}",
-                "Implement Elasticity.__init__(). Pass parameters to C++.",
-                f"rheology={self.rheology}",
+                "Implement ElasticityNoFault.__init__(). Pass parameters to C++.",
             )
         )
         todo.log()

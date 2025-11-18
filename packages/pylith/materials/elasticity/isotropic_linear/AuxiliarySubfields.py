@@ -9,26 +9,23 @@
 # =================================================================================================
 import pylith
 
-from pylith import journal
+from .... import journal
 
-from pylith.fields import Field, subfields
+from ....fields import field, subfields
 
 
-class Elasticity(
+class AuxiliarySubfields(
     pylith.component,
-    implements=Field,
-    family="pylith.materials.auxiliary_subfields.elasticity",
+    implements=field,
+    family="pylith.materials.elasticity.isotropic_linear.auxiliary_subfields",
 ):
-    """Auxiliary subfields for elasticity."""
+    """Auxiliary subfields for isotropic linear bulk rheology."""
 
-    density = subfields.subfield(default=subfields.density)
-    density.doc = "Mass density."
+    shear_modulus = subfields.subfield(default=subfields.shear_modulus)
+    shear_modulus.doc = "Shear modulus."
 
-    body_force = subfields.subfield(default=subfields.body_force_optional)
-    body_force.doc = "Body force (optional)."
-
-    gravitational_acceleration = subfields.subfield(default=subfields.gravitational_acceleration_optional)
-    gravitational_acceleration.doc = "Gravitational acceleration (optional)."
+    bulk_modulus = subfields.subfield(default=subfields.bulk_modulus)
+    bulk_modulus.doc = "Bulk modulus."
 
     def __init__(self, name, locator, implicit, **kwds):
         """Constructor."""
@@ -39,9 +36,8 @@ class Elasticity(
             (
                 f"{self}",
                 "Implement IsotropicLinear.__init__(). Pass parameters to C++.",
-                f"{self.density}",
-                f"{self.body_force}",
-                f"{self.gravitational_acceleration}",
+                f"{self.shear_modulus}",
+                f"{self.bulk_modulus}",
             )
         )
         todo.log()

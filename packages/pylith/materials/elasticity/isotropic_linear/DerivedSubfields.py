@@ -9,20 +9,20 @@
 # =================================================================================================
 import pylith
 
-from pylith import journal
+from .... import journal
 
-from pylith.fields import Field, subfields
+from ....fields import field, subfields
 
 
 class DerivedSubfields(
-    pylith.component, implements=Field, family="pylith.materials.elastic_rheologies.derived_subfields.isotropic_linear"
+    pylith.component, implements=field, family="pylith.materials.elasticity.isotropic_linear.derived_subfields"
 ):
 
-    cauchy_stress = subfields.subfield(default=subfields.cauchy_stress_optional)
-    cauchy_stress.doc = "Cauchy stress (optional)."
+    # cauchy_stress = subfields.subfield(default=subfields.cauchy_stress_optional)
+    # cauchy_stress.doc = "Cauchy stress (optional)."
 
-    cauchy_strain = subfields.subfield(default=subfields.cauchy_strain_optional)
-    cauchy_strain.doc = "Cauchy strain (optional)."
+    # cauchy_strain = subfields.subfield(default=subfields.cauchy_strain_optional)
+    # cauchy_strain.doc = "Cauchy strain (optional)."
 
     def __init__(self, name, locator, implicit, **kwds):
         """Constructor."""
@@ -32,9 +32,9 @@ class DerivedSubfields(
         todo.report(
             (
                 f"{self.pyre_name}",
-                "Implement IsotropicLinear.__init__(). Pass parameters to C++.",
-                f"{self.cauchy_stress}",
-                f"{self.cauchy_strain}",
+                f"Implement {__class__}.__init__(). Pass parameters to C++.",
+                # f"{self.cauchy_stress}",
+                # f"{self.cauchy_strain}",
             )
         )
         todo.log()

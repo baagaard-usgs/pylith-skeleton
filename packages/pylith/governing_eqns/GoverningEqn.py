@@ -11,7 +11,6 @@ import pylith
 from pylith import journal
 
 from pylith.solvers import solver
-from pylith.fields import solutions
 from pylith.boundary_conditions import boundary_condition
 from pylith.initial_conditions import initial_condition
 from pylith.observers import solution_domain

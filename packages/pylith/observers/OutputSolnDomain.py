@@ -7,8 +7,7 @@
 #
 # See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
-from pylith import journal
-
+import pylith
 
 from .OutputObserver import OutputObserver
 
@@ -20,7 +19,7 @@ class OutputSolnDomain(OutputObserver, family="pylith.observers.solution_domain"
         """Constructor."""
         super().__init__(name, locator, implicit, **kwds)
 
-        todo = journal.warning(":TODO:")
+        todo = pylith.journal.warning(":TODO:")
         todo.report(
             (
                 f"{self}",

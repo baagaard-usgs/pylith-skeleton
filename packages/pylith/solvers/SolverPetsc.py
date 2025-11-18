@@ -10,13 +10,13 @@
 import pyre
 
 import pylith
-from pylith import journal
-from pylith.petsc import options
+
+from ..petsc import options
 
 from .Solver import Solver
 
 
-class SolverPetsc(pyre.component, implements=Solver, family="pylith.solvers.petsc"):
+class SolverPetsc(pylith.component, implements=Solver, family="pylith.solvers.petsc"):
     """PETSc solver."""
 
     formulation = pylith.properties.str(default="implicit")
@@ -30,7 +30,7 @@ class SolverPetsc(pyre.component, implements=Solver, family="pylith.solvers.pets
         """Constructor."""
         super().__init__(name, locator, implicit, **kwds)
 
-        todo = journal.warning(":TODO:")
+        todo = pylith.journal.warning(":TODO:")
         todo.report(
             (
                 f"{self}",

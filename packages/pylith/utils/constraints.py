@@ -10,13 +10,5 @@
 """Additional constraints for validating parameters."""
 
 
-def notEmptyString(*constraints):
-    return
-
-
-def notEmptyList(*constraints):
-    return
-
-
 def unitVector(*constraints):
     return

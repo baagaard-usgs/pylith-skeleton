@@ -8,12 +8,11 @@
 # See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
 import pylith
-from pylith import journal
 
-from pylith.solvers import solver
-from pylith.boundary_conditions import boundary_condition
-from pylith.initial_conditions import initial_condition
-from pylith.observers import solution_domain
+from ..solvers import solver
+from ..boundary_conditions import boundary_condition
+from ..initial_conditions import initial_condition
+from ..observers import solution_domain
 
 
 class GoverningEqn(pylith.protocol, family="pylith.governing_eqns"):
@@ -47,7 +46,7 @@ class GoverningEqnBase(pylith.component, implements=GoverningEqn):
         """Constructor."""
         super().__init__(name, locator, implicit, **kwds)
 
-        todo = journal.warning(":TODO:")
+        todo = pylith.journal.warning(":TODO:")
         todo.report(
             (
                 f"{self}",

@@ -8,9 +8,6 @@
 # See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
 import pylith
-from pylith import journal
-
-from pylith.utils import constraints
 
 
 class BoundaryCondition(pylith.protocol, family="pylith.boundary_conditions"):
@@ -30,8 +27,7 @@ class BoundaryConditionBase(pylith.component, implements=BoundaryCondition):
     field = pylith.properties.str(default="displacement")
     field.doc = "Solution subfield associated with boundary condition."
 
-    label_name = pylith.properties.str()
-    label_name.validators = constraints.notEmptyString()
+    label_name = pylith.properties.str(default=None)
     label_name.doc = "Name of label identifying boundary ()name of physical group in Gmsh files."
 
     label_value = pylith.properties.int(default=1)
@@ -41,7 +37,7 @@ class BoundaryConditionBase(pylith.component, implements=BoundaryCondition):
         """Constructor."""
         super().__init__(name, locator, implicit, **kwds)
 
-        todo = journal.warning(":TODO:")
+        todo = pylith.journal.warning(":TODO:")
         todo.report(
             (
                 "Implement BoundaryCondition.__init__(). Pass parameters to C++.",

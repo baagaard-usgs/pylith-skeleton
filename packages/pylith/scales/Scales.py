@@ -8,7 +8,6 @@
 # See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
 import pylith
-from pylith import journal
 
 
 class Scales(pylith.protocol, family="pylith.scales"):
@@ -33,15 +32,15 @@ class ScalesBase(pylith.component, implements=Scales):
         """Constructor."""
         super().__init__(name, locator, implicit, **kwds)
         # self.cxx = CxxScales()
-        channel = journal.warning(":TODO:")
-        channel.log("Implement Scales.__init__().")
+        todo = pylith.journal.warning(":TODO:")
+        todo.log("Implement Scales.__init__().")
 
     def setLengthScale(self, length):
         """
         Set length scale.
         """
         # self.cxx.setLengthScale(length.value)
-        todo = journal.warning(":TODO:")
+        todo = pylith.journal.warning(":TODO:")
         todo.report(("Implement Scales.setLengthScale()", f"length scale={length}"))
         todo.log()
 
@@ -58,7 +57,7 @@ class ScalesBase(pylith.component, implements=Scales):
         Set displacement scale.
         """
         # self.cxx.setDisplacementScale(displacement.value)
-        todo = journal.warning(":TODO:")
+        todo = pylith.journal.warning(":TODO:")
         todo.report(("Implement Scales.setDisplacementScale()", f"displacement scale={displacement}"))
         todo.log()
 
@@ -75,7 +74,7 @@ class ScalesBase(pylith.component, implements=Scales):
         Set pressure scale.
         """
         # self.cxx.setRigidityScale(rigidity.value)
-        todo = journal.warning(":TODO:")
+        todo = pylith.journal.warning(":TODO:")
         todo.report(("Implement Scales.setRigidityScale()", f"rigidity scale={rigidity}"))
         todo.log()
 
@@ -92,7 +91,7 @@ class ScalesBase(pylith.component, implements=Scales):
         Get time scale.
         """
         # self.cxx.setTimeScale(time.value)
-        todo = journal.warning(":TODO:")
+        todo = pylith.journal.warning(":TODO:")
         todo.report(("Implement Scales.setTimeScale()", f"displacement scale={time}"))
         todo.log()
 

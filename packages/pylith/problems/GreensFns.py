@@ -7,8 +7,9 @@
 #
 # See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
-from pylith import journal
-from pylith import monitors
+import pylith
+
+from .. import monitors
 
 from .Problem import ProblemBase
 
@@ -30,14 +31,12 @@ class GreensFns(
         # self.cxx = CxxTimeDependent()
         super().__init__(name, locator, implicit, **kwds)
 
-        self.progress_monitor
-
-        channel = journal.warning(":TODO:")
-        channel.report(
+        todo = pylith.journal.warning(":TODO:")
+        todo.report(
             (
                 f"{self}",
                 "Implement GreensFns.__init__(). Pass parameters to C++.",
                 f"progress monitor={self.progress_monitor}",
             )
         )
-        channel.log()
+        todo.log()

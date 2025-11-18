@@ -9,9 +9,8 @@
 # =================================================================================================
 import pylith
 
-from pylith import journal
 
-from pylith.fields import subfields
+from ...fields import subfields
 
 from .Solution import Solution
 
@@ -32,7 +31,7 @@ class ElasticityFault(pylith.component, implements=Solution, family="pylith.gove
         """Constructor."""
         super().__init__(name, locator, implicit, **kwds)
 
-        todo = journal.warning(":TODO:")
+        todo = pylith.journal.warning(":TODO:")
         todo.report(
             (
                 f"{self}",

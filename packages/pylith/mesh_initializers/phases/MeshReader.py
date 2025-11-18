@@ -9,9 +9,8 @@
 # =================================================================================================
 
 import pylith
-from pylith import journal
 
-from pylith import mesh_io
+from ... import mesh_io
 from .InitializePhase import InitializePhase
 
 
@@ -24,7 +23,7 @@ class MeshReader(pylith.component, implements=InitializePhase, family="pylith.me
         """Constructor."""
         super().__init__(name, locator, implicit, **kwds)
 
-        todo = journal.warning(":TODO:")
+        todo = pylith.journal.warning(":TODO:")
         todo.report(
             (
                 f"{self}",

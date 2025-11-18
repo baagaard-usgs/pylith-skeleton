@@ -10,7 +10,6 @@
 import pyre
 
 import pylith
-from pylith import journal
 
 from .Distributor import Distributor
 
@@ -36,7 +35,7 @@ class DistributorPetsc(pylith.component, implements=Distributor, family="pylith.
         """Constructor."""
         super().__init__(name, locator, implicit, **kwds)
 
-        todo = journal.warning(":TODO:")
+        todo = pylith.journal.warning(":TODO:")
         todo.report(
             (
                 f"{self}",

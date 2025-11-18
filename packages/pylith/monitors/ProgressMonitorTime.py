@@ -11,7 +11,6 @@ import pyre
 from pyre.units.time import year
 
 import pylith
-from pylith import journal
 
 from .ProgressMonitor import ProgressMonitorBase
 
@@ -27,7 +26,7 @@ class ProgressMonitorTime(ProgressMonitorBase, family="pylith.monitors.progress_
         """Constructor."""
         super().__init__(name, locator, implicit, **kwds)
 
-        todo = journal.warning(":TODO:")
+        todo = pylith.journal.warning(":TODO:")
         todo.report(
             (
                 f"{self}",

@@ -11,7 +11,6 @@ import pyre
 from pyre.units.time import year
 
 import pylith
-from pylith import journal
 
 from .OutputTrigger import OutputTrigger
 
@@ -27,7 +26,7 @@ class OutputTriggerTime(pyre.component, implements=OutputTrigger, family="pylith
         """Constructor."""
         super().__init__(name, locator, implicit, **kwds)
 
-        todo = journal.warning(":TODO:")
+        todo = pylith.journal.warning(":TODO:")
         todo.report(
             (
                 f"{self}",

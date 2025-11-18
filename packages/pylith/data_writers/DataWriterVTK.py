@@ -12,7 +12,6 @@ from pyre.units.time import second
 
 
 import pylith
-from pylith import journal
 
 from .DataWriter import DataWriterBase
 
@@ -38,7 +37,7 @@ class DataWriterVTK(DataWriterBase, family="pylith.data_writers.vtk"):
         """Constructor."""
         super().__init__(name, locator, implicit, **kwds)
 
-        todo = journal.debug(":TODO:")
+        todo = pylith.journal.debug(":TODO:")
         todo.log("Implement DataWriterVTK time_history attribute. Requires spatialdata.")
         todo.log("Implement DataWriterVTK.__init__(). Pass parameters to C++.")
 
@@ -49,7 +48,7 @@ class DataWriterVTK(DataWriterBase, family="pylith.data_writers.vtk"):
         filename = self.filename or DataWriterBase.makeFilename(outputDir, simName, label, "vtk")
         DataWriterBase.makePath(filename)
 
-        todo = journal.debug(":TODO:")
+        todo = pylith.journal.debug(":TODO:")
         todo.log(
             (
                 f"{self}",

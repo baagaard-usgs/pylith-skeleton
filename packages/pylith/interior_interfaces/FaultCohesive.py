@@ -8,9 +8,8 @@
 # See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
 import pylith
-from pylith import journal
 
-from pylith.utils import constraints
+from ..utils import constraints
 
 from .InteriorInterface import InteriorInterface
 
@@ -18,8 +17,7 @@ from .InteriorInterface import InteriorInterface
 class FaultCohesive(pylith.component, implements=InteriorInterface):
     """Abstract base class for faults implemented with cohesive cells."""
 
-    label_name = pylith.properties.str()
-    label_name.validators = constraints.notEmptyString()
+    label_name = pylith.properties.str(default=None)
     label_name.doc = "Name of label identifying boundary ()name of physical group in Gmsh files."
 
     label_value = pylith.properties.int(default=1)
@@ -43,7 +41,7 @@ class FaultCohesive(pylith.component, implements=InteriorInterface):
         """Constructor."""
         super().__init__(name, locator, implicit, **kwds)
 
-        todo = journal.warning(":TODO:")
+        todo = pylith.journal.warning(":TODO:")
         todo.report(
             (
                 f"{self}",

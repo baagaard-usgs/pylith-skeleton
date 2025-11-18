@@ -9,7 +9,6 @@
 # =================================================================================================
 import pylith
 
-from ... import journal
 from ...fields import field, subfields
 
 
@@ -21,7 +20,7 @@ class AuxiliarySubfields(
     implements=field,
     family="pylith.materials.elasticity_rheologies.isotropic_linear.auxiliary_subfields",
 ):
-    """Auxiliary subfields for isotropic linear bulk rheology."""
+    """Auxiliary subfields for the isotropic linear bulk rheology."""
 
     shear_modulus = subfields.subfield(default=subfields.shear_modulus)
     shear_modulus.doc = "Shear modulus."
@@ -33,7 +32,7 @@ class AuxiliarySubfields(
         """Constructor."""
         super().__init__(name, locator, implicit, **kwds)
 
-        todo = journal.warning(":TODO:")
+        todo = pylith.journal.warning(":TODO:")
         todo.report(
             (
                 f"{self}",
@@ -50,6 +49,7 @@ class DerivedSubfields(
     implements=field,
     family="pylith.materials.elasticity_rheologies.isotropic_linear.derived_subfields",
 ):
+    """Derived subfields for the isotropic linear bulk rheology."""
 
     # cauchy_stress = subfields.subfield(default=subfields.cauchy_stress_optional)
     # cauchy_stress.doc = "Cauchy stress (optional)."
@@ -61,7 +61,7 @@ class DerivedSubfields(
         """Constructor."""
         super().__init__(name, locator, implicit, **kwds)
 
-        todo = journal.warning(":TODO:")
+        todo = pylith.journal.warning(":TODO:")
         todo.report(
             (
                 f"{self.pyre_name}",
@@ -88,7 +88,7 @@ class IsotropicLinear(
         """Constructor."""
         super().__init__(name, locator, implicit, **kwds)
 
-        todo = journal.warning(":TODO:")
+        todo = pylith.journal.warning(":TODO:")
         todo.report(
             (
                 f"{self.pyre_name}",

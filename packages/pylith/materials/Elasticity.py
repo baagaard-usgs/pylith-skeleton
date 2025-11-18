@@ -9,7 +9,6 @@
 # =================================================================================================
 import pylith
 
-from .. import journal
 from ..fields import field, subfields
 
 from .Material import MaterialBase
@@ -36,7 +35,7 @@ class AuxiliarySubfields(
         """Constructor."""
         super().__init__(name, locator, implicit, **kwds)
 
-        todo = journal.warning(":TODO:")
+        todo = pylith.journal.warning(":TODO:")
         todo.report(
             (
                 f"{self}",
@@ -62,7 +61,7 @@ class Elasticity(MaterialBase, family="pylith.materials.elasticity"):
         """Constructor."""
         super().__init__(name, locator, implicit, **kwds)
 
-        todo = journal.warning(":TODO:")
+        todo = pylith.journal.warning(":TODO:")
         todo.report(
             (
                 f"{self}",

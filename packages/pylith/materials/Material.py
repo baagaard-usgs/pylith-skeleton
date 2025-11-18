@@ -9,7 +9,6 @@
 # =================================================================================================
 import pylith
 
-from .. import journal
 from .. import observers
 
 
@@ -19,9 +18,9 @@ class Material(pylith.protocol, family="pylith.materials"):
     @classmethod
     def pyre_default(cls, **kwds):
         """The default {Material} implementation"""
-        from .elasticity import material
+        from .Elasticity import Elasticity
 
-        return material
+        return Elasticity
 
 
 class MaterialBase(pylith.component, implements=Material):
@@ -39,7 +38,7 @@ class MaterialBase(pylith.component, implements=Material):
         """Constructor."""
         super().__init__(name, locator, implicit, **kwds)
 
-        todo = journal.warning(":TODO:")
+        todo = pylith.journal.warning(":TODO:")
         todo.report(
             (
                 f"{self}",

@@ -10,7 +10,6 @@
 import pyre
 
 import pylith
-from pylith import journal
 
 from .Subfield import Subfield
 
@@ -35,7 +34,7 @@ class SubfieldBasic(pyre.component, implements=Subfield, family="pylith.fields.s
         """Constructor."""
         super().__init__(name, locator, implicit, **kwds)
 
-        todo = journal.warning(":TODO:")
+        todo = pylith.journal.warning(":TODO:")
         todo.report(
             (
                 f"{self}",

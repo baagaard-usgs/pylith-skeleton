@@ -10,7 +10,6 @@
 import pyre
 
 import pylith
-from pylith import journal
 
 from .BoundaryCondition import BoundaryConditionBase
 
@@ -38,7 +37,7 @@ class Dirichlet(BoundaryConditionBase, family="pylith.boundary_conditions.dirich
         """Constructor."""
         super().__init__(name, locator, implicit, **kwds)
 
-        todo = journal.warning(":TODO:")
+        todo = pylith.journal.warning(":TODO:")
         todo.report(
             (
                 f"{self}",

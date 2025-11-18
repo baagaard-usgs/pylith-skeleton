@@ -10,7 +10,6 @@
 import pyre
 
 import pylith
-from pylith import journal
 
 
 class ProgressMonitor(pylith.protocol, family="pylith.monitors"):
@@ -40,7 +39,7 @@ class ProgressMonitorBase(pylith.component, implements=ProgressMonitor):
         """Constructor."""
         super().__init__(name, locator, implicit, **kwds)
 
-        todo = journal.warning(":TODO:")
+        todo = pylith.journal.warning(":TODO:")
         todo.report(
             (
                 "Implement ProgressMonitorBase.__init__(). Pass parameters to C++.",

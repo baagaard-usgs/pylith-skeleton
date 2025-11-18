@@ -7,7 +7,7 @@
 #
 # See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
-from pylith import journal
+import pylith
 
 from ...solvers import SolverPetsc
 
@@ -19,7 +19,7 @@ class Elasticity(SolverPetsc, family="pylith.governing_eqns.solvers.elasticity_n
         """Constructor."""
         super().__init__(name, locator, implicit, **kwds)
 
-        todo = journal.warning(":TODO:")
+        todo = pylith.journal.warning(":TODO:")
         todo.report(
             (
                 f"{self}",

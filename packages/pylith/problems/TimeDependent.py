@@ -11,8 +11,8 @@ import pyre
 from pyre.units.time import second
 
 import pylith
-from pylith import journal
-from pylith import monitors
+
+from .. import monitors
 
 from .Problem import ProblemBase
 
@@ -42,9 +42,7 @@ class TimeDependent(ProblemBase, family="pylith.problems.time_dependent"):
         # self.cxx = CxxTimeDependent()
         super().__init__(name, locator, implicit, **kwds)
 
-        self.progress_monitor
-
-        todo = journal.warning(":TODO:")
+        todo = pylith.journal.warning(":TODO:")
         todo.report(
             (
                 f"{self}",

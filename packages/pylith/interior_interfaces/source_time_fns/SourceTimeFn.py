@@ -9,8 +9,7 @@
 # =================================================================================================
 import pylith
 
-from pylith import journal
-from pylith.fields import field
+from ...fields import field
 
 
 class SourceTimeFn(pylith.protocol, family="pylith.interior_interfaces.source_time_fns"):
@@ -33,7 +32,7 @@ class SourceTimeFnBase(pylith.component, implements=SourceTimeFn):
         """Constructor."""
         super().__init__(name, locator, implicit, **kwds)
 
-        todo = journal.warning(":TODO:")
+        todo = pylith.journal.warning(":TODO:")
         todo.report(
             (
                 f"{self}",

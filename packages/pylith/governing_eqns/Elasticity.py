@@ -9,7 +9,6 @@
 # =================================================================================================
 import pylith
 
-from .. import journal
 from .. import materials
 from .. import interior_interfaces
 
@@ -35,7 +34,7 @@ class Elasticity(GoverningEqnBase, family="pylith.governing_eqns.elasticity"):
         """Constructor."""
         super().__init__(name, locator, implicit, **kwds)
 
-        todo = journal.warning(":TODO:")
+        todo = pylith.journal.warning(":TODO:")
         todo.report(
             (
                 f"{self}",

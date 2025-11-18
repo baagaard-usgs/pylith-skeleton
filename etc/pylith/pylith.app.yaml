@@ -1,6 +1,25 @@
 # Default settings for the PyLith application.
 
 # -----------------------------------------------------------------------------
+# Journals
+# -----------------------------------------------------------------------------
+journal:
+  channels:
+    - info, application-flow
+    - info, application-flow-self
+    - warning, user-input
+    - warning, deprecation
+    - error, user-input
+    - firewall, internal-error
+    - debug, mms-test
+    - debug, application-flow
+    - debug, auxiliary-fields
+    - debug, integration-kernels
+    - debug, solver
+    - debug, mesh
+    - warning, ":TODO:"
+
+# -----------------------------------------------------------------------------
 # Mesh initialization
 # -----------------------------------------------------------------------------
 
@@ -109,12 +128,3 @@ pylith.governing_eqns.incompressible_elasticity.materials:
 
 pylith.governing_eqns.poroelasticity.materials:
   - poroelasticity#material
-
-# -----------------------------------------------------------------------------
-# Temporary
-# -----------------------------------------------------------------------------
-material.auxiliary_subfields:
-  density.discretization.basis_order: 2
-
-material.rheology.auxiliary_subfields:
-  shear_modulus.discretization.basis_order: 0

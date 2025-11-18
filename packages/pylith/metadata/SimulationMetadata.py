@@ -8,9 +8,7 @@
 # See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
 import pylith
-from pylith import journal
 
-# from pylith.utils import constraints
 
 from .Metadata import Metadata
 
@@ -23,8 +21,7 @@ class SimulationMetadata(pylith.component, implements=Metadata, family="pylith.m
     (the same behavior as other Pyre properties).
     """
 
-    description = pylith.properties.str()
-    # description.validators = constraints.notEmptyString()
+    description = pylith.properties.str(default=None)
     description.doc = "Description of this simulation."
 
     authors = pylith.properties.list(schema=pylith.properties.str())
@@ -37,7 +34,6 @@ class SimulationMetadata(pylith.component, implements=Metadata, family="pylith.m
     features.doc = "PyLith features used in this simulation."
 
     arguments = pylith.properties.list(schema=pylith.properties.str())
-    # description.validators = constraints.notEmptyList()
     arguments.doc = "Command line arguments for running this simulation."
 
     base = pylith.properties.list(schema=pylith.properties.str())
@@ -47,14 +43,13 @@ class SimulationMetadata(pylith.component, implements=Metadata, family="pylith.m
     version.doc = "Version of this simulation."
 
     pylith_version = pylith.properties.list(schema=pylith.properties.str())
-    # pylith_version.validators = constraints.notEmptyList()
     pylith_version.doc = "PyLith versions compatible with simulation input files."
 
     def __init__(self, name, locator, implicit, **kwds):
         """Constructor."""
         super().__init__(name, locator, implicit, **kwds)
 
-        todo = journal.warning(":TODO:")
+        todo = pylith.journal.warning(":TODO:")
         todo.report(
             (
                 f"{self}",
@@ -74,7 +69,7 @@ class SimulationMetadata(pylith.component, implements=Metadata, family="pylith.m
     def pyre_configured(self):
         errors = []
 
-        todo = journal.warning(":TODO:")
+        todo = pylith.journal.warning(":TODO:")
         todo.log("Implement SimulationMetadata.pyre_configured().")
         # from pylith.utils.utils import PylithVersion
 
@@ -102,7 +97,7 @@ def from_file(filename):
         filename (str)
             Name of file
     """
-    todo = journal.firewall(":TODO:")
+    todo = pylith.journal.firewall(":TODO:")
     todo.log("Implement SimulationMetadata.from_file().")
 
     metadata = None

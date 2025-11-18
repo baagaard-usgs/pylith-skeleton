@@ -7,20 +7,19 @@
 #
 # See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
-from pylith import journal
-
+import pylith
 
 from .InitialCondition import InitialConditionBase
 
 
-class InitialConditionDomain(InitialConditionBase, family="pylith.intial_conditions.patch"):
+class InitialConditionDomain(InitialConditionBase, family="pylith.initial_conditions.domain"):
     """Initial condition over the domain."""
 
     def __init__(self, name, locator, implicit, **kwds):
         """Constructor."""
         super().__init__(name, locator, implicit, **kwds)
 
-        todo = journal.warning(":TODO:")
+        todo = pylith.journal.warning(":TODO:")
         todo.report(
             (
                 f"{self}",

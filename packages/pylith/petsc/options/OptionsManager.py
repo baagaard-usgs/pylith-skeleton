@@ -10,7 +10,6 @@
 import pyre
 
 import pylith
-from pylith import journal
 
 from .Options import Options
 
@@ -22,7 +21,7 @@ class OptionsManager(pyre.component, implements=Options, family="pylith.petsc.op
         """Constructor."""
         super().__init__(name, locator, implicit, **kwds)
 
-        todo = journal.warning(":TODO:")
+        todo = pylith.journal.warning(":TODO:")
         lines = [
             f"{self}",
             "Implement OptionsManager.__init__(). Pass parameters to C++.",

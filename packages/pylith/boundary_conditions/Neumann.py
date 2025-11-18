@@ -10,8 +10,7 @@
 import pyre
 
 import pylith
-from pylith import journal
-from pylith.utils import constraints
+from ..utils import constraints
 
 from .BoundaryCondition import BoundaryConditionBase
 
@@ -56,7 +55,7 @@ class Neumann(
         """Constructor."""
         super().__init__(name, locator, implicit, **kwds)
 
-        todo = journal.warning(":TODO:")
+        todo = pylith.journal.warning(":TODO:")
         todo.report(
             (
                 f"{self}",

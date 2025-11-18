@@ -9,15 +9,16 @@
 # =================================================================================================
 import pylith
 
-from ... import journal
+from .. import journal
+from ..fields import field, subfields
 
-from ... import fields
-from ...fields import subfields
+from .Material import MaterialBase
+from .elasticity_rheologies import bulk_rheology, isotropic_linear
 
 
 class AuxiliarySubfields(
     pylith.component,
-    implements=fields.field,
+    implements=field,
     family="pylith.materials.elasticity.auxiliary_subfields",
 ):
     """Auxiliary subfields for elasticity."""
@@ -43,6 +44,31 @@ class AuxiliarySubfields(
                 f"{self.density}",
                 # f"{self.body_force}",
                 # f"{self.gravitational_acceleration}",
+            )
+        )
+        todo.log()
+
+
+class Elasticity(MaterialBase, family="pylith.materials.elasticity"):
+    """Elasticity material behavior."""
+
+    rheology = bulk_rheology(default=isotropic_linear)
+    rheology.doc = "Bulk rheology for elastic material."
+
+    auxiliary_subfields = field(default=AuxiliarySubfields)
+    auxiliary_subfields.doc = "Rheology-specific material parameters."
+
+    def __init__(self, name, locator, implicit, **kwds):
+        """Constructor."""
+        super().__init__(name, locator, implicit, **kwds)
+
+        todo = journal.warning(":TODO:")
+        todo.report(
+            (
+                f"{self}",
+                f"Implement {__class__}.__init__(). Pass parameters to C++.",
+                f"rheology={self.rheology}",
+                f"auxiliary subfields={self.auxiliary_subfields}",
             )
         )
         todo.log()

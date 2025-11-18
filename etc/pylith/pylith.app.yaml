@@ -102,10 +102,10 @@ pylith.app.problem.governing_eqn.solver.petsc_options.solver:
 # Default is one material named `material`
 
 pylith.governing_eqns.elasticity.materials:
-  - pylith.materials.elasticity.material#material
+  - elasticity#material
 
 pylith.governing_eqns.incompressible_elasticity.materials:
-  - pylith.materials.incompressible_elasticity.material#material
+  - incompressible_elasticity#material
 
 pylith.governing_eqns.poroelasticity.materials:
   - poroelasticity#material

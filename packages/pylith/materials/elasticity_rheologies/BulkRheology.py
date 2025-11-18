@@ -7,6 +7,15 @@
 #
 # See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
-from .BulkRheology import BulkRheology as bulk_rheology
-from .AuxiliarySubfields import AuxiliarySubfields as auxiliary_subfields
-from .DerivedSubfields import DerivedSubfields as derived_subfields
+import pylith
+
+
+class BulkRheology(pylith.protocol, family="pylith.materials.elasticity_rheologies"):
+    """Protocol declarator for BulkRheology."""
+
+    @classmethod
+    def pyre_default(cls, **kwds):
+        """The default {BulkRheology} implementation"""
+        from .IsotropicLinear import IsotropicLinear
+
+        return IsotropicLinear

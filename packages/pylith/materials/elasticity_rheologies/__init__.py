@@ -7,7 +7,5 @@
 #
 # See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
-from .Material import Material as material
-from .AuxiliarySubfields import AuxiliarySubfields as auxiliary_subfields
-
 from .BulkRheology import BulkRheology as bulk_rheology
+from .IsotropicLinear import IsotropicLinear as isotropic_linear

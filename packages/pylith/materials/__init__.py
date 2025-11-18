@@ -8,6 +8,7 @@
 # See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
 from .Material import Material as material
+from .Elasticity import Elasticity as elasticity
 
 # from .IncompressibleElasticity import IncompressibleElasticity as incompressible_elasticity
 # from .Poroelasticity import Poroelasticity as poroelasticity

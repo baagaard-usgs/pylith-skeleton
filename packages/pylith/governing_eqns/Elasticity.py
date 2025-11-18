@@ -8,9 +8,9 @@
 # See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
 import pylith
+
 from .. import journal
 from .. import materials
-from ..materials import elasticity
 from .. import interior_interfaces
 
 from .GoverningEqn import GoverningEqnBase
@@ -23,7 +23,7 @@ class Elasticity(GoverningEqnBase, family="pylith.governing_eqns.elasticity"):
     solution_subfields = solution_subfields.solution(default=solution_subfields.elasticity_nofault)
     solution_subfields.doc = "Solution subfields for elasticity equation."
 
-    materials = pylith.properties.list(schema=materials.material(default=elasticity.material))
+    materials = pylith.properties.list(schema=materials.material(default=materials.elasticity))
     materials.doc = "Materials in boundary value problem."
 
     interior_interfaces = pylith.properties.list(schema=interior_interfaces.interior_interface())

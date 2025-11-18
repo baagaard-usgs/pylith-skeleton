@@ -9,6 +9,9 @@
 # =================================================================================================
 import pylith
 
+from .. import journal
+from .. import observers
+
 
 class Material(pylith.protocol, family="pylith.materials"):
     """Protocol declarator for materials."""
@@ -19,3 +22,31 @@ class Material(pylith.protocol, family="pylith.materials"):
         from .elasticity import material
 
         return material
+
+
+class MaterialBase(pylith.component, implements=Material):
+
+    label_name = pylith.properties.str(default=None)
+    label_name.doc = "Name of label identifying boundary ()name of physical group in Gmsh files."
+
+    label_value = pylith.properties.int(default=1)
+    label_value.doc = "Value of label identifying boundary (tag of physical group in Gmsh files)."
+
+    observers = pylith.properties.list(schema=observers.observer(default=observers.output_physics))
+    observers.doc = "Observer of material state."
+
+    def __init__(self, name, locator, implicit, **kwds):
+        """Constructor."""
+        super().__init__(name, locator, implicit, **kwds)
+
+        todo = journal.warning(":TODO:")
+        todo.report(
+            (
+                f"{self}",
+                "Implement MaterialBase.__init__(). Pass parameters to C++.",
+                f"label name={self.label_name}",
+                f"label value={self.label_value}",
+                f"observers={self.observers}",
+            )
+        )
+        todo.log()

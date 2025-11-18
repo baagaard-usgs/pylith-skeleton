@@ -110,6 +110,9 @@ pylith.governing_eqns.incompressible_elasticity.materials:
 pylith.governing_eqns.poroelasticity.materials:
   - poroelasticity#material
 
+# -----------------------------------------------------------------------------
+# Temporary
+# -----------------------------------------------------------------------------
 material.auxiliary_subfields:
   density.discretization.basis_order: 2
 

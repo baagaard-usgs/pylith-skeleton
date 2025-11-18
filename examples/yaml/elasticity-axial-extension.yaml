@@ -1,10 +1,9 @@
 journal:
-  decor: 3
+  decor: 1
   detail: 5
-  margin: "XXXXX"
 
-pylith.app:
-  problem: pylith.problems.time_dependent#static_problem
+# pylith.app:
+#   problem: pylith.problems.time_dependent#static_problem
 
 pylith.app.metadata:
   authors:

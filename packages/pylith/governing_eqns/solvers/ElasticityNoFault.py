@@ -9,10 +9,10 @@
 # =================================================================================================
 import pylith
 
-from ...solvers import SolverPetsc
+from ... import solvers
 
 
-class Elasticity(SolverPetsc, family="pylith.governing_eqns.solvers.elasticity_nofault"):
+class ElasticityNoFault(solvers.petsc, family="pylith.governing_eqns.solvers.elasticity_nofault"):
     """Solver for elasticity governing equation without a fault."""
 
     def __init__(self, name, locator, implicit, **kwds):

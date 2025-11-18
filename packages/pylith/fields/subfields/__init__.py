@@ -9,7 +9,8 @@
 # =================================================================================================
 
 from .Subfield import Subfield as subfield
-from .SubfieldBasic import SubfieldBasic as basic
+from .SubfieldBasic import SubfieldBasic as basic_subfield
+from .SubfieldOptional import SubfieldOptional as optional_subfield
 
 
 def default_components(name: str, vector_field_type: str):
@@ -25,12 +26,13 @@ def default_components(name: str, vector_field_type: str):
     return names
 
 
-def subfield_class(name: str, scale: str, vector_field_type: str, components: str = None):
+def subfield_class(name: str, scale: str, vector_field_type: str, components: str = None, optional: bool = False):
     """Create class for subfield."""
     attributes = {"name": name, "scale": scale, "vector_field_type": vector_field_type}
     if components is None:
         attributes["components"] = default_components(name=name, vector_field_type=vector_field_type)
-    return type(name, (basic,), attributes)
+    base_class = optional_subfield if optional else basic_subfield
+    return type(name, (base_class,), attributes)
 
 
 # Solution subfields
@@ -46,9 +48,15 @@ density = subfield_class(name="density", scale="density", vector_field_type="sca
 shear_modulus = subfield_class(name="shear_modulus", scale="rigidity", vector_field_type="scalar")
 bulk_modulus = subfield_class(name="bulk_modulus", scale="rigidity", vector_field_type="scalar")
 body_force = subfield_class(name="body_force", scale="body_force", vector_field_type="vector")
+body_force_optional = subfield_class(name="body_force", scale="body_force", vector_field_type="vector", optional=True)
 gravitational_acceleration = subfield_class(
     name="gravitational_acceleration", scale="acceleration", vector_field_type="vector"
+)
+gravitational_acceleration_optional = subfield_class(
+    name="gravitational_acceleration", scale="acceleration", vector_field_type="vector", optional=True
 )
 
 cauchy_stress = subfield_class(name="cauchy_stress", scale="stress", vector_field_type="tensor")
 cauchy_strain = subfield_class(name="cauchy_strain", scale="strain", vector_field_type="tensor")
+cauchy_stress_optional = subfield_class(name="cauchy_stress", scale="stress", vector_field_type="tensor", optional=True)
+cauchy_strain_optional = subfield_class(name="cauchy_strain", scale="strain", vector_field_type="tensor", optional=True)

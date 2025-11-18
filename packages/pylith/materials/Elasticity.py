@@ -25,11 +25,11 @@ class AuxiliarySubfields(
     density = subfields.subfield(default=subfields.density)
     density.doc = "Mass density."
 
-    # body_force = subfields.subfield(default=subfields.body_force_optional)
-    # body_force.doc = "Body force (optional)."
+    body_force = subfields.subfield(default=subfields.body_force_optional)
+    body_force.doc = "Body force (optional)."
 
-    # gravitational_acceleration = subfields.subfield(default=subfields.gravitational_acceleration_optional)
-    # gravitational_acceleration.doc = "Gravitational acceleration (optional)."
+    gravitational_acceleration = subfields.subfield(default=subfields.gravitational_acceleration_optional)
+    gravitational_acceleration.doc = "Gravitational acceleration (optional)."
 
     def __init__(self, name, locator, implicit, **kwds):
         """Constructor."""
@@ -41,8 +41,8 @@ class AuxiliarySubfields(
                 f"{self}",
                 f"Implement {__class__}.__init__(). Pass parameters to C++.",
                 f"{self.density}",
-                # f"{self.body_force}",
-                # f"{self.gravitational_acceleration}",
+                f"{self.body_force}",
+                f"{self.gravitational_acceleration}",
             )
         )
         todo.log()

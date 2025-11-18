@@ -51,11 +51,11 @@ class DerivedSubfields(
 ):
     """Derived subfields for the isotropic linear bulk rheology."""
 
-    # cauchy_stress = subfields.subfield(default=subfields.cauchy_stress_optional)
-    # cauchy_stress.doc = "Cauchy stress (optional)."
+    cauchy_stress = subfields.subfield(default=subfields.cauchy_stress_optional)
+    cauchy_stress.doc = "Cauchy stress (optional)."
 
-    # cauchy_strain = subfields.subfield(default=subfields.cauchy_strain_optional)
-    # cauchy_strain.doc = "Cauchy strain (optional)."
+    cauchy_strain = subfields.subfield(default=subfields.cauchy_strain_optional)
+    cauchy_strain.doc = "Cauchy strain (optional)."
 
     def __init__(self, name, locator, implicit, **kwds):
         """Constructor."""
@@ -66,8 +66,8 @@ class DerivedSubfields(
             (
                 f"{self.pyre_name}",
                 f"Implement {__class__}.__init__(). Pass parameters to C++.",
-                # f"{self.cauchy_stress}",
-                # f"{self.cauchy_strain}",
+                f"{self.cauchy_stress}",
+                f"{self.cauchy_strain}",
             )
         )
         todo.log()

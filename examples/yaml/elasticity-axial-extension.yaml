@@ -10,6 +10,11 @@ pylith.app.metadata:
     - Brad Aagaard
   description: Elasticity axial extension with Dirichlet and Neumann boundary conditions
 
+pylith.app.problem.governing_eqn.solver.petsc_options:
+  initial_guess.enabled: True
+  tolerances.enabled: True
+  adaptive_ts.enabled: True
+
 material.auxiliary_subfields:
   density.discretization.basis_order: 2
 

@@ -7,8 +7,6 @@
 #
 # See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
-import pyre
-
 import pylith
 
 from .Subfield import Subfield
@@ -16,7 +14,7 @@ from .Subfield import Subfield
 from ..discretizations import discretization, petsc
 
 
-class SubfieldBasic(pyre.component, implements=Subfield, family="pylith.fields.subfields.basic"):
+class SubfieldBasic(pylith.component, implements=Subfield, family="pylith.fields.subfields.basic"):
     """Subfield in PETSc field."""
 
     name = None
@@ -25,7 +23,7 @@ class SubfieldBasic(pyre.component, implements=Subfield, family="pylith.fields.s
     component_names = None
 
     alias = pylith.properties.str()
-    alias.doc = "User preferred name of Subfield (used in output)."
+    alias.doc = "User-preferred name of Subfield (used in output)."
 
     discretization = discretization(default=petsc)
     discretization.doc = "Discretization of subfield."

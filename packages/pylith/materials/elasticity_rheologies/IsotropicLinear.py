@@ -22,10 +22,10 @@ class AuxiliarySubfields(
 ):
     """Auxiliary subfields for the isotropic linear bulk rheology."""
 
-    shear_modulus = subfields.subfield(default=subfields.shear_modulus)
+    shear_modulus = subfields.subfield(default=subfields.basic)
     shear_modulus.doc = "Shear modulus."
 
-    bulk_modulus = subfields.subfield(default=subfields.bulk_modulus)
+    bulk_modulus = subfields.subfield(default=subfields.basic)
     bulk_modulus.doc = "Bulk modulus."
 
     def __init__(self, name, locator, implicit, **kwds):
@@ -51,10 +51,10 @@ class DerivedSubfields(
 ):
     """Derived subfields for the isotropic linear bulk rheology."""
 
-    cauchy_stress = subfields.subfield(default=subfields.cauchy_stress_optional)
+    cauchy_stress = subfields.subfield(default=subfields.optional)
     cauchy_stress.doc = "Cauchy stress (optional)."
 
-    cauchy_strain = subfields.subfield(default=subfields.cauchy_strain_optional)
+    cauchy_strain = subfields.subfield(default=subfields.optional)
     cauchy_strain.doc = "Cauchy strain (optional)."
 
     def __init__(self, name, locator, implicit, **kwds):

@@ -17,11 +17,6 @@ from .. import discretizations
 class SubfieldOptional(pylith.component, implements=Subfield, family="pylith.fields.subfields.optional"):
     """Subfield in PETSc field."""
 
-    name = None
-    scale = None
-    vector_field_type = None
-    component_names = None
-
     enabled = pylith.properties.bool(default=False)
     enabled.doc = "Turn on/off use of subfield."
 
@@ -40,12 +35,8 @@ class SubfieldOptional(pylith.component, implements=Subfield, family="pylith.fie
             (
                 f"{self}",
                 "Implement SubfieldOptional.__init__(). Pass parameters to C++.",
-                f"name={self.name}",
                 f"alias={self.alias}",
                 f"enabled={self.enabled}",
-                f"scale={self.scale}",
-                f"vector field type={self.vector_field_type}",
-                f"components={self.component_names}",
                 f"discretization={self.discretization}",
             )
         )

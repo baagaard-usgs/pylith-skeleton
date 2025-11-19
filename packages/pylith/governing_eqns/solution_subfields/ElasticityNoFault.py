@@ -20,10 +20,10 @@ class ElasticityNoFault(
 ):
     """Solution subfields for elasticity equation without a fault."""
 
-    displacement = subfields.subfield(default=subfields.displacement)
-    displacement.doc = "Displacment subfield."
+    displacement = subfields.subfield(default=subfields.basic)
+    displacement.doc = "Displacement subfield."
 
-    velocity = subfields.subfield(default=subfields.velocity)
+    velocity = subfields.subfield(default=subfields.basic)
     velocity.doc = "Velocity subfield."
 
     def __init__(self, name, locator, implicit, **kwds):

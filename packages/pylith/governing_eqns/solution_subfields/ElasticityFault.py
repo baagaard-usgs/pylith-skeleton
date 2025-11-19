@@ -18,13 +18,13 @@ from .Solution import Solution
 class ElasticityFault(pylith.component, implements=Solution, family="pylith.governing_eqns.solutions.elasticity_fault"):
     """Solution subfields for elasticity equation with a fault."""
 
-    displacement = subfields.subfield(default=subfields.displacement)
-    displacement.doc = "Displacment subfield."
+    displacement = subfields.subfield(default=subfields.basic)
+    displacement.doc = "Displacement subfield."
 
-    velocity = subfields.subfield(default=subfields.velocity)
+    velocity = subfields.subfield(default=subfields.basic)
     velocity.doc = "Velocity subfield."
 
-    lagrange_multiplier_fault = subfields.subfield(default=subfields.lagrange_multiplier_fault)
+    lagrange_multiplier_fault = subfields.subfield(default=subfields.basic)
     lagrange_multiplier_fault.doc = "Fault Lagrange multiplier subfield."
 
     def __init__(self, name, locator, implicit, **kwds):

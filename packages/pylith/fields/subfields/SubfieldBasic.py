@@ -17,11 +17,6 @@ from ..discretizations import discretization, petsc
 class SubfieldBasic(pylith.component, implements=Subfield, family="pylith.fields.subfields.basic"):
     """Subfield in PETSc field."""
 
-    name = None
-    scale = None
-    vector_field_type = None
-    component_names = None
-
     alias = pylith.properties.str()
     alias.doc = "User-preferred name of Subfield (used in output)."
 
@@ -37,11 +32,7 @@ class SubfieldBasic(pylith.component, implements=Subfield, family="pylith.fields
             (
                 f"{self}",
                 "Implement SubfieldBasic.__init__(). Pass parameters to C++.",
-                f"name={self.name}",
                 f"alias={self.alias}",
-                f"scale={self.scale}",
-                f"vector field type={self.vector_field_type}",
-                f"components={self.component_names}",
                 f"discretization={self.discretization}",
             )
         )

@@ -45,12 +45,9 @@ class SolverPetsc(pylith.component, implements=Solver, family="pylith.solvers.pe
         """Called after component is initialized."""
         from ..petsc.options.groups import group_list
 
-        yield super().pyre_initialized()
+        yield from super().pyre_initialized()
 
-        if hasattr(self.petsc_options, "solver") and isinstance(self.petsc_options.solver, group_list):
-            solver_options = self.petsc_options.solver
-            if solver_options.enabled and len(solver_options.options) == 0:
-                yield "PETSc solver options group 'solver' is enabled but has no options. Specify solver options or disable the group."
-        import pdb
-
-        pdb.set_trace()
+        # if hasattr(self.petsc_options, "solver") and isinstance(self.petsc_options.solver, group_list):
+        #     solver_options = self.petsc_options.solver
+        #     if solver_options.enabled and len(solver_options.options) == 0:
+        #         yield "PETSc solver options group 'solver' is enabled but has no options. Specify solver options or disable the group."

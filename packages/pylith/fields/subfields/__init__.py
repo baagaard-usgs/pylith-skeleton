@@ -7,7 +7,5 @@
 #
 # See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
-
-from .Subfield import Subfield as subfield
 from .SubfieldBasic import SubfieldBasic as basic
 from .SubfieldOptional import SubfieldOptional as optional

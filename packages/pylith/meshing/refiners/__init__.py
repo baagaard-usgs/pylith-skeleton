@@ -7,6 +7,4 @@
 #
 # See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
-
-from .Refiner import Refiner as refiner
 from .RefineUniform import RefineUniform as uniform

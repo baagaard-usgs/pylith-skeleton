@@ -9,7 +9,7 @@
 # =================================================================================================
 import pylith
 
-from .SourceTimeFn import SourceTimeFnBase
+from .SourceTimeFnBase import SourceTimeFnBase
 
 
 class Step(SourceTimeFnBase, family="pylith.interior_interfaces.source_time_fns.step"):

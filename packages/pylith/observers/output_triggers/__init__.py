@@ -7,7 +7,5 @@
 #
 # See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
-
-from .OutputTrigger import OutputTrigger as output_trigger
 from .OutputTriggerStep import OutputTriggerStep as step
 from .OutputTriggerTime import OutputTriggerTime as time

@@ -12,7 +12,7 @@ import pyre
 import pylith
 from ..utils import constraints
 
-from .BoundaryCondition import BoundaryConditionBase
+from .BoundaryConditionBase import BoundaryConditionBase
 
 
 class Neumann(

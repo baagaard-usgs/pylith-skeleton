@@ -7,7 +7,5 @@
 #
 # See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
-
-from .Field import Field as field
 from .FieldBasic import FieldBasic as basic
 from .FieldOptional import FieldOptional as optional

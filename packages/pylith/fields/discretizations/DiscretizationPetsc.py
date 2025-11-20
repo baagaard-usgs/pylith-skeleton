@@ -11,10 +11,10 @@ import pyre
 
 import pylith
 
-from .Discretization import Discretization
+from ...protocols.fields import discretization
 
 
-class DiscretizationPetsc(pyre.component, implements=Discretization, family="pylith.fields.discretizations.petsc"):
+class DiscretizationPetsc(pylith.component, implements=discretization, family="pylith.fields.discretizations.petsc"):
     """PETSc discretization of a subfield."""
 
     basis_order = pylith.properties.int(default=-1)

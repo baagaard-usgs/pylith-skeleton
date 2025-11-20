@@ -13,7 +13,7 @@ from pyre.units.time import second
 
 import pylith
 
-from .DataWriter import DataWriterBase
+from .DataWriterBase import DataWriterBase
 
 
 class DataWriterVTK(DataWriterBase, family="pylith.data_writers.vtk"):

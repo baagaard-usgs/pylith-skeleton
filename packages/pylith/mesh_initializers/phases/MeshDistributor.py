@@ -10,15 +10,16 @@
 
 import pylith
 
-from .. import distributors
-from .InitializePhase import InitializePhase
+from ...protocols import mesh_initializers
 
 
 class MeshDistributor(
-    pylith.component, implements=InitializePhase, family="pylith.mesh_initializers.phases.distributor"
+    pylith.component,
+    implements=mesh_initializers.initialize_phase,
+    family="pylith.mesh_initializers.phases.distributor",
 ):
 
-    distributor = distributors.distributor(default=distributors.petsc)
+    distributor = mesh_initializers.distributor()
     distributor.doc = "Mesh partitioner and distributor."
 
     def __init__(self, name, locator, implicit, **kwds):

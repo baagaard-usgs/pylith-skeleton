@@ -9,15 +9,15 @@
 # =================================================================================================
 import pylith
 
-from .phases.InitializePhase import InitializePhase
-from .phases.MeshReader import MeshReader
-
-from .Initializer import Initializer
+from ..protocols import mesh_initializer
+from ..protocols.mesh_initializers import initialize_phase
 
 
-class MeshInitializer(pylith.component, implements=Initializer, family="pylith.mesh_initializers.mesh_initializer"):
+class MeshInitializer(
+    pylith.component, implements=mesh_initializer, family="pylith.mesh_initializers.mesh_initializer"
+):
 
-    phases = pylith.properties.list(schema=InitializePhase(default=MeshReader))
+    phases = pylith.properties.list(schema=initialize_phase())
     phases.doc = "Phases for mesh initialization."
 
     def __init__(self, name, locator, implicit, **kwds):

@@ -11,10 +11,10 @@ import pylith
 
 from ..utils import constraints
 
-from .InteriorInterface import InteriorInterface
+from ..protocols import interior_interface
 
 
-class FaultCohesive(pylith.component, implements=InteriorInterface):
+class FaultCohesive(pylith.component, implements=interior_interface):
     """Abstract base class for faults implemented with cohesive cells."""
 
     label_name = pylith.properties.str(default=None)

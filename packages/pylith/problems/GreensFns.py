@@ -9,9 +9,9 @@
 # =================================================================================================
 import pylith
 
-from .. import monitors
+from .. import protocols
 
-from .Problem import ProblemBase
+from .ProblemBase import ProblemBase
 
 
 class GreensFns(
@@ -23,7 +23,7 @@ class GreensFns(
     # - fields
     # - sources
 
-    progress_monitor = monitors.progress_monitor(default=monitors.progress_monitor_step)
+    progress_monitor = protocols.progress_monitor()
     progress_monitor.doc = "Monitor for reporting progress of simulation."
 
     def __init__(self, name, locator, implicit, **kwds):

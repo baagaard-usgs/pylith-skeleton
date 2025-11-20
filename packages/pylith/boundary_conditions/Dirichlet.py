@@ -11,7 +11,7 @@ import pyre
 
 import pylith
 
-from .BoundaryCondition import BoundaryConditionBase
+from .BoundaryConditionBase import BoundaryConditionBase
 
 
 class Dirichlet(BoundaryConditionBase, family="pylith.boundary_conditions.dirichlet"):

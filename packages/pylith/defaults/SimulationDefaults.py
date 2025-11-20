@@ -11,10 +11,10 @@ import pyre
 
 import pylith
 
-from .Defaults import Defaults
+from ..protocols import application_defaults
 
 
-class SimulationDefaults(pyre.component, implements=Defaults, family="pylith.defaults.simulation_defaults"):
+class SimulationDefaults(pyre.component, implements=application_defaults, family="pylith.defaults.simulation_defaults"):
     """Default parameters for simulation."""
 
     output_dir = pylith.properties.str(default="output")

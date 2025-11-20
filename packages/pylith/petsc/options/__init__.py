@@ -7,6 +7,5 @@
 #
 # See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
-from .Options import Options as options
 from .SimulationOptions import SimulationOptions as simulation_options
 from .SolverOptions import SolverOptions as solver_options

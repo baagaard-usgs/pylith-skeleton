@@ -9,21 +9,21 @@
 # =================================================================================================
 import pylith
 
-from .Field import Field
-from .subfields import subfield
-from .groups import group
+from ..protocols import field
+
+# from ..protocols.fields import subfield
 
 
-class FieldOptional(pylith.component, implements=Field, family="pylith.fields.optional"):
+class FieldOptional(pylith.component, implements=field, family="pylith.fields.optional"):
     """Field with required and optional subfields."""
 
-    # :TODO: Convert to dict
-    required = pylith.properties.list(schema=subfield())
-    required.doc = "Required subfields in field."
+    # # :TODO: Convert to dict
+    # required = pylith.properties.list(schema=subfield())
+    # required.doc = "Required subfields in field."
 
-    # :TODO: Convert to dict
-    optional = pylith.properties.list(schema=group())
-    optional.doc = "Optional subfields in field."
+    # # :TODO: Convert to dict
+    # optional = pylith.properties.list(schema=group())
+    # optional.doc = "Optional subfields in field."
 
     def __init__(self, name, locator, implicit, **kwds):
         """Constructor."""

@@ -7,6 +7,4 @@
 #
 # See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
-
-from .Discretization import Discretization as discretization
 from .DiscretizationPetsc import DiscretizationPetsc as petsc

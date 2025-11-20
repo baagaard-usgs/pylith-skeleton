@@ -9,10 +9,10 @@
 # =================================================================================================
 import pylith
 
-from .Group import Group
+from ....protocols.petsc.options import group
 
 
-class GroupList(pylith.component, implements=Group, family="pylith.petsc.options.group_list"):
+class GroupList(pylith.component, implements=group, family="pylith.petsc.options.group_list"):
     """PETSc options manager."""
 
     enabled = pylith.properties.bool(default=False)

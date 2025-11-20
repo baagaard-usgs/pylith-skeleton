@@ -12,10 +12,10 @@
 
 import pylith
 
-from .MeshIO import MeshIO
+from .. import protocols
 
 
-class MeshIOCubit(pylith.component, implements=MeshIO, family="pylith.mesh_io.cubit"):
+class MeshIOCubit(pylith.component, implements=protocols.mesh_io, family="pylith.mesh_io.cubit"):
 
     filename = pylith.properties.uri(default=None)
     filename.doc = "URI of mesh file."

@@ -7,8 +7,6 @@
 #
 # See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
-
-from .MeshIO import MeshIO as mesh_io
 from .MeshIOAscii import MeshIOAscii as ascii
 from .MeshIOCubit import MeshIOCubit as cubit
 from .MeshIOPetsc import MeshIOPetsc as petsc

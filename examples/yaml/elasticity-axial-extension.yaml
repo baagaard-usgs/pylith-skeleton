@@ -11,6 +11,7 @@ pylith.app.metadata:
   description: Elasticity axial extension with Dirichlet and Neumann boundary conditions
 
 pylith.app.problem.governing_eqn.solver.petsc_options:
+  #solver: pylith.petsc.options.group_list#solver_elasticity_nofault
   initial_guess.enabled: True
   tolerances.enabled: True
   adaptive_ts.enabled: True

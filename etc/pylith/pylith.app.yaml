@@ -6,11 +6,12 @@
 journal:
   channels:
     - info, application-flow
-    - info, application-flow-self
+    - info, application-flow-all
     - warning, user-input
     - warning, deprecation
     - error, user-input
     - firewall, internal-error
+    - firewall, logic-error
     - debug, mms-test
     - debug, application-flow
     - debug, auxiliary-fields
@@ -22,17 +23,15 @@ journal:
 # -----------------------------------------------------------------------------
 # Mesh initialization
 # -----------------------------------------------------------------------------
+# Singletons for default mesh initialization phases.
+pylith.mesh_initializers.mesh_initializer#serial_initializer:
+  phases:
+    - reader#read_mesh
+    - reordering#reorder_mesh
+    - distributor#distribute_mesh
+    - insert_interfaces#insert_interfaces
+    - refiner#refine_mesh
 
-# Default mesh initialization phases; assumes reading mesh in serial.
-pylith.app.problem.mesh_initializer.phases:
-  - reader#read_mesh
-  - reordering#reorder_mesh
-  - distributor#distribute_mesh
-  - insert_interfaces#insert_interfaces
-  - refiner#refine_mesh
-
-# Mesh initialization phases when reading a mesh in parallel.
-# :TODO: Describe how to set the component name.
 pylith.mesh_initializers.mesh_initializer#parallel_initializer:
   phases:
     - reader#read_mesh
@@ -40,72 +39,98 @@ pylith.mesh_initializers.mesh_initializer#parallel_initializer:
     - insert_interfaces#insert_interfaces
     - refiner#refine_mesh
 
+# Default mesh initializer.
+pylith.app.problem.mesh_initializer: pylith.mesh_initializers.mesh_initializer#serial_initializer
+
 # -----------------------------------------------------------------------------
 # General PETSc options
 # -----------------------------------------------------------------------------
-# Need this to be a dictionary in order to make it easy to disable/enable..
+# Singletons for default groups of PETSc options.
+
+pylith.petsc.options.group_list#simulation_testing:
+  enabled: False
+  options:
+    - malloc_debug
+
+pylith.petsc.options.group_list#collective_io:
+  enabled: True
+  options:
+    - viewer_hdf5_collective
+
+pylith.petsc.options.group_list#attach_debugger:
+  enabled: False
+  options:
+    - stop_for_debugger
+    - debugger_pause, 10
+    - malloc_debug, False
+    - check_pointer_intensity, False
+
+# Default options for instance.
 pylith.app.petsc_options:
-  testing:
-    enabled: False
-    options:
-      - malloc_debug
-  collective_io:
-    enabled: True
-    options:
-      - viewer_hdf5_collective
-  attach_debugger:
-    enabled: False
-    options:
-      - stop_for_debugger
-      - debugger_pause, 10
-      - malloc_debug, False
-      - check_pointer_intensity, False
+  testing: pylith.petsc.options.group_list#simulation_testing
+  collective_io: pylith.petsc.options.group_list#collective_io
+  attach_debugger: pylith.petsc.options.group_list#attach_debugger
 
 # -----------------------------------------------------------------------------
 # General solver related settings
 # -----------------------------------------------------------------------------
+# Singletons for default groups of PETSc options.
 
+pylith.petsc.options.group_list#solver_enable_defaults:
+  enabled: True
+
+pylith.petsc.options.group_list#solver_initial_guess:
+  enabled: True
+  options:
+    - ksp_guess_type, pod
+    - ksp_guess_pod_size,  8
+
+pylith.petsc.options.group_list#solver_tolerances:
+  enabled: True
+  options:
+    - ksp_rtol, 1.0e-12
+    - ksp_atol, 1.0e-7
+    - snes_rtol, 5.0e-6
+    - snes_atol, 5.0e-2
+
+pylith.petsc.options.group_list#solver_adaptive_ts:
+  enabled: False
+  options:
+    - ts_adapt_type, basic
+    - ts_adapt_safety, 0.2
+    - ts_adapt_reject_safety, 0.1
+    - ts_atol, 0.05
+    - ts_rtol, 0.05
+
+    - ts_adapt_monitor, true
+
+pylith.petsc.options.group_list#solver_monitoring:
+  enabled: False
+  options:
+    - ts_monitor
+    - ksp_monitor
+    - snes_monitor
+
+    - ksp_converged_reason
+    - snes_converged_reason
+
+    - ts_error_if_step_fails
+    - ksp_error_if_not_converged
+    - snes_error_if_not_converged
+
+pylith.petsc.options.group_list#solver_elasticity_nofault:
+  enabled: True
+  options:
+    - ts_type, beuler
+    - pc_type, gamg
+
+    - pc_gamg_coarse_eq_limit, 200
+    - mg_fine_ksp_max_it, 5
+
+# Default options for solver
 pylith.app.problem.governing_eqn.solver.petsc_options:
-  initial_guess:
-    enabled: True
-    options:
-      - ksp_guess_type, pod
-      - ksp_guess_pod_size,  8
-  tolerances:
-    enabled: True
-    options:
-      - ksp_rtol, 1.0e-12
-      - ksp_atol, 1.0e-7
-
-      - snes_rtol, 5.0e-6
-      - snes_atol, 5.0e-2
-  adaptive_ts:
-    enabled: False
-    options:
-      - ts_adapt_type, basic
-      - ts_adapt_safety, 0.2
-      - ts_adapt_reject_safety, 0.1
-      - ts_atol, 0.05
-      - ts_rtol, 0.05
-
-      - ts_adapt_monitor, true
-  monitoring:
-    enabled: False
-    options:
-      - ts_monitor
-      - ksp_monitor
-      - snes_monitor
-
-      - ksp_converged_reason
-      - snes_converged_reason
-
-      - ts_error_if_step_fails
-      - ksp_error_if_not_converged
-      - snes_error_if_not_converged
-
-pylith.governing_eqns.elasticity.solvers.nofault.petsc_options.solver.options:
-  - ts_type, beuler
-  - pc_type, gamg
-
-  - pc_gamg_coarse_eq_limit, 200
-  - mg_fine_ksp_max_it, 5
+  solver: pylith.petsc.options.group_list#solver_enable_defaults
+  initial_guess: pylith.petsc.options.group_list#solver_initial_guess
+  tolerances: pylith.petsc.options.group_list#solver_tolerances
+  adaptive_ts: pylith.petsc.options.group_list#solver_adaptive_ts
+  monitoring: pylith.petsc.options.group_list#solver_monitoring

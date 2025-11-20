@@ -11,13 +11,13 @@ import pylith
 
 from ... import interior_interfaces
 
-from ..GoverningEqn import GoverningEqn
+from ..GoverningEqnBase import GoverningEqnBase
 
 from . import solution_subfields as subfields
 from . import bulk_rheologies
 
 
-class ElasticityEqn(pylith.component, implements=GoverningEqn, family="pylith.governing_eqns.elasticity"):
+class ElasticityEqn(GoverningEqnBase, family="pylith.governing_eqns.elasticity"):
     """Elasticity governing equation."""
 
     solution_subfields = subfields.solution_subfields(default=subfields.nofault)
@@ -39,7 +39,7 @@ class ElasticityEqn(pylith.component, implements=GoverningEqn, family="pylith.go
         todo.report(
             (
                 f"{self}",
-                "Implement GoverningEqn.__init__(). Pass parameters to C++.",
+                "Implement ElasticityEqn.__init__(). Pass parameters to C++.",
                 f"solution subfields={self.solution_subfields}",
                 f"materials={self.materials}",
                 f"interior interfaces={self.interior_interfaces}",

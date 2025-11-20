@@ -9,11 +9,28 @@
 # =================================================================================================
 import pylith
 
-from ... import solvers
+from .ManagerBase import ManagerBase
+
+from . import groups
 
 
-class SolverNoFault(solvers.petsc, family="pylith.governing_eqns.elasticity.solvers.nofault"):
-    """Solver for elasticity governing equation without a fault."""
+class SolverOptions(ManagerBase, family="pylith.petsc.options.solver"):
+    """PETSc options manager for solver options."""
+
+    solver = groups.group(default=groups.group_list)
+    solver.doc = "Options for solving the equations."
+
+    initial_guess = groups.group(default=groups.group_list)
+    initial_guess.doc = "Options for setting an initial guess."
+
+    tolerances = groups.group(default=groups.group_list)
+    tolerances.doc = "Solver tolerances."
+
+    adaptive_ts = groups.group(default=groups.group_list)
+    adaptive_ts.doc = "Options for adaptive time stepping."
+
+    monitoring = groups.group(default=groups.group_list)
+    monitoring.doc = "Options for monitoring the solver."
 
     def __init__(self, name, locator, implicit, **kwds):
         """Constructor."""
@@ -23,7 +40,7 @@ class SolverNoFault(solvers.petsc, family="pylith.governing_eqns.elasticity.solv
         todo.report(
             (
                 f"{self}",
-                "Implement NoFault.__init__(). Pass parameters to C++.",
+                "Implement SolverOptions.__init__(). Pass parameters to C++.",
             )
         )
         todo.log()

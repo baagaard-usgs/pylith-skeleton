@@ -23,7 +23,7 @@ class SolverPetsc(pylith.component, implements=Solver, family="pylith.solvers.pe
     formulation.validators = pyre.constraints.isMember("implicit", "explicit", "implicit_explicit")
     formulation.doc = "Formulation for solver."
 
-    petsc_options = options.options(default=options.solver_sections)
+    petsc_options = options.options(default=options.solver_options)
     petsc_options.doc = "Groups of solver related PETSc options."
 
     def __init__(self, name, locator, implicit, **kwds):
@@ -40,3 +40,17 @@ class SolverPetsc(pylith.component, implements=Solver, family="pylith.solvers.pe
             )
         )
         todo.log()
+
+    def pyre_initialized(self):
+        """Called after component is initialized."""
+        from ..petsc.options.groups import group_list
+
+        yield super().pyre_initialized()
+
+        if hasattr(self.petsc_options, "solver") and isinstance(self.petsc_options.solver, group_list):
+            solver_options = self.petsc_options.solver
+            if solver_options.enabled and len(solver_options.options) == 0:
+                yield "PETSc solver options group 'solver' is enabled but has no options. Specify solver options or disable the group."
+        import pdb
+
+        pdb.set_trace()

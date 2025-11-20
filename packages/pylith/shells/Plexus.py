@@ -29,7 +29,7 @@ class Plexus(pyre.plexus, family="pylith.shells.plexus"):
     defaults = sim_defaults()
     defaults.doc = "Simulation defaults."
 
-    petsc_options = options.options(default=options.default_sections)
+    petsc_options = options.options(default=options.simulation_options)
     petsc_options.doc = "General PETSc options."
 
     problem = app_problem()

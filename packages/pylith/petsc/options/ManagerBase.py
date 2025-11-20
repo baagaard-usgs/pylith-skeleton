@@ -7,15 +7,13 @@
 #
 # See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
-import pyre
-
 import pylith
 
 from .Options import Options
 
 
-class OptionsManager(pyre.component, implements=Options, family="pylith.petsc.options"):
-    """PETSc options manager."""
+class ManagerBase(pylith.component, implements=Options):
+    """Abstract base class for PETSc options managers."""
 
     def __init__(self, name, locator, implicit, **kwds):
         """Constructor."""

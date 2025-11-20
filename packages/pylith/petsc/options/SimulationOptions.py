@@ -9,11 +9,22 @@
 # =================================================================================================
 import pylith
 
-from ... import solvers
+from .ManagerBase import ManagerBase
+
+from . import groups
 
 
-class SolverFault(solvers.petsc, family="pylith.governing_eqns.elasticity.solvers.fault"):
-    """Solver for elasticity governing equation without a fault."""
+class SimulationOptions(ManagerBase, family="pylith.petsc.options.simulation"):
+    """PETSc options manager for simulation-level options."""
+
+    testing = groups.group(default=groups.group_list)
+    testing.doc = "Options to enable additional checks for use in testing."
+
+    collective_io = groups.group(default=groups.group_list)
+    collective_io.doc = "Turn on HDF5 collective I/O."
+
+    attach_debugger = groups.group(default=groups.group_list)
+    attach_debugger.doc = "Options to attach a debugger on simulation startup."
 
     def __init__(self, name, locator, implicit, **kwds):
         """Constructor."""
@@ -23,7 +34,7 @@ class SolverFault(solvers.petsc, family="pylith.governing_eqns.elasticity.solver
         todo.report(
             (
                 f"{self}",
-                "Implement Fault.__init__(). Pass parameters to C++.",
+                "Implement SimulationOptions.__init__(). Pass parameters to C++.",
             )
         )
         todo.log()

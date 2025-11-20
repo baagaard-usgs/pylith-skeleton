@@ -1,10 +1,24 @@
-pylith.app:
-  problem: pylith.problems.time_dependent#static_problem
+journal:
+  decor: 1
+  detail: 5
+
+# pylith.app:
+#   problem: pylith.problems.time_dependent#static_problem
 
 pylith.app.metadata:
   authors:
     - Brad Aagaard
   description: Elasticity axial extension with Dirichlet and Neumann boundary conditions
-# mat_elastic:
-#   auxiliary_subfields.optional:
-#     body_force_group.enabled: True
+
+pylith.app.problem.governing_eqn.solver.petsc_options:
+  #solver: pylith.petsc.options.group_list#solver_elasticity_nofault
+  initial_guess.enabled: True
+  tolerances.enabled: True
+  adaptive_ts.enabled: True
+
+pylith.app.problem.governing_eqn.materials:
+  - isotropic_linear#material
+
+material.auxiliary_subfields:
+  density.discretization.basis_order: 2
+  shear_modulus.discretization.basis_order: 0

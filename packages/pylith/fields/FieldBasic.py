@@ -7,28 +7,19 @@
 #
 # See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
-import pyre
-
 import pylith
-from pylith import journal
-from pylith.utils import constraints
 
 from .Field import Field
-from .subfields import subfield
 
 
-class FieldBasic(pyre.component, implements=Field, family="pylith.fields.basic"):
+class FieldBasic(pylith.component, implements=Field, family="pylith.fields.basic"):
     """Basic Field."""
-
-    # :TODO: Convert to dict
-    subfields = pylith.properties.list(schema=subfield())
-    subfields.doc = "Subfields in field."
 
     def __init__(self, name, locator, implicit, **kwds):
         """Constructor."""
         super().__init__(name, locator, implicit, **kwds)
 
-        todo = journal.warning(":TODO:")
+        todo = pylith.journal.warning(":TODO:")
         todo.report(
             (
                 f"{self}",

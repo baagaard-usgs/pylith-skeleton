@@ -10,7 +10,6 @@
 import pyre
 
 import pylith
-from pylith import journal
 
 from .Refiner import Refiner
 
@@ -25,7 +24,7 @@ class RefineUniform(pylith.component, implements=Refiner, family="pylith.meshing
         """Constructor."""
         super().__init__(name, locator, implicit, **kwds)
 
-        todo = journal.warning(":TODO:")
+        todo = pylith.journal.warning(":TODO:")
         todo.report(
             (
                 f"{self}",

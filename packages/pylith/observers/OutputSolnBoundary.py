@@ -8,8 +8,6 @@
 # See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
 import pylith
-from pylith import journal
-from pylith.utils import constraints
 
 
 from .OutputObserver import OutputObserver
@@ -18,8 +16,7 @@ from .OutputObserver import OutputObserver
 class OutputSolnBoundary(OutputObserver, family="pylith.observers.solution_boundary"):
     """Output of the solution over a domain boundary."""
 
-    label_name = pylith.properties.str()
-    label_name.validators = constraints.notEmptyString()
+    label_name = pylith.properties.str(default=None)
     label_name.doc = "Name of label for patch."
 
     label_value = pylith.properties.str(default=1)
@@ -29,7 +26,7 @@ class OutputSolnBoundary(OutputObserver, family="pylith.observers.solution_bound
         """Constructor."""
         super().__init__(name, locator, implicit, **kwds)
 
-        todo = journal.warning(":TODO:")
+        todo = pylith.journal.warning(":TODO:")
         todo.report(
             (
                 f"{self}",

@@ -7,34 +7,38 @@
 #
 # See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
-import pyre
-
 import pylith
-from pylith import journal
-
-from .Options import Options
-from .groups import group
 
 
-class OptionsManager(pyre.component, implements=Options, family="pylith.petsc.options"):
-    """PETSc options manager."""
+from ....fields import subfields
 
-    # :TODO: Convert to dict or just use names?
-    groups = pylith.properties.list(schema=group())
-    groups.doc = "List of groups of PETSc options."
+from .SolutionSubfields import SolutionSubfields
+
+
+class SubfieldsNoFault(
+    pylith.component,
+    implements=SolutionSubfields,
+    family="pylith.governing_eqns.elasticity.solution_subfields.nofault",
+):
+    """Solution subfields for elasticity equation without a fault."""
+
+    displacement = subfields.subfield(default=subfields.basic)
+    displacement.doc = "Displacement subfield."
+
+    velocity = subfields.subfield(default=subfields.basic)
+    velocity.doc = "Velocity subfield."
 
     def __init__(self, name, locator, implicit, **kwds):
         """Constructor."""
         super().__init__(name, locator, implicit, **kwds)
 
-        self.groups
-
-        todo = journal.warning(":TODO:")
+        todo = pylith.journal.warning(":TODO:")
         todo.report(
             (
                 f"{self}",
-                "Implement OptionsManager.__init__(). Pass parameters to C++.",
-                f"groups={self.groups}",
+                "Implement SubfieldsNoFault.__init__(). Pass parameters to C++.",
+                f"displacement={self.displacement}",
+                f"velocity={self.velocity}",
             )
         )
         todo.log()

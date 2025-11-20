@@ -8,8 +8,6 @@
 # See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
 import pylith
-from pylith import journal
-from pylith.utils import constraints
 
 
 from .OutputObserver import OutputObserver
@@ -18,15 +16,14 @@ from .OutputObserver import OutputObserver
 class OutputSolnPoints(OutputObserver, family="pylith.observers.solution_points"):
     """Output of solution over given points specified in a file."""
 
-    filename = pylith.properties.str()
-    filename.validators = constraints.notEmptyString()
-    filename.doc = "Name of file with list of points."
+    filename = pylith.properties.uri(default=None)
+    filename.doc = "URI with list of points."
 
     def __init__(self, name, locator, implicit, **kwds):
         """Constructor."""
         super().__init__(name, locator, implicit, **kwds)
 
-        todo = journal.warning(":TODO:")
+        todo = pylith.journal.warning(":TODO:")
         todo.report(
             (
                 f"{self}",

@@ -7,10 +7,6 @@ from pylith.apps import pylith_app
 if __name__ == "__main__":
     app = pylith_app(name="pylith.app")
 
-    # set default journal parameters
-    journal.decor(1)
-    journal.detail(1)
-
     # Print out the application configuration
     channel = app.debug
     # channel.activate()

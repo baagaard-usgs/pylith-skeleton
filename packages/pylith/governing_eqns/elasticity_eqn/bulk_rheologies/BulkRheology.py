@@ -7,5 +7,15 @@
 #
 # See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
-from .BulkRheology import BulkRheology as bulk_rheology
-from .IsotropicLinear import IsotropicLinear as isotropic_linear
+import pylith
+
+
+class BulkRheology(pylith.protocol, family="pylith.governing_eqns.elasticity_eqn.bulk_rheologies"):
+    """Protocol declarator for elasticity bulk rheologies."""
+
+    @classmethod
+    def pyre_default(cls, **kwds):
+        """The default {BulkRheology} implementation"""
+        from .IsotropicLinear import IsotropicLinear
+
+        return IsotropicLinear

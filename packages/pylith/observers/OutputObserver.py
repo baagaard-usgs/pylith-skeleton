@@ -10,9 +10,9 @@
 import pyre
 
 import pylith
-from pylith import journal
-from pylith.observers import output_triggers
-from pylith import data_writers
+
+from . import output_triggers
+from .. import data_writers
 
 from .Observer import Observer
 
@@ -38,7 +38,7 @@ class OutputObserver(Observer):
         """Constructor."""
         super().__init__(name, locator, implicit, **kwds)
 
-        todo = journal.warning(":TODO:")
+        todo = pylith.journal.warning(":TODO:")
         todo.report(
             (
                 f"{self}",

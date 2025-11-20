@@ -8,7 +8,6 @@
 # See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
 import pylith
-from pylith import journal
 
 
 class InitialCondition(pylith.protocol, family="pylith.initial_conditions"):
@@ -35,7 +34,7 @@ class InitialConditionBase(pylith.component, implements=InitialCondition):
         """Constructor."""
         super().__init__(name, locator, implicit, **kwds)
 
-        todo = journal.warning(":TODO:")
+        todo = pylith.journal.warning(":TODO:")
         todo.report(
             (
                 "Implement Dirichlet time_history attribute. Requires spatialdata.",

@@ -8,19 +8,18 @@
 # See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
 import pylith
-from pylith import journal
 
 from .SourceTimeFn import SourceTimeFnBase
 
 
-class ConstrantRate(SourceTimeFnBase, family="pylith.interior_interfaces.source_time_fns.constant_rate"):
-    """ConstrantRate source time function."""
+class ConstantRate(SourceTimeFnBase, family="pylith.interior_interfaces.source_time_fns.constant_rate"):
+    """ConstantRate source time function."""
 
     def __init__(self, name, locator, implicit, **kwds):
         """Constructor."""
         super().__init__(name, locator, implicit, **kwds)
 
-        todo = journal.warning(":TODO:")
+        todo = pylith.journal.warning(":TODO:")
         todo.report(
             (
                 f"{self}",

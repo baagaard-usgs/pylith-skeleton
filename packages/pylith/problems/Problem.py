@@ -8,11 +8,10 @@
 # See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
 import pylith
-from pylith import journal
 
-from pylith.scales import scales
-from pylith import mesh_initializers
-from pylith import governing_eqns
+from ..scales import scales
+from .. import mesh_initializers
+from .. import governing_eqns
 
 
 class Problem(pylith.protocol, family="pylith.problems"):
@@ -44,11 +43,7 @@ class ProblemBase(pylith.component, implements=Problem):
         """Constructor."""
         super().__init__(name, locator, implicit, **kwds)
 
-        self.scales
-        self.mesh_initializer
-        self.governing_eqn
-
-        todo = journal.warning(":TODO:")
+        todo = pylith.journal.warning(":TODO:")
         todo.report(
             (
                 f"{self}",

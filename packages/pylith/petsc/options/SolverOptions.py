@@ -9,17 +9,28 @@
 # =================================================================================================
 import pylith
 
-from .Group import Group
+from .ManagerBase import ManagerBase
+
+from . import groups
 
 
-class GroupList(pylith.component, implements=Group, family="pylith.petsc.options.group_list"):
-    """PETSc options manager."""
+class SolverOptions(ManagerBase, family="pylith.petsc.options.solver"):
+    """PETSc options manager for solver options."""
 
-    enabled = pylith.properties.bool(default=False)
-    enabled.doc = "Use group of options if True."
+    solver = groups.group(default=groups.group_list)
+    solver.doc = "Options for solving the equations."
 
-    options = pylith.properties.list(schema=pylith.properties.tuple(schema=pylith.properties.str()))
-    options.doc = "List of PETSc options as tuples."
+    initial_guess = groups.group(default=groups.group_list)
+    initial_guess.doc = "Options for setting an initial guess."
+
+    tolerances = groups.group(default=groups.group_list)
+    tolerances.doc = "Solver tolerances."
+
+    adaptive_ts = groups.group(default=groups.group_list)
+    adaptive_ts.doc = "Options for adaptive time stepping."
+
+    monitoring = groups.group(default=groups.group_list)
+    monitoring.doc = "Options for monitoring the solver."
 
     def __init__(self, name, locator, implicit, **kwds):
         """Constructor."""
@@ -29,9 +40,7 @@ class GroupList(pylith.component, implements=Group, family="pylith.petsc.options
         todo.report(
             (
                 f"{self}",
-                "Implement GroupList.__init__(). Pass parameters to C++.",
-                f"enabled={self.enabled}",
-                f"options={self.options}",
+                "Implement SolverOptions.__init__(). Pass parameters to C++.",
             )
         )
         todo.log()

@@ -9,9 +9,8 @@
 # =================================================================================================
 
 import pylith
-from pylith import journal
 
-from pylith.meshing import refiners
+from ...meshing import refiners
 from .InitializePhase import InitializePhase
 
 
@@ -24,7 +23,7 @@ class MeshRefiner(pylith.component, implements=InitializePhase, family="pylith.m
         """Constructor."""
         super().__init__(name, locator, implicit, **kwds)
 
-        todo = journal.warning(":TODO:")
+        todo = pylith.journal.warning(":TODO:")
         todo.report(
             (
                 f"{self}",

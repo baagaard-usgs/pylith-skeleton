@@ -7,18 +7,8 @@
 #
 # See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
-from pylith import journal
-
-from .BulkRheology import BulkRheologyBase
+import pylith
 
 
-class IsotropicLinear(BulkRheologyBase, family="pylith.materials.elasticity_rheologies.isotropic_linear"):
-    """Isostropic linear bulk rheology for elasticity."""
-
-    def __init__(self, name, locator, implicit, **kwds):
-        """Constructor."""
-        super().__init__(name, locator, implicit, **kwds)
-
-        todo = journal.warning(":TODO:")
-        todo.report(("Implement IsotropicLinear.__init__(). Pass parameters to C++.",))
-        todo.log()
+class SolutionSubfields(pylith.protocol, family="pylith.governing_eqns.elasticity.solution_subfields"):
+    """Protocol declarator for Solution subfields."""

@@ -10,8 +10,6 @@
 import pyre
 
 import pylith
-from pylith import journal
-from pylith.utils import constraints
 
 from .Defaults import Defaults
 
@@ -22,8 +20,7 @@ class SimulationDefaults(pyre.component, implements=Defaults, family="pylith.def
     output_dir = pylith.properties.str(default="output")
     output_dir.doc = "Directory for output."
 
-    output_name = pylith.properties.str()
-    output_name.validators = constraints.notEmptyString()
+    output_name = pylith.properties.str(default=None)
     output_name.doc = "Name for the problem (used with output_directory for default output filenames)."
 
     quadrature_order = pylith.properties.int(default=1)
@@ -38,7 +35,7 @@ class SimulationDefaults(pyre.component, implements=Defaults, family="pylith.def
         """Constructor."""
         super().__init__(name, locator, implicit, **kwds)
 
-        todo = journal.warning(":TODO:")
+        todo = pylith.journal.warning(":TODO:")
         todo.report(
             (
                 f"{self}",

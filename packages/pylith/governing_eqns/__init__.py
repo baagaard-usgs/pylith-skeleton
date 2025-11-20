@@ -7,8 +7,16 @@
 #
 # See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
-from .GoverningEqn import GoverningEqn as governing_eqn
-from .Elasticity import Elasticity as elasticity
+import pylith
 
-# from .IncompressibleElasticity import IncompressibleElasticity as incompressible_elasticity
-# from .Poroelasticity import Poroelasticity as poroelasticity
+from .GoverningEqn import GoverningEqn as governing_eqn
+
+
+@pylith.foundry(tip="Elasticity governing equation")
+def elasticity():
+    try:
+        from .elasticity_eqn import elasticity_eqn
+    except ImportError:
+        return
+    __doc__ = elasticity_eqn.__doc__
+    return elasticity_eqn

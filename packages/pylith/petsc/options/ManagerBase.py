@@ -7,28 +7,24 @@
 #
 # See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
-from pylith import journal
+import pylith
 
-from .Material import MaterialBase
-from .elasticity_rheologies import bulk_rheology
+from .Options import Options
 
 
-class Elasticity(MaterialBase, family="pylith.materials.elasticity"):
-    """Elasticity material behavior."""
-
-    rheology = bulk_rheology()
-    rheology.doc = "Bulk rheology for elastic material."
+class ManagerBase(pylith.component, implements=Options):
+    """Abstract base class for PETSc options managers."""
 
     def __init__(self, name, locator, implicit, **kwds):
         """Constructor."""
         super().__init__(name, locator, implicit, **kwds)
 
-        todo = journal.warning(":TODO:")
-        todo.report(
-            (
-                f"{self}",
-                "Implement Elasticity.__init__(). Pass parameters to C++.",
-                f"rheology={self.rheology}",
-            )
-        )
+        todo = pylith.journal.warning(":TODO:")
+        lines = [
+            f"{self}",
+            "Implement OptionsManager.__init__(). Pass parameters to C++.",
+            "Option sections:",
+        ]
+        lines += [f"    {trait}" for trait in self.pyre_traits()]
+        todo.report(lines)
         todo.log()

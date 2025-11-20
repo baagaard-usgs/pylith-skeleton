@@ -11,16 +11,13 @@
 # from spatialdata.geocoords.CSCart import CSCart
 
 import pylith
-from pylith import journal
-from pylith.utils import constraints
 
 from .MeshIO import MeshIO
 
 
 class MeshIOAscii(pylith.component, implements=MeshIO, family="pylith.mesh_io.ascii"):
 
-    filename = pylith.properties.uri()
-    filename.validators = constraints.notEmptyString()
+    filename = pylith.properties.uri(default=None)
     filename.doc = "URI of mesh file."
 
     # coord_sys = geocoords.coord_sys(default=geocoords.cs_cart)
@@ -30,7 +27,7 @@ class MeshIOAscii(pylith.component, implements=MeshIO, family="pylith.mesh_io.as
         """Constructor."""
         super().__init__(name, locator, implicit, **kwds)
 
-        todo = journal.warning(":TODO:")
+        todo = pylith.journal.warning(":TODO:")
         todo.report(
             (
                 f"{self}",

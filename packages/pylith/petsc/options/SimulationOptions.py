@@ -9,17 +9,22 @@
 # =================================================================================================
 import pylith
 
-from .Group import Group
+from .ManagerBase import ManagerBase
+
+from . import groups
 
 
-class GroupList(pylith.component, implements=Group, family="pylith.petsc.options.group_list"):
-    """PETSc options manager."""
+class SimulationOptions(ManagerBase, family="pylith.petsc.options.simulation"):
+    """PETSc options manager for simulation-level options."""
 
-    enabled = pylith.properties.bool(default=False)
-    enabled.doc = "Use group of options if True."
+    testing = groups.group(default=groups.group_list)
+    testing.doc = "Options to enable additional checks for use in testing."
 
-    options = pylith.properties.list(schema=pylith.properties.tuple(schema=pylith.properties.str()))
-    options.doc = "List of PETSc options as tuples."
+    collective_io = groups.group(default=groups.group_list)
+    collective_io.doc = "Turn on HDF5 collective I/O."
+
+    attach_debugger = groups.group(default=groups.group_list)
+    attach_debugger.doc = "Options to attach a debugger on simulation startup."
 
     def __init__(self, name, locator, implicit, **kwds):
         """Constructor."""
@@ -29,9 +34,7 @@ class GroupList(pylith.component, implements=Group, family="pylith.petsc.options
         todo.report(
             (
                 f"{self}",
-                "Implement GroupList.__init__(). Pass parameters to C++.",
-                f"enabled={self.enabled}",
-                f"options={self.options}",
+                "Implement SimulationOptions.__init__(). Pass parameters to C++.",
             )
         )
         todo.log()

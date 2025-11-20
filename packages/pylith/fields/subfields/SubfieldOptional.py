@@ -9,17 +9,22 @@
 # =================================================================================================
 import pylith
 
-from .Group import Group
+from .Subfield import Subfield
+
+from .. import discretizations
 
 
-class GroupList(pylith.component, implements=Group, family="pylith.petsc.options.group_list"):
-    """PETSc options manager."""
+class SubfieldOptional(pylith.component, implements=Subfield, family="pylith.fields.subfields.optional"):
+    """Subfield in PETSc field."""
 
     enabled = pylith.properties.bool(default=False)
-    enabled.doc = "Use group of options if True."
+    enabled.doc = "Turn on/off use of subfield."
 
-    options = pylith.properties.list(schema=pylith.properties.tuple(schema=pylith.properties.str()))
-    options.doc = "List of PETSc options as tuples."
+    alias = pylith.properties.str()
+    alias.doc = "User preferred name of Subfield (used in output)."
+
+    discretization = discretizations.discretization(default=discretizations.petsc)
+    discretization.doc = "Discretization of subfield."
 
     def __init__(self, name, locator, implicit, **kwds):
         """Constructor."""
@@ -29,9 +34,10 @@ class GroupList(pylith.component, implements=Group, family="pylith.petsc.options
         todo.report(
             (
                 f"{self}",
-                "Implement GroupList.__init__(). Pass parameters to C++.",
+                "Implement SubfieldOptional.__init__(). Pass parameters to C++.",
+                f"alias={self.alias}",
                 f"enabled={self.enabled}",
-                f"options={self.options}",
+                f"discretization={self.discretization}",
             )
         )
         todo.log()

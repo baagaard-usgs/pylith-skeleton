@@ -7,10 +7,8 @@
 #
 # See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
-import pyre
-
 import pylith
-from pylith import journal
+
 from .phases.InitializePhase import InitializePhase
 from .phases.MeshReader import MeshReader
 
@@ -26,11 +24,11 @@ class MeshInitializer(pylith.component, implements=Initializer, family="pylith.m
         """Constructor."""
         super().__init__(name, locator, implicit, **kwds)
 
-        todo = journal.warning(":TODO:")
+        todo = pylith.journal.warning(":TODO:")
         lines = [
             f"{self}",
             "Implement MeshInitializer.__init__(). Pass parameters to C++.",
-            f"Phases={self.phases}",
+            "Phases:",
         ]
         lines += [f"   {phase}" for phase in self.phases]
         todo.report(lines)

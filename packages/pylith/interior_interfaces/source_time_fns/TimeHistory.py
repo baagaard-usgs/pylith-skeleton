@@ -8,7 +8,6 @@
 # See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
 import pylith
-from pylith import journal
 
 from .SourceTimeFn import SourceTimeFnBase
 
@@ -23,7 +22,7 @@ class TimeHistory(SourceTimeFnBase, family="pylith.interior_interfaces.source_ti
         """Constructor."""
         super().__init__(name, locator, implicit, **kwds)
 
-        todo = journal.warning(":TODO:")
+        todo = pylith.journal.warning(":TODO:")
         todo.report(
             (
                 f"{self}",

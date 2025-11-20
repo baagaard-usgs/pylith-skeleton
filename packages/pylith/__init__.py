@@ -14,6 +14,7 @@ from pyre import (
     component,
     # decorators
     export,
+    foundry,
     provides,
     # manager of pyre runtime
     executive,
@@ -22,13 +23,16 @@ from pyre import (
     plexus,
 )
 
+import journal
 
 package = executive.registerPackage(name="pylith", file=__file__)
 home, prefix, defaults = package.layout()
 
 
-from . import shells
 from . import meta
+from . import exceptions
+
+from . import shells
 from . import cli
 
 

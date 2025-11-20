@@ -12,7 +12,6 @@ import pyre
 from pyre.units.length import meter
 
 import pylith
-from pylith import journal
 
 
 from .FaultCohesive import FaultCohesive
@@ -36,7 +35,7 @@ class FaultCohesiveImpulses(FaultCohesive, family="pylith.interior_interfaces.fa
         """Constructor."""
         super().__init__(name, locator, implicit, **kwds)
 
-        todo = journal.warning(":TODO:")
+        todo = pylith.journal.warning(":TODO:")
         todo.report(
             (
                 f"{self}",

@@ -11,14 +11,13 @@
 # from spatialdata.geocoords.CSCart import CSCart
 
 import pylith
-from pylith import journal
 
 from .MeshIO import MeshIO
 
 
 class MeshIOPetsc(pylith.component, implements=MeshIO, family="pylith.mesh_io.petsc"):
 
-    filename = pylith.properties.uri()
+    filename = pylith.properties.uri(default=None)
     filename.doc = "URI of mesh file."
 
     gmsh_mark_recursive = pylith.properties.bool(default=False)
@@ -34,7 +33,7 @@ class MeshIOPetsc(pylith.component, implements=MeshIO, family="pylith.mesh_io.pe
         """Constructor."""
         super().__init__(name, locator, implicit, **kwds)
 
-        todo = journal.warning(":TODO:")
+        todo = pylith.journal.warning(":TODO:")
         todo.report(
             (
                 f"{self}",

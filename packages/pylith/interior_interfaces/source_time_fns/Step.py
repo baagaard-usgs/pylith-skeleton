@@ -8,7 +8,6 @@
 # See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
 import pylith
-from pylith import journal
 
 from .SourceTimeFn import SourceTimeFnBase
 
@@ -20,7 +19,7 @@ class Step(SourceTimeFnBase, family="pylith.interior_interfaces.source_time_fns.
         """Constructor."""
         super().__init__(name, locator, implicit, **kwds)
 
-        todo = journal.warning(":TODO:")
+        todo = pylith.journal.warning(":TODO:")
         todo.report(
             (
                 f"{self}",

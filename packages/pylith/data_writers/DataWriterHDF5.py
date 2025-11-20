@@ -8,7 +8,6 @@
 # See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
 import pylith
-from pylith import journal
 
 from .DataWriter import DataWriterBase
 
@@ -23,7 +22,7 @@ class DataWriterHDF5(DataWriterBase, family="pylith.data_writers.hdf5"):
         """Constructor."""
         super().__init__(name, locator, implicit, **kwds)
 
-        todo = journal.debug(":TODO:")
+        todo = pylith.journal.debug(":TODO:")
         todo.log("Implement DataWriterHDF5 time_history attribute. Requires spatialdata.")
         todo.log("Implement DataWriterHDF5.__init__(). Pass parameters to C++.")
 
@@ -34,7 +33,7 @@ class DataWriterHDF5(DataWriterBase, family="pylith.data_writers.hdf5"):
         filename = self.filename or DataWriterBase.makeFilename(outputDir, simName, label, "h5")
         DataWriterBase.makePath(filename)
 
-        todo = journal.debug(":TODO:")
+        todo = pylith.journal.debug(":TODO:")
         todo.log(
             (
                 f"{self}",

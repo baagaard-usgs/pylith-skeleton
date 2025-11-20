@@ -12,11 +12,10 @@ import journal
 
 import pylith
 
-from pylith.metadata import metadata as app_metadata
-from pylith.defaults import defaults as sim_defaults
-from pylith.problems import problem as app_problem
-from pylith.petsc import options as petsc_options
-from pylith import journal as pylith_journal
+from ..metadata import metadata as app_metadata
+from ..defaults import defaults as sim_defaults
+from ..problems import problem as app_problem
+from ..petsc import options
 
 
 class Plexus(pyre.plexus, family="pylith.shells.plexus"):
@@ -30,8 +29,8 @@ class Plexus(pyre.plexus, family="pylith.shells.plexus"):
     defaults = sim_defaults()
     defaults.doc = "Simulation defaults."
 
-    petsc_options = petsc_options.options()
-    petsc_options.doc = "PETSc options."
+    petsc_options = options.options(default=options.simulation_options)
+    petsc_options.doc = "General PETSc options."
 
     problem = app_problem()
     problem.doc = "Boundary value problem to solve."
@@ -47,7 +46,7 @@ class Plexus(pyre.plexus, family="pylith.shells.plexus"):
             # redirect all journal output to the file
             journal.logfile(name=str(self.log_file), mode="w")
 
-        todo = pylith_journal.warning(":TODO:")
+        todo = pylith.journal.warning(":TODO:")
         todo.report(("Implement Plexus.__init__(). Pass parameters to C++.",))
         todo.log()
 
@@ -57,8 +56,9 @@ class Plexus(pyre.plexus, family="pylith.shells.plexus"):
         self.problem
 
     def run_cxx(self):
-        flow = pylith_journal.info("application-flow", detail=0)
+        flow = journal.info("application-flow")
+        flow.detail = 0
         flow.log("Running PyLith C++ application.")
 
-        todo = pylith_journal.warning(":TODO:")
+        todo = pylith.journal.warning(":TODO:")
         todo.log("Call C++ PyLithApp::run().")

@@ -9,9 +9,8 @@
 # =================================================================================================
 
 import pylith
-from pylith import journal
 
-from pylith.mesh_initializers import distributors
+from .. import distributors
 from .InitializePhase import InitializePhase
 
 
@@ -26,7 +25,7 @@ class MeshDistributor(
         """Constructor."""
         super().__init__(name, locator, implicit, **kwds)
 
-        todo = journal.warning(":TODO:")
+        todo = pylith.journal.warning(":TODO:")
         todo.report(
             (
                 f"{self}",

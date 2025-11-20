@@ -7,8 +7,6 @@
 #
 # See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
-"""Additional constraints for validating parameters."""
-
-
-def unitVector(*constraints):
-    return
+from .SolutionSubfields import SolutionSubfields as solution_subfields
+from .SubfieldsNoFault import SubfieldsNoFault as nofault
+from .SubfieldsFault import SubfieldsFault as fault

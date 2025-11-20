@@ -13,11 +13,4 @@ import pylith
 class Options(pylith.protocol, family="pylith.petsc.options"):
     """Protocol declarator for PETSc options." """
 
-    @classmethod
-    def pyre_default(cls, **kwds):
-        """
-        The default {ProgressMonitor} implementation
-        """
-        from .OptionsManager import OptionsManager
-
-        return OptionsManager
+    pass

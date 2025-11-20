@@ -9,15 +9,21 @@
 # =================================================================================================
 import pylith
 
+from ... import solvers
 
-class GoverningEqn(pylith.protocol, family="pylith.governing_eqns"):
-    """Protocol declarator for governing equations." """
 
-    @classmethod
-    def pyre_default(cls, **kwds):
-        """
-        The default {GoverningEqn} implementation
-        """
-        from .elasticity_eqn import elasticity_eqn
+class SolverFault(solvers.petsc, family="pylith.governing_eqns.elasticity.solvers.fault"):
+    """Solver for elasticity governing equation without a fault."""
 
-        return elasticity_eqn
+    def __init__(self, name, locator, implicit, **kwds):
+        """Constructor."""
+        super().__init__(name, locator, implicit, **kwds)
+
+        todo = pylith.journal.warning(":TODO:")
+        todo.report(
+            (
+                f"{self}",
+                "Implement Fault.__init__(). Pass parameters to C++.",
+            )
+        )
+        todo.log()

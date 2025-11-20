@@ -10,12 +10,14 @@
 import pylith
 
 
-from ...fields import subfields
+from ....fields import subfields
 
-from .Solution import Solution
+from .SolutionSubfields import SolutionSubfields
 
 
-class ElasticityFault(pylith.component, implements=Solution, family="pylith.governing_eqns.solutions.elasticity_fault"):
+class SubfieldsFault(
+    pylith.component, implements=SolutionSubfields, family="pylith.governing_eqns.elasticity.solution_subfields.fault"
+):
     """Solution subfields for elasticity equation with a fault."""
 
     displacement = subfields.subfield(default=subfields.basic)
@@ -35,7 +37,7 @@ class ElasticityFault(pylith.component, implements=Solution, family="pylith.gove
         todo.report(
             (
                 f"{self}",
-                "Implement ElasticityFault.__init__(). Pass parameters to C++.",
+                "Implement SubfieldsFault.__init__(). Pass parameters to C++.",
                 f"displacement={self.displacement}",
                 f"velocity={self.velocity}",
                 f"Lagrange multiplier fault={self.lagrange_multiplier_fault}",

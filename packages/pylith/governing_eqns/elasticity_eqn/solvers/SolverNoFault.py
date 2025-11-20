@@ -9,22 +9,11 @@
 # =================================================================================================
 import pylith
 
-
-from ...fields import subfields
-
-from .Solution import Solution
+from ... import solvers
 
 
-class ElasticityNoFault(
-    pylith.component, implements=Solution, family="pylith.governing_eqns.solutions.elasticity_nofault"
-):
-    """Solution subfields for elasticity equation without a fault."""
-
-    displacement = subfields.subfield(default=subfields.basic)
-    displacement.doc = "Displacement subfield."
-
-    velocity = subfields.subfield(default=subfields.basic)
-    velocity.doc = "Velocity subfield."
+class SolverNoFault(solvers.petsc, family="pylith.governing_eqns.elasticity.solvers.nofault"):
+    """Solver for elasticity governing equation without a fault."""
 
     def __init__(self, name, locator, implicit, **kwds):
         """Constructor."""
@@ -34,9 +23,7 @@ class ElasticityNoFault(
         todo.report(
             (
                 f"{self}",
-                "Implement ElasticityFault.__init__(). Pass parameters to C++.",
-                f"displacement={self.displacement}",
-                f"velocity={self.velocity}",
+                "Implement NoFault.__init__(). Pass parameters to C++.",
             )
         )
         todo.log()

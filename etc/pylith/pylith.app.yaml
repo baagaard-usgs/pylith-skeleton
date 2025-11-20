@@ -103,28 +103,9 @@ pylith.app.problem.governing_eqn.solver.petsc_options:
       - ksp_error_if_not_converged
       - snes_error_if_not_converged
 
-# Does not work
-#pylith.governing_eqns.solvers.elasticity_nofault.petsc_options.solver:
-# Works
-pylith.app.problem.governing_eqn.solver.petsc_options.solver:
-  enabled: True
-  options:
-    - ts_type, beuler
-    - pc_type, gamg
+pylith.governing_eqns.elasticity.solvers.nofault.petsc_options.solver.options:
+  - ts_type, beuler
+  - pc_type, gamg
 
-    - pc_gamg_coarse_eq_limit, 200
-    - mg_fine_ksp_max_it, 5
-
-# -----------------------------------------------------------------------------
-# Governing equations
-# -----------------------------------------------------------------------------
-# Default is one material named `material`
-
-pylith.governing_eqns.elasticity.materials:
-  - elasticity#material
-
-pylith.governing_eqns.incompressible_elasticity.materials:
-  - incompressible_elasticity#material
-
-pylith.governing_eqns.poroelasticity.materials:
-  - poroelasticity#material
+  - pc_gamg_coarse_eq_limit, 200
+  - mg_fine_ksp_max_it, 5

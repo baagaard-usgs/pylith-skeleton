@@ -7,5 +7,8 @@
 #
 # See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
-from .BulkRheology import BulkRheology as bulk_rheology
-from .IsotropicLinear import IsotropicLinear as isotropic_linear
+import pylith
+
+
+class SolutionSubfields(pylith.protocol, family="pylith.governing_eqns.elasticity.solution_subfields"):
+    """Protocol declarator for Solution subfields."""

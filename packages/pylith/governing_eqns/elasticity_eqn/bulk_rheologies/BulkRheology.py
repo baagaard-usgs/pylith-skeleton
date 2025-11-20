@@ -10,5 +10,12 @@
 import pylith
 
 
-class Solution(pylith.protocol, family="pylith.governing_eqns.solutions"):
-    """Protocol declarator for Solution." """
+class BulkRheology(pylith.protocol, family="pylith.governing_eqns.elasticity_eqn.bulk_rheologies"):
+    """Protocol declarator for elasticity bulk rheologies."""
+
+    @classmethod
+    def pyre_default(cls, **kwds):
+        """The default {BulkRheology} implementation"""
+        from .IsotropicLinear import IsotropicLinear
+
+        return IsotropicLinear

@@ -15,8 +15,9 @@ pylith.app.problem.governing_eqn.solver.petsc_options:
   tolerances.enabled: True
   adaptive_ts.enabled: True
 
+pylith.app.problem.governing_eqn.materials:
+  - isotropic_linear#material
+
 material.auxiliary_subfields:
   density.discretization.basis_order: 2
-
-material.rheology.auxiliary_subfields:
   shear_modulus.discretization.basis_order: 0

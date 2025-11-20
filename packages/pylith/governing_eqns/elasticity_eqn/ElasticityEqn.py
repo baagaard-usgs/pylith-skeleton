@@ -9,20 +9,21 @@
 # =================================================================================================
 import pylith
 
-from .. import materials
-from .. import interior_interfaces
+from ... import interior_interfaces
 
-from .GoverningEqn import GoverningEqnBase
-from . import solution_subfields
+from ..GoverningEqn import GoverningEqn
+
+from . import solution_subfields as subfields
+from . import bulk_rheologies
 
 
-class Elasticity(GoverningEqnBase, family="pylith.governing_eqns.elasticity"):
+class ElasticityEqn(pylith.component, implements=GoverningEqn, family="pylith.governing_eqns.elasticity"):
     """Elasticity governing equation."""
 
-    solution_subfields = solution_subfields.solution(default=solution_subfields.elasticity_nofault)
+    solution_subfields = subfields.solution_subfields(default=subfields.nofault)
     solution_subfields.doc = "Solution subfields for elasticity equation."
 
-    materials = pylith.properties.list(schema=materials.material(default=materials.elasticity))
+    materials = pylith.properties.list(schema=bulk_rheologies.bulk_rheology())
     materials.doc = "Materials in boundary value problem."
 
     interior_interfaces = pylith.properties.list(schema=interior_interfaces.interior_interface())
@@ -38,7 +39,7 @@ class Elasticity(GoverningEqnBase, family="pylith.governing_eqns.elasticity"):
         todo.report(
             (
                 f"{self}",
-                "Implement Elasticity.__init__(). Pass parameters to C++.",
+                "Implement GoverningEqn.__init__(). Pass parameters to C++.",
                 f"solution subfields={self.solution_subfields}",
                 f"materials={self.materials}",
                 f"interior interfaces={self.interior_interfaces}",

@@ -9,16 +9,16 @@
 # =================================================================================================
 import pylith
 
-from ...fields import field, subfields
+from ....fields import field, subfields
 
-
-from .BulkRheology import BulkRheology
+from .ElasticityRheology import ElasticityRheology
+from .ElasticityRheology import AuxiliarySubfields as AuxiliaryBase
+from .ElasticityRheology import DerivedSubfields as DerivedBase
 
 
 class AuxiliarySubfields(
-    pylith.component,
-    implements=field,
-    family="pylith.materials.elasticity_rheologies.isotropic_linear.auxiliary_subfields",
+    AuxiliaryBase,
+    family="pylith.materials.elasticity.rheologies.isotropic_linear.auxiliary_subfields",
 ):
     """Auxiliary subfields for the isotropic linear bulk rheology."""
 
@@ -37,17 +37,16 @@ class AuxiliarySubfields(
             (
                 f"{self}",
                 "Implement IsotropicLinear.__init__(). Pass parameters to C++.",
-                f"{self.shear_modulus}",
-                f"{self.bulk_modulus}",
+                f"shear modulus = {self.shear_modulus}",
+                f"bulk modulus = {self.bulk_modulus}",
             )
         )
         todo.log()
 
 
 class DerivedSubfields(
-    pylith.component,
-    implements=field,
-    family="pylith.materials.elasticity_rheologies.isotropic_linear.derived_subfields",
+    DerivedBase,
+    family="pylith.materials.elasticity.rheologies.isotropic_linear.derived_subfields",
 ):
     """Derived subfields for the isotropic linear bulk rheology."""
 
@@ -74,9 +73,10 @@ class DerivedSubfields(
 
 
 class IsotropicLinear(
-    pylith.component, implements=BulkRheology, family="pylith.materials.elasticity_rheologies.isotropic_linear"
+    ElasticityRheology,
+    family="pylith.governing_eqns.elasticity_eqn.bulk_rheologies.isotropic_linear",
 ):
-    """Isostropic linear bulk rheology for elasticity."""
+    """Isotropic linear bulk rheology for elasticity."""
 
     auxiliary_subfields = field(default=AuxiliarySubfields)
     auxiliary_subfields.doc = "Rheology-specific material parameters."

@@ -14,6 +14,7 @@ from pyre import (
     component,
     # decorators
     export,
+    foundry,
     provides,
     # manager of pyre runtime
     executive,

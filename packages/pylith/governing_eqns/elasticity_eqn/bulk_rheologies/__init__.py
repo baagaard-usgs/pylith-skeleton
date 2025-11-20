@@ -7,7 +7,6 @@
 #
 # See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
-from .Solution import Solution as solution
-
-from .ElasticityNoFault import ElasticityNoFault as elasticity_nofault
-from .ElasticityFault import ElasticityFault as elasticity_fault
+from .BulkRheology import BulkRheology as bulk_rheology
+from .ElasticityRheology import ElasticityRheology as elasticity_rheology
+from .IsotropicLinear import IsotropicLinear as isotropic_linear

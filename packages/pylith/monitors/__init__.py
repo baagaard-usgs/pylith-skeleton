@@ -7,6 +7,5 @@
 #
 # See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
-from .ProgressMonitor import ProgressMonitor as progress_monitor
 from .ProgressMonitorTime import ProgressMonitorTime as progress_monitor_time
 from .ProgressMonitorStep import ProgressMonitorStep as progress_monitor_step

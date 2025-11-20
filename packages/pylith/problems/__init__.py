@@ -7,7 +7,5 @@
 #
 # See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
-
-from .Problem import Problem as problem
 from .TimeDependent import TimeDependent as time_dependent
 from .GreensFns import GreensFns as greens_fns

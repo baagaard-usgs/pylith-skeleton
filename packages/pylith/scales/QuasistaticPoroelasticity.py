@@ -14,7 +14,7 @@ from pyre.units.time import year, second
 
 import pylith
 
-from .Scales import ScalesBase
+from .ScalesBase import ScalesBase
 from .ElasticityScales import ElasticityScales
 
 

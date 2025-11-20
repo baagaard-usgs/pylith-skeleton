@@ -7,7 +7,5 @@
 #
 # See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
-
-from .InitialCondition import InitialCondition as initial_condition
 from .InitialConditionDomain import InitialConditionDomain as domain
 from .InitialConditionPatch import InitialConditionPatch as patch

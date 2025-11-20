@@ -7,5 +7,4 @@
 #
 # See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
-from .Defaults import Defaults as defaults
 from .SimulationDefaults import SimulationDefaults as simulation_defaults

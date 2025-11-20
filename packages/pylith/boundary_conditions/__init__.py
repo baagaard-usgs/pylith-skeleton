@@ -7,7 +7,5 @@
 #
 # See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
-
-from .BoundaryCondition import BoundaryCondition as boundary_condition
 from .Dirichlet import Dirichlet as dirichlet
 from .Neumann import Neumann as neumann

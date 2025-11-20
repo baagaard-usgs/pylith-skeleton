@@ -11,10 +11,10 @@ import pyre
 
 import pylith
 
-from .Refiner import Refiner
+from ...protocols import meshing
 
 
-class RefineUniform(pylith.component, implements=Refiner, family="pylith.meshing.refiners.uniform"):
+class RefineUniform(pylith.component, implements=meshing.refiner, family="pylith.meshing.refiners.uniform"):
 
     levels = pylith.properties.int(default=0)
     levels.validators = pyre.constraints.isGreaterEqual(value=0)

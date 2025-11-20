@@ -15,7 +15,7 @@ from pyre.units.mass import kg
 
 import pylith
 
-from .Scales import ScalesBase
+from .ScalesBase import ScalesBase
 
 
 class DynamicElasticity(ScalesBase, family="pylith.scales.dynamic_elasticity"):

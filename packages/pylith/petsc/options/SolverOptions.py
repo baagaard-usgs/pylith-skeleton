@@ -11,25 +11,25 @@ import pylith
 
 from .ManagerBase import ManagerBase
 
-from . import groups
+from ...protocols.petsc import options
 
 
 class SolverOptions(ManagerBase, family="pylith.petsc.options.solver"):
     """PETSc options manager for solver options."""
 
-    solver = groups.group(default=groups.group_list)
+    solver = options.group()
     solver.doc = "Options for solving the equations."
 
-    initial_guess = groups.group(default=groups.group_list)
+    initial_guess = options.group()
     initial_guess.doc = "Options for setting an initial guess."
 
-    tolerances = groups.group(default=groups.group_list)
+    tolerances = options.group()
     tolerances.doc = "Solver tolerances."
 
-    adaptive_ts = groups.group(default=groups.group_list)
+    adaptive_ts = options.group()
     adaptive_ts.doc = "Options for adaptive time stepping."
 
-    monitoring = groups.group(default=groups.group_list)
+    monitoring = options.group()
     monitoring.doc = "Options for monitoring the solver."
 
     def __init__(self, name, locator, implicit, **kwds):

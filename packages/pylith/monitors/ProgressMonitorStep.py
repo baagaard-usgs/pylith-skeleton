@@ -9,7 +9,7 @@
 # =================================================================================================
 import pylith
 
-from .ProgressMonitor import ProgressMonitorBase
+from .ProgressMonitorBase import ProgressMonitorBase
 
 
 class ProgressMonitorStep(ProgressMonitorBase, family="pylith.monitors.progress_monitor_step"):

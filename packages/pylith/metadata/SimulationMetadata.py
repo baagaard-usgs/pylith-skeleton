@@ -10,10 +10,12 @@
 import pylith
 
 
-from .Metadata import Metadata
+from ..protocols import application_metadata
 
 
-class SimulationMetadata(pylith.component, implements=Metadata, family="pylith.metadata.simulation_metadata"):
+class SimulationMetadata(
+    pylith.component, implements=application_metadata, family="pylith.metadata.simulation_metadata"
+):
     """Metadata for simulation.
 
     When using `base` to specify other files with metadata, the other files will append to the
@@ -66,11 +68,11 @@ class SimulationMetadata(pylith.component, implements=Metadata, family="pylith.m
         )
         todo.log()
 
-    def pyre_configured(self):
+    def pyre_initialized(self):
         errors = []
 
         todo = pylith.journal.warning(":TODO:")
-        todo.log("Implement SimulationMetadata.pyre_configured().")
+        todo.log("Implement SimulationMetadata.pyre_initialized().")
         # from pylith.utils.utils import PylithVersion
 
         # version = PylithVersion.version()

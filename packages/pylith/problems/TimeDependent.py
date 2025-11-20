@@ -12,9 +12,10 @@ from pyre.units.time import second
 
 import pylith
 
+from .. import protocols
 from .. import monitors
 
-from .Problem import ProblemBase
+from .ProblemBase import ProblemBase
 
 
 class TimeDependent(ProblemBase, family="pylith.problems.time_dependent"):
@@ -34,7 +35,7 @@ class TimeDependent(ProblemBase, family="pylith.problems.time_dependent"):
     max_time_steps.validators = pyre.constraints.isPositive()
     max_time_steps.doc = "Maximum number of time steps."
 
-    progress_monitor = monitors.progress_monitor(default=monitors.progress_monitor_time)
+    progress_monitor = protocols.progress_monitor(default=monitors.progress_monitor_time)
     progress_monitor.doc = "Monitor for reporting progress of simulation."
 
     def __init__(self, name, locator, implicit, **kwds):

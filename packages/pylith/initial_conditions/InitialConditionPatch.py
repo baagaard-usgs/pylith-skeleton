@@ -10,7 +10,7 @@
 import pylith
 
 
-from .InitialCondition import InitialConditionBase
+from .InitialConditionBase import InitialConditionBase
 
 
 class InitialConditionPatch(InitialConditionBase, family="pylith.initial_conditions.patch"):

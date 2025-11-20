@@ -7,6 +7,4 @@
 #
 # See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
-
-from .Initializer import Initializer as initializer
 from .MeshInitializer import MeshInitializer as mesh_initializer

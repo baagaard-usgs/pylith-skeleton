@@ -11,10 +11,10 @@ import pyre
 
 import pylith
 
-from .OutputTrigger import OutputTrigger
+from ...protocols.observers import output_trigger
 
 
-class OutputTriggerStep(pyre.component, implements=OutputTrigger, family="pylith.observers.output_triggers.step"):
+class OutputTriggerStep(pyre.component, implements=output_trigger, family="pylith.observers.output_triggers.step"):
     """Trigger output based on time step index."""
 
     num_skip = pylith.properties.int(default=0)

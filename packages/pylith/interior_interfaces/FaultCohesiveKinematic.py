@@ -11,7 +11,7 @@ import pylith
 
 
 from .FaultCohesive import FaultCohesive
-from .source_time_fns import source_time_fn
+from ..protocols.interior_interfaces import source_time_fn
 
 
 class FaultCohesiveKinematic(FaultCohesive, family="pylith.interior_interfaces.fault_cohesive_kinematic"):

@@ -12,7 +12,7 @@ from pyre.units.time import year
 
 import pylith
 
-from .ProgressMonitor import ProgressMonitorBase
+from .ProgressMonitorBase import ProgressMonitorBase
 
 
 class ProgressMonitorTime(ProgressMonitorBase, family="pylith.monitors.progress_monitor_time"):

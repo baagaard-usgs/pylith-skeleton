@@ -7,5 +7,4 @@
 #
 # See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
-from .Group import Group as group
 from .GroupList import GroupList as group_list

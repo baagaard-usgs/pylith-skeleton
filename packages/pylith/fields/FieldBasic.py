@@ -9,10 +9,10 @@
 # =================================================================================================
 import pylith
 
-from .Field import Field
+from ..protocols import field
 
 
-class FieldBasic(pylith.component, implements=Field, family="pylith.fields.basic"):
+class FieldBasic(pylith.component, implements=field, family="pylith.fields.basic"):
     """Basic Field."""
 
     def __init__(self, name, locator, implicit, **kwds):

@@ -9,7 +9,7 @@
 # =================================================================================================
 import pylith
 
-from .DataWriter import DataWriterBase
+from .DataWriterBase import DataWriterBase
 
 
 class DataWriterHDF5(DataWriterBase, family="pylith.data_writers.hdf5"):

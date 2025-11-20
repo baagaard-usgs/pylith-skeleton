@@ -15,7 +15,7 @@ from pyre.units.time import year
 
 import pylith
 
-from .Scales import ScalesBase
+from .ScalesBase import ScalesBase
 
 
 class QuasistaticElasticity(ScalesBase, family="pylith.scales.quasistatic_elasticity"):

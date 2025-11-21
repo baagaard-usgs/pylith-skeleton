@@ -23,12 +23,15 @@ class MeshWriter(pylith.component, implements=InitializePhase, family="pylith.me
         """Constructor."""
         super().__init__(name, locator, implicit, **kwds)
 
-        todo = pylith.journal.warning(":TODO:")
-        todo.report(
+        info = pylith.journal.info_factory.initialization()
+        info.report(
             (
                 f"{self}",
-                "Implement MeshWriter.__init__(). Pass parameters to C++.",
-                f"writer={self.writer}",
+                f"writer = {self.writer}",
             )
         )
+        info.log()
+
+        todo = pylith.journal.debug_factory.todo()
+        todo.report(("Implement MeshWriter.__init__(). Pass parameters to C++.",))
         todo.log()

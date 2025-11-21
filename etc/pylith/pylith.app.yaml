@@ -18,7 +18,10 @@ journal:
     - debug, integration-kernels
     - debug, solver
     - debug, mesh
-    - warning, ":TODO:"
+    - debug, TODO
+    - info, debug-config
+    - info, about
+    - info, initialization
 
 # -----------------------------------------------------------------------------
 # Mesh initialization

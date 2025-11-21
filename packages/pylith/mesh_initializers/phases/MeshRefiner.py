@@ -23,12 +23,15 @@ class MeshRefiner(pylith.component, implements=InitializePhase, family="pylith.m
         """Constructor."""
         super().__init__(name, locator, implicit, **kwds)
 
-        todo = pylith.journal.warning(":TODO:")
-        todo.report(
+        info = pylith.journal.info_factory.initialization()
+        info.report(
             (
                 f"{self}",
-                "Implement MeshRefiner.__init__(). Pass parameters to C++.",
-                f"refiner={self.refiner}",
+                f"refiner = {self.refiner}",
             )
         )
+        info.log()
+
+        todo = pylith.journal.debug_factory.todo()
+        todo.report(("Implement MeshRefiner.__init__(). Pass parameters to C++.",))
         todo.log()

@@ -48,5 +48,17 @@ class QuasistaticElasticity(ScalesBase, family="pylith.scales.quasistatic_elasti
         self.setRigidityScale(self.shear_modulus)
         self.setTimeScale(self.time_scale)
 
+        info = pylith.journal.info_factory.initialization()
+        info.report(
+            (
+                f"{self}",
+                f"length scale = {self.length_scale}",
+                f"displacement scale = {self.displacement_scale}",
+                f"nominal shear modulus = {self.shear_modulus}",
+                f"time scale = {self.time_scale}",
+            )
+        )
+        info.log()
+
 
 # End of file

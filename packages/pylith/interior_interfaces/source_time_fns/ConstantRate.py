@@ -19,7 +19,7 @@ class ConstantRate(SourceTimeFnBase, family="pylith.interior_interfaces.source_t
         """Constructor."""
         super().__init__(name, locator, implicit, **kwds)
 
-        todo = pylith.journal.warning(":TODO:")
+        todo = pylith.journal.debug_factory.todo()
         todo.report(
             (
                 f"{self}",

@@ -37,16 +37,24 @@ class Dirichlet(BoundaryConditionBase, family="pylith.boundary_conditions.dirich
         """Constructor."""
         super().__init__(name, locator, implicit, **kwds)
 
-        todo = pylith.journal.warning(":TODO:")
-        todo.report(
+        info = pylith.journal.info_factory.initialization(detail=5)
+        info.detail = 5
+        info.report(
             (
                 f"{self}",
-                "Implement Dirichlet time_history attribute. Requires spatialdata.",
+                f"constrained dof = {self.constrained_dof}",
+                f"use initial = {self.use_initial}",
+                f"use rate = {self.use_rate}",
+                f"use time history = {self.use_time_history}",
+            )
+        )
+        info.log()
+
+        todo = pylith.journal.debug_factory.todo()
+        todo.report(
+            (
                 "Implement Dirichlet.__init__(). Pass parameters to C++.",
-                f"constrained dof={self.constrained_dof}",
-                f"use initial={self.use_initial}",
-                f"use rate={self.use_rate}",
-                f"use time history={self.use_time_history}",
+                "Implement Dirichlet time_history attribute. Requires spatialdata.",
             )
         )
         todo.log()

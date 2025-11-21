@@ -34,14 +34,17 @@ class SubfieldsFault(
         """Constructor."""
         super().__init__(name, locator, implicit, **kwds)
 
-        todo = pylith.journal.warning(":TODO:")
-        todo.report(
+        info = pylith.journal.info_factory.initialization()
+        info.report(
             (
                 f"{self}",
-                "Implement SubfieldsFault.__init__(). Pass parameters to C++.",
-                f"displacement={self.displacement}",
-                f"velocity={self.velocity}",
-                f"Lagrange multiplier fault={self.lagrange_multiplier_fault}",
+                f"displacement = {self.displacement}",
+                f"velocity = {self.velocity}",
+                f"Lagrange multiplier fault = {self.lagrange_multiplier_fault}",
             )
         )
+        info.log()
+
+        todo = pylith.journal.debug_factory.todo()
+        todo.report(("Implement SubfieldsFault.__init__(). Pass parameters to C++.",))
         todo.log()

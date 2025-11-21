@@ -26,13 +26,16 @@ class OutputSolnBoundary(OutputObserver, family="pylith.observers.solution_bound
         """Constructor."""
         super().__init__(name, locator, implicit, **kwds)
 
-        todo = pylith.journal.warning(":TODO:")
-        todo.report(
+        info = pylith.journal.info_factory.initialization()
+        info.report(
             (
                 f"{self}",
-                "Implement OutputSolnBoundary.__init__(). Pass parameters to C++.",
-                f"label name={self.label_name}",
-                f"label value={self.label_value}",
+                f"label name = {self.label_name}",
+                f"label value = {self.label_value}",
             )
         )
+        info.log()
+
+        todo = pylith.journal.debug_factory.todo()
+        todo.report(("Implement OutputSolnBoundary.__init__(). Pass parameters to C++.",))
         todo.log()

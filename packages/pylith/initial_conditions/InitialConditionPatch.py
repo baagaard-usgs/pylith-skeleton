@@ -26,13 +26,16 @@ class InitialConditionPatch(InitialConditionBase, family="pylith.initial_conditi
         """Constructor."""
         super().__init__(name, locator, implicit, **kwds)
 
-        todo = pylith.journal.warning(":TODO:")
-        todo.report(
+        info = pylith.journal.info_factory.initialization()
+        info.report(
             (
                 f"{self}",
-                "Implement InitialConditionPatch.__init__(). Pass parameters to C++.",
-                f"label name={self.label_name}",
-                f"label value={self.label_value}",
+                f"label name = {self.label_name}",
+                f"label value = {self.label_value}",
             )
         )
+        info.log()
+
+        todo = pylith.journal.debug_factory.todo()
+        todo.report(("Implement InitialConditionPatch.__init__(). Pass parameters to C++.",))
         todo.log()

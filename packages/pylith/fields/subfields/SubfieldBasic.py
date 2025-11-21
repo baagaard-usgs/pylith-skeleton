@@ -27,13 +27,16 @@ class SubfieldBasic(pylith.component, implements=fields.subfield, family="pylith
         """Constructor."""
         super().__init__(name, locator, implicit, **kwds)
 
-        todo = pylith.journal.warning(":TODO:")
-        todo.report(
+        info = pylith.journal.info_factory.initialization()
+        info.report(
             (
                 f"{self}",
-                "Implement SubfieldBasic.__init__(). Pass parameters to C++.",
-                f"alias={self.alias}",
-                f"discretization={self.discretization}",
+                f"alias = {self.alias}",
+                f"discretization = {self.discretization}",
             )
         )
+        info.log()
+
+        todo = pylith.journal.debug_factory.todo()
+        todo.report(("Implement SubfieldBasic.__init__(). Pass parameters to C++.",))
         todo.log()

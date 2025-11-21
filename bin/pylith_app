@@ -1,0 +1,17 @@
+#!/usr/bin/env python3
+
+import journal
+
+from pylith.apps import pylith_app
+
+if __name__ == "__main__":
+    app = pylith_app(name="pylith.app")
+
+    # Print out the application configuration
+    channel = app.debug
+    # channel.activate()
+    channel.report(app.pyre_showConfiguration(deep=True))
+    channel.log()
+
+    status = app.run()
+    raise SystemExit(status)

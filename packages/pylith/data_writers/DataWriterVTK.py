@@ -37,9 +37,14 @@ class DataWriterVTK(DataWriterBase, family="pylith.data_writers.vtk"):
         """Constructor."""
         super().__init__(name, locator, implicit, **kwds)
 
-        todo = pylith.journal.debug(":TODO:")
-        todo.log("Implement DataWriterVTK time_history attribute. Requires spatialdata.")
-        todo.log("Implement DataWriterVTK.__init__(). Pass parameters to C++.")
+        todo = pylith.journal.debug_factory.todo()
+        todo.report(
+            (
+                "Implement DataWriterVTK time_history attribute. Requires spatialdata.",
+                "Implement DataWriterVTK.__init__(). Pass parameters to C++.",
+            )
+        )
+        todo.log()
 
     def setFilename(self, outputDir, simName, label):
         """Set filename from default options and inventory. If filename is given in inventory, use it,
@@ -48,10 +53,5 @@ class DataWriterVTK(DataWriterBase, family="pylith.data_writers.vtk"):
         filename = self.filename or DataWriterBase.makeFilename(outputDir, simName, label, "vtk")
         DataWriterBase.makePath(filename)
 
-        todo = pylith.journal.debug(":TODO:")
-        todo.log(
-            (
-                f"{self}",
-                "Implement DataWriterHDF5.setFilename(). Pass parameters to C++.",
-            )
-        )
+        todo = pylith.journal.debug_factory.todo()
+        todo.log(("Implement DataWriterHDF5.setFilename(). Pass parameters to C++.",))

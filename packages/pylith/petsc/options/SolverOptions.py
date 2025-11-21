@@ -36,11 +36,19 @@ class SolverOptions(ManagerBase, family="pylith.petsc.options.solver"):
         """Constructor."""
         super().__init__(name, locator, implicit, **kwds)
 
-        todo = pylith.journal.warning(":TODO:")
-        todo.report(
+        info = pylith.journal.info_factory.initialization()
+        info.report(
             (
                 f"{self}",
-                "Implement SolverOptions.__init__(). Pass parameters to C++.",
+                f"solver = {self.solver}",
+                f"initial guess = {self.initial_guess}",
+                f"tolerances = {self.tolerances}",
+                f"adaptive time stepping = {self.adaptive_ts}",
+                f"monitoring = {self.monitoring}",
             )
         )
+        info.log()
+
+        todo = pylith.journal.debug_factory.todo()
+        todo.report(("Implement SolverOptions.__init__(). Pass parameters to C++.",))
         todo.log()

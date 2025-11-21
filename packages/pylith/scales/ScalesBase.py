@@ -21,7 +21,7 @@ class ScalesBase(pylith.component, implements=scales):
         """Constructor."""
         super().__init__(name, locator, implicit, **kwds)
         # self.cxx = CxxScales()
-        todo = pylith.journal.warning(":TODO:")
+        todo = pylith.journal.debug_factory.todo()
         todo.log("Implement Scales.__init__().")
 
     def setLengthScale(self, length):
@@ -29,7 +29,7 @@ class ScalesBase(pylith.component, implements=scales):
         Set length scale.
         """
         # self.cxx.setLengthScale(length.value)
-        todo = pylith.journal.warning(":TODO:")
+        todo = pylith.journal.debug_factory.todo()
         todo.report(("Implement Scales.setLengthScale()", f"length scale={length}"))
         todo.log()
 
@@ -46,7 +46,7 @@ class ScalesBase(pylith.component, implements=scales):
         Set displacement scale.
         """
         # self.cxx.setDisplacementScale(displacement.value)
-        todo = pylith.journal.warning(":TODO:")
+        todo = pylith.journal.debug_factory.todo()
         todo.report(("Implement Scales.setDisplacementScale()", f"displacement scale={displacement}"))
         todo.log()
 
@@ -63,7 +63,7 @@ class ScalesBase(pylith.component, implements=scales):
         Set pressure scale.
         """
         # self.cxx.setRigidityScale(rigidity.value)
-        todo = pylith.journal.warning(":TODO:")
+        todo = pylith.journal.debug_factory.todo()
         todo.report(("Implement Scales.setRigidityScale()", f"rigidity scale={rigidity}"))
         todo.log()
 
@@ -80,7 +80,7 @@ class ScalesBase(pylith.component, implements=scales):
         Get time scale.
         """
         # self.cxx.setTimeScale(time.value)
-        todo = pylith.journal.warning(":TODO:")
+        todo = pylith.journal.debug_factory.todo()
         todo.report(("Implement Scales.setTimeScale()", f"displacement scale={time}"))
         todo.log()
 

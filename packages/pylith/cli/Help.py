@@ -29,7 +29,24 @@ class Help(pylith.shells.command, family="pyre.cli.help"):
             "2. Indicate which version of PyLith you are using.",
             "3. Send the *entire* error message, not just what you think is important (entire log is best).",
         )
-        plexus.info.log("\n".join(lines))
+        info = pylith.journal.info_factory.about()
+        info.report(lines)
+        info.log()
+
+    @pylith.export(tip="Print the available journal channels.")
+    def journals(self, plexus, **kwds):
+        """Print documentation for an object."""
+        lines = [
+            "Journal:",
+            f"    decor (amount of decoration): {plexus.journal.decor}",
+            f"    detail (level of detail): {plexus.journal.detail}",
+            "Journal channels:",
+        ]
+        for channel in plexus.journal.channels:
+            lines += [f"   - {channel[1]} ({channel[0]})"]
+        info = pylith.journal.info_factory.about()
+        info.report(lines)
+        info.log()
 
     @pylith.export(tip="Print the documentation for an object.")
     def object_docs(self, plexus, **kwds):

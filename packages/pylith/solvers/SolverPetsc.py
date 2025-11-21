@@ -29,15 +29,18 @@ class SolverPetsc(pylith.component, implements=solver, family="pylith.solvers.pe
         """Constructor."""
         super().__init__(name, locator, implicit, **kwds)
 
-        todo = pylith.journal.warning(":TODO:")
-        todo.report(
+        info = pylith.journal.info_factory.initialization()
+        info.report(
             (
                 f"{self}",
-                "Implement SolverPetsc.__init__(). Pass parameters to C++.",
-                f"formulation={self.formulation}",
-                f"PETSc options={self.petsc_options}",
+                f"formulation = {self.formulation}",
+                f"PETSc options = {self.petsc_options}",
             )
         )
+        info.log()
+
+        todo = pylith.journal.debug_factory.todo()
+        todo.report(("Implement SolverPetsc.__init__(). Pass parameters to C++.",))
         todo.log()
 
     def pyre_initialized(self):

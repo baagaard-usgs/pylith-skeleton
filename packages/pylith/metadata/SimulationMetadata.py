@@ -51,27 +51,30 @@ class SimulationMetadata(
         """Constructor."""
         super().__init__(name, locator, implicit, **kwds)
 
-        todo = pylith.journal.warning(":TODO:")
-        todo.report(
+        info = pylith.journal.info_factory.initialization()
+        info.report(
             (
                 f"{self}",
-                "Implement SimulationMetadata.__init__(). Pass parameters to C++.",
-                f"description={self.description}",
-                f"authors={self.authors}",
-                f"keywords={self.keywords}",
-                f"features={self.features}",
-                f"arguments={self.arguments}",
-                f"base={self.base}",
-                f"version={self.version}",
-                f"PyLith version={self.pylith_version}",
+                f"description = {self.description}",
+                f"authors = {self.authors}",
+                f"keywords = {self.keywords}",
+                f"features = {self.features}",
+                f"arguments = {self.arguments}",
+                f"base = {self.base}",
+                f"version = {self.version}",
+                f"PyLith version = {self.pylith_version}",
             )
         )
+        info.log()
+
+        todo = pylith.journal.debug_factory.todo()
+        todo.report(("Implement SimulationMetadata.__init__(). Pass parameters to C++.",))
         todo.log()
 
     def pyre_initialized(self):
         errors = []
 
-        todo = pylith.journal.warning(":TODO:")
+        todo = pylith.journal.debug_factory.todo()
         todo.log("Implement SimulationMetadata.pyre_initialized().")
         # from pylith.utils.utils import PylithVersion
 

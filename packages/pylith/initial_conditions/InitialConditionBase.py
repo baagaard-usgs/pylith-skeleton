@@ -25,12 +25,15 @@ class InitialConditionBase(pylith.component, implements=initial_condition):
         """Constructor."""
         super().__init__(name, locator, implicit, **kwds)
 
-        todo = pylith.journal.warning(":TODO:")
+        info = pylith.journal.info_factory.initialization()
+        info.report((f"subfields={self.subfields}",))
+        info.log()
+
+        todo = pylith.journal.debug_factory.todo()
         todo.report(
             (
                 "Implement Dirichlet time_history attribute. Requires spatialdata.",
                 "Implement Dirichlet.__init__(). Pass parameters to C++.",
-                f"subfields={self.subfields}",
             )
         )
         todo.log()

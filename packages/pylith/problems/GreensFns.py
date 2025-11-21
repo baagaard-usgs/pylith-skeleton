@@ -31,12 +31,15 @@ class GreensFns(
         # self.cxx = CxxTimeDependent()
         super().__init__(name, locator, implicit, **kwds)
 
-        todo = pylith.journal.warning(":TODO:")
-        todo.report(
+        info = pylith.journal.info_factory.initialization()
+        info.report(
             (
                 f"{self}",
-                "Implement GreensFns.__init__(). Pass parameters to C++.",
                 f"progress monitor={self.progress_monitor}",
             )
         )
+        info.log()
+
+        todo = pylith.journal.debug_factory.todo()
+        todo.report(("Implement GreensFns.__init__(). Pass parameters to C++.",))
         todo.log()

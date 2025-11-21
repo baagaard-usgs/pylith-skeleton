@@ -29,13 +29,16 @@ class FieldOptional(pylith.component, implements=field, family="pylith.fields.op
         """Constructor."""
         super().__init__(name, locator, implicit, **kwds)
 
-        todo = pylith.journal.warning(":TODO:")
-        todo.report(
+        info = pylith.journal.info_factory.initialization()
+        info.report(
             (
                 f"{self}",
-                "Implement FieldOptional.__init__(). Pass parameters to C++.",
                 f"required={self.required}",
                 f"optional={self.optional}",
             )
         )
+        info.log()
+
+        todo = pylith.journal.debug_factory.todo()
+        todo.report(("Implement FieldOptional.__init__(). Pass parameters to C++.",))
         todo.log()

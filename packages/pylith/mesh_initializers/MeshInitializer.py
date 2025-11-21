@@ -24,12 +24,17 @@ class MeshInitializer(
         """Constructor."""
         super().__init__(name, locator, implicit, **kwds)
 
-        todo = pylith.journal.warning(":TODO:")
+        info = pylith.journal.info_factory.initialization()
         lines = [
             f"{self}",
-            "Implement MeshInitializer.__init__(). Pass parameters to C++.",
             "Phases:",
         ]
-        lines += [f"   {phase}" for phase in self.phases]
-        todo.report(lines)
+        lines += [f"    - {phase}" for phase in self.phases]
+        info.report(lines)
+        info.log()
+
+        todo = pylith.journal.debug_factory.todo()
+        todo.report(
+            "Implement MeshInitializer.__init__(). Pass parameters to C++.",
+        )
         todo.log()

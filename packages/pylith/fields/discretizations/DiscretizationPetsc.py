@@ -48,18 +48,21 @@ class DiscretizationPetsc(pylith.component, implements=discretization, family="p
         """Constructor."""
         super().__init__(name, locator, implicit, **kwds)
 
-        todo = pylith.journal.warning(":TODO:")
-        todo.report(
+        info = pylith.journal.info_factory.initialization()
+        info.report(
             (
                 f"{self}",
-                "Implement DiscretizationPetsc.__init__(). Pass parameters to C++.",
-                f"basis order={self.basis_order}",
-                f"quadrature order={self.quadrature_order}",
-                f"dimension={self.dimension}",
-                f"finite element space={self.finite_element_space}",
-                f"cell basis={self.cell_basis}",
-                f"is basis continuous={self.is_basis_continuous}",
-                f"is cohesive only={self.is_cohesive_only}",
+                f"basis order = {self.basis_order}",
+                f"quadrature order = {self.quadrature_order}",
+                f"dimension = {self.dimension}",
+                f"finite element space = {self.finite_element_space}",
+                f"cell basis = {self.cell_basis}",
+                f"is basis continuous = {self.is_basis_continuous}",
+                f"is cohesive only = {self.is_cohesive_only}",
             )
         )
+        info.log()
+
+        todo = pylith.journal.debug_factory.todo()
+        todo.report(("Implement DiscretizationPetsc.__init__(). Pass parameters to C++.",))
         todo.log()

@@ -33,7 +33,7 @@ class DataWriterHDF5(DataWriterBase, family="pylith.data_writers.hdf5"):
         filename = self.filename or DataWriterBase.makeFilename(outputDir, simName, label, "h5")
         DataWriterBase.makePath(filename)
 
-        todo = pylith.journal.debug(":TODO:")
+        todo = pylith.journal.debug_factory.todo()
         todo.log(
             (
                 f"{self}",

@@ -34,14 +34,17 @@ class ElasticityEqn(GoverningEqnBase, family="pylith.governing_eqns.elasticity")
         """Constructor."""
         super().__init__(name, locator, implicit, **kwds)
 
-        todo = pylith.journal.warning(":TODO:")
-        todo.report(
+        info = pylith.journal.info_factory.initialization()
+        info.report(
             (
                 f"{self}",
-                "Implement ElasticityEqn.__init__(). Pass parameters to C++.",
-                f"solution subfields={self.solution_subfields}",
-                f"materials={self.materials}",
-                f"interior interfaces={self.interior_interfaces}",
+                f"solution subfields = {self.solution_subfields}",
+                f"materials = {self.materials}",
+                f"interior interfaces = {self.interior_interfaces}",
             )
         )
+        info.log()
+
+        todo = pylith.journal.debug_factory.todo()
+        todo.report(("Implement ElasticityEqn.__init__(). Pass parameters to C++.",))
         todo.log()

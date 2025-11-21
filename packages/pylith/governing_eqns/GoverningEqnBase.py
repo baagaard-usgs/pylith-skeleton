@@ -31,15 +31,18 @@ class GoverningEqnBase(pylith.component, implements=protocols.governing_eqn):
         """Constructor."""
         super().__init__(name, locator, implicit, **kwds)
 
-        todo = pylith.journal.warning(":TODO:")
-        todo.report(
+        info = pylith.journal.info_factory.initialization()
+        info.report(
             (
                 f"{self}",
-                "Implement GoverningEqnBase.__init__(). Pass parameters to C++.",
-                f"solver={self.solver}",
-                f"boundary conditions={self.boundary_conditions}",
-                f"initial conditions={self.initial_conditions}",
-                f"observers={self.observers}",
+                f"solver = {self.solver}",
+                f"boundary conditions = {self.boundary_conditions}",
+                f"initial conditions = {self.initial_conditions}",
+                f"observers = {self.observers}",
             )
         )
+        info.log()
+
+        todo = pylith.journal.debug_factory.todo()
+        todo.report(("Implement GoverningEqnBase.__init__(). Pass parameters to C++.",))
         todo.log()

@@ -30,15 +30,18 @@ class ProblemBase(pylith.component, implements=protocols.problem):
         """Constructor."""
         super().__init__(name, locator, implicit, **kwds)
 
-        todo = pylith.journal.warning(":TODO:")
-        todo.report(
+        info = pylith.journal.info_factory.initialization()
+        info.report(
             (
                 f"{self}",
-                "Implement Problem.__init__(). Pass parameters to C++.",
-                f"initialize only={self.initialize_only}",
-                f"scales={self.scales}",
-                f"mesh initializer={self.mesh_initializer}",
-                f"governing equation={self.governing_eqn}",
+                f"initialize only = {self.initialize_only}",
+                f"scales = {self.scales}",
+                f"mesh initializer = {self.mesh_initializer}",
+                f"governing equation = {self.governing_eqn}",
             )
         )
+        info.log()
+
+        todo = pylith.journal.debug_factory.todo()
+        todo.report(("Implement Problem.__init__(). Pass parameters to C++.",))
         todo.log()

@@ -33,10 +33,6 @@ class QuasistaticPoroelasticity(ScalesBase, family="pylith.scales.quasistatic_po
     shear_modulus.validators = pyre.constraints.isGreater(value=0.0 * pascal)
     shear_modulus.doc = "Nominal shear modulus in boundary value problem."
 
-    time_scale = pylith.properties.dimensional(default=100.0 * year)
-    time_scale.validators = pyre.constraints.isGreater(value=0.0 * year)
-    time_scale.doc = "Time scale of boundary value problem (for example, viscoelastic relaxation time)."
-
     viscosity = pylith.properties.dimensional(default=0.001 * pascal * second)
     viscosity.validators = pyre.constraints.isGreater(value=0.0 * pascal)
     viscosity.doc = "Nominal fluid viscosity in boundary value problem."
@@ -54,11 +50,24 @@ class QuasistaticPoroelasticity(ScalesBase, family="pylith.scales.quasistatic_po
         ElasticityScales.setQuasistaticPoroelasticity(
             self,
             lengthScale=self.length_scale,
-            permeability=self.permeability,
-            viscosity=self.viscosity,
             rigidity=self.shear_modulus,
+            viscosity=self.viscosity,
+            permeability=self.permeability,
         )
         self.setDisplacementScale(self.displacement_scale)
+
+        info = pylith.journal.info_factory.initialization()
+        info.report(
+            (
+                f"{self}",
+                f"length scale = {self.length_scale}",
+                f"displacement scale = {self.displacement_scale}",
+                f"nominal shear modulus = {self.shear_modulus}",
+                f"nominal viscosity = {self.viscosity}",
+                f"nominal permeability = {self.permeability}",
+            )
+        )
+        info.log()
 
 
 # End of file

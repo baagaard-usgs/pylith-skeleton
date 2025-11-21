@@ -35,12 +35,15 @@ class FaultCohesiveImpulses(FaultCohesive, family="pylith.interior_interfaces.fa
         """Constructor."""
         super().__init__(name, locator, implicit, **kwds)
 
-        todo = pylith.journal.warning(":TODO:")
-        todo.report(
+        info = pylith.journal.info_factory.initialization()
+        info.report(
             (
                 f"{self}",
-                "Implement FaultCohesiveImpulses.__init__(). Pass parameters to C++.",
-                f"threshold={self.threshold}",
+                f"threshold = {self.threshold}",
             )
         )
+        info.log()
+
+        todo = pylith.journal.debug_factory.todo()
+        todo.report(("Implement FaultCohesiveImpulses.__init__(). Pass parameters to C++.",))
         todo.log()

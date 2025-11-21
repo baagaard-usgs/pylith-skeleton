@@ -9,7 +9,9 @@
 # =================================================================================================
 import pylith
 
-from ....fields import field, subfields
+from ....protocols import field
+from ....protocols.fields import subfield
+from ....fields import subfields
 
 from .ElasticityRheology import ElasticityRheology
 from .ElasticityRheology import AuxiliarySubfields as AuxiliaryBase
@@ -22,25 +24,28 @@ class AuxiliarySubfields(
 ):
     """Auxiliary subfields for the isotropic linear bulk rheology."""
 
-    shear_modulus = subfields.subfield(default=subfields.basic)
+    shear_modulus = subfield(default=subfields.basic)
     shear_modulus.doc = "Shear modulus."
 
-    bulk_modulus = subfields.subfield(default=subfields.basic)
+    bulk_modulus = subfield(default=subfields.basic)
     bulk_modulus.doc = "Bulk modulus."
 
     def __init__(self, name, locator, implicit, **kwds):
         """Constructor."""
         super().__init__(name, locator, implicit, **kwds)
 
-        todo = pylith.journal.warning(":TODO:")
-        todo.report(
+        info = pylith.journal.info_factory.initialization()
+        info.report(
             (
                 f"{self}",
-                "Implement IsotropicLinear.__init__(). Pass parameters to C++.",
                 f"shear modulus = {self.shear_modulus}",
                 f"bulk modulus = {self.bulk_modulus}",
             )
         )
+        info.log()
+
+        todo = pylith.journal.debug_factory.todo()
+        todo.report(("Implement IsotropicLinear.__init__(). Pass parameters to C++.",))
         todo.log()
 
 
@@ -50,25 +55,28 @@ class DerivedSubfields(
 ):
     """Derived subfields for the isotropic linear bulk rheology."""
 
-    cauchy_stress = subfields.subfield(default=subfields.optional)
+    cauchy_stress = subfield(default=subfields.optional)
     cauchy_stress.doc = "Cauchy stress (optional)."
 
-    cauchy_strain = subfields.subfield(default=subfields.optional)
+    cauchy_strain = subfield(default=subfields.optional)
     cauchy_strain.doc = "Cauchy strain (optional)."
 
     def __init__(self, name, locator, implicit, **kwds):
         """Constructor."""
         super().__init__(name, locator, implicit, **kwds)
 
-        todo = pylith.journal.warning(":TODO:")
-        todo.report(
+        info = pylith.journal.info_factory.initialization()
+        info.report(
             (
-                f"{self.pyre_name}",
-                f"Implement {__class__}.__init__(). Pass parameters to C++.",
+                f"{self}",
                 f"{self.cauchy_stress}",
                 f"{self.cauchy_strain}",
             )
         )
+        info.log()
+
+        todo = pylith.journal.debug_factory.todo()
+        todo.report((f"Implement DerivedSubfields.__init__(). Pass parameters to C++.",))
         todo.log()
 
 
@@ -88,13 +96,16 @@ class IsotropicLinear(
         """Constructor."""
         super().__init__(name, locator, implicit, **kwds)
 
-        todo = pylith.journal.warning(":TODO:")
-        todo.report(
+        info = pylith.journal.info_factory.initialization()
+        info.report(
             (
-                f"{self.pyre_name}",
-                f"Implement {__class__}.__init__(). Pass parameters to C++.",
-                f"{self.auxiliary_subfields}",
-                f"{self.derived_subfields}",
+                f"{self}",
+                f"auxiliary subfields = {self.auxiliary_subfields}",
+                f"derived subfields = {self.derived_subfields}",
             )
         )
+        info.log()
+
+        todo = pylith.journal.debug_factory.todo()
+        todo.report(("Implement ElasticityRheology.__init__(). Pass parameters to C++.",))
         todo.log()

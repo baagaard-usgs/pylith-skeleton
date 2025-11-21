@@ -23,8 +23,6 @@ from pyre import (
     plexus,
 )
 
-import journal
-
 package = executive.registerPackage(name="pylith", file=__file__)
 home, prefix, defaults = package.layout()
 
@@ -34,6 +32,7 @@ from . import exceptions
 
 from . import shells
 from . import cli
+from . import journal
 
 
 def version():

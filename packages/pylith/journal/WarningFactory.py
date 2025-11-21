@@ -7,23 +7,15 @@
 #
 # See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
-
-import pylith
-
-from .InitializePhase import InitializePhase
+import journal
 
 
-class MeshReordering(pylith.component, implements=InitializePhase, family="pylith.mesh_initializers.phases.reordering"):
+class WarningFactory:
 
-    def __init__(self, name, locator, implicit, **kwds):
-        """Constructor."""
-        super().__init__(name, locator, implicit, **kwds)
+    @classmethod
+    def user_input(cls):
+        return journal.warning("user-input")
 
-        todo = pylith.journal.debug_factory.todo()
-        todo.report(
-            (
-                f"{self}",
-                "Implement MeshReordering.__init__().",
-            )
-        )
-        todo.log()
+    @classmethod
+    def deprecation(cls):
+        return journal.warning("deprecation")

@@ -5,3 +5,6 @@ build
 configure
 Makefile.in
 examples/notebook/static.yaml
+pylith.egg-info
+aclocal.m4
+*~

@@ -17,8 +17,8 @@ from .BoundaryConditionBase import BoundaryConditionBase
 class Dirichlet(BoundaryConditionBase, family="pylith.boundary_conditions.dirichlet"):
     """Dirichlet boundary condition."""
 
-    constrained_dof = pylith.properties.list(schema=int)
-    constraind_dof = pyre.constraints.isSubset(choices=(0, 1, 2))
+    constrained_dof = pylith.properties.list(schema=pylith.properties.str())
+    constraind_dof = pyre.constraints.isSubset(choices=("x", "y", "z"))
     constrained_dof.doc = "Array of constrained degrees of freedom (0=1st DOF, 1=2nd DOF, etc)."
 
     use_initial = pylith.properties.bool(default=True)

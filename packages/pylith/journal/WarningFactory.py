@@ -7,10 +7,15 @@
 #
 # See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
-from journal import *
+import journal
 
-from .InfoFactory import InfoFactory as info_factory
-from .WarningFactory import WarningFactory as warning_factory
-from .ErrorFactory import ErrorFactory as error_factory
-from .FirewallFactory import FirewallFactory as firewall_factory
-from .DebugFactory import DebugFactory as debug_factory
+
+class WarningFactory:
+
+    @classmethod
+    def user_input(cls):
+        return journal.warning("user-input")
+
+    @classmethod
+    def deprecation(cls):
+        return journal.warning("deprecation")

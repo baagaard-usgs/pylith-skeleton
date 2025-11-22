@@ -13,10 +13,8 @@ import journal
 class InfoFactory:
 
     @classmethod
-    def initialization(cls, detail: int = 5):
-        channel = journal.info("initialization")
-        channel.detail = detail
-        return channel
+    def about(cls):
+        return journal.info("about")
 
     @classmethod
     def application_flow(cls, detail: int):
@@ -25,11 +23,17 @@ class InfoFactory:
         return channel
 
     @classmethod
-    def debug_config(cls):
-        channel = journal.info("debug-config")
+    def application_flow_all(cls, detail: int):
+        channel = journal.info("application-flow-all")
+        channel.detail = detail
         return channel
 
     @classmethod
-    def about(cls):
-        channel = journal.info("about")
+    def debug_config(cls):
+        return journal.info("debug-config")
+
+    @classmethod
+    def initialization(cls, detail: int = 5):
+        channel = journal.info("initialization")
+        channel.detail = detail
         return channel

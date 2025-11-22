@@ -51,9 +51,12 @@ pylith.app.problem.governing_eqn:
 # Materials
 # -----------------------------------------------------------------------------
 
-material.auxiliary_subfields:
-  density.discretization.basis_order: 2
-  shear_modulus.discretization.basis_order: 0
+material:
+  label_name: material-id
+  label_value: 1
+  auxiliary_subfields:
+    density.discretization.basis_order: 2
+    shear_modulus.discretization.basis_order: 0
 
 # -----------------------------------------------------------------------------
 # Boundary conditions
@@ -62,7 +65,7 @@ material.auxiliary_subfields:
 bc_xneg:
   label_name: boundary_xneg
   label_value: 1
-  constraind_dof: [0]
+  constrained_dof: ["x"]
   # :TODO: Set spatial database
 
 bc_xpos:

@@ -7,16 +7,14 @@
 #
 # See https://mit-license.org/ and LICENSE.md and for license information. 
 # =================================================================================================
-SUBDIRS = \
-	spatialdata \
-	pylith
 
-if ENABLE_CUBIT
-make-manifest:
-else
-make-manifest:
-	echo "exclude pylith/meshio/MeshIOCubit.py" > $@
-endif
 
-install-exec-local: make-manifest
-	$(PYTHON) -m pip install --no-build-isolation $(top_srcdir)
+EXTRA_DIST = \
+	__init__.py
+	exceptions.py \
+	journal/__init__.py \
+	journal/DebugFactory.py \
+	journal/ErrorFactory.py \
+	journal/FirewallFactory.py \
+	journal/InfoFactory.py \
+	journal/WarningFactory.py

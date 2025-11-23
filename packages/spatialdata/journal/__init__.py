@@ -5,18 +5,12 @@
 # Copyright (c) 2010-2025, University of California, Davis and the PyLith Development Team.
 # All rights reserved.
 #
-# See https://mit-license.org/ and LICENSE.md and for license information. 
+# See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
-SUBDIRS = \
-	spatialdata \
-	pylith
+from journal import *
 
-if ENABLE_CUBIT
-make-manifest:
-else
-make-manifest:
-	echo "exclude pylith/meshio/MeshIOCubit.py" > $@
-endif
-
-install-exec-local: make-manifest
-	$(PYTHON) -m pip install --no-build-isolation $(top_srcdir)
+from .InfoFactory import InfoFactory as info_factory
+from .WarningFactory import WarningFactory as warning_factory
+from .ErrorFactory import ErrorFactory as error_factory
+from .FirewallFactory import FirewallFactory as firewall_factory
+from .DebugFactory import DebugFactory as debug_factory

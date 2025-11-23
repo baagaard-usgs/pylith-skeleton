@@ -5,18 +5,8 @@
 # Copyright (c) 2010-2025, University of California, Davis and the PyLith Development Team.
 # All rights reserved.
 #
-# See https://mit-license.org/ and LICENSE.md and for license information. 
+# See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
-SUBDIRS = \
-	spatialdata \
-	pylith
-
-if ENABLE_CUBIT
-make-manifest:
-else
-make-manifest:
-	echo "exclude pylith/meshio/MeshIOCubit.py" > $@
-endif
-
-install-exec-local: make-manifest
-	$(PYTHON) -m pip install --no-build-isolation $(top_srcdir)
+from .Cartesian import Cartesian as cartesian
+from .Geographic import Geographic as geographic
+from .GeographicLocal import GeographicLocal as geographic_local

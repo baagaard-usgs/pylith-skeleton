@@ -13,11 +13,13 @@ import pylith
 from .FaultCohesive import FaultCohesive
 from ..protocols.interior_interfaces import source_time_fn
 
+from .source_time_fns import step
+
 
 class FaultCohesiveKinematic(FaultCohesive, family="pylith.interior_interfaces.fault_cohesive_kinematic"):
     """Fault with kinematic earthquake sources."""
 
-    eq_ruptures = pylith.properties.list(schema=source_time_fn())
+    eq_ruptures = pylith.properties.list(schema=source_time_fn(default=step))
     eq_ruptures.doc = "Earthquake ruptures with kinematic source parameters (prescribed slip)."
 
     def __init__(self, name, locator, implicit, **kwds):

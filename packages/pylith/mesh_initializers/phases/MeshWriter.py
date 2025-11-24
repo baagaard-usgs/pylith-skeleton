@@ -10,13 +10,14 @@
 
 import pylith
 
-from ... import mesh_io
-from .InitializePhase import InitializePhase
+from ...protocols import mesh_io
+from ...protocols.mesh_initializers import initialize_phase
+from ...mesh_io import petsc
 
 
-class MeshWriter(pylith.component, implements=InitializePhase, family="pylith.mesh_initializers.phases.writer"):
+class MeshWriter(pylith.component, implements=initialize_phase, family="pylith.mesh_initializers.phases.writer"):
 
-    writer = mesh_io.mesh_io(default=mesh_io.petsc)
+    writer = mesh_io(default=petsc)
     writer.doc = "Mesh writer."
 
     def __init__(self, name, locator, implicit, **kwds):

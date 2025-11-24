@@ -9,7 +9,7 @@
 # =================================================================================================
 import pylith
 
-from ...fields import field
+from .. import field
 
 
 class SourceTimeFn(pylith.protocol, family="pylith.interior_interfaces.source_time_fns"):
@@ -18,9 +18,9 @@ class SourceTimeFn(pylith.protocol, family="pylith.interior_interfaces.source_ti
     @classmethod
     def pyre_default(cls, **kwds):
         """The default {SorceTimeFn} implementation"""
-        from .Step import Step
+        from ...interior_interfaces.source_time_fns import step
 
-        return Step
+        return step
 
 
 class SourceTimeFnBase(pylith.component, implements=SourceTimeFn):

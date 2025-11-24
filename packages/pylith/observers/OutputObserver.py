@@ -13,15 +13,17 @@ import pylith
 
 from .. import protocols
 from ..protocols import observers
+from .. import data_writers
+from . import output_triggers
 
 
 class OutputObserver(pylith.component, implements=protocols.observer):
     """Abstract base class for output observers."""
 
-    trigger = observers.output_trigger()
+    trigger = observers.output_trigger(default=output_triggers.step)
     trigger.doc = "Trigger defining how often output is written."
 
-    writer = protocols.data_writer()
+    writer = protocols.data_writer(default=data_writers.hdf5)
     writer.doc = "Writer for data."
 
     output_basis_order = pylith.properties.int(default=1)

@@ -19,7 +19,7 @@ from .DataWriterBase import DataWriterBase
 class DataWriterVTK(DataWriterBase, family="pylith.data_writers.vtk"):
     """VTK data writer."""
 
-    filename = pylith.properties.str()
+    filename = pylith.properties.uri()
     filename.doc = "Name of VTK file."
 
     time_format = pylith.properties.str(default="%f")

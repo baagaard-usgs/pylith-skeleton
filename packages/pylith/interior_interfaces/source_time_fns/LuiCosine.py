@@ -9,7 +9,7 @@
 # =================================================================================================
 import pylith
 
-from SourceTimeFnBase import SourceTimeFnBase
+from .SourceTimeFnBase import SourceTimeFnBase
 
 
 class LiuCosine(SourceTimeFnBase, family="pylith.interior_interfaces.source_time_fns.liu_cosine"):

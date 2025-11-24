@@ -12,18 +12,19 @@ import pylith
 from .ManagerBase import ManagerBase
 
 from ...protocols.petsc import options
+from .groups import group_list
 
 
 class SimulationOptions(ManagerBase, family="pylith.petsc.options.simulation"):
     """PETSc options manager for simulation-level options."""
 
-    testing = options.group()
+    testing = options.group(default=group_list)
     testing.doc = "Options to enable additional checks for use in testing."
 
-    collective_io = options.group()
+    collective_io = options.group(default=group_list)
     collective_io.doc = "Turn on HDF5 collective I/O."
 
-    attach_debugger = options.group()
+    attach_debugger = options.group(default=group_list)
     attach_debugger.doc = "Options to attach a debugger on simulation startup."
 
     def __init__(self, name, locator, implicit, **kwds):

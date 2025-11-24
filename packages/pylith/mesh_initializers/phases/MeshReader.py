@@ -10,13 +10,14 @@
 
 import pylith
 
-from ... import mesh_io
-from .InitializePhase import InitializePhase
+from ...protocols import mesh_io
+from ...protocols.mesh_initializers import initialize_phase
+from ...mesh_io import petsc
 
 
-class MeshReader(pylith.component, implements=InitializePhase, family="pylith.mesh_initializers.phases.reader"):
+class MeshReader(pylith.component, implements=initialize_phase, family="pylith.mesh_initializers.phases.reader"):
 
-    reader = mesh_io.mesh_io(default=mesh_io.petsc)
+    reader = mesh_io(default=petsc)
     reader.doc = "Mesh reader."
 
     def __init__(self, name, locator, implicit, **kwds):

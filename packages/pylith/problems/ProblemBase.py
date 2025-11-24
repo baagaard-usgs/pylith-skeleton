@@ -10,6 +10,9 @@
 import pylith
 
 from .. import protocols
+from .. import mesh_initializers
+from .. import governing_eqns
+from .. import scales
 
 
 class ProblemBase(pylith.component, implements=protocols.problem):
@@ -17,13 +20,13 @@ class ProblemBase(pylith.component, implements=protocols.problem):
     initialize_only = pylith.properties.bool(default=False)
     initialize_only.doc = "Initialize problem and then exit."
 
-    scales = protocols.scales()
+    scales = protocols.scales(default=scales.quasistatic_elasticity)
     scales.doc = "Scales for nondimensionalizing problem."
 
-    mesh_initializer = protocols.mesh_initializer()
+    mesh_initializer = protocols.mesh_initializer(default=mesh_initializers.mesh_initializer)
     mesh_initializer.doc = "Initializer to read and setup finite-element mesh."
 
-    governing_eqn = protocols.governing_eqn()
+    governing_eqn = protocols.governing_eqn(default=governing_eqns.elasticity)
     governing_eqn.doc = "Governing equations for boundary value problem."
 
     def __init__(self, name, locator, implicit, **kwds):

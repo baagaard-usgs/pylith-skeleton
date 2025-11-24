@@ -17,18 +17,11 @@ from .BoundaryConditionBase import BoundaryConditionBase
 class Dirichlet(BoundaryConditionBase, family="pylith.boundary_conditions.dirichlet"):
     """Dirichlet boundary condition."""
 
-    constrained_dof = pylith.properties.list(schema=pylith.properties.str())
+    constrained_dof = pylith.properties.strings()
     constraind_dof = pyre.constraints.isSubset(choices=("x", "y", "z"))
-    constrained_dof.doc = "Array of constrained degrees of freedom (0=1st DOF, 1=2nd DOF, etc)."
+    constrained_dof.doc = "Array of constrained degrees of freedom."
 
-    use_initial = pylith.properties.bool(default=True)
-    use_initial.doc = "Use initial term in time-dependent expression."
-
-    use_rate = pylith.properties.bool(default=False)
-    use_rate.doc = "Use rate term in time-dependent expression."
-
-    use_time_history = pylith.properties.bool(default=False)
-    use_time_history.doc = "Use time history term in time-dependent expression."
+    # :TODO: Add auxiliary subfields
 
     # time_history = db_time_history()
     # time_history.doc = "Time history with normalized amplitude."
@@ -43,9 +36,6 @@ class Dirichlet(BoundaryConditionBase, family="pylith.boundary_conditions.dirich
             (
                 f"{self}",
                 f"constrained dof = {self.constrained_dof}",
-                f"use initial = {self.use_initial}",
-                f"use rate = {self.use_rate}",
-                f"use time history = {self.use_time_history}",
             )
         )
         info.log()
@@ -54,7 +44,20 @@ class Dirichlet(BoundaryConditionBase, family="pylith.boundary_conditions.dirich
         todo.report(
             (
                 "Implement Dirichlet.__init__(). Pass parameters to C++.",
+                "Add auxiliary subfields.",
                 "Implement Dirichlet time_history attribute. Requires spatialdata.",
             )
         )
         todo.log()
+
+    def pyre_configured(self):
+        """Called after component is configured."""
+        yield from super().pyre_configured()
+
+        if len(self.constrained_dof) == 0:
+            msg = (
+                "Missing constrained degrees of freedom.",
+                "Specify 'constrained_dof' or remove this Dirichlet boundary condition.",
+            )
+            ex = pylith.exceptions.ConfigurationError(component=self, msg=msg)
+            yield ex

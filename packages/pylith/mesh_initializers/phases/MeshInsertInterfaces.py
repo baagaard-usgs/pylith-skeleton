@@ -10,11 +10,11 @@
 
 import pylith
 
-from .InitializePhase import InitializePhase
+from ...protocols.mesh_initializers import initialize_phase
 
 
 class MeshInsertInterfaces(
-    pylith.component, implements=InitializePhase, family="pylith.mesh_initializers.phases.insert_interfaces"
+    pylith.component, implements=initialize_phase, family="pylith.mesh_initializers.phases.insert_interfaces"
 ):
 
     def __init__(self, name, locator, implicit, **kwds):

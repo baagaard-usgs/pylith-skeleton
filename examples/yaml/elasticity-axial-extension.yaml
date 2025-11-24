@@ -29,8 +29,11 @@ pylith.app.defaults:
 # Problem
 # -----------------------------------------------------------------------------
 
+pylith.app.problem.mesh_initializer:
+  read_mesh.reader.filename: mesh_quad.msh
+  refine_mesh.refiner.levels: 1
+
 # Use default scales for nondimensionalization
-# Use default mesh_initializer
 # Use default governing equation (elasticity)
 
 # -----------------------------------------------------------------------------

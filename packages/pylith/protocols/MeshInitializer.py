@@ -16,6 +16,6 @@ class MeshInitializer(pylith.protocol, family="pylith.mesh_initializers"):
     @classmethod
     def pyre_default(cls, **kwds):
         """The default {Initializer} implementation"""
-        from ..mesh_initializers import mesh_initializer
+        from ..mesh_initializers import serial
 
-        return mesh_initializer
+        return serial

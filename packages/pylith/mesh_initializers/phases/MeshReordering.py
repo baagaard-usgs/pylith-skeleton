@@ -10,10 +10,12 @@
 
 import pylith
 
-from .InitializePhase import InitializePhase
+from ...protocols.mesh_initializers import initialize_phase
 
 
-class MeshReordering(pylith.component, implements=InitializePhase, family="pylith.mesh_initializers.phases.reordering"):
+class MeshReordering(
+    pylith.component, implements=initialize_phase, family="pylith.mesh_initializers.phases.reordering"
+):
 
     def __init__(self, name, locator, implicit, **kwds):
         """Constructor."""

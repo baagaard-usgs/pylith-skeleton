@@ -12,8 +12,10 @@ import pylith
 from ... import protocols
 from ...protocols.governing_eqns import elasticity
 from ..GoverningEqnBase import GoverningEqnBase
+from ...interior_interfaces import fault_cohesive_kinematic
 
 from . import solution_subfields as subfields
+from .bulk_rheologies import isotropic_linear
 
 
 class ElasticityEqn(GoverningEqnBase, family="pylith.governing_eqns.elasticity"):
@@ -22,10 +24,10 @@ class ElasticityEqn(GoverningEqnBase, family="pylith.governing_eqns.elasticity")
     solution_subfields = elasticity.solution_subfields(default=subfields.nofault)
     solution_subfields.doc = "Solution subfields for elasticity equation."
 
-    materials = pylith.properties.list(schema=elasticity.bulk_rheology())
+    materials = pylith.properties.list(schema=elasticity.bulk_rheology(default=isotropic_linear))
     materials.doc = "Materials in boundary value problem."
 
-    interior_interfaces = pylith.properties.list(schema=protocols.interior_interface())
+    interior_interfaces = pylith.properties.list(schema=protocols.interior_interface(default=fault_cohesive_kinematic))
     interior_interfaces.doc = "Interior interfaces (faults) in boundary value problem."
 
     # - gravity_field

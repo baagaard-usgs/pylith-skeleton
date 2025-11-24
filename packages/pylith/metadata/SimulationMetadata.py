@@ -26,25 +26,25 @@ class SimulationMetadata(
     description = pylith.properties.str(default=None)
     description.doc = "Description of this simulation."
 
-    authors = pylith.properties.list(schema=pylith.properties.str())
+    authors = pylith.properties.strings()
     authors.doc = "Creator(s) of this simulation."
 
-    keywords = pylith.properties.list(schema=pylith.properties.str())
+    keywords = pylith.properties.strings()
     keywords.doc = "Keywords describing this simulation."
 
-    features = pylith.properties.list(schema=pylith.properties.str())
+    features = pylith.properties.strings()
     features.doc = "PyLith features used in this simulation."
 
-    arguments = pylith.properties.list(schema=pylith.properties.str())
+    arguments = pylith.properties.strings()
     arguments.doc = "Command line arguments for running this simulation."
 
-    base = pylith.properties.list(schema=pylith.properties.str())
+    base = pylith.properties.strings()
     base.doc = "Parameter files with metadata that complement this metadata."
 
     version = pylith.properties.str()
     version.doc = "Version of this simulation."
 
-    pylith_version = pylith.properties.list(schema=pylith.properties.str())
+    pylith_version = pylith.properties.strings()
     pylith_version.doc = "PyLith versions compatible with simulation input files."
 
     def __init__(self, name, locator, implicit, **kwds):

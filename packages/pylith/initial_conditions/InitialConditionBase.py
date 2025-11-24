@@ -15,7 +15,7 @@ from ..protocols import initial_condition
 class InitialConditionBase(pylith.component, implements=initial_condition):
     """Base class for initial conditions."""
 
-    subfields = pylith.properties.list(schema=pylith.properties.str(), default=["displacement"])
+    subfields = pylith.properties.strings(default=["displacement"])
     subfields.doc = "Names of solution subfields for initial condition."
 
     # db = spatialdb.spatial_database(default=spatialdb.simpledb)

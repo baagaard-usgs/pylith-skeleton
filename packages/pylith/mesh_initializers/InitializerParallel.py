@@ -7,18 +7,27 @@
 #
 # See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
-
 import pylith
 
-from ...protocols import mesh_io
-from ...protocols.mesh_initializers import initialize_phase
-from ...mesh_io import petsc
+from ..protocols import mesh_initializer
+from ..protocols.mesh_initializers import initialize_phase
+
+from . import phases
 
 
-class MeshReader(pylith.component, implements=initialize_phase, family="pylith.mesh_initializers.phases.reader"):
+class InitializerParallel(pylith.component, implements=mesh_initializer, family="pylith.mesh_initializers.parallel"):
 
-    reader = mesh_io(default=petsc)
-    reader.doc = "Mesh reader."
+    reader = initialize_phase(default=phases.reader)
+    reader.doc = "Read mesh."
+
+    distributor = initialize_phase(default=phases.distributor)
+    distributor.doc = "Distribute mesh."
+
+    insert_interfaces = initialize_phase(default=phases.insert_interfaces)
+    insert_interfaces.doc = "Insert interior interfaces."
+
+    refiner = initialize_phase(default=phases.refiner)
+    refiner.doc = "Refine mesh."
 
     def __init__(self, name, locator, implicit, **kwds):
         """Constructor."""
@@ -29,10 +38,15 @@ class MeshReader(pylith.component, implements=initialize_phase, family="pylith.m
             (
                 f"{self}",
                 f"reader = {self.reader}",
+                f"distributor = {self.distributor}",
+                f"insert interfaces = {self.insert_interfaces}",
+                f"refiner = {self.refiner}",
             )
         )
         info.log()
 
         todo = pylith.journal.debug_factory.todo()
-        todo.report(("Implement MeshReader.__init__(). Pass parameters to C++.",))
+        todo.report(
+            "Implement InitializerParallel.__init__(). Pass parameters to C++.",
+        )
         todo.log()

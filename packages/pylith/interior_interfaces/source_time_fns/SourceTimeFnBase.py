@@ -9,7 +9,7 @@
 # =================================================================================================
 import pylith
 
-from ...fields import field
+from ...protocols import field
 
 from ...protocols.interior_interfaces import source_time_fn
 

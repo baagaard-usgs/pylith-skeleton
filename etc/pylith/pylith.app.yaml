@@ -26,29 +26,6 @@ journal:
     - debug, TODOß
 
 # -----------------------------------------------------------------------------
-# Mesh initialization
-# -----------------------------------------------------------------------------
-# Singletons for default mesh initialization phases.
-# These cannot be singletons because user needs to set filename, etc (INSTANCE).
-pylith.mesh_initializers.mesh_initializer#serial_initializer:
-  phases:
-    - reader#read_mesh
-    - reordering#reorder_mesh
-    - distributor#distribute_mesh
-    - insert_interfaces#insert_interfaces
-    - refiner#refine_mesh
-
-pylith.mesh_initializers.mesh_initializer#parallel_initializer:
-  phases:
-    - reader#read_mesh
-    - distributor#distribute_mesh
-    - insert_interfaces#insert_interfaces
-    - refiner#refine_mesh
-
-# Default mesh initializer.
-pylith.app.problem.mesh_initializer: pylith.mesh_initializers.mesh_initializer#serial_initializer
-
-# -----------------------------------------------------------------------------
 # General PETSc options
 # -----------------------------------------------------------------------------
 # Singletons for default groups of PETSc options.

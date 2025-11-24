@@ -11,6 +11,7 @@
 import pylith
 
 from ...protocols import mesh_initializers
+from .. import distributors
 
 
 class MeshDistributor(
@@ -19,7 +20,7 @@ class MeshDistributor(
     family="pylith.mesh_initializers.phases.distributor",
 ):
 
-    distributor = mesh_initializers.distributor()
+    distributor = mesh_initializers.distributor(default=distributors.petsc)
     distributor.doc = "Mesh partitioner and distributor."
 
     def __init__(self, name, locator, implicit, **kwds):

@@ -9,7 +9,7 @@
 # =================================================================================================
 import pylith
 
-from .SourceTimeFn import SourceTimeFnBase
+from .SourceTimeFnBase import SourceTimeFnBase
 
 
 class TimeHistory(SourceTimeFnBase, family="pylith.interior_interfaces.source_time_fns.time_history"):
@@ -22,7 +22,7 @@ class TimeHistory(SourceTimeFnBase, family="pylith.interior_interfaces.source_ti
         """Constructor."""
         super().__init__(name, locator, implicit, **kwds)
 
-        todo = pylith.journal.warning(":TODO:")
+        todo = pylith.journal.debug_factory.todo()
         todo.report(
             (
                 f"{self}",

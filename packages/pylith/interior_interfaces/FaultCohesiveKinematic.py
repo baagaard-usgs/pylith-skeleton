@@ -11,7 +11,7 @@ import pylith
 
 
 from .FaultCohesive import FaultCohesive
-from .source_time_fns import source_time_fn
+from ..protocols.interior_interfaces import source_time_fn
 
 
 class FaultCohesiveKinematic(FaultCohesive, family="pylith.interior_interfaces.fault_cohesive_kinematic"):
@@ -24,12 +24,15 @@ class FaultCohesiveKinematic(FaultCohesive, family="pylith.interior_interfaces.f
         """Constructor."""
         super().__init__(name, locator, implicit, **kwds)
 
-        todo = pylith.journal.warning(":TODO:")
-        todo.report(
+        info = pylith.journal.info_factory.initialization()
+        info.report(
             (
                 f"{self}",
-                "Implement FaultCohesiveKinematic.__init__(). Pass parameters to C++.",
-                f"earthquake ruptures={self.eq_ruptures}",
+                f"earthquake ruptures = {self.eq_ruptures}",
             )
         )
+        info.log()
+
+        todo = pylith.journal.debug_factory.todo()
+        todo.report(("Implement FaultCohesiveKinematic.__init__(). Pass parameters to C++.",))
         todo.log()

@@ -26,7 +26,7 @@ class SimulationMetadata(pyre.component, implements=Metadata, family="test.metad
         """Constructor."""
         super().__init__(name, locator, implicit, **kwds)
 
-        todo = journal.warning(":TODO:")
+        todo = journal.debug_factory.todo()
         todo.report(
             (
                 f"{self}",

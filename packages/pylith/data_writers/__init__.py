@@ -7,7 +7,5 @@
 #
 # See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
-
-from .DataWriter import DataWriter as data_writer
 from .DataWriterVTK import DataWriterVTK as vtk
 from .DataWriterHDF5 import DataWriterHDF5 as hdf5

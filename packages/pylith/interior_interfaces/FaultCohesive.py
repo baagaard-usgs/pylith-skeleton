@@ -11,10 +11,10 @@ import pylith
 
 from ..utils import constraints
 
-from .InteriorInterface import InteriorInterface
+from ..protocols import interior_interface
 
 
-class FaultCohesive(pylith.component, implements=InteriorInterface):
+class FaultCohesive(pylith.component, implements=interior_interface):
     """Abstract base class for faults implemented with cohesive cells."""
 
     label_name = pylith.properties.str(default=None)
@@ -41,17 +41,20 @@ class FaultCohesive(pylith.component, implements=InteriorInterface):
         """Constructor."""
         super().__init__(name, locator, implicit, **kwds)
 
-        todo = pylith.journal.warning(":TODO:")
-        todo.report(
+        info = pylith.journal.info_factory.initialization()
+        info.report(
             (
                 f"{self}",
-                "Implement BoundaryCondition.__init__(). Pass parameters to C++.",
-                f"label name={self.label_name}",
-                f"label value={self.label_value}",
-                f"edge label name={self.edge_label_name}",
-                f"edge label value={self.edge_label_value}",
-                f"reference direction 1={self.ref_dir_1}",
-                f"reference direction 2={self.ref_dir_2}",
+                f"label name = {self.label_name}",
+                f"label value = {self.label_value}",
+                f"edge label name = {self.edge_label_name}",
+                f"edge label value = {self.edge_label_value}",
+                f"reference direction 1 = {self.ref_dir_1}",
+                f"reference direction 2 = {self.ref_dir_2}",
             )
         )
+        info.log()
+
+        todo = pylith.journal.debug_factory.todo()
+        todo.report(("Implement BoundaryCondition.__init__(). Pass parameters to C++.",))
         todo.log()

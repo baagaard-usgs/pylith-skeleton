@@ -12,7 +12,7 @@ import pyre
 import pylith
 from ..utils import constraints
 
-from .BoundaryCondition import BoundaryConditionBase
+from .BoundaryConditionBase import BoundaryConditionBase
 
 
 class Neumann(
@@ -55,15 +55,23 @@ class Neumann(
         """Constructor."""
         super().__init__(name, locator, implicit, **kwds)
 
-        todo = pylith.journal.warning(":TODO:")
-        todo.report(
+        info = pylith.journal.info_factory.initialization(detail=5)
+        info.detail = 5
+        info.report(
             (
                 f"{self}",
+                f"scale name = {self.scale_name}",
+                f"ref dir 1 = {self.ref_dir_1}",
+                f"ref dir 2 = {self.ref_dir_2}",
+            )
+        )
+        info.log()
+
+        todo = pylith.journal.debug_factory.todo()
+        todo.report(
+            (
                 "Implement Neumann time_history attribute. Requires spatialdata.",
                 "Implement Neumann.__init__(). Pass parameters to C++.",
-                f"scale name={self.scale_name}",
-                f"ref dir 1={self.ref_dir_1}",
-                f"ref dir 2={self.ref_dir_2}",
             )
         )
         todo.log()

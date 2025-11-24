@@ -7,6 +7,4 @@
 #
 # See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
-
-from .Metadata import Metadata as metadata
 from .SimulationMetadata import SimulationMetadata as simulation_metadata

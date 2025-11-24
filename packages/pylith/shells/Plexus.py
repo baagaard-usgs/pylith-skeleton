@@ -12,9 +12,8 @@ import journal
 
 import pylith
 
-from ..metadata import metadata as app_metadata
-from ..defaults import defaults as sim_defaults
-from ..problems import problem as app_problem
+from .. import protocols
+from ..protocols import petsc
 from ..petsc import options
 
 
@@ -23,16 +22,16 @@ class Plexus(pyre.plexus, family="pylith.shells.plexus"):
 
     from .Action import Action as pyre_action
 
-    metadata = app_metadata()
+    metadata = protocols.application_metadata()
     metadata.doc = "Application metadata."
 
-    defaults = sim_defaults()
+    defaults = protocols.application_defaults()
     defaults.doc = "Simulation defaults."
 
-    petsc_options = options.options(default=options.simulation_options)
+    petsc_options = petsc.options_manager(default=options.simulation_options)
     petsc_options.doc = "General PETSc options."
 
-    problem = app_problem()
+    problem = protocols.problem()
     problem.doc = "Boundary value problem to solve."
 
     # journal control; useful until journal is once again configurable
@@ -46,19 +45,22 @@ class Plexus(pyre.plexus, family="pylith.shells.plexus"):
             # redirect all journal output to the file
             journal.logfile(name=str(self.log_file), mode="w")
 
-        todo = pylith.journal.warning(":TODO:")
-        todo.report(("Implement Plexus.__init__(). Pass parameters to C++.",))
+        todo = pylith.journal.debug_factory.todo()
+        todo.report(
+            (
+                f"{self}",
+                "Implement Plexus.__init__(). Pass parameters to C++.",
+                f"metadata = {self.metadata}",
+                f"defaults = {self.defaults}",
+                f"PETSc options = {self.petsc_options}",
+                f"problem = {self.problem}",
+            )
+        )
         todo.log()
 
-        self.metadata
-        self.defaults
-        self.petsc_options
-        self.problem
-
     def run_cxx(self):
-        flow = journal.info("application-flow")
-        flow.detail = 0
+        flow = pylith.journal.info_factory.application_flow(detail=0)
         flow.log("Running PyLith C++ application.")
 
-        todo = pylith.journal.warning(":TODO:")
+        todo = pylith.journal.debug_factory.todo()
         todo.log("Call C++ PyLithApp::run().")

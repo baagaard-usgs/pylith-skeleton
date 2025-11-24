@@ -11,10 +11,10 @@ import pyre
 
 import pylith
 
-from .Defaults import Defaults
+from ..protocols import application_defaults
 
 
-class SimulationDefaults(pyre.component, implements=Defaults, family="pylith.defaults.simulation_defaults"):
+class SimulationDefaults(pyre.component, implements=application_defaults, family="pylith.defaults.simulation_defaults"):
     """Default parameters for simulation."""
 
     output_dir = pylith.properties.str(default="output")
@@ -35,15 +35,17 @@ class SimulationDefaults(pyre.component, implements=Defaults, family="pylith.def
         """Constructor."""
         super().__init__(name, locator, implicit, **kwds)
 
-        todo = pylith.journal.warning(":TODO:")
-        todo.report(
+        info = pylith.journal.info_factory.initialization()
+        info.report(
             (
                 f"{self}",
-                "Implement SimulationDefaults.__init__(). Pass parameters to C++.",
-                f"output directory={self.output_dir}",
-                f"output name={self.output_name}",
-                f"quadrature order={self.quadrature_order}",
-                f"output basis order={self.output_basis_order}",
+                f"output directory = {self.output_dir}",
+                f"output name = {self.output_name}",
+                f"quadrature order = {self.quadrature_order}",
+                f"output basis order = {self.output_basis_order}",
             )
         )
+
+        todo = pylith.journal.debug_factory.todo()
+        todo.report(("Implement SimulationDefaults.__init__(). Pass parameters to C++.",))
         todo.log()

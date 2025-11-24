@@ -7,6 +7,9 @@
 #
 # See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
-
-from .SourceTimeFn import SourceTimeFn as source_time_fn
+from .Brune import Brune as brune
+from .ConstantRate import ConstantRate as constant_rate
+from .LuiCosine import LiuCosine as liu_cosine
+from .Ramp import Ramp as ramp
 from .Step import Step as step
+from .TimeHistory import TimeHistory as time_history

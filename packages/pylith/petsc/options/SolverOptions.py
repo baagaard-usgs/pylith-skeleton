@@ -11,36 +11,44 @@ import pylith
 
 from .ManagerBase import ManagerBase
 
-from . import groups
+from ...protocols.petsc import options
 
 
 class SolverOptions(ManagerBase, family="pylith.petsc.options.solver"):
     """PETSc options manager for solver options."""
 
-    solver = groups.group(default=groups.group_list)
+    solver = options.group()
     solver.doc = "Options for solving the equations."
 
-    initial_guess = groups.group(default=groups.group_list)
+    initial_guess = options.group()
     initial_guess.doc = "Options for setting an initial guess."
 
-    tolerances = groups.group(default=groups.group_list)
+    tolerances = options.group()
     tolerances.doc = "Solver tolerances."
 
-    adaptive_ts = groups.group(default=groups.group_list)
+    adaptive_ts = options.group()
     adaptive_ts.doc = "Options for adaptive time stepping."
 
-    monitoring = groups.group(default=groups.group_list)
+    monitoring = options.group()
     monitoring.doc = "Options for monitoring the solver."
 
     def __init__(self, name, locator, implicit, **kwds):
         """Constructor."""
         super().__init__(name, locator, implicit, **kwds)
 
-        todo = pylith.journal.warning(":TODO:")
-        todo.report(
+        info = pylith.journal.info_factory.initialization()
+        info.report(
             (
                 f"{self}",
-                "Implement SolverOptions.__init__(). Pass parameters to C++.",
+                f"solver = {self.solver}",
+                f"initial guess = {self.initial_guess}",
+                f"tolerances = {self.tolerances}",
+                f"adaptive time stepping = {self.adaptive_ts}",
+                f"monitoring = {self.monitoring}",
             )
         )
+        info.log()
+
+        todo = pylith.journal.debug_factory.todo()
+        todo.report(("Implement SolverOptions.__init__(). Pass parameters to C++.",))
         todo.log()

@@ -9,31 +9,34 @@
 # =================================================================================================
 import pylith
 
-from .Subfield import Subfield
+from ...protocols import fields
 
-from ..discretizations import discretization, petsc
+from ..discretizations import petsc
 
 
-class SubfieldBasic(pylith.component, implements=Subfield, family="pylith.fields.subfields.basic"):
+class SubfieldBasic(pylith.component, implements=fields.subfield, family="pylith.fields.subfields.basic"):
     """Subfield in PETSc field."""
 
     alias = pylith.properties.str()
     alias.doc = "User-preferred name of Subfield (used in output)."
 
-    discretization = discretization(default=petsc)
+    discretization = fields.discretization(default=petsc)
     discretization.doc = "Discretization of subfield."
 
     def __init__(self, name, locator, implicit, **kwds):
         """Constructor."""
         super().__init__(name, locator, implicit, **kwds)
 
-        todo = pylith.journal.warning(":TODO:")
-        todo.report(
+        info = pylith.journal.info_factory.initialization()
+        info.report(
             (
                 f"{self}",
-                "Implement SubfieldBasic.__init__(). Pass parameters to C++.",
-                f"alias={self.alias}",
-                f"discretization={self.discretization}",
+                f"alias = {self.alias}",
+                f"discretization = {self.discretization}",
             )
         )
+        info.log()
+
+        todo = pylith.journal.debug_factory.todo()
+        todo.report(("Implement SubfieldBasic.__init__(). Pass parameters to C++.",))
         todo.log()

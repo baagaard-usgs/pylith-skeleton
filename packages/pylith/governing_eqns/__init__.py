@@ -9,8 +9,6 @@
 # =================================================================================================
 import pylith
 
-from .GoverningEqn import GoverningEqn as governing_eqn
-
 
 @pylith.foundry(tip="Elasticity governing equation")
 def elasticity():

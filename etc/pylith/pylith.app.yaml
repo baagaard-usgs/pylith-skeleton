@@ -5,20 +5,23 @@
 # -----------------------------------------------------------------------------
 journal:
   channels:
+    - info, about
     - info, application-flow
     - info, application-flow-all
+    - info, debug-config
+    - info, initialization
     - warning, user-input
     - warning, deprecation
     - error, user-input
     - firewall, internal-error
     - firewall, logic-error
-    - debug, mms-test
     - debug, application-flow
     - debug, auxiliary-fields
     - debug, integration-kernels
-    - debug, solver
     - debug, mesh
-    - warning, ":TODO:"
+    - debug, mms-test
+    - debug, solver
+    - debug, TODOß
 
 # -----------------------------------------------------------------------------
 # Mesh initialization

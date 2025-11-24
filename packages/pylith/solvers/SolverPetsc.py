@@ -11,34 +11,36 @@ import pyre
 
 import pylith
 
-from ..petsc import options
+from ..protocols import solver, petsc
+from ..petsc.options import solver_options
 
-from .Solver import Solver
 
-
-class SolverPetsc(pylith.component, implements=Solver, family="pylith.solvers.petsc"):
+class SolverPetsc(pylith.component, implements=solver, family="pylith.solvers.petsc"):
     """PETSc solver."""
 
     formulation = pylith.properties.str(default="implicit")
     formulation.validators = pyre.constraints.isMember("implicit", "explicit", "implicit_explicit")
     formulation.doc = "Formulation for solver."
 
-    petsc_options = options.options(default=options.solver_options)
+    petsc_options = petsc.options_manager(default=solver_options)
     petsc_options.doc = "Groups of solver related PETSc options."
 
     def __init__(self, name, locator, implicit, **kwds):
         """Constructor."""
         super().__init__(name, locator, implicit, **kwds)
 
-        todo = pylith.journal.warning(":TODO:")
-        todo.report(
+        info = pylith.journal.info_factory.initialization()
+        info.report(
             (
                 f"{self}",
-                "Implement SolverPetsc.__init__(). Pass parameters to C++.",
-                f"formulation={self.formulation}",
-                f"PETSc options={self.petsc_options}",
+                f"formulation = {self.formulation}",
+                f"PETSc options = {self.petsc_options}",
             )
         )
+        info.log()
+
+        todo = pylith.journal.debug_factory.todo()
+        todo.report(("Implement SolverPetsc.__init__(). Pass parameters to C++.",))
         todo.log()
 
     def pyre_initialized(self):

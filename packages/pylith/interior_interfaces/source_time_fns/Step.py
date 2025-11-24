@@ -9,7 +9,7 @@
 # =================================================================================================
 import pylith
 
-from .SourceTimeFn import SourceTimeFnBase
+from .SourceTimeFnBase import SourceTimeFnBase
 
 
 class Step(SourceTimeFnBase, family="pylith.interior_interfaces.source_time_fns.step"):
@@ -19,7 +19,7 @@ class Step(SourceTimeFnBase, family="pylith.interior_interfaces.source_time_fns.
         """Constructor."""
         super().__init__(name, locator, implicit, **kwds)
 
-        todo = pylith.journal.warning(":TODO:")
+        todo = pylith.journal.debug_factory.todo()
         todo.report(
             (
                 f"{self}",

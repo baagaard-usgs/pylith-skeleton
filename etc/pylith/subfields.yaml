@@ -1,0 +1,124 @@
+subfields:
+  # Solution
+  - displacement:
+    scale: displacement
+    vector_field_type: vector
+    component_names:
+      - displacement_x
+      - displacement_y
+      - displacement_z
+  - velocity:
+    scale: velocity
+    vector_field_type: vector
+    component_names:
+      - velocity_x
+      - velocity_y
+      - velocity_z
+  - acceleration:
+    scale: acceleration
+    vector_field_type: vector
+    component_names:
+      - acceleration_x
+      - acceleration_y
+      - acceleration_z
+  - lagrange_multiplier_fault:
+    scale: stress
+    vector_field_type: vector
+    component_names:
+      - lagrange_multiplier_fault_x
+      - lagrange_multiplier_fault_y
+      - lagrange_multiplier_fault_z
+  - pressure:
+    scale: stress
+    vector_field_type: scalar
+  - fluid_pressure:
+    scale: stress
+    vector_field_type: scalar
+  - trace_strain:
+    scale: strain
+    vector_field_type: scalar
+  - fluid_pressure_dot:
+    scale: stress_rate
+    vector_field_type: scalar
+  - trace_strain_dor:
+    scale: strain_rate
+    vector_field_type: scalar
+
+  # Material and rheology
+  - density:
+    scale: density
+    vector_field_type: scalar
+  - body_force:
+    scale: body_force
+    vector_field_type: vector
+    component_names:
+      - body_force_x
+      - body_force_y
+      - body_force_z
+  - gravitational_acceleration:
+    scale: acceleration
+    vector_field_type: vector
+    component_names:
+      - gravitational_acceleration_x
+      - gravitational_acceleration_y
+      - gravitational_acceleration_z
+  - shear_modulus:
+    scale: rigidity
+    vector_field_type: scalar
+  - bulk_modulus:
+    scale: rigidity
+    vector_field_type: scalar
+  - reference_stress:
+    scale: stress
+    vector_field_type: tensor
+    component_names:
+      - reference_stress_xx
+      - reference_stress_yy
+      - reference_stress_zz
+      - reference_stress_xy
+      - reference_stress_yz
+      - reference_stress_xz
+  - reference_strain:
+    scale: strain
+    vector_field_type: tensor
+    component_names:
+      - reference_strain_xx
+      - reference_strain_yy
+      - reference_strain_zz
+      - reference_strain_xy
+      - reference_strain_yz
+      - reference_strain_xz
+  - cauchy_stress:
+    scale: stress
+    vector_field_type: tensor
+    component_names:
+      - cauchy_stress_xx
+      - cauchy_stress_yy
+      - cauchy_stress_zz
+      - cauchy_stress_xy
+      - cauchy_stress_yz
+      - cauchy_stress_xz
+  - cauchy_strain:
+    scale: strain
+    vector_field_type: tensor
+    component_names:
+      - cauchy_strain_xx
+      - cauchy_strain_yy
+      - cauchy_strain_zz
+      - cauchy_strain_xy
+      - cauchy_strain_yz
+      - cauchy_strain_xz
+  - traction:
+    scale: stress
+    vector_field_type: vector
+    component_names:
+      - traction_normal
+      - traction_tangential_1
+      - traction_tangential_2
+  - fault_traction_change:
+    scale: stress
+    vector_field_type: vector
+    component_names:
+      - traction_change_normal
+      - traction_change_left_lateral
+      - traction_change_reverse

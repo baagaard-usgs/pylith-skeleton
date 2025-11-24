@@ -1,3 +1,10 @@
 __pycache__
-
-examples/notbook/static.yaml
+autom4te.cache
+aux-config
+build
+configure
+Makefile.in
+examples/notebook/static.yaml
+pylith.egg-info
+aclocal.m4
+*~

@@ -11,10 +11,10 @@ import pyre
 
 import pylith
 
-from .OutputTrigger import OutputTrigger
+from ...protocols.observers import output_trigger
 
 
-class OutputTriggerStep(pyre.component, implements=OutputTrigger, family="pylith.observers.output_triggers.step"):
+class OutputTriggerStep(pyre.component, implements=output_trigger, family="pylith.observers.output_triggers.step"):
     """Trigger output based on time step index."""
 
     num_skip = pylith.properties.int(default=0)
@@ -25,12 +25,15 @@ class OutputTriggerStep(pyre.component, implements=OutputTrigger, family="pylith
         """Constructor."""
         super().__init__(name, locator, implicit, **kwds)
 
-        todo = pylith.journal.warning(":TODO:")
-        todo.report(
+        info = pylith.journal.info_factory.initialization()
+        info.report(
             (
                 f"{self}",
-                "Implement OutputTriggerStep.__init__(). Pass parameters to C++.",
-                f"num skip={self.num_skip}",
+                f"num skip = {self.num_skip}",
             )
         )
+        info.log()
+
+        todo = pylith.journal.debug_factory.todo()
+        todo.report(("Implement OutputTriggerStep.__init__(). Pass parameters to C++.",))
         todo.log()

@@ -9,23 +9,19 @@
 # =================================================================================================
 import pylith
 
-from ..solvers import solver
-from ..boundary_conditions import boundary_condition
-from ..initial_conditions import initial_condition
+from .. import protocols
 from ..observers import solution_domain
 
-from .GoverningEqn import GoverningEqn
 
+class GoverningEqnBase(pylith.component, implements=protocols.governing_eqn):
 
-class GoverningEqnBase(pylith.component, implements=GoverningEqn):
-
-    solver = solver()
+    solver = protocols.solver()
     solver.doc = "Solver for governing equation."
 
-    boundary_conditions = pylith.properties.list(schema=boundary_condition())
+    boundary_conditions = pylith.properties.list(schema=protocols.boundary_condition())
     boundary_conditions.doc = "Boundary conditions."
 
-    initial_conditions = pylith.properties.list(schema=initial_condition())
+    initial_conditions = pylith.properties.list(schema=protocols.initial_condition())
     initial_conditions.doc = "Boundary conditions."
 
     observers = pylith.properties.list(schema=solution_domain())
@@ -35,15 +31,18 @@ class GoverningEqnBase(pylith.component, implements=GoverningEqn):
         """Constructor."""
         super().__init__(name, locator, implicit, **kwds)
 
-        todo = pylith.journal.warning(":TODO:")
-        todo.report(
+        info = pylith.journal.info_factory.initialization()
+        info.report(
             (
                 f"{self}",
-                "Implement GoverningEqnBase.__init__(). Pass parameters to C++.",
-                f"solver={self.solver}",
-                f"boundary conditions={self.boundary_conditions}",
-                f"initial conditions={self.initial_conditions}",
-                f"observers={self.observers}",
+                f"solver = {self.solver}",
+                f"boundary conditions = {self.boundary_conditions}",
+                f"initial conditions = {self.initial_conditions}",
+                f"observers = {self.observers}",
             )
         )
+        info.log()
+
+        todo = pylith.journal.debug_factory.todo()
+        todo.report(("Implement GoverningEqnBase.__init__(). Pass parameters to C++.",))
         todo.log()

@@ -9,45 +9,49 @@
 # =================================================================================================
 import pylith
 
+from .... import protocols
 from .... import observers
-from ....fields import field, subfields
+from ....protocols.fields import subfield
+from ....fields import subfields
 
-from .BulkRheology import BulkRheology
+from ....protocols.governing_eqns.elasticity import bulk_rheology
 
 
-class AuxiliarySubfields(pylith.component, implements=field):
+class AuxiliarySubfields(pylith.component, implements=protocols.field):
 
-    density = subfields.subfield(default=subfields.basic)
+    density = subfield(default=subfields.basic)
     density.doc = "Mass density."
 
-    body_force = subfields.subfield(default=subfields.optional)
+    body_force = subfield(default=subfields.optional)
     body_force.doc = "Body force."
 
-    gravitational_acceleration = subfields.subfield(default=subfields.optional)
+    gravitational_acceleration = subfield(default=subfields.optional)
     gravitational_acceleration.doc = "Gravitational acceleration."
 
     def __init__(self, name, locator, implicit, **kwds):
         """Constructor."""
         super().__init__(name, locator, implicit, **kwds)
 
-        todo = pylith.journal.warning(":TODO:")
-        todo.report(
+        info = pylith.journal.info_factory.initialization()
+        info.report(
             (
                 f"{self}",
-                "Implement AuxiliarySubfields.__init__(). Pass parameters to C++.",
                 f"density = {self.density}",
                 f"body force = {self.body_force}",
                 f"gravitional acceleration = {self.gravitational_acceleration}",
             )
         )
+
+        todo = pylith.journal.debug_factory.todo()
+        todo.report(("Implement AuxiliarySubfields.__init__(). Pass parameters to C++.",))
         todo.log()
 
 
-class DerivedSubfields(pylith.component, implements=field):
+class DerivedSubfields(pylith.component, implements=protocols.field):
     pass
 
 
-class ElasticityRheology(pylith.component, implements=BulkRheology):
+class ElasticityRheology(pylith.component, implements=bulk_rheology):
 
     label_name = pylith.properties.str(default=None)
     label_name.doc = "Name of label identifying boundary ()name of physical group in Gmsh files."
@@ -55,21 +59,24 @@ class ElasticityRheology(pylith.component, implements=BulkRheology):
     label_value = pylith.properties.int(default=1)
     label_value.doc = "Value of label identifying boundary (tag of physical group in Gmsh files)."
 
-    observers = pylith.properties.list(schema=observers.observer(default=observers.output_physics))
+    observers = pylith.properties.list(schema=protocols.observer(default=observers.output_physics))
     observers.doc = "Observer of material state."
 
     def __init__(self, name, locator, implicit, **kwds):
         """Constructor."""
         super().__init__(name, locator, implicit, **kwds)
 
-        todo = pylith.journal.warning(":TODO:")
-        todo.report(
+        info = pylith.journal.info_factory.initialization()
+        info.report(
             (
                 f"{self}",
-                "Implement MaterialBase.__init__(). Pass parameters to C++.",
-                f"label name={self.label_name}",
-                f"label value={self.label_value}",
-                f"observers={self.observers}",
+                f"label name = {self.label_name}",
+                f"label value = {self.label_value}",
+                f"observers = {self.observers}",
             )
         )
+        info.log()
+
+        todo = pylith.journal.debug_factory.todo()
+        todo.report(("Implement MaterialBase.__init__(). Pass parameters to C++.",))
         todo.log()

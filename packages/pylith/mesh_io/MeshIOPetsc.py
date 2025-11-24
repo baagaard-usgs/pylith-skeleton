@@ -12,10 +12,10 @@
 
 import pylith
 
-from .MeshIO import MeshIO
+from .. import protocols
 
 
-class MeshIOPetsc(pylith.component, implements=MeshIO, family="pylith.mesh_io.petsc"):
+class MeshIOPetsc(pylith.component, implements=protocols.mesh_io, family="pylith.mesh_io.petsc"):
 
     filename = pylith.properties.uri(default=None)
     filename.doc = "URI of mesh file."
@@ -33,14 +33,17 @@ class MeshIOPetsc(pylith.component, implements=MeshIO, family="pylith.mesh_io.pe
         """Constructor."""
         super().__init__(name, locator, implicit, **kwds)
 
-        todo = pylith.journal.warning(":TODO:")
-        todo.report(
+        info = pylith.journal.info_factory.initialization()
+        info.report(
             (
                 f"{self}",
-                "Implement MeshIOPetsc.__init__(). Pass parameters to C++.",
-                f"filename={self.filename}",
-                f"Gmsh mark recursive={self.gmsh_mark_recursive}",
-                f"PETSc options prefix={self.petsc_options_prefix}",
+                f"filename = {self.filename}",
+                f"Gmsh mark recursive = {self.gmsh_mark_recursive}",
+                f"PETSc options prefix = {self.petsc_options_prefix}",
             )
         )
+        info.log()
+
+        todo = pylith.journal.debug_factory.todo()
+        todo.report(("Implement MeshIOPetsc.__init__(). Pass parameters to C++.",))
         todo.log()

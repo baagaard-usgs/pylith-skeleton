@@ -1,0 +1,174 @@
+dnl ================================================================================================
+dnl This code is part of PyLith, developed through the Computational Infrastructure
+dnl for Geodynamics (https://github.com/geodynamics/pylith).
+dnl
+dnl Copyright (c) 2010-2025, University of California, Davis and the PyLith Development Team.
+dnl All rights reserved.
+dnl
+dnl See https://mit-license.org/ and LICENSE.md and for license information. 
+dnl ================================================================================================
+dnl Process this file with autoconf to produce a configure script.
+
+AC_PREREQ(2.59)
+AC_INIT([PyLith], [6.0.0dev], [https://geodynamics.org/resources/pylith])
+AC_CONFIG_AUX_DIR([./aux-config])
+AC_CONFIG_MACRO_DIR([m4])
+AM_INIT_AUTOMAKE([foreign subdir-objects tar-pax])
+
+dnl ----------------------------------------------------------------------
+dnl PYTHON
+AC_ARG_VAR(PYTHON, [Python interpreter])
+AC_ARG_VAR(PYTHONPATH, [Python module search path])
+
+dnl TESTING w/Catch2 and Python unittest
+AC_ARG_ENABLE([testing],
+	[  --enable-testing        Enable unit testing with Catch2 (requires Catch2) [[default=no]]],
+	[if test "$enableval" = yes ; then enable_testing=yes; else enable_testing=no; fi],
+	[enable_testing=no])
+AM_CONDITIONAL([ENABLE_TESTING], [test "$enable_testing" = yes])
+
+dnl TEST COVERAGE w/locv and python-coverage
+AC_ARG_ENABLE([test-coverage],
+	[  --enable-test-coverage  Enable test coverage with lcov and python-coverage [[default=no]]],
+	[if test "$enableval" = yes ; then enable_test_coverage=yes; else enable_test_coverage=no; fi],
+	[enable_test_coverage=no])
+AC_ARG_WITH([python-coverage],
+    [AC_HELP_STRING([--with-python-coverage],
+        [set executable for python-coverage @<:@default=coverage2@:>@])],
+	[python_coverage=$withval],
+	[python_coverage="coverage2"])
+AC_SUBST(python_coverage)
+
+dnl CUBIT I/O w/netcdf
+AC_ARG_ENABLE([cubit],
+    [AC_HELP_STRING([--enable-cubit],
+        [enable reading/writing Cubit EXODUS files (requires netcdf) @<:@default=yes@:>@])],
+	[if test "$enableval" = yes; then enable_cubit=yes; else enable_cubit=no; fi],
+	[enable_cubit=yes])
+if test "$enable_cubit" = "yes"; then
+  CPPFLAGS="-DENABLE_CUBIT $CPPFLAGS"; export CPPFLAGS
+  PYLITH_SWIG_CPPFLAGS="-DENABLE_CUBIT $PYLITH_SWIG_CPPFLAGS"; export PYLITH_SWIG_CPPFLAGS
+fi
+AM_CONDITIONAL([ENABLE_CUBIT], [test "$enable_cubit" = yes])
+AC_SUBST(PYLITH_SWIG_CPPFLAGS)
+
+dnl PETSc w/HDF5
+AC_ARG_ENABLE([hdf5],
+    [AC_HELP_STRING([--enable-hdf5],
+        [enable output to HDF5 files via PETSc @<:@default=yes@:>@])],
+	[if test "$enableval" = yes; then enable_hdf5=yes; else enable_hdf5=no; fi],
+	[enable_hdf5=yes])
+if test "$enable_hdf5" = "yes"; then
+  CPPFLAGS="-DENABLE_HDF5 $CPPFLAGS"; export CPPFLAGS
+  PYLITH_SWIG_CPPFLAGS="-DENABLE_HDF5 $PYLITH_SWIG_CPPFLAGS"; export PYLITH_SWIG_CPPFLAGS
+fi
+AM_CONDITIONAL([ENABLE_HDF5], [test "$enable_hdf5" = yes])
+AC_SUBST(PYLITH_SWIG_CPPFLAGS)
+
+
+dnl ----------------------------------------------------------------------
+dnl C/C++/libtool/install
+AC_PROG_CC
+AC_PROG_CXX
+AC_PROG_CXXCPP
+AC_DISABLE_STATIC
+
+AC_PROG_LIBTOOL
+AC_PROG_INSTALL
+
+AX_CXX_COMPILE_STDCXX(14)
+
+dnl PYTHON/PYTHIA (nemesis must be set before python)
+AM_PATH_PYTHON([3.8])
+CIT_PYTHON_SYSCONFIG
+CIT_CHECK_PYTHON_HEADER
+CIT_CHECK_PYTHON_SHARED
+CIT_PYTHON_MODULE([pyre])
+
+dnl MPI
+AC_LANG(C++)
+AC_SEARCH_LIBS([MPI_Init], [mpi mpich], [], [AC_MSG_ERROR([MPI library not found])])
+AC_CHECK_HEADER([mpi.h], [], [AC_MSG_ERROR([header 'mpi.h' not found])])
+
+dnl PETSC
+AC_LANG(C)
+CIT_PATH_PETSC([3.24.0])
+CIT_HEADER_PETSC
+CIT_CHECK_LIB_PETSC
+
+dnl Large file support
+AC_SYS_LARGEFILE
+
+dnl NUMPY
+CIT_NUMPY_PYTHON_MODULE
+CIT_NUMPY_INCDIR
+CIT_PYTHON_MODULE([numpy],[1.20.0])
+
+dnl CATCH2
+if test "$enable_testing" = "yes" ; then
+  CIT_CATCH2_HEADER
+  CIT_CATCH2_LIB
+fi
+
+dnl CUBIT (netcdf)
+if test "$enable_cubit" = "yes" ; then
+  AX_LIB_NETCDF4()
+fi
+
+dnl HDF5
+if test "$enable_hdf5" = "yes" ; then
+  AC_REQUIRE_CPP
+  AC_LANG(C++)
+  CIT_HDF5_HEADER
+  CIT_HDF5_LIB
+  CIT_HDF5_LIB_PARALLEL
+
+  CIT_PYTHON_MODULE([h5py],[3.0.0])
+fi
+
+dnl PROJ
+AC_REQUIRE_CPP
+AC_LANG(C)
+CIT_PROJ6_HEADER
+CIT_PROJ6_LIB
+
+dnl SPATIALDATA
+# AC_REQUIRE_CPP
+# AC_LANG(C++)
+# CIT_SPATIALDATA_HEADER
+# CIT_SPATIALDATA_LIB
+# CIT_PYTHON_MODULE([spatialdata],[3.1.0])
+
+dnl TEST COVERAGE
+AM_CONDITIONAL([ENABLE_TEST_COVERAGE], [test "$enable_test_coverage" = yes])
+if test "$enable_test_coverage" = "yes" ; then
+  AC_PATH_PROG(LCOV, lcov)
+  if test -z "$LCOV"; then
+    AC_MSG_FAILURE([cannot find 'lcov' program for C++ test coverage.])
+  fi
+  AC_PATH_PROG(PYTHON_COVERAGE, $python_coverage)
+  if test -z "$PYTHON_COVERAGE"; then
+    AC_MSG_FAILURE([cannot find '$python_coverage' program for Python test coverage.])
+  fi
+fi
+
+dnl Check whether compiler sets variable with function names.
+CIT_FUNCTIONSTRING
+
+dnl VERSION
+CIG_PKG_GIT(PYLITH)
+AC_DEFINE_UNQUOTED([PYLITH_VERSION], ["$PACKAGE_VERSION"], [Define PyLith version])
+AC_DEFINE_UNQUOTED([PYLITH_DOI], ["10.5281/zenodo.14635926"], [Define PyLith doi])
+
+dnl ENDIANNESS
+AC_C_BIGENDIAN
+
+dnl ----------------------------------------------------------------------
+AC_CONFIG_FILES([
+		Makefile
+		packages/Makefile
+		packages/pylith/Makefile
+		])
+
+
+AC_OUTPUT

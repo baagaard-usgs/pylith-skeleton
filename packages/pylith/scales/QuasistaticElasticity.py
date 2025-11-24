@@ -15,7 +15,7 @@ from pyre.units.time import year
 
 import pylith
 
-from .Scales import ScalesBase
+from .ScalesBase import ScalesBase
 
 
 class QuasistaticElasticity(ScalesBase, family="pylith.scales.quasistatic_elasticity"):
@@ -47,6 +47,18 @@ class QuasistaticElasticity(ScalesBase, family="pylith.scales.quasistatic_elasti
         self.setDisplacementScale(self.displacement_scale)
         self.setRigidityScale(self.shear_modulus)
         self.setTimeScale(self.time_scale)
+
+        info = pylith.journal.info_factory.initialization()
+        info.report(
+            (
+                f"{self}",
+                f"length scale = {self.length_scale}",
+                f"displacement scale = {self.displacement_scale}",
+                f"nominal shear modulus = {self.shear_modulus}",
+                f"time scale = {self.time_scale}",
+            )
+        )
+        info.log()
 
 
 # End of file

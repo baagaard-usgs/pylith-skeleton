@@ -10,37 +10,41 @@
 import pylith
 
 
-from ....fields import subfields
+from ....protocols.fields import subfield
+from ....protocols.governing_eqns.elasticity import solution_subfields
 
-from .SolutionSubfields import SolutionSubfields
+from ....fields.subfields import basic
 
 
 class SubfieldsFault(
-    pylith.component, implements=SolutionSubfields, family="pylith.governing_eqns.elasticity.solution_subfields.fault"
+    pylith.component, implements=solution_subfields, family="pylith.governing_eqns.elasticity.solution_subfields.fault"
 ):
     """Solution subfields for elasticity equation with a fault."""
 
-    displacement = subfields.subfield(default=subfields.basic)
+    displacement = subfield(default=basic)
     displacement.doc = "Displacement subfield."
 
-    velocity = subfields.subfield(default=subfields.basic)
+    velocity = subfield(default=basic)
     velocity.doc = "Velocity subfield."
 
-    lagrange_multiplier_fault = subfields.subfield(default=subfields.basic)
+    lagrange_multiplier_fault = subfield(default=basic)
     lagrange_multiplier_fault.doc = "Fault Lagrange multiplier subfield."
 
     def __init__(self, name, locator, implicit, **kwds):
         """Constructor."""
         super().__init__(name, locator, implicit, **kwds)
 
-        todo = pylith.journal.warning(":TODO:")
-        todo.report(
+        info = pylith.journal.info_factory.initialization()
+        info.report(
             (
                 f"{self}",
-                "Implement SubfieldsFault.__init__(). Pass parameters to C++.",
-                f"displacement={self.displacement}",
-                f"velocity={self.velocity}",
-                f"Lagrange multiplier fault={self.lagrange_multiplier_fault}",
+                f"displacement = {self.displacement}",
+                f"velocity = {self.velocity}",
+                f"Lagrange multiplier fault = {self.lagrange_multiplier_fault}",
             )
         )
+        info.log()
+
+        todo = pylith.journal.debug_factory.todo()
+        todo.report(("Implement SubfieldsFault.__init__(). Pass parameters to C++.",))
         todo.log()

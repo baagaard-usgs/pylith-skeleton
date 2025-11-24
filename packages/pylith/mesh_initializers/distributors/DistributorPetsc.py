@@ -11,12 +11,13 @@ import pyre
 
 import pylith
 
-from .Distributor import Distributor
+from ... import protocols
+from ...protocols.mesh_initializers import distributor
 
 # from pylith.data_writers import data_writer_hdf5
 
 
-class DistributorPetsc(pylith.component, implements=Distributor, family="pylith.mesh_initializers.distributor.petsc"):
+class DistributorPetsc(pylith.component, implements=distributor, family="pylith.mesh_initializers.distributor.petsc"):
 
     partitioner = pylith.properties.str(default="parmetis")
     partitioner.validators = pyre.constraints.isMember("parmetis", "chaco", "simple")
@@ -28,21 +29,25 @@ class DistributorPetsc(pylith.component, implements=Distributor, family="pylith.
     write_partition = pylith.properties.bool(default=False)
     write_partition.doc = "Write partition information to file."
 
-    # data_writer = data_writer_hdf5()
-    # data_writer.doc = "Data writer for partition information."
+    data_writer = protocols.data_writer()
+    data_writer.doc = "Data writer for partition information."
 
     def __init__(self, name, locator, implicit, **kwds):
         """Constructor."""
         super().__init__(name, locator, implicit, **kwds)
 
-        todo = pylith.journal.warning(":TODO:")
-        todo.report(
+        info = pylith.journal.info_factory.initialization()
+        info.report(
             (
                 f"{self}",
-                "Implement DistributorPetsc.__init__(). Pass parameters to C++.",
-                f"partitioner={self.partitioner}",
-                f"use edge weighting={self.use_edge_weighting}",
-                f"write_partition={self.write_partition}",
+                f"partitioner = {self.partitioner}",
+                f"use edge weighting = {self.use_edge_weighting}",
+                f"write_partition = {self.write_partition}",
+                f"data writer = {self.data_writer}",
             )
         )
+        info.log()
+
+        todo = pylith.journal.debug_factory.todo()
+        todo.report(("Implement DistributorPetsc.__init__(). Pass parameters to C++.",))
         todo.log()

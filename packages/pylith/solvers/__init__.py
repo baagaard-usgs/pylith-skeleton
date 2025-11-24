@@ -7,5 +7,4 @@
 #
 # See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
-from .Solver import Solver as solver
 from .SolverPetsc import SolverPetsc as petsc

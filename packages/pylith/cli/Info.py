@@ -9,6 +9,7 @@ class Info(pylith.shells.command, family="pylith.cli.info"):
         """Print information about the host computer."""
         host = self.pyre_host
 
+        info = pylith.journal.info_factory.about()
         lines = (
             f"name: {host.hostname}",
             f"nickname: {host.nickname}",
@@ -17,7 +18,8 @@ class Info(pylith.shells.command, family="pylith.cli.info"):
             f"arch: {host.cpus.architecture}",
             f"cores: {host.cpus.cores}",
         )
-        plexus.info.log("\n".join(lines))
+        info.report(lines)
+        info.log()
 
     @pylith.export(tip="Print information PyLith dependencies.")
     def dependencies(self, plexus, **kwds):

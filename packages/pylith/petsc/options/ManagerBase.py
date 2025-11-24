@@ -9,22 +9,26 @@
 # =================================================================================================
 import pylith
 
-from .Options import Options
+from ...protocols.petsc import options_manager
 
 
-class ManagerBase(pylith.component, implements=Options):
+class ManagerBase(pylith.component, implements=options_manager):
     """Abstract base class for PETSc options managers."""
 
     def __init__(self, name, locator, implicit, **kwds):
         """Constructor."""
         super().__init__(name, locator, implicit, **kwds)
 
-        todo = pylith.journal.warning(":TODO:")
+        info = pylith.journal.info_factory.initialization()
         lines = [
+            "Implement ManagerBase.__init__(). Pass parameters to C++.",
             f"{self}",
-            "Implement OptionsManager.__init__(). Pass parameters to C++.",
             "Option sections:",
         ]
-        lines += [f"    {trait}" for trait in self.pyre_traits()]
-        todo.report(lines)
+        lines += [f"    - {trait}" for trait in self.pyre_traits()]
+        info.report(lines)
+        info.log()
+
+        todo = pylith.journal.debug_factory.todo()
+        todo.report(("Implement ManagerBase.__init__(). Pass parameters to C++.",))
         todo.log()

@@ -9,9 +9,9 @@
 # =================================================================================================
 import pylith
 
-from .. import monitors
+from .. import protocols
 
-from .Problem import ProblemBase
+from .ProblemBase import ProblemBase
 
 
 class GreensFns(
@@ -23,7 +23,7 @@ class GreensFns(
     # - fields
     # - sources
 
-    progress_monitor = monitors.progress_monitor(default=monitors.progress_monitor_step)
+    progress_monitor = protocols.progress_monitor()
     progress_monitor.doc = "Monitor for reporting progress of simulation."
 
     def __init__(self, name, locator, implicit, **kwds):
@@ -31,12 +31,15 @@ class GreensFns(
         # self.cxx = CxxTimeDependent()
         super().__init__(name, locator, implicit, **kwds)
 
-        todo = pylith.journal.warning(":TODO:")
-        todo.report(
+        info = pylith.journal.info_factory.initialization()
+        info.report(
             (
                 f"{self}",
-                "Implement GreensFns.__init__(). Pass parameters to C++.",
                 f"progress monitor={self.progress_monitor}",
             )
         )
+        info.log()
+
+        todo = pylith.journal.debug_factory.todo()
+        todo.report(("Implement GreensFns.__init__(). Pass parameters to C++.",))
         todo.log()

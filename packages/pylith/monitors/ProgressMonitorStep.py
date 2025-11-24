@@ -9,7 +9,7 @@
 # =================================================================================================
 import pylith
 
-from .ProgressMonitor import ProgressMonitorBase
+from .ProgressMonitorBase import ProgressMonitorBase
 
 
 class ProgressMonitorStep(ProgressMonitorBase, family="pylith.monitors.progress_monitor_step"):
@@ -19,7 +19,7 @@ class ProgressMonitorStep(ProgressMonitorBase, family="pylith.monitors.progress_
         """Constructor."""
         super().__init__(name, locator, implicit, **kwds)
 
-        todo = pylith.journal.warning(":TODO:")
+        todo = pylith.journal.debug_factory.todo()
         todo.report(
             (
                 f"{self}",

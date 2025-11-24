@@ -12,10 +12,10 @@ from pyre.units.time import year
 
 import pylith
 
-from .OutputTrigger import OutputTrigger
+from ...protocols.observers import output_trigger
 
 
-class OutputTriggerTime(pyre.component, implements=OutputTrigger, family="pylith.observers.output_triggers.time"):
+class OutputTriggerTime(pyre.component, implements=output_trigger, family="pylith.observers.output_triggers.time"):
     """Trigger output based on time step index."""
 
     elapsed_time = pylith.properties.dimensional(default=0 * year)
@@ -26,12 +26,15 @@ class OutputTriggerTime(pyre.component, implements=OutputTrigger, family="pylith
         """Constructor."""
         super().__init__(name, locator, implicit, **kwds)
 
-        todo = pylith.journal.warning(":TODO:")
-        todo.report(
+        info = pylith.journal.info_factory.initialization()
+        info.report(
             (
                 f"{self}",
-                "Implement OutputTriggerStep.__init__(). Pass parameters to C++.",
                 f"elapsed time={self.elapsed_time}",
             )
         )
+        info.log()
+
+        todo = pylith.journal.debug_factory.todo()
+        todo.report(("Implement OutputTriggerStep.__init__(). Pass parameters to C++.",))
         todo.log()

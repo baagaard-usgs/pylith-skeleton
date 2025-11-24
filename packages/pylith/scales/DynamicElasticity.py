@@ -15,7 +15,7 @@ from pyre.units.mass import kg
 
 import pylith
 
-from .Scales import ScalesBase
+from .ScalesBase import ScalesBase
 
 
 class DynamicElasticity(ScalesBase, family="pylith.scales.dynamic_elasticity"):
@@ -50,3 +50,17 @@ class DynamicElasticity(ScalesBase, family="pylith.scales.dynamic_elasticity"):
         self.setDisplacementScale(self.displacement_scale)
         self.setRigidityScale(rigidity_scale)
         self.setTimeScale(time_scale)
+
+        info = pylith.journal.info_factory.initialization()
+        info.report(
+            (
+                f"{self}",
+                f"length scale = {self.length_scale}",
+                f"displacement scale = {self.displacement_scale}",
+                f"density scale = {self.density}",
+                f"nominal shear wave speed = {self.shear_wave_speed}",
+                f"rigidity scale = {rigidity_scale}",
+                f"time scale = {time_scale}",
+            )
+        )
+        info.log()

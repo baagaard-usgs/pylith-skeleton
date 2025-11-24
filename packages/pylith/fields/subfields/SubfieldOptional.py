@@ -9,12 +9,11 @@
 # =================================================================================================
 import pylith
 
-from .Subfield import Subfield
+from ...protocols import fields
+from ..discretizations import petsc
 
-from .. import discretizations
 
-
-class SubfieldOptional(pylith.component, implements=Subfield, family="pylith.fields.subfields.optional"):
+class SubfieldOptional(pylith.component, implements=fields.subfield, family="pylith.fields.subfields.optional"):
     """Subfield in PETSc field."""
 
     enabled = pylith.properties.bool(default=False)
@@ -23,21 +22,24 @@ class SubfieldOptional(pylith.component, implements=Subfield, family="pylith.fie
     alias = pylith.properties.str()
     alias.doc = "User preferred name of Subfield (used in output)."
 
-    discretization = discretizations.discretization(default=discretizations.petsc)
+    discretization = fields.discretization(default=petsc)
     discretization.doc = "Discretization of subfield."
 
     def __init__(self, name, locator, implicit, **kwds):
         """Constructor."""
         super().__init__(name, locator, implicit, **kwds)
 
-        todo = pylith.journal.warning(":TODO:")
-        todo.report(
+        info = pylith.journal.info_factory.initialization()
+        info.report(
             (
                 f"{self}",
-                "Implement SubfieldOptional.__init__(). Pass parameters to C++.",
-                f"alias={self.alias}",
-                f"enabled={self.enabled}",
-                f"discretization={self.discretization}",
+                f"alias = {self.alias}",
+                f"enabled = {self.enabled}",
+                f"discretization = {self.discretization}",
             )
         )
+        info.log()
+
+        todo = pylith.journal.debug_factory.todo()
+        todo.report(("Implement SubfieldOptional.__init__(). Pass parameters to C++.",))
         todo.log()

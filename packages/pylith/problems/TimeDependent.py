@@ -12,9 +12,10 @@ from pyre.units.time import second
 
 import pylith
 
+from .. import protocols
 from .. import monitors
 
-from .Problem import ProblemBase
+from .ProblemBase import ProblemBase
 
 
 class TimeDependent(ProblemBase, family="pylith.problems.time_dependent"):
@@ -34,7 +35,7 @@ class TimeDependent(ProblemBase, family="pylith.problems.time_dependent"):
     max_time_steps.validators = pyre.constraints.isPositive()
     max_time_steps.doc = "Maximum number of time steps."
 
-    progress_monitor = monitors.progress_monitor(default=monitors.progress_monitor_time)
+    progress_monitor = protocols.progress_monitor(default=monitors.progress_monitor_time)
     progress_monitor.doc = "Monitor for reporting progress of simulation."
 
     def __init__(self, name, locator, implicit, **kwds):
@@ -42,16 +43,19 @@ class TimeDependent(ProblemBase, family="pylith.problems.time_dependent"):
         # self.cxx = CxxTimeDependent()
         super().__init__(name, locator, implicit, **kwds)
 
-        todo = pylith.journal.warning(":TODO:")
-        todo.report(
+        info = pylith.journal.info_factory.initialization()
+        info.report(
             (
                 f"{self}",
-                "Implement TimeDependent.__init__(). Pass parameters to C++.",
-                f"start time={self.start_time}",
-                f"end time={self.end_time}",
-                f"initial time step={self.initial_time_step}",
-                f"maximum number of time steps={self.max_time_steps}",
-                f"progress monitor={self.progress_monitor}",
+                f"start time = {self.start_time}",
+                f"end time = {self.end_time}",
+                f"initial time step = {self.initial_time_step}",
+                f"maximum number of time steps = {self.max_time_steps}",
+                f"progress monitor = {self.progress_monitor}",
             )
         )
+        info.log()
+
+        todo = pylith.journal.debug_factory.todo()
+        todo.report(("Implement TimeDependent.__init__(). Pass parameters to C++.",))
         todo.log()

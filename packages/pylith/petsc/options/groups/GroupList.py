@@ -9,10 +9,10 @@
 # =================================================================================================
 import pylith
 
-from .Group import Group
+from ....protocols.petsc.options import group
 
 
-class GroupList(pylith.component, implements=Group, family="pylith.petsc.options.group_list"):
+class GroupList(pylith.component, implements=group, family="pylith.petsc.options.group_list"):
     """PETSc options manager."""
 
     enabled = pylith.properties.bool(default=False)
@@ -25,13 +25,16 @@ class GroupList(pylith.component, implements=Group, family="pylith.petsc.options
         """Constructor."""
         super().__init__(name, locator, implicit, **kwds)
 
-        todo = pylith.journal.warning(":TODO:")
-        todo.report(
+        info = pylith.journal.info_factory.initialization()
+        info.report(
             (
                 f"{self}",
-                "Implement GroupList.__init__(). Pass parameters to C++.",
-                f"enabled={self.enabled}",
-                f"options={self.options}",
+                f"enabled = {self.enabled}",
+                f"options = {self.options}",
             )
         )
+        info.log()
+
+        todo = pylith.journal.debug_factory.todo()
+        todo.report(("Implement GroupList.__init__(). Pass parameters to C++.",))
         todo.log()

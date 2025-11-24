@@ -1,7 +1,9 @@
+# :TODO: Why does this work? This is configuring `pylith.app.journal`, not `pylith.journal`.
 journal:
   decor: 1
   detail: 5
 
+# :TODO: Pyre needs to be updated so that the application name is set consistently with the proper context (pylith.app versus pylith).
 pylith.journal:
   debug.TODO.active: no
 
@@ -45,13 +47,13 @@ pylith.app.problem.governing_eqn:
     - dirichlet#bc_xneg
     - neumann#bc_xpos
   materials:
-    - isotropic_linear#material
+    - isotropic_linear#crust
 
 # -----------------------------------------------------------------------------
 # Materials
 # -----------------------------------------------------------------------------
 
-material:
+crust:
   label_name: material-id
   label_value: 1
   auxiliary_subfields:
@@ -69,6 +71,6 @@ bc_xneg:
   # :TODO: Set spatial database
 
 bc_xpos:
-  label_name: boundary_xneg
+  label_name: boundary_xpos
   label_value: 1
   # :TODO: Set spatial database

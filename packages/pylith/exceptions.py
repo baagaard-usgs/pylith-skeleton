@@ -14,5 +14,20 @@ from pyre import PyreError
 # the base class for my exceptions
 class PyLithError(PyreError):
     """
-    Base class for all qed errors
+    Base class for all pylith errors
     """
+
+
+class ConfigurationError(PyLithError):
+
+    def __init__(self, msg: str, component: str):
+        super().__init__(self)
+        self.msg = list(msg)
+        self.component = component
+
+    def __str__(self):
+        header = [
+            "Configuration Error:",
+            str(self.component),
+        ]
+        return "\n".join(header + self.msg)

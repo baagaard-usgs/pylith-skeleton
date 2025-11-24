@@ -18,4 +18,4 @@ class FirewallFactory:
 
     @classmethod
     def logic_error(cls):
-        return journal.info("logic-error")
+        return journal.firewall("logic-error")

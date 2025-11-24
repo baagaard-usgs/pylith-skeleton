@@ -43,13 +43,19 @@ class SolverPetsc(pylith.component, implements=solver, family="pylith.solvers.pe
         todo.report(("Implement SolverPetsc.__init__(). Pass parameters to C++.",))
         todo.log()
 
-    def pyre_initialized(self):
-        """Called after component is initialized."""
+    def pyre_configured(self):
+        """Called after component is configured."""
+        yield from super().pyre_configured()
+
         from ..petsc.options.groups import group_list
 
-        yield from super().pyre_initialized()
+        if hasattr(self.petsc_options, "solver") and isinstance(self.petsc_options.solver, group_list):
+            options = self.petsc_options.solver
+            if options.enabled and len(options.options) == 0:
+                msg = (
+                    "PETSc solver options group 'solver' is enabled but has no options.",
+                    "Specify solver options or disable the group if you specify your PETSc options directly.",
+                )
 
-        # if hasattr(self.petsc_options, "solver") and isinstance(self.petsc_options.solver, group_list):
-        #     solver_options = self.petsc_options.solver
-        #     if solver_options.enabled and len(solver_options.options) == 0:
-        #         yield "PETSc solver options group 'solver' is enabled but has no options. Specify solver options or disable the group."
+                ex = pylith.exceptions.ConfigurationError(component=self, msg=msg)
+                yield ex

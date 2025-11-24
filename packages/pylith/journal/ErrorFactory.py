@@ -13,5 +13,13 @@ import journal
 class ErrorFactory:
 
     @classmethod
-    def user_input(cls):
-        return journal.info("user-input")
+    def configuration_error(cls):
+        return journal.error("configuration-error")
+
+    @classmethod
+    def input_error(cls):
+        return journal.error("input-error")
+
+    @classmethod
+    def external_error(cls):
+        return journal.error("external-error")

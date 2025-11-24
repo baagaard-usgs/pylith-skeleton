@@ -8,19 +8,18 @@ import pylith
 try:
     app = pylith.shells.pylith(name="pylith.app")
     status = app.run()
-except pylith.shells.pylith.ConfigurationError:
-    # the error must have been reported already; bail
-    import pdb
-
-    pdb.set_trace()
-    raise SystemExit(1)
+except pylith.shells.pylith.ConfigurationError as ex:
+    error = pylith.journal.error_factory.configuration_error()
+    error.fatal = False
+    error.report(ex.report.split("\n"))
+    error.log()
+    raise SystemExit(1) from ex
 # if the application reports an error through the journal
-except journal.ApplicationError:
-    # we already have a report; bail
+except journal.ApplicationError as ex:
     import pdb
 
     pdb.set_trace()
-    raise SystemExit(1)
+    raise SystemExit(1) from ex
 
 # if all goes well, pass the app exit status on to the shell
 raise SystemExit(status)

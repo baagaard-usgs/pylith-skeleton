@@ -12,7 +12,9 @@ journal:
     - info, initialization
     - warning, user-input
     - warning, deprecation
-    - error, user-input
+    - error, configuration-error
+    - error, input-error
+    - error, external-error
     - firewall, internal-error
     - firewall, logic-error
     - debug, application-flow
@@ -27,6 +29,7 @@ journal:
 # Mesh initialization
 # -----------------------------------------------------------------------------
 # Singletons for default mesh initialization phases.
+# These cannot be singletons because user needs to set filename, etc (INSTANCE).
 pylith.mesh_initializers.mesh_initializer#serial_initializer:
   phases:
     - reader#read_mesh

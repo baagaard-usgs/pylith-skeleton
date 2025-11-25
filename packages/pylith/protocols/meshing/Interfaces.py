@@ -10,12 +10,12 @@
 import pylith
 
 
-class InitializePhase(pylith.protocol, family="pylith.mesh_initializers.phases"):
-    """Mesh initialize phase."""
+class Interfaces(pylith.protocol, family="pylith.meshing.interfaces"):
+    """Interior interfaces in a finite-element mesh."""
 
     @classmethod
     def pyre_default(cls, **kwds):
-        """The default {Initializer} implementation"""
-        from ...mesh_initializers.phases import reader
+        """The default {Interfaces} implementation"""
+        from ...meshing.interfaces import insert
 
-        return reader
+        return insert

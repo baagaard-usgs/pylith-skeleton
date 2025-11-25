@@ -7,5 +7,4 @@
 #
 # See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
-from .Refiner import Refiner as refiner
-from .Interfaces import Interfaces as interfaces
+from .CreateCohesiveCells import CreateCohesiveCells as create_cohesive_cells

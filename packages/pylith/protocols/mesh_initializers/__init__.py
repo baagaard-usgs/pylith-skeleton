@@ -8,4 +8,4 @@
 # See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
 from .Distributor import Distributor as distributor
-from .InitializePhase import InitializePhase as initialize_phase
+from .Reordering import Reordering as reordering

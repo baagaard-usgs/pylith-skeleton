@@ -7,25 +7,23 @@
 #
 # See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
-
 import pylith
 
-from ...protocols.mesh_initializers import initialize_phase
+from ...protocols import meshing
 
 
-class MeshReordering(
-    pylith.component, implements=initialize_phase, family="pylith.mesh_initializers.phases.reordering"
+class CreateCohesiveCells(
+    pylith.component, implements=meshing.interfaces, family="pylith.meshing.interfaces.create_cohesive_cells"
 ):
 
     def __init__(self, name, locator, implicit, **kwds):
         """Constructor."""
         super().__init__(name, locator, implicit, **kwds)
 
+        info = pylith.journal.info_factory.initialization()
+        info.report((f"{self}",))
+        info.log()
+
         todo = pylith.journal.debug_factory.todo()
-        todo.report(
-            (
-                f"{self}",
-                "Implement MeshReordering.__init__().",
-            )
-        )
+        todo.report(("Implement CreateCohesiveCells.__init__(). Pass parameters to C++.",))
         todo.log()

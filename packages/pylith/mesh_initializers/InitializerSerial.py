@@ -10,28 +10,31 @@
 import pylith
 
 from .. import protocols
-from ..protocols.mesh_initializers import initialize_phase
+from ..protocols.mesh_initializers import distributor, reordering
+from ..protocols.meshing import refiner, interfaces
 
-from . import phases
+from .. import mesh_io
+from ..meshing import refiners, insert_interfaces
+from . import distributors, reorderings
 
 
 class InitializerSerial(
     pylith.component, implements=protocols.mesh_initializer, family="pylith.mesh_initializers.serial"
 ):
 
-    read_mesh = initialize_phase(default=phases.reader)
-    read_mesh.doc = "Read mesh."
+    read_mesh = protocols.mesh_io(default=mesh_io.petsc)
+    read_mesh.doc = "Read mesh in serial."
 
-    reorder_mesh = initialize_phase(default=phases.reordering)
+    reorder_mesh = reordering(default=reorderings.petsc)
     reorder_mesh.doc = "Reorder mesh."
 
-    distribute_mesh = initialize_phase(default=phases.distributor)
+    distribute_mesh = distributor(default=distributors.petsc)
     distribute_mesh.doc = "Distribute mesh."
 
-    insert_interfaces = initialize_phase(default=phases.insert_interfaces)
+    insert_interfaces = interfaces(default=insert_interfaces.create_cohesive_cells)
     insert_interfaces.doc = "Insert interior interfaces."
 
-    refine_mesh = initialize_phase(default=phases.refiner)
+    refine_mesh = refiner(default=refiners.uniform)
     refine_mesh.doc = "Refine mesh."
 
     def __init__(self, name, locator, implicit, **kwds):

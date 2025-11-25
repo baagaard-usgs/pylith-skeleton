@@ -51,7 +51,6 @@ pylith.app.problem.governing_eqn:
     - neumann#bc_xpos
   materials:
     - isotropic_linear#crust
-    - isotropic_linear#mantle
 
 # -----------------------------------------------------------------------------
 # Materials
@@ -63,13 +62,10 @@ crust:
   auxiliary_subfields:
     density.discretization.basis_order: 0
     shear_modulus.discretization.basis_order: 0
-
-mantle:
-  label_name: material-id
-  label_value: 2
-  auxiliary_subfields:
-    density.discretization.basis_order: 0
-    shear_modulus.discretization.basis_order: 0
+    reference_state:
+      enabled: True
+      refrence_stress.discretization.basis_order: 0
+      reference_strain.discretization.basis_order: 0
 
 # -----------------------------------------------------------------------------
 # Boundary conditions

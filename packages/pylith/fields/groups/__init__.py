@@ -7,6 +7,4 @@
 #
 # See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
-from .Discretization import Discretization as discretization
-from .Subfield import Subfield as subfield
-from .Group import Group as group
+from .ReferenceState import ReferenceState as reference_state

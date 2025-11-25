@@ -7,6 +7,8 @@
 #
 # See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
-from .Discretization import Discretization as discretization
-from .Subfield import Subfield as subfield
-from .Group import Group as group
+import pylith
+
+
+class Group(pylith.protocol, family="pylith.fields.groups"):
+    """Protocol declarator for Group."""

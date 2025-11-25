@@ -10,8 +10,8 @@
 import pylith
 
 from ....protocols import field
-from ....protocols.fields import subfield
-from ....fields import subfields
+from ....protocols.fields import subfield, group
+from ....fields import subfields, groups
 
 from .ElasticityRheology import ElasticityRheology
 from .ElasticityRheology import AuxiliarySubfields as AuxiliaryBase
@@ -30,6 +30,9 @@ class AuxiliarySubfields(
     bulk_modulus = subfield(default=subfields.basic)
     bulk_modulus.doc = "Bulk modulus."
 
+    reference_state = group(default=groups.reference_state)
+    reference_state.doc = "Reference state (optional)."
+
     def __init__(self, name, locator, implicit, **kwds):
         """Constructor."""
         super().__init__(name, locator, implicit, **kwds)
@@ -40,6 +43,7 @@ class AuxiliarySubfields(
                 f"{self}",
                 f"shear modulus = {self.shear_modulus}",
                 f"bulk modulus = {self.bulk_modulus}",
+                f"reference state = {self.reference_state}",
             )
         )
         info.log()

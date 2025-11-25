@@ -34,3 +34,4 @@ script-files = [
 # Package discovery: search under `packages/` and exclude non-package directories.
 [tool.setuptools.packages.find]
 where = ["packages"]
+exclude = ["docs", "m4", "etc", "tests"]

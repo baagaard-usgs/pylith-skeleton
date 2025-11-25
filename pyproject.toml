@@ -1,0 +1,24 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pylith"
+version = "6.0.0dev"
+description = "Finite-element software for modeling crustal deformation with an emphasis on earthquake faulting."
+authors = [
+  { name = "Brad Aagaard", email = "baagaard@usgs.gov" },
+  { name = "Matthew Knepley", email = "knepley@buffalo.edu" },
+  { name = "Charles Williams", email = "c.williams@gns.cri.nz" }
+]
+license = { text = "MIT" }
+requires-python = ">=3.8"
+urls = { Homepage = "https://geodynamics.org/resources/pylith" }
+
+[tool.setuptools]
+zip-safe = false
+script-files = ["bin/pylith"]
+
+[tool.setuptools.packages.find]
+where = ["packages"]
+exclude = ["docs", "m4", "etc", "tests"]

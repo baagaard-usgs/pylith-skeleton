@@ -7,5 +7,4 @@
 #
 # See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
-from .Refiner import Refiner as refiner
-from .Interfaces import Interfaces as interfaces
+from .ReorderingPetsc import ReorderingPetsc as petsc

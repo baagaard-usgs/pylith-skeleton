@@ -7,32 +7,21 @@
 #
 # See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
-
 import pylith
 
-from ...protocols import mesh_io
-from ...protocols.mesh_initializers import initialize_phase
-from ...mesh_io import petsc
+from ...protocols.mesh_initializers import reordering
 
 
-class MeshReader(pylith.component, implements=initialize_phase, family="pylith.mesh_initializers.phases.reader"):
-
-    reader = mesh_io(default=petsc)
-    reader.doc = "Mesh reader."
+class ReorderingPetsc(pylith.component, implements=reordering, family="pylith.mesh_initializers.reorderings.petsc"):
 
     def __init__(self, name, locator, implicit, **kwds):
         """Constructor."""
         super().__init__(name, locator, implicit, **kwds)
 
         info = pylith.journal.info_factory.initialization()
-        info.report(
-            (
-                f"{self}",
-                f"reader = {self.reader}",
-            )
-        )
+        info.report((f"{self}",))
         info.log()
 
         todo = pylith.journal.debug_factory.todo()
-        todo.report(("Implement MeshReader.__init__(). Pass parameters to C++.",))
+        todo.report(("Implement DistributorPetsc.__init__(). Pass parameters to C++.",))
         todo.log()

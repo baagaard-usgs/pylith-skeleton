@@ -9,22 +9,25 @@
 # =================================================================================================
 import pylith
 
-from ..protocols import mesh_initializer
-from ..protocols.mesh_initializers import initialize_phase
+from .. import protocols
+from ..protocols.mesh_initializers import reordering
 
-from . import phases
+from .. import mesh_io
+from . import reorderings
 
 
-class InitializerConvert(pylith.component, implements=mesh_initializer, family="pylith.mesh_initializers.convert"):
+class InitializerConvert(
+    pylith.component, implements=protocols.mesh_initializer, family="pylith.mesh_initializers.convert"
+):
 
-    reader = initialize_phase(default=phases.reader)
-    reader.doc = "Read mesh."
+    read_mesh = protocols.mesh_io(default=mesh_io.petsc)
+    read_mesh.doc = "Read mesh in serial."
 
-    reordering = initialize_phase(default=phases.reordering)
-    reordering.doc = "Reorder mesh."
+    reorder_mesh = reordering(default=reorderings.petsc)
+    reorder_mesh.doc = "Reorder mesh."
 
-    writer = initialize_phase(default=phases.writer)
-    writer.doc = "Write mesh."
+    write_mesh = protocols.mesh_io(default=mesh_io.petsc)
+    write_mesh.doc = "Write mesh."
 
     def __init__(self, name, locator, implicit, **kwds):
         """Constructor."""
@@ -34,9 +37,9 @@ class InitializerConvert(pylith.component, implements=mesh_initializer, family="
         info.report(
             (
                 f"{self}",
-                f"reader = {self.reader}",
-                f"reordering = {self.reordering}",
-                f"writer = {self.writer}",
+                f"read mesh = {self.read_mesh}",
+                f"reorder mesh = {self.reorder_mesh}",
+                f"write mesh = {self.write_mesh}",
             )
         )
         info.log()

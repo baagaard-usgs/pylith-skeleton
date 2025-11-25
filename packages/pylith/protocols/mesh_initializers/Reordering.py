@@ -7,9 +7,15 @@
 #
 # See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
-from .MeshReader import MeshReader as reader
-from .MeshWriter import MeshWriter as writer
-from .MeshReordering import MeshReordering as reordering
-from .MeshDistributor import MeshDistributor as distributor
-from .MeshInsertInterfaces import MeshInsertInterfaces as insert_interfaces
-from .MeshRefiner import MeshRefiner as refiner
+import pylith
+
+
+class Reordering(pylith.protocol, family="pylith.mesh_initializers.reorderings"):
+    """Reorder a mesh."""
+
+    @classmethod
+    def pyre_default(cls, **kwds):
+        """The default {Reordring} implementation"""
+        from ...mesh_initializers.reoderings import petsc
+
+        return petsc

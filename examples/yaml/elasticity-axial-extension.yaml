@@ -1,4 +1,4 @@
-# :TODO: Why does this work? This is configuring `pylith.app.journal`, not `pylith.journal`.
+# :TODO: Why does this work? This is configuring `pylith.app.journal` not `pylith.journal`.
 journal:
   decor: 1
   detail: 5
@@ -30,8 +30,8 @@ pylith.app.defaults:
 # -----------------------------------------------------------------------------
 
 pylith.app.problem.mesh_initializer:
-  read_mesh.reader.filename: mesh_quad.msh
-  refine_mesh.refiner.levels: 1
+  read_mesh.filename: mesh_quad.msh
+  refine_mesh.levels: 1
 
 # Use default scales for nondimensionalization
 # Use default governing equation (elasticity)
@@ -51,6 +51,7 @@ pylith.app.problem.governing_eqn:
     - neumann#bc_xpos
   materials:
     - isotropic_linear#crust
+    - isotropic_linear#mantle
 
 # -----------------------------------------------------------------------------
 # Materials
@@ -60,7 +61,14 @@ crust:
   label_name: material-id
   label_value: 1
   auxiliary_subfields:
-    density.discretization.basis_order: 2
+    density.discretization.basis_order: 0
+    shear_modulus.discretization.basis_order: 0
+
+mantle:
+  label_name: material-id
+  label_value: 2
+  auxiliary_subfields:
+    density.discretization.basis_order: 0
     shear_modulus.discretization.basis_order: 0
 
 # -----------------------------------------------------------------------------

@@ -9,25 +9,30 @@
 # =================================================================================================
 import pylith
 
-from ..protocols import mesh_initializer
-from ..protocols.mesh_initializers import initialize_phase
+from .. import protocols
+from ..protocols.mesh_initializers import distributor
+from ..protocols.meshing import refiner, interfaces
 
-from . import phases
+from .. import mesh_io
+from ..meshing import refiners, insert_interfaces
+from . import distributors
 
 
-class InitializerParallel(pylith.component, implements=mesh_initializer, family="pylith.mesh_initializers.parallel"):
+class InitializerParallel(
+    pylith.component, implements=protocols.mesh_initializer, family="pylith.mesh_initializers.parallel"
+):
 
-    reader = initialize_phase(default=phases.reader)
-    reader.doc = "Read mesh."
+    read_mesh = protocols.mesh_io(default=mesh_io.petsc)
+    read_mesh.doc = "Read mesh in parallel."
 
-    distributor = initialize_phase(default=phases.distributor)
-    distributor.doc = "Distribute mesh."
+    distribute_mesh = distributor(default=distributors.petsc)
+    distribute_mesh.doc = "Distribute mesh."
 
-    insert_interfaces = initialize_phase(default=phases.insert_interfaces)
+    insert_interfaces = interfaces(default=insert_interfaces.create_cohesive_cells)
     insert_interfaces.doc = "Insert interior interfaces."
 
-    refiner = initialize_phase(default=phases.refiner)
-    refiner.doc = "Refine mesh."
+    refine_mesh = refiner(default=refiners.uniform)
+    refine_mesh.doc = "Refine mesh."
 
     def __init__(self, name, locator, implicit, **kwds):
         """Constructor."""
@@ -37,10 +42,10 @@ class InitializerParallel(pylith.component, implements=mesh_initializer, family=
         info.report(
             (
                 f"{self}",
-                f"reader = {self.reader}",
-                f"distributor = {self.distributor}",
+                f"read mesh = {self.read_mesh}",
+                f"distribute mesh = {self.distribute_mesh}",
                 f"insert interfaces = {self.insert_interfaces}",
-                f"refiner = {self.refiner}",
+                f"refine mesh = {self.refine_mesh}",
             )
         )
         info.log()

@@ -13,3 +13,8 @@
 - `mm TESTSUITE` (Run test suite)
 - `mm TESTSUITE.info` (test suite information)
 - `mm TESTSUITE.info.staging.targets` (list test suite targets)
+
+## Configuration
+
+The Pyre README.md installation instructions for `$HOME/.config/pyre/mm.yaml` have the line `local: Make.mmm`.
+This is **not** a typo. This is a temporary "fix" to avoid conflicts with legacy `Make.mm` files in the Pyre repo.

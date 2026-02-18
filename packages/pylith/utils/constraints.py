@@ -12,3 +12,7 @@
 
 def unitVector(*constraints):
     return
+
+
+def notEmptyList(*constraints):
+    return

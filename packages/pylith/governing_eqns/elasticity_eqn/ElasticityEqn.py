@@ -13,6 +13,7 @@ from ... import protocols
 from ...protocols.governing_eqns import elasticity
 from ..GoverningEqnBase import GoverningEqnBase
 from ...interior_interfaces import fault_cohesive_kinematic
+from ...utils import constraints
 
 from . import solution_subfields as subfields
 from .bulk_rheologies import isotropic_linear
@@ -25,6 +26,7 @@ class ElasticityEqn(GoverningEqnBase, family="pylith.governing_eqns.elasticity")
     solution_subfields.doc = "Solution subfields for elasticity equation."
 
     materials = pylith.properties.list(schema=elasticity.bulk_rheology(default=isotropic_linear))
+    materials.validators = constraints.notEmptyList()
     materials.doc = "Materials in boundary value problem."
 
     interior_interfaces = pylith.properties.list(schema=protocols.interior_interface(default=fault_cohesive_kinematic))

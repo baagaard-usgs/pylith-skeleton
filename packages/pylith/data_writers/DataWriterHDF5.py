@@ -15,8 +15,8 @@ from .DataWriterBase import DataWriterBase
 class DataWriterHDF5(DataWriterBase, family="pylith.data_writers.hdf5"):
     """VTK data writer."""
 
-    filename = pylith.properties.uri()
-    filename.doc = "Name of VTK file."
+    uri = pylith.properties.uri()
+    uri.doc = "Name of VTK file."
 
     def __init__(self, name, locator, implicit, **kwds):
         """Constructor."""
@@ -30,7 +30,7 @@ class DataWriterHDF5(DataWriterBase, family="pylith.data_writers.hdf5"):
         """Set filename from default options and inventory. If filename is given in inventory, use it,
         otherwise create filename from default options.
         """
-        filename = self.filename or DataWriterBase.makeFilename(outputDir, simName, label, "h5")
+        filename = self.uri or DataWriterBase.makeFilename(outputDir, simName, label, "h5")
         DataWriterBase.makePath(filename)
 
         todo = pylith.journal.debug_factory.todo()

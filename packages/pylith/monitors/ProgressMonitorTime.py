@@ -30,8 +30,6 @@ class ProgressMonitorTime(ProgressMonitorBase, family="pylith.monitors.progress_
         info.report(
             (
                 f"{self}",
-                f"filename = {self.filename}",
-                f"update percent = {self.update_percent}",
                 f"time units={self.time_units}",
             )
         )

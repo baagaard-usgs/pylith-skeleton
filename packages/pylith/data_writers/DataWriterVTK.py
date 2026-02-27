@@ -19,15 +19,15 @@ from .DataWriterBase import DataWriterBase
 class DataWriterVTK(DataWriterBase, family="pylith.data_writers.vtk"):
     """VTK data writer."""
 
-    filename = pylith.properties.uri()
-    filename.doc = "Name of VTK file."
+    uri = pylith.properties.uri()
+    uri.doc = "Name of VTK file."
 
     time_format = pylith.properties.str(default="%f")
-    time_format.doc = "C style format string for time stamp in filename."
+    time_format.doc = "C style format string for time stamp in uri."
 
     time_scale = pylith.properties.dimensional(default=1.0 * second)
     time_scale.validators = pyre.constraints.isGreater(value=0.0 * second)
-    time_scale.doc = "Values used to normalize time stamp in filename."
+    time_scale.doc = "Values used to normalize time stamp in uri."
 
     float_precision = pylith.properties.int(default=6)
     float_prevision = pyre.constraints.isPositive()
@@ -50,7 +50,7 @@ class DataWriterVTK(DataWriterBase, family="pylith.data_writers.vtk"):
         """Set filename from default options and inventory. If filename is given in inventory, use it,
         otherwise create filename from default options.
         """
-        filename = self.filename or DataWriterBase.makeFilename(outputDir, simName, label, "vtk")
+        filename = self.uri or DataWriterBase.makeFilename(outputDir, simName, label, "vtk")
         DataWriterBase.makePath(filename)
 
         todo = pylith.journal.debug_factory.todo()

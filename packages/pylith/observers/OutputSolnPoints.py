@@ -16,8 +16,8 @@ from .OutputObserver import OutputObserver
 class OutputSolnPoints(OutputObserver, family="pylith.observers.solution_points"):
     """Output of solution over given points specified in a file."""
 
-    filename = pylith.properties.uri(default=None)
-    filename.doc = "URI with list of points."
+    uri = pylith.properties.uri(default=None)
+    uri.doc = "URI with list of points."
 
     def __init__(self, name, locator, implicit, **kwds):
         """Constructor."""
@@ -27,7 +27,7 @@ class OutputSolnPoints(OutputObserver, family="pylith.observers.solution_points"
         info.report(
             (
                 f"{self}",
-                f"filename = {self.filename}",
+                f"uri = {self.uri}",
             )
         )
         info.log()

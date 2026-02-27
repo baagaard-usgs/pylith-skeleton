@@ -10,12 +10,12 @@
 import spatialdata
 
 
-class UniformValue(spatialdata.protocol, family="spatialdata.spatial_databases.uniform_value"):
+class UniformValue(spatialdata.protocol, family="spatialdata.spatial_databases.uniform_values"):
     """Protocol declarator for values in a uniform spatial database."""
 
     @classmethod
     def pyre_default(cls, **kwds):
         """The default {UniformValue} implementation"""
-        from ...spatial_databases.uniform_value import basic
+        from ...spatial_databases.uniform_values import basic
 
         return basic

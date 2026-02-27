@@ -7,20 +7,18 @@
 #
 # See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
-import pyre
+import spatialdata
 
 from ..protocols.spatial_databases import analytic_value
 from ..utils import constraints
 
-import spatialdata
-
 from .SpatialDatabaseBase import SpatialDatabaseBase
 
 
-class Analytic(SpatialDatabaseBase, family="spatialdata.spatial_databsae.analytic"):
+class Analytic(SpatialDatabaseBase, family="spatialdata.spatial_databases.analytic"):
     """Analytic values over a domain."""
 
-    values = spatialdata.properties.list(schema=analytic_value)
+    values = spatialdata.properties.list(schema=analytic_value())
     values.validators = constraints.notEmptyList()
     values.doc = "Values in spatial database."
 

@@ -7,7 +7,7 @@
 #
 # See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
-from .CoordSys import CoordSys as coord_sys
-from .PointIO import PointIO as point_io
+from .CoordinateSystem import CoordinateSystem as coordinate_system
+from .PointsIO import PointsIO as points_io
 from .SpatialDatabase import SpatialDatabase as spatial_database
 from .TimeHistory import TimeHistory as time_history

@@ -9,11 +9,11 @@
 # =================================================================================================
 import spatialdata
 
-from ..protocols import coord_sys
+from ..protocols import coordinate_system
 
 
 class GeographicLocal(
-    spatialdata.component, implements=coord_sys, implements="spatialdata.coordinate_systems.geographic_local"
+    spatialdata.component, implements=coordinate_system, family="spatialdata.coordinate_systems.geographic_local"
 ):
     """Geographic coordinate system with local origin and rotation."""
 

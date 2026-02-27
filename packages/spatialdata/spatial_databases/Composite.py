@@ -7,13 +7,10 @@
 #
 # See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
-import pyre
-
+import spatialdata
 
 from ..protocols.spatial_databases import composite_entry
 from ..utils import constraints
-
-import spatialdata
 
 from .SpatialDatabaseBase import SpatialDatabaseBase
 
@@ -21,7 +18,7 @@ from .SpatialDatabaseBase import SpatialDatabaseBase
 class Composite(SpatialDatabaseBase, family="spatialdata.spatial_databases.composite"):
     """Composite spatial database with points in space."""
 
-    databases = spatialdata.properties.list(schema=composite_entry)
+    databases = spatialdata.properties.list(schema=composite_entry())
     databases.validators = constraints.notEmptyList()
     databases.doc = "Spatial databases in composite spatial database."
 

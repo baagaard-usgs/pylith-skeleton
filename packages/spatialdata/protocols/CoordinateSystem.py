@@ -10,12 +10,12 @@
 import spatialdata
 
 
-class CoordSys(spatialdata.protocol, family="spatialdata.coordsys"):
+class CoordinateSystem(spatialdata.protocol, family="spatialdata.coordinate_systems"):
     """Protocol declarator for coordinate systems."""
 
     @classmethod
     def pyre_default(cls, **kwds):
-        """The default {BoundaryCondition} implementation"""
+        """The default {CoordinateSystem} implementation"""
         from ..coordinate_systems import cartesian
 
         return cartesian

@@ -1,0 +1,18 @@
+test_subject:
+  db: analytic#analytic_properties
+
+spatialdata.spatial_databases.analytic#analytic_properties:
+  values:
+    - basic#vp
+    - basic#vs
+
+spatialdata.spatial_databases.analytic_values.basic#vp:
+  name: vp
+  units: km/s
+  expression: x
+  coord_sys: cartesian
+spatialdata.spatial_databases.analytic_values.basic#vs:
+  name: vs
+  units: m/s
+  expression: x + y
+  coord_sys: geographic

@@ -15,7 +15,7 @@ class TimeHistory(spatialdata.protocol, family="spatialdata.time_histories"):
 
     @classmethod
     def pyre_default(cls, **kwds):
-        """The default {BoundaryCondition} implementation"""
-        from ..time_histories import points_list
+        """The default {TimeHistory} implementation"""
+        from ..time_histories import points
 
-        return points_list
+        return points

@@ -7,9 +7,6 @@
 #
 # See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
-import pyre
-
-
 import spatialdata
 
 from ... import protocols
@@ -17,7 +14,7 @@ from ...protocols.spatial_databases import analytic_value
 
 
 class Basic(
-    spatialdata.component, implements=analytic_value, family="spatialdata.spatial_databases.analytic_value.basic"
+    spatialdata.component, implements=analytic_value, family="spatialdata.spatial_databases.analytic_values.basic"
 ):
     """Basic value in a uniform spatial database."""
 

@@ -18,6 +18,7 @@ from pyre import (
     provides,
     # manager of pyre runtime
     executive,
+    loadConfiguration,
     # shells
     application,
     plexus,

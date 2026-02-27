@@ -1,0 +1,14 @@
+test_subject:
+  db: uniform#uniform_properties
+
+spatialdata.spatial_databases.uniform#uniform_properties:
+  values:
+    - basic#uniform_vp
+    - basic#uniform_vs
+
+spatialdata.spatial_databases.uniform_values.basic#uniform_vp:
+  name: vp
+  value: 4.0*km/s
+spatialdata.spatial_databases.uniform_values.basic#uniform_vs:
+  name: vs
+  value: 2.7*km/s

@@ -7,16 +7,13 @@
 #
 # See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
-import pyre
-
-
 import spatialdata
 
 from ...protocols.spatial_databases import uniform_value
 
 
 class Basic(
-    spatialdata.component, implements=uniform_value, family="spatialdata.spatial_databases.uniform_value.basic"
+    spatialdata.component, implements=uniform_value, family="spatialdata.spatial_databases.uniform_values.basic"
 ):
     """Basic value in a uniform spatial database."""
 

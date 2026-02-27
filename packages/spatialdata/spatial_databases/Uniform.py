@@ -7,12 +7,10 @@
 #
 # See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
-import pyre
+import spatialdata
 
 from ..protocols.spatial_databases import uniform_value
 from ..utils import constraints
-
-import spatialdata
 
 from .SpatialDatabaseBase import SpatialDatabaseBase
 
@@ -20,7 +18,7 @@ from .SpatialDatabaseBase import SpatialDatabaseBase
 class Uniform(SpatialDatabaseBase, family="spatialdata.spatial_databases.uniform"):
     """Uniform values over a domain."""
 
-    values = spatialdata.properties.list(schema=uniform_value)
+    values = spatialdata.properties.list(schema=uniform_value())
     values.validators = constraints.notEmptyList()
     values.doc = "Values in spatial database."
 

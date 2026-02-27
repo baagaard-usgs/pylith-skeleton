@@ -1,0 +1,6 @@
+test_subject:
+  cs: geographic#geo_2d
+
+spatialdata.coordinate_systems.geographic#geo_2d:
+  crs_string: EPSG:1234
+  space_dim: 2

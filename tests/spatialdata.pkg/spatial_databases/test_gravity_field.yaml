@@ -1,0 +1,6 @@
+test_subject:
+  db: gravity_field#gravity
+
+spatialdata.spatial_databases.gravity_field#gravity:
+  gravity_dir: [0.0, -1.0, 0.0]
+  acceleration: 4.5*m/s

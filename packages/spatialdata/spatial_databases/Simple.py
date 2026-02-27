@@ -8,8 +8,6 @@
 # See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
 import pyre
-
-
 import spatialdata
 
 from .SpatialDatabaseBase import SpatialDatabaseBase
@@ -18,8 +16,8 @@ from .SpatialDatabaseBase import SpatialDatabaseBase
 class Simple(SpatialDatabaseBase, family="spatialdata.spatial_databases.simple"):
     """Simple spatial database with points in space."""
 
-    filename = spatialdata.properties.uri()
-    filename.doc = "Data file for Simple spatial database."
+    uri = spatialdata.properties.uri(default=None)
+    uri.doc = "Data file for Simple spatial database."
 
     query_type = spatialdata.properties.str(default="linear")
     query_type.validators = pyre.constraints.isMember("linear", "nearest")
@@ -33,7 +31,7 @@ class Simple(SpatialDatabaseBase, family="spatialdata.spatial_databases.simple")
         info.report(
             (
                 f"{self}",
-                f"filename = {self.filename}",
+                f"uri = {self.uri}",
                 f"query_type = {self.query_type}",
             )
         )

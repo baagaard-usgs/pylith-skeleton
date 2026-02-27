@@ -15,7 +15,7 @@ class SpatialDatabase(spatialdata.protocol, family="spatialdata.spatial_database
 
     @classmethod
     def pyre_default(cls, **kwds):
-        """The default {BoundaryCondition} implementation"""
+        """The default {SpatialDatabase} implementation"""
         from ..spatial_databases import uniform
 
         return uniform

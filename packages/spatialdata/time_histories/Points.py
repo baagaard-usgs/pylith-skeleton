@@ -15,11 +15,11 @@ from ..protocols import time_history
 class Points(spatialdata.component, implements=time_history, family="spatialdata.time_histories.points"):
     """Time history with points in time."""
 
-    description = spatialdata.properties.str()
+    description = spatialdata.properties.str(default=None)
     description.doc = "Description of time history."
 
-    filename = spatialdata.properties.uri()
-    filename.doc = "Data file for time history."
+    uri = spatialdata.properties.uri(default=None)
+    uri.doc = "Data file for time history."
 
     def __init__(self, name, locator, implicit, **kwds):
         """Constructor."""
@@ -30,7 +30,7 @@ class Points(spatialdata.component, implements=time_history, family="spatialdata
             (
                 f"{self}",
                 f"description = {self.description}",
-                f"filename = {self.filename}",
+                f"uri = {self.uri}",
             )
         )
         info.log()

@@ -9,14 +9,14 @@
 # =================================================================================================
 import spatialdata
 
-from ..protocols import point_io
+from ..protocols import points_io
 
 
-class Stream(spatialdata.component, implements=point_io, family="spatialdata.point_io.stream"):
+class Stream(spatialdata.component, implements=points_io, family="spatialdata.points_io.stream"):
     """Stream with time history with points."""
 
-    filename = spatialdata.properties.uri()
-    filename.doc = "Data file for Simple spatial database."
+    uri = spatialdata.properties.uri(default=None)
+    uri.doc = "Data file for Simple spatial database."
 
     comment_flag = spatialdata.properties.str(default="#")
     comment_flag.doc = "String identifying comments."
@@ -32,7 +32,7 @@ class Stream(spatialdata.component, implements=point_io, family="spatialdata.poi
         info.report(
             (
                 f"{self}",
-                f"filename = {self.filename}",
+                f"uri = {self.uri}",
                 f"comment_flag = {self.comment_flag}",
                 f"format = {self.format}",
             )
@@ -49,12 +49,12 @@ class Stream(spatialdata.component, implements=point_io, family="spatialdata.poi
         """
         import numpy
 
-        points = numpy.loadtxt(self.filename, comments=self.comment_flag)
+        points = numpy.loadtxt(self.uri, comments=self.comment_flag)
         return points
 
     def write(self, points):
         """Write points to file."""
         import numpy
 
-        numpy.savetxt(self.filename, points, fmt=self.format)
+        numpy.savetxt(self.uri, points, fmt=self.format)
         return

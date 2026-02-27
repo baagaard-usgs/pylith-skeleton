@@ -7,12 +7,10 @@
 #
 # See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
-import pyre
+import spatialdata
 
 from pyre.units.length import meter
 from pyre.units.time import second
-
-import spatialdata
 
 from .SpatialDatabaseBase import SpatialDatabaseBase
 from ..utils import constraints

@@ -1,0 +1,6 @@
+test_subject:
+  db: simple_grid#db_velocity
+
+spatialdata.spatial_databases.simple_grid#db_velocity:
+  uri: velocity.spatialdb
+  query_type: nearest

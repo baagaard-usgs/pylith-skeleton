@@ -9,10 +9,12 @@
 # =================================================================================================
 import spatialdata
 
-from ..protocols import coord_sys
+from ..protocols import coordinate_system
 
 
-class Geographic(spatialdata.component, implements=coord_sys, implements="spatialdata.coordinate_systems.geographic"):
+class Geographic(
+    spatialdata.component, implements=coordinate_system, family="spatialdata.coordinate_systems.geographic"
+):
     """Geographic coordinate system."""
 
     crs_string = spatialdata.properties.str(default="EPSG:4326")

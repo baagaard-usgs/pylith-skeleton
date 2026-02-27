@@ -7,9 +7,6 @@
 #
 # See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
-import pyre
-
-
 import spatialdata
 
 from ...protocols import spatial_database
@@ -17,7 +14,7 @@ from ...protocols.spatial_databases import composite_entry
 
 
 class Basic(
-    spatialdata.component, implements=composite_entry, family="spatialdata.spatial_databases.composite_entry.basic"
+    spatialdata.component, implements=composite_entry, family="spatialdata.spatial_databases.composite_entries.basic"
 ):
     """Basic spatial database in a composite spatial database."""
 

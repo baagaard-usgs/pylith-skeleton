@@ -7,20 +7,18 @@
 #
 # See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
-import pyre
 from pyre.units.length import meter
 
 
 import spatialdata
 
-from ..protocols import coord_sys
+from ..protocols import coordinate_system
 
 
-class Cartesian(spatialdata.component, implements=coord_sys, family="spatialdata.coordinate_systems.cartesian"):
+class Cartesian(spatialdata.component, implements=coordinate_system, family="spatialdata.coordinate_systems.cartesian"):
     """Cartesian coordinate system."""
 
-    units = spatialdata.properties.dimensional(default=1.0 * meter)
-    units.validators = pyre.constraints.isPositive()
+    units = spatialdata.properties.dimensional(default=meter)
     units.doc = "Unit for coordinate axes."
 
     space_dim = spatialdata.properties.int(default=3)

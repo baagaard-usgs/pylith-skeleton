@@ -8,8 +8,6 @@
 # See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
 import pyre
-
-
 import spatialdata
 
 from .SpatialDatabaseBase import SpatialDatabaseBase
@@ -18,8 +16,8 @@ from .SpatialDatabaseBase import SpatialDatabaseBase
 class SimpleGrid(SpatialDatabaseBase, family="spatialdata.spatial_databases.simple_grid"):
     """SimpleGrid spatial database with points on a logical grid."""
 
-    filename = spatialdata.properties.uri()
-    filename.doc = "Data file for SimpleGrid spatial database."
+    uri = spatialdata.properties.uri(default=None)
+    uri.doc = "Data file for SimpleGrid spatial database."
 
     query_type = spatialdata.properties.str(default="linear")
     query_type.validators = pyre.constraints.isMember("linear", "nearest")
@@ -33,7 +31,7 @@ class SimpleGrid(SpatialDatabaseBase, family="spatialdata.spatial_databases.simp
         info.report(
             (
                 f"{self}",
-                f"filename = {self.filename}",
+                f"uri = {self.uri}",
                 f"query_type = {self.query_type}",
             )
         )

@@ -10,12 +10,12 @@
 import spatialdata
 
 
-class CompositeEntry(spatialdata.protocol, family="spatialdata.spatial_databases.composite_entry"):
+class CompositeEntry(spatialdata.protocol, family="spatialdata.spatial_databases.composite_entries"):
     """Protocol declarator for spatial databases in a composite spatial database."""
 
     @classmethod
     def pyre_default(cls, **kwds):
         """The default {CompositeEntry} implementation"""
-        from ...spatial_databases.composite_entry import basic
+        from ...spatial_databases.composite_entries import basic
 
         return basic

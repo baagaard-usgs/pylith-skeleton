@@ -1,0 +1,7 @@
+# Points
+test_subject:
+  time_history: points#slip_time_history
+
+spatialdata.time_histories.points#slip_time_history:
+  description: Slip time history
+  uri: slip.timedb

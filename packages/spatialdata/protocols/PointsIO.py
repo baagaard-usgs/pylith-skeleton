@@ -10,12 +10,12 @@
 import spatialdata
 
 
-class PointIO(spatialdata.protocol, family="spatialdata.point_io"):
+class PointsIO(spatialdata.protocol, family="spatialdata.points_io"):
     """Protocol declarator for points I/O."""
 
     @classmethod
     def pyre_default(cls, **kwds):
-        """The default {BoundaryCondition} implementation"""
-        from ..point_io import points_stream
+        """The default {PointsIO} implementation"""
+        from ..points_io import stream
 
-        return points_stream
+        return stream

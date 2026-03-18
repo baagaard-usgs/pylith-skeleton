@@ -22,6 +22,8 @@ from pyre import (
     # shells
     application,
     plexus,
+    # helper functions
+    reset,
 )
 
 package = executive.registerPackage(name="spatialdata", file=__file__)

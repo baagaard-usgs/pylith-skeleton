@@ -13,8 +13,8 @@ def load_yaml():
 
 
 def test_traits_defaults():
-    db = spatial_databases.simple()
-    assert db.__class__ == spatial_databases.Simple.Simple
+    db = spatial_databases.simple() # Actor
+    assert db().__class__ == spatial_databases.Simple.Simple
     assert db.uri is None
     assert db.query_type == "linear"
 

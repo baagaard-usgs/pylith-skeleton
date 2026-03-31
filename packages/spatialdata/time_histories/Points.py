@@ -25,7 +25,7 @@ class Points(spatialdata.component, implements=time_history, family="spatialdata
         """Constructor."""
         super().__init__(name, locator, implicit, **kwds)
 
-        info = spatialdata.journal.info_factory.initialization(detail=5)
+        info = spatialdata.journal.info_factory().initialization(detail=5)
         info.report(
             (
                 f"{self}",
@@ -35,6 +35,6 @@ class Points(spatialdata.component, implements=time_history, family="spatialdata
         )
         info.log()
 
-        todo = spatialdata.journal.debug_factory.todo()
+        todo = spatialdata.journal.debug_factory().todo()
         todo.report(("Implement Points.__init__(). Pass parameters to C++.",))
         todo.log()

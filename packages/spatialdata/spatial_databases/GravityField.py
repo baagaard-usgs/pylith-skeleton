@@ -30,7 +30,7 @@ class GravityField(SpatialDatabaseBase, family="spatialdata.spatial_databases.gr
         """Constructor."""
         super().__init__(name, locator, implicit, **kwds)
 
-        info = spatialdata.journal.info_factory.initialization(detail=5)
+        info = spatialdata.journal.info_factory().initialization(detail=5)
         info.report(
             (
                 f"{self}",
@@ -40,6 +40,6 @@ class GravityField(SpatialDatabaseBase, family="spatialdata.spatial_databases.gr
         )
         info.log()
 
-        todo = spatialdata.journal.debug_factory.todo()
+        todo = spatialdata.journal.debug_factory().todo()
         todo.report(("Implement GravityField.__init__(). Pass parameters to C++.",))
         todo.log()

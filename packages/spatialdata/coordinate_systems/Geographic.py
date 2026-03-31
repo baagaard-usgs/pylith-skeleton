@@ -28,7 +28,7 @@ class Geographic(
         """Constructor."""
         super().__init__(name, locator, implicit, **kwds)
 
-        info = spatialdata.journal.info_factory.initialization(detail=5)
+        info = spatialdata.journal.info_factory().initialization(detail=5)
         info.report(
             (
                 f"{self}",
@@ -38,6 +38,6 @@ class Geographic(
         )
         info.log()
 
-        todo = spatialdata.journal.debug_factory.todo()
+        todo = spatialdata.journal.debug_factory().todo()
         todo.report(("Implement Geographic.__init__(). Pass parameters to C++.",))
         todo.log()

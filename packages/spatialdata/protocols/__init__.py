@@ -7,6 +7,8 @@
 #
 # See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
+# Do not use @foundry for protocols.
+
 from .CoordinateSystem import CoordinateSystem as coordinate_system
 from .PointsIO import PointsIO as points_io
 from .SpatialDatabase import SpatialDatabase as spatial_database

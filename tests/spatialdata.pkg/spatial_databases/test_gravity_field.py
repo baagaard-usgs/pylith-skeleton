@@ -15,8 +15,8 @@ def load_yaml():
 
 
 def test_traits_defaults():
-    db = spatial_databases.gravity_field()
-    assert db.__class__ == spatial_databases.GravityField.GravityField
+    db = spatial_databases.gravity_field() # Actor
+    assert db().__class__ == spatial_databases.GravityField.GravityField
     assert db.gravity_dir == [0.0, 0.0, -1.0]
     assert str(db.acceleration) == str(9.80665 * meter / second)
 

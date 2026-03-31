@@ -13,8 +13,8 @@ def load_yaml():
 
 
 def test_traits_defaults():
-    cs = coordinate_systems.geographic()
-    assert cs.__class__ == coordinate_systems.Geographic.Geographic
+    cs = coordinate_systems.geographic() # Actor
+    assert cs().__class__ == coordinate_systems.Geographic.Geographic
     assert cs.crs_string == "EPSG:4326"
     assert cs.space_dim == 3
 

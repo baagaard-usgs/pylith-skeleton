@@ -15,8 +15,8 @@ def load_yaml():
 
 
 def test_traits_defaults():
-    db = spatial_databases.analytic()
-    assert db.__class__ == spatial_databases.Analytic.Analytic
+    db = spatial_databases.analytic() # Actor
+    assert db().__class__ == spatial_databases.Analytic.Analytic
     assert db.values == []
 
 

@@ -7,4 +7,16 @@
 #
 # See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
-from .Points import Points as points
+import spatialdata
+
+
+@spatialdata.foundry(tip="Time history defined by points.")
+def points():
+    try:
+        from .Points import Points
+    except ImportError:
+        return
+    __doc__ = Points.__doc__
+    return Points
+
+

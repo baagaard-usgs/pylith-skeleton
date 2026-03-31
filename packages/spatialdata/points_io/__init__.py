@@ -7,4 +7,16 @@
 #
 # See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
-from .Stream import Stream as stream
+import spatialdata
+
+
+@spatialdata.foundry(tip="Points stream")
+def stream():
+    try:
+        from .Stream import Stream
+    except ImportError:
+        return
+    __doc__ = Stream.__doc__
+    return Stream
+
+

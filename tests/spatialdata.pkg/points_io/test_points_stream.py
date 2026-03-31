@@ -13,8 +13,8 @@ def load_yaml():
 
 
 def test_traits_defaults():
-    stations = points_io.stream()
-    assert stations.__class__ == points_io.Stream.Stream
+    stations = points_io.stream() # Actor
+    assert stations().__class__ == points_io.Stream.Stream
     assert stations.uri is None
     assert stations.comment_flag == "#"
     assert stations.format == "%14.5e"

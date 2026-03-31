@@ -7,6 +7,34 @@
 #
 # See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
-from .Cartesian import Cartesian as cartesian
-from .Geographic import Geographic as geographic
-from .GeographicLocal import GeographicLocal as geographic_local
+import spatialdata
+
+
+@spatialdata.foundry(tip="Cartesian coordinate system")
+def cartesian():
+    try:
+        from .Cartesian import Cartesian
+    except ImportError:
+        return
+    __doc__ = Cartesian.__doc__
+    return Cartesian
+
+
+@spatialdata.foundry(tip="Geographic coordinate system")
+def geographic():
+    try:
+        from .Geographic import Geographic
+    except ImportError:
+        return
+    __doc__ = Geographic.__doc__
+    return Geographic
+
+
+@spatialdata.foundry(tip="Geographic coordinate system with local origin")
+def geographic_local():
+    try:
+        from .GeographicLocal import GeographicLocal
+    except ImportError:
+        return
+    __doc__ = GeographicLocal.__doc__
+    return GeographicLocal

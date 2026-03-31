@@ -14,8 +14,8 @@ def load_yaml():
 
 
 def test_traits_defaults():
-    db = spatial_databases.composite()
-    assert db.__class__ == spatial_databases.Composite.Composite
+    db = spatial_databases.composite() # Actor
+    assert db().__class__ == spatial_databases.Composite.Composite
     assert db.databases == []
 
 

@@ -13,7 +13,8 @@ def load_yaml():
 
 
 def test_traits_defaults():
-    th = time_histories.points()
+    th = time_histories.points() # Actor
+    assert th().__class__ == time_histories.Points.Points
     assert th.description is None
     assert th.uri is None
 
@@ -21,5 +22,6 @@ def test_traits_defaults():
 def test_traits_yaml(load_yaml, local_test_subject):
     test_subject = local_test_subject(name="test_subject")
     th = test_subject.time_history
+    assert th.__class__ == time_histories.Points.Points
     assert th.description == "Slip time history"
     assert str(th.uri) == "slip.timedb"

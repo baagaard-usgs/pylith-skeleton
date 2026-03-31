@@ -37,7 +37,7 @@ class DataWriterVTK(DataWriterBase, family="pylith.data_writers.vtk"):
         """Constructor."""
         super().__init__(name, locator, implicit, **kwds)
 
-        todo = pylith.journal.debug_factory.todo()
+        todo = pylith.journal.debug_factory().todo()
         todo.report(
             (
                 "Implement DataWriterVTK time_history attribute. Requires spatialdata.",
@@ -53,5 +53,5 @@ class DataWriterVTK(DataWriterBase, family="pylith.data_writers.vtk"):
         filename = self.uri or DataWriterBase.makeFilename(outputDir, simName, label, "vtk")
         DataWriterBase.makePath(filename)
 
-        todo = pylith.journal.debug_factory.todo()
+        todo = pylith.journal.debug_factory().todo()
         todo.log(("Implement DataWriterHDF5.setFilename(). Pass parameters to C++.",))

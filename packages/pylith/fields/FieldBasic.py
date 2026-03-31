@@ -19,7 +19,7 @@ class FieldBasic(pylith.component, implements=field, family="pylith.fields.basic
         """Constructor."""
         super().__init__(name, locator, implicit, **kwds)
 
-        info = pylith.journal.info_factory.initialization()
+        info = pylith.journal.info_factory().initialization()
         lines = [
             f"{self}",
             f"subfields={self.subfields}",
@@ -28,6 +28,6 @@ class FieldBasic(pylith.component, implements=field, family="pylith.fields.basic
         info.report(lines)
         info.log()
 
-        todo = pylith.journal.debug_factory.todo()
+        todo = pylith.journal.debug_factory().todo()
         todo.report(("Implement FieldBasic.__init__(). Pass parameters to C++.",))
         todo.log()

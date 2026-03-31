@@ -45,7 +45,7 @@ class Plexus(pyre.plexus, family="pylith.shells.plexus"):
             # redirect all journal output to the file
             journal.logfile(name=str(self.log_file), mode="w")
 
-        todo = pylith.journal.debug_factory.todo()
+        todo = pylith.journal.debug_factory().todo()
         todo.report(
             (
                 f"{self}",
@@ -59,8 +59,8 @@ class Plexus(pyre.plexus, family="pylith.shells.plexus"):
         todo.log()
 
     def run_cxx(self):
-        flow = pylith.journal.info_factory.application_flow(detail=0)
+        flow = pylith.journal.info_factory().application_flow(detail=0)
         flow.log("Running PyLith C++ application.")
 
-        todo = pylith.journal.debug_factory.todo()
+        todo = pylith.journal.debug_factory().todo()
         todo.log("Call C++ PyLithApp::run().")

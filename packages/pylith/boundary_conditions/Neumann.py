@@ -55,7 +55,7 @@ class Neumann(
         """Constructor."""
         super().__init__(name, locator, implicit, **kwds)
 
-        info = pylith.journal.info_factory.initialization(detail=5)
+        info = pylith.journal.info_factory().initialization(detail=5)
         info.detail = 5
         info.report(
             (
@@ -67,7 +67,7 @@ class Neumann(
         )
         info.log()
 
-        todo = pylith.journal.debug_factory.todo()
+        todo = pylith.journal.debug_factory().todo()
         todo.report(
             (
                 "Implement Neumann time_history attribute. Requires spatialdata.",

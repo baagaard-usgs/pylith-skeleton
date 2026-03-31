@@ -43,7 +43,7 @@ class TimeDependent(ProblemBase, family="pylith.problems.time_dependent"):
         # self.cxx = CxxTimeDependent()
         super().__init__(name, locator, implicit, **kwds)
 
-        info = pylith.journal.info_factory.initialization()
+        info = pylith.journal.info_factory().initialization()
         info.report(
             (
                 f"{self}",
@@ -56,6 +56,6 @@ class TimeDependent(ProblemBase, family="pylith.problems.time_dependent"):
         )
         info.log()
 
-        todo = pylith.journal.debug_factory.todo()
+        todo = pylith.journal.debug_factory().todo()
         todo.report(("Implement TimeDependent.__init__(). Pass parameters to C++.",))
         todo.log()

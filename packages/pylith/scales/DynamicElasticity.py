@@ -51,7 +51,7 @@ class DynamicElasticity(ScalesBase, family="pylith.scales.dynamic_elasticity"):
         self.setRigidityScale(rigidity_scale)
         self.setTimeScale(time_scale)
 
-        info = pylith.journal.info_factory.initialization()
+        info = pylith.journal.info_factory().initialization()
         info.report(
             (
                 f"{self}",

@@ -7,5 +7,24 @@
 #
 # See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
-from .SimulationOptions import SimulationOptions as simulation_options
-from .SolverOptions import SolverOptions as solver_options
+import pylith
+
+
+@pylith.foundry(tip="Simulation options")
+def simulation_options():
+    try:
+        from .SimulationOptions import SimulationOptions
+    except ImportError:
+        return
+    __doc__ = SimulationOptions.__doc__
+    return SimulationOptions
+
+
+@pylith.foundry(tip="Solver options")
+def solver_options():
+    try:
+        from .SolverOptions import SolverOptions
+    except ImportError:
+        return
+    __doc__ = SolverOptions.__doc__
+    return SolverOptions

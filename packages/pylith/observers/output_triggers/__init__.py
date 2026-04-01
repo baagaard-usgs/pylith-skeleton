@@ -7,5 +7,24 @@
 #
 # See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
-from .OutputTriggerStep import OutputTriggerStep as step
-from .OutputTriggerTime import OutputTriggerTime as time
+import pylith
+
+
+@pylith.foundry(tip="Output trigger step")
+def step():
+    try:
+        from .OutputTriggerStep import OutputTriggerStep
+    except ImportError:
+        return
+    __doc__ = OutputTriggerStep.__doc__
+    return OutputTriggerStep
+
+
+@pylith.foundry(tip="Output trigger time")
+def time():
+    try:
+        from .OutputTriggerTime import OutputTriggerTime
+    except ImportError:
+        return
+    __doc__ = OutputTriggerTime.__doc__
+    return OutputTriggerTime

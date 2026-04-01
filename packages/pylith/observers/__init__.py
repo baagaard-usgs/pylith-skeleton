@@ -7,8 +7,54 @@
 #
 # See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
-from .OutputObserver import OutputObserver as output_observer
-from .OutputSolnDomain import OutputSolnDomain as solution_domain
-from .OutputSolnBoundary import OutputSolnBoundary as solution_boundary
-from .OutputSolnPoints import OutputSolnPoints as solution_points
-from .OutputPhysics import OutputPhysics as output_physics
+import pylith
+
+
+@pylith.foundry(tip="Output observer")
+def output_observer():
+    try:
+        from .OutputObserver import OutputObserver
+    except ImportError:
+        return
+    __doc__ = OutputObserver.__doc__
+    return OutputObserver
+
+
+@pylith.foundry(tip="Output solution domain")
+def solution_domain():
+    try:
+        from .OutputSolnDomain import OutputSolnDomain
+    except ImportError:
+        return
+    __doc__ = OutputSolnDomain.__doc__
+    return OutputSolnDomain
+
+
+@pylith.foundry(tip="Output solution boundary")
+def solution_boundary():
+    try:
+        from .OutputSolnBoundary import OutputSolnBoundary
+    except ImportError:
+        return
+    __doc__ = OutputSolnBoundary.__doc__
+    return OutputSolnBoundary
+
+
+@pylith.foundry(tip="Output solution points")
+def solution_points():
+    try:
+        from .OutputSolnPoints import OutputSolnPoints
+    except ImportError:
+        return
+    __doc__ = OutputSolnPoints.__doc__
+    return OutputSolnPoints
+
+
+@pylith.foundry(tip="Output physics")
+def output_physics():
+    try:
+        from .OutputPhysics import OutputPhysics
+    except ImportError:
+        return
+    __doc__ = OutputPhysics.__doc__
+    return OutputPhysics

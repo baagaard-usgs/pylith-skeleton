@@ -7,5 +7,24 @@
 #
 # See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
-from .Dirichlet import Dirichlet as dirichlet
-from .Neumann import Neumann as neumann
+import pylith
+
+
+@pylith.foundry(tip="Dirichlet boundary condition")
+def dirichlet():
+    try:
+        from .Dirichlet import Dirichlet
+    except ImportError:
+        return
+    __doc__ = Dirichlet.__doc__
+    return Dirichlet
+
+
+@pylith.foundry(tip="Neumann boundary condition")
+def neumann():
+    try:
+        from .Neumann import Neumann
+    except ImportError:
+        return
+    __doc__ = Neumann.__doc__
+    return Neumann

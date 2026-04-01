@@ -7,4 +7,14 @@
 #
 # See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
-from .SolverPetsc import SolverPetsc as petsc
+import pylith
+
+
+@pylith.foundry(tip="PETSc solver")
+def petsc():
+    try:
+        from .SolverPetsc import SolverPetsc
+    except ImportError:
+        return
+    __doc__ = SolverPetsc.__doc__
+    return SolverPetsc

@@ -7,4 +7,14 @@
 #
 # See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
-from .GroupList import GroupList as group_list
+import pylith
+
+
+@pylith.foundry(tip="Group list")
+def group_list():
+    try:
+        from .GroupList import GroupList
+    except ImportError:
+        return
+    __doc__ = GroupList.__doc__
+    return GroupList

@@ -7,4 +7,14 @@
 #
 # See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
-from .ReorderingPetsc import ReorderingPetsc as petsc
+import pylith
+
+
+@pylith.foundry(tip="PETSc reordering")
+def petsc():
+    try:
+        from .ReorderingPetsc import ReorderingPetsc
+    except ImportError:
+        return
+    __doc__ = ReorderingPetsc.__doc__
+    return ReorderingPetsc

@@ -7,5 +7,24 @@
 #
 # See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
-from .ElasticityRheology import ElasticityRheology as elasticity_rheology
-from .IsotropicLinear import IsotropicLinear as isotropic_linear
+import pylith
+
+
+@pylith.foundry(tip="Elasticity rheology")
+def elasticity_rheology():
+    try:
+        from .ElasticityRheology import ElasticityRheology
+    except ImportError:
+        return
+    __doc__ = ElasticityRheology.__doc__
+    return ElasticityRheology
+
+
+@pylith.foundry(tip="Isotropic linear rheology")
+def isotropic_linear():
+    try:
+        from .IsotropicLinear import IsotropicLinear
+    except ImportError:
+        return
+    __doc__ = IsotropicLinear.__doc__
+    return IsotropicLinear

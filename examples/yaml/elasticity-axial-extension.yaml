@@ -30,7 +30,7 @@ pylith.app.defaults:
 # -----------------------------------------------------------------------------
 
 pylith.app.problem.mesh_initializer:
-  read_mesh.filename: mesh_quad.msh
+  read_mesh.uri: mesh_quad.msh
   refine_mesh.levels: 1
 
 # Use default scales for nondimensionalization

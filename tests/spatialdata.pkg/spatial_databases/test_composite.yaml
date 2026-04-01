@@ -1,0 +1,21 @@
+test_subject:
+  db: composite#viscoelastic_properties
+
+spatialdata.spatial_databases.composite#viscoelastic_properties:
+  databases:
+    - basic#elastic
+    - basic#viscoelastic
+
+spatialdata.spatial_databases.composite_entries.basic#elastic:
+  values: [vp, vs, density]
+  database: simple_grid#db_elastic
+spatialdata.spatial_databases.composite_entries.basic#viscoelastic:
+  values: [viscosity]
+  database: simple#db_viscoelastic
+
+spatialdata.spatial_databases.simple_grid#db_elastic:
+  uri: elastic.spatialdb
+  query_type: nearest
+spatialdata.spatial_databases.simple#db_viscoelastic:
+  uri: viscoelastic.spatialdb
+  query_type: linear

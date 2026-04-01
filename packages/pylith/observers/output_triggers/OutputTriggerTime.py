@@ -26,7 +26,7 @@ class OutputTriggerTime(pyre.component, implements=output_trigger, family="pylit
         """Constructor."""
         super().__init__(name, locator, implicit, **kwds)
 
-        info = pylith.journal.info_factory.initialization()
+        info = pylith.journal.info_factory().initialization()
         info.report(
             (
                 f"{self}",
@@ -35,6 +35,6 @@ class OutputTriggerTime(pyre.component, implements=output_trigger, family="pylit
         )
         info.log()
 
-        todo = pylith.journal.debug_factory.todo()
+        todo = pylith.journal.debug_factory().todo()
         todo.report(("Implement OutputTriggerStep.__init__(). Pass parameters to C++.",))
         todo.log()

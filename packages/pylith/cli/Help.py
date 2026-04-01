@@ -29,7 +29,7 @@ class Help(pylith.shells.command, family="pyre.cli.help"):
             "2. Indicate which version of PyLith you are using.",
             "3. Send the *entire* error message, not just what you think is important (entire log is best).",
         )
-        info = pylith.journal.info_factory.about()
+        info = pylith.journal.info_factory().about()
         info.report(lines)
         info.log()
 
@@ -44,7 +44,7 @@ class Help(pylith.shells.command, family="pyre.cli.help"):
         ]
         for channel in plexus.journal.channels:
             lines += [f"   - {channel[1]} ({channel[0]})"]
-        info = pylith.journal.info_factory.about()
+        info = pylith.journal.info_factory().about()
         info.report(lines)
         info.log()
 

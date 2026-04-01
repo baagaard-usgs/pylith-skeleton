@@ -29,7 +29,7 @@ class FieldOptional(pylith.component, implements=field, family="pylith.fields.op
         """Constructor."""
         super().__init__(name, locator, implicit, **kwds)
 
-        info = pylith.journal.info_factory.initialization()
+        info = pylith.journal.info_factory().initialization()
         info.report(
             (
                 f"{self}",
@@ -39,6 +39,6 @@ class FieldOptional(pylith.component, implements=field, family="pylith.fields.op
         )
         info.log()
 
-        todo = pylith.journal.debug_factory.todo()
+        todo = pylith.journal.debug_factory().todo()
         todo.report(("Implement FieldOptional.__init__(). Pass parameters to C++.",))
         todo.log()

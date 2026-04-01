@@ -9,7 +9,7 @@ class Info(pylith.shells.command, family="pylith.cli.info"):
         """Print information about the host computer."""
         host = self.pyre_host
 
-        info = pylith.journal.info_factory.about()
+        info = pylith.journal.info_factory().about()
         lines = (
             f"name: {host.hostname}",
             f"nickname: {host.nickname}",

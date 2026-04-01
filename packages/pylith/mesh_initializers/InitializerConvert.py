@@ -33,7 +33,7 @@ class InitializerConvert(
         """Constructor."""
         super().__init__(name, locator, implicit, **kwds)
 
-        info = pylith.journal.info_factory.initialization()
+        info = pylith.journal.info_factory().initialization()
         info.report(
             (
                 f"{self}",
@@ -44,7 +44,7 @@ class InitializerConvert(
         )
         info.log()
 
-        todo = pylith.journal.debug_factory.todo()
+        todo = pylith.journal.debug_factory().todo()
         todo.report(
             "Implement InitializerConvert.__init__(). Pass parameters to C++.",
         )

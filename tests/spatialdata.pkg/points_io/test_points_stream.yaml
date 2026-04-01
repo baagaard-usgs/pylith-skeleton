@@ -1,0 +1,7 @@
+test_subject:
+  stations: stream#gnss_stations
+
+spatialdata.points_io.stream#gnss_stations:
+  uri: gnss_stations.txt
+  comment_flag: "%"
+  format: "%7.4f"

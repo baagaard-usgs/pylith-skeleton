@@ -26,17 +26,15 @@ class ProgressMonitorTime(ProgressMonitorBase, family="pylith.monitors.progress_
         """Constructor."""
         super().__init__(name, locator, implicit, **kwds)
 
-        info = pylith.journal.info_factory.initialization()
+        info = pylith.journal.info_factory().initialization()
         info.report(
             (
                 f"{self}",
-                f"filename = {self.filename}",
-                f"update percent = {self.update_percent}",
                 f"time units={self.time_units}",
             )
         )
         info.log()
 
-        todo = pylith.journal.debug_factory.todo()
+        todo = pylith.journal.debug_factory().todo()
         todo.report(("Implement ProgressMonitorTime.__init__(). Pass parameters to C++.",))
         todo.log()

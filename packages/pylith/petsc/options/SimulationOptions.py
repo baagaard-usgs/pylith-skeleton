@@ -31,7 +31,7 @@ class SimulationOptions(ManagerBase, family="pylith.petsc.options.simulation"):
         """Constructor."""
         super().__init__(name, locator, implicit, **kwds)
 
-        info = pylith.journal.info_factory.initialization()
+        info = pylith.journal.info_factory().initialization()
         info.report(
             (
                 f"{self}",
@@ -42,6 +42,6 @@ class SimulationOptions(ManagerBase, family="pylith.petsc.options.simulation"):
         )
         info.log()
 
-        todo = pylith.journal.debug_factory.todo()
+        todo = pylith.journal.debug_factory().todo()
         todo.report(("Implement SimulationOptions.__init__(). Pass parameters to C++.",))
         todo.log()

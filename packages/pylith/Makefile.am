@@ -9,16 +9,6 @@
 # =================================================================================================
 
 
-if ENABLE_CUBIT
-make-manifest:
-else
-make-manifest:
-	echo "exclude meshio/MeshIOCubit.py" > $@
-endif
-
-install-exec-local: make-manifest
-	$(PYTHON) -m pip install $(top_srcdir)
-
 EXTRA_DIST = \
 	__init__.py \
 	apps/__init__.py \

@@ -17,8 +17,8 @@ from ..protocols import progress_monitor
 class ProgressMonitorBase(pylith.component, implements=progress_monitor):
     """Abstract base class for simulation progress monitors."""
 
-    filename = pylith.properties.uri(default=None)
-    filename.doc = "Name of output file."
+    uri = pylith.properties.uri(default=None)
+    uri.doc = "Name of output file."
 
     update_percent = pylith.properties.float(default=5.0)
     update_percent.validators = pyre.constraints.isPositive()
@@ -28,16 +28,16 @@ class ProgressMonitorBase(pylith.component, implements=progress_monitor):
         """Constructor."""
         super().__init__(name, locator, implicit, **kwds)
 
-        info = pylith.journal.info_factory.initialization()
+        info = pylith.journal.info_factory().initialization()
         info.report(
             (
                 f"{self}",
-                f"filename = {self.filename}",
+                f"uri = {self.uri}",
                 f"update percent = {self.update_percent}",
             )
         )
         info.log()
 
-        todo = pylith.journal.debug_factory.todo()
+        todo = pylith.journal.debug_factory().todo()
         todo.report(("Implement ProgressMonitorBase.__init__(). Pass parameters to C++.",))
         todo.log()

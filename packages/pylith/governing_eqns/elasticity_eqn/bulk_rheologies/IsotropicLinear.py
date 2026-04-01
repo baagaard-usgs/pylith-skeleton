@@ -34,7 +34,7 @@ class AuxiliarySubfields(
         """Constructor."""
         super().__init__(name, locator, implicit, **kwds)
 
-        info = pylith.journal.info_factory.initialization()
+        info = pylith.journal.info_factory().initialization()
         info.report(
             (
                 f"{self}",
@@ -44,7 +44,7 @@ class AuxiliarySubfields(
         )
         info.log()
 
-        todo = pylith.journal.debug_factory.todo()
+        todo = pylith.journal.debug_factory().todo()
         todo.report(("Implement IsotropicLinear.__init__(). Pass parameters to C++.",))
         todo.log()
 
@@ -65,7 +65,7 @@ class DerivedSubfields(
         """Constructor."""
         super().__init__(name, locator, implicit, **kwds)
 
-        info = pylith.journal.info_factory.initialization()
+        info = pylith.journal.info_factory().initialization()
         info.report(
             (
                 f"{self}",
@@ -75,7 +75,7 @@ class DerivedSubfields(
         )
         info.log()
 
-        todo = pylith.journal.debug_factory.todo()
+        todo = pylith.journal.debug_factory().todo()
         todo.report((f"Implement DerivedSubfields.__init__(). Pass parameters to C++.",))
         todo.log()
 
@@ -96,7 +96,7 @@ class IsotropicLinear(
         """Constructor."""
         super().__init__(name, locator, implicit, **kwds)
 
-        info = pylith.journal.info_factory.initialization()
+        info = pylith.journal.info_factory().initialization()
         info.report(
             (
                 f"{self}",
@@ -106,6 +106,6 @@ class IsotropicLinear(
         )
         info.log()
 
-        todo = pylith.journal.debug_factory.todo()
+        todo = pylith.journal.debug_factory().todo()
         todo.report(("Implement ElasticityRheology.__init__(). Pass parameters to C++.",))
         todo.log()

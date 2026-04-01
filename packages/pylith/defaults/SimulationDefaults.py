@@ -35,7 +35,7 @@ class SimulationDefaults(pyre.component, implements=application_defaults, family
         """Constructor."""
         super().__init__(name, locator, implicit, **kwds)
 
-        info = pylith.journal.info_factory.initialization()
+        info = pylith.journal.info_factory().initialization()
         info.report(
             (
                 f"{self}",
@@ -46,6 +46,6 @@ class SimulationDefaults(pyre.component, implements=application_defaults, family
             )
         )
 
-        todo = pylith.journal.debug_factory.todo()
+        todo = pylith.journal.debug_factory().todo()
         todo.report(("Implement SimulationDefaults.__init__(). Pass parameters to C++.",))
         todo.log()

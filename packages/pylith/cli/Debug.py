@@ -14,7 +14,7 @@ class Debug(pylith.shells.command, family="pylith.cli.debug"):
         cfg = self.pyre_configurator
         for uri, priority in cfg.sources:
             lines += [f"{uri}, priority '{priority.name}'"]
-        info = pylith.journal.info_factory.debug_config()
+        info = pylith.journal.info_factory().debug_config()
         info.report(lines)
 
         if self.full:

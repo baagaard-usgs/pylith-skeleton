@@ -56,7 +56,7 @@ class QuasistaticPoroelasticity(ScalesBase, family="pylith.scales.quasistatic_po
         )
         self.setDisplacementScale(self.displacement_scale)
 
-        info = pylith.journal.info_factory.initialization()
+        info = pylith.journal.info_factory().initialization()
         info.report(
             (
                 f"{self}",

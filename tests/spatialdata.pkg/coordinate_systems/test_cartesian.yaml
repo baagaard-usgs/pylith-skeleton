@@ -1,0 +1,6 @@
+test_subject:
+  cs: cartesian#cartesian_2d
+
+spatialdata.coordinate_systems.cartesian#cartesian_2d:
+  units: kilometer
+  space_dim: 2

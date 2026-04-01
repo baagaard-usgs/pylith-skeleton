@@ -28,7 +28,7 @@ class BoundaryConditionBase(pylith.component, implements=boundary_condition):
         """Constructor."""
         super().__init__(name, locator, implicit, **kwds)
 
-        info = pylith.journal.info_factory.initialization(detail=5)
+        info = pylith.journal.info_factory().initialization(detail=5)
         info.report(
             (
                 f"{self}",
@@ -39,6 +39,6 @@ class BoundaryConditionBase(pylith.component, implements=boundary_condition):
         )
         info.log()
 
-        todo = pylith.journal.debug_factory.todo()
+        todo = pylith.journal.debug_factory().todo()
         todo.report(("Implement BoundaryConditionBase.__init__(). Pass parameters to C++.",))
         todo.log()

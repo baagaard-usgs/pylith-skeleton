@@ -1,0 +1,9 @@
+test_subject:
+  cs: geographic_local#geo_local_2d
+
+spatialdata.coordinate_systems.geographic_local#geo_local_2d:
+  crs_string: EPSG:5678
+  space_dim: 2
+  origin_x: 1.0
+  origin_y: 2.0
+  y_azimuth: 3.0

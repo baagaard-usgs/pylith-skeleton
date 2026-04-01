@@ -17,8 +17,8 @@ from .. import protocols
 
 class MeshIOPetsc(pylith.component, implements=protocols.mesh_io, family="pylith.mesh_io.petsc"):
 
-    filename = pylith.properties.uri(default=None)
-    filename.doc = "URI of mesh file."
+    uri = pylith.properties.uri(default=None)
+    uri.doc = "URI of mesh file."
 
     gmsh_mark_recursive = pylith.properties.bool(default=False)
     gmsh_mark_recursive.doc = "Gmsh file marks faces, edges, and vertices rather than just faces (3D) or edges (2D)."
@@ -33,17 +33,17 @@ class MeshIOPetsc(pylith.component, implements=protocols.mesh_io, family="pylith
         """Constructor."""
         super().__init__(name, locator, implicit, **kwds)
 
-        info = pylith.journal.info_factory.initialization()
+        info = pylith.journal.info_factory().initialization()
         info.report(
             (
                 f"{self}",
-                f"filename = {self.filename}",
+                f"uri = {self.uri}",
                 f"Gmsh mark recursive = {self.gmsh_mark_recursive}",
                 f"PETSc options prefix = {self.petsc_options_prefix}",
             )
         )
         info.log()
 
-        todo = pylith.journal.debug_factory.todo()
+        todo = pylith.journal.debug_factory().todo()
         todo.report(("Implement MeshIOPetsc.__init__(). Pass parameters to C++.",))
         todo.log()

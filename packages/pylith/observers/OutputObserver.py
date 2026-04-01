@@ -38,7 +38,7 @@ class OutputObserver(pylith.component, implements=protocols.observer):
         """Constructor."""
         super().__init__(name, locator, implicit, **kwds)
 
-        info = pylith.journal.info_factory.initialization()
+        info = pylith.journal.info_factory().initialization()
         info.report(
             (
                 f"{self}",
@@ -50,6 +50,6 @@ class OutputObserver(pylith.component, implements=protocols.observer):
         )
         info.log()
 
-        todo = pylith.journal.debug_factory.todo()
+        todo = pylith.journal.debug_factory().todo()
         todo.report(("Implement OutputObserver.__init__(). Pass parameters to C++.",))
         todo.log()

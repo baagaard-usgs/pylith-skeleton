@@ -25,7 +25,7 @@ class GroupList(pylith.component, implements=group, family="pylith.petsc.options
         """Constructor."""
         super().__init__(name, locator, implicit, **kwds)
 
-        info = pylith.journal.info_factory.initialization()
+        info = pylith.journal.info_factory().initialization()
         info.report(
             (
                 f"{self}",
@@ -35,6 +35,6 @@ class GroupList(pylith.component, implements=group, family="pylith.petsc.options
         )
         info.log()
 
-        todo = pylith.journal.debug_factory.todo()
+        todo = pylith.journal.debug_factory().todo()
         todo.report(("Implement GroupList.__init__(). Pass parameters to C++.",))
         todo.log()

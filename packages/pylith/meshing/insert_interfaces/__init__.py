@@ -7,4 +7,14 @@
 #
 # See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
-from .CreateCohesiveCells import CreateCohesiveCells as create_cohesive_cells
+import pylith
+
+
+@pylith.foundry(tip="Create cohesive cells")
+def create_cohesive_cells():
+    try:
+        from .CreateCohesiveCells import CreateCohesiveCells
+    except ImportError:
+        return
+    __doc__ = CreateCohesiveCells.__doc__
+    return CreateCohesiveCells

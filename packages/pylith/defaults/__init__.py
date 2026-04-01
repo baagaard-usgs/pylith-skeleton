@@ -7,4 +7,14 @@
 #
 # See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
-from .SimulationDefaults import SimulationDefaults as simulation_defaults
+import pylith
+
+
+@pylith.foundry(tip="Simulation defaults")
+def simulation_defaults():
+    try:
+        from .SimulationDefaults import SimulationDefaults
+    except ImportError:
+        return
+    __doc__ = SimulationDefaults.__doc__
+    return SimulationDefaults

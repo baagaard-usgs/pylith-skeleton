@@ -7,4 +7,14 @@
 #
 # See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
-from .DistributorPetsc import DistributorPetsc as petsc
+import pylith
+
+
+@pylith.foundry(tip="PETSc distributor")
+def petsc():
+    try:
+        from .DistributorPetsc import DistributorPetsc
+    except ImportError:
+        return
+    __doc__ = DistributorPetsc.__doc__
+    return DistributorPetsc

@@ -7,5 +7,24 @@
 #
 # See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
-from .DataWriterVTK import DataWriterVTK as vtk
-from .DataWriterHDF5 import DataWriterHDF5 as hdf5
+import pylith
+
+
+@pylith.foundry(tip="VTK data writer")
+def vtk():
+    try:
+        from .DataWriterVTK import DataWriterVTK
+    except ImportError:
+        return
+    __doc__ = DataWriterVTK.__doc__
+    return DataWriterVTK
+
+
+@pylith.foundry(tip="HDF5 data writer")
+def hdf5():
+    try:
+        from .DataWriterHDF5 import DataWriterHDF5
+    except ImportError:
+        return
+    __doc__ = DataWriterHDF5.__doc__
+    return DataWriterHDF5

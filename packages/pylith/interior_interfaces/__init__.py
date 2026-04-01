@@ -7,5 +7,24 @@
 #
 # See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
-from .FaultCohesiveKinematic import FaultCohesiveKinematic as fault_cohesive_kinematic
-from .FaultCohesiveImpulses import FaultCohesiveImpulses as fault_cohesive_impulses
+import pylith
+
+
+@pylith.foundry(tip="Fault cohesive kinematic")
+def fault_cohesive_kinematic():
+    try:
+        from .FaultCohesiveKinematic import FaultCohesiveKinematic
+    except ImportError:
+        return
+    __doc__ = FaultCohesiveKinematic.__doc__
+    return FaultCohesiveKinematic
+
+
+@pylith.foundry(tip="Fault cohesive impulses")
+def fault_cohesive_impulses():
+    try:
+        from .FaultCohesiveImpulses import FaultCohesiveImpulses
+    except ImportError:
+        return
+    __doc__ = FaultCohesiveImpulses.__doc__
+    return FaultCohesiveImpulses

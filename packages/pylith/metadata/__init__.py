@@ -7,4 +7,14 @@
 #
 # See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
-from .SimulationMetadata import SimulationMetadata as simulation_metadata
+import pylith
+
+
+@pylith.foundry(tip="Simulation metadata")
+def simulation_metadata():
+    try:
+        from .SimulationMetadata import SimulationMetadata
+    except ImportError:
+        return
+    __doc__ = SimulationMetadata.__doc__
+    return SimulationMetadata

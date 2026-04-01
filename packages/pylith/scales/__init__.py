@@ -7,6 +7,34 @@
 #
 # See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
-from .QuasistaticElasticity import QuasistaticElasticity as quasistatic_elasticity
-from .DynamicElasticity import DynamicElasticity as dynamic_elasticity
-from .QuasistaticPoroelasticity import QuasistaticPoroelasticity as quasistatic_poroelasticity
+import pylith
+
+
+@pylith.foundry(tip="Quasistatic elasticity scale")
+def quasistatic_elasticity():
+    try:
+        from .QuasistaticElasticity import QuasistaticElasticity
+    except ImportError:
+        return
+    __doc__ = QuasistaticElasticity.__doc__
+    return QuasistaticElasticity
+
+
+@pylith.foundry(tip="Dynamic elasticity scale")
+def dynamic_elasticity():
+    try:
+        from .DynamicElasticity import DynamicElasticity
+    except ImportError:
+        return
+    __doc__ = DynamicElasticity.__doc__
+    return DynamicElasticity
+
+
+@pylith.foundry(tip="Quasistatic poroelasticity scale")
+def quasistatic_poroelasticity():
+    try:
+        from .QuasistaticPoroelasticity import QuasistaticPoroelasticity
+    except ImportError:
+        return
+    __doc__ = QuasistaticPoroelasticity.__doc__
+    return QuasistaticPoroelasticity

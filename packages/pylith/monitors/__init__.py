@@ -7,5 +7,24 @@
 #
 # See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
-from .ProgressMonitorTime import ProgressMonitorTime as progress_monitor_time
-from .ProgressMonitorStep import ProgressMonitorStep as progress_monitor_step
+import pylith
+
+
+@pylith.foundry(tip="Progress monitor time")
+def progress_monitor_time():
+    try:
+        from .ProgressMonitorTime import ProgressMonitorTime
+    except ImportError:
+        return
+    __doc__ = ProgressMonitorTime.__doc__
+    return ProgressMonitorTime
+
+
+@pylith.foundry(tip="Progress monitor step")
+def progress_monitor_step():
+    try:
+        from .ProgressMonitorStep import ProgressMonitorStep
+    except ImportError:
+        return
+    __doc__ = ProgressMonitorStep.__doc__
+    return ProgressMonitorStep

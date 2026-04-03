@@ -1,0 +1,7 @@
+test_subject:
+  monitor: progress_monitor_time#monitor_time
+
+pylith.monitors.progress_monitor_time#monitor_time:
+  uri: progress_time.txt
+  update_percent: 2.0
+  time_units: 0.5*year

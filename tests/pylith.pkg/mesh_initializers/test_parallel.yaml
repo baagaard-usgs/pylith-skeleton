@@ -1,0 +1,6 @@
+test_subject:
+  mesh_initializer: parallel#initializer_parallel
+
+pylith.mesh_initializers.parallel#initializer_parallel:
+  read_mesh: ascii
+  distribute_mesh: petsc

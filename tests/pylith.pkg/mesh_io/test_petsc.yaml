@@ -1,0 +1,7 @@
+test_subject:
+  mesh_io: petsc#reader
+
+pylith.mesh_io.petsc#reader:
+  uri: mesh.h5
+  gmsh_mark_recursive: true
+  petsc_options_prefix: mesh_

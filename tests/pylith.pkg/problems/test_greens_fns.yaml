@@ -1,0 +1,4 @@
+test_subject:
+  problem: greens_fns#greens_fns
+
+pylith.problems.greens_fns#greens_fns:

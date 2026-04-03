@@ -1,0 +1,5 @@
+test_subject:
+  initial_condition: patch#ic_domain
+
+pylith.initial_conditions.patch#ic_domain:
+  subfields: [displacement, velocity]

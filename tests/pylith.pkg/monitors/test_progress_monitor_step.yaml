@@ -1,0 +1,6 @@
+test_subject:
+  monitor: progress_monitor_step#monitor_step
+
+pylith.monitors.progress_monitor_step#monitor_step:
+  uri: progress.txt
+  update_percent: 10.0

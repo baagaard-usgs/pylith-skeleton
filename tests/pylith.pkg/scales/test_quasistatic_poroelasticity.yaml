@@ -1,0 +1,9 @@
+test_subject:
+  scales: quasistatic_poroelasticity#poroelasticity_scales
+
+pylith.scales.quasistatic_poroelasticity#poroelasticity_scales:
+  length_scale: 50.0*km
+  displacement_scale: 0.5*meter
+  shear_modulus: 5.0*GPa
+  viscosity: 0.0005*pascal*second
+  permeability: 5.0e-14*meter**2

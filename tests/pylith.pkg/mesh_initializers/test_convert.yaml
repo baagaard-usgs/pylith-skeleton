@@ -1,0 +1,7 @@
+test_subject:
+  mesh_initializer: convert#converter
+
+pylith.mesh_initializers.convert#converter:
+  read_mesh: ascii
+  write_mesh: ascii
+  reorder_mesh: petsc

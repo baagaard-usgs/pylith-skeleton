@@ -1,0 +1,12 @@
+test_subject:
+  interior_interface: fault_cohesive_impulses#fault
+
+pylith.interior_interfaces.fault_cohesive_impulses#fault:
+  label_name: impulse_fault
+  label_value: 2
+  edge_label_name: edge_impulse
+  edge_label_value: 3
+  ref_dir_1: [0.0, 1.0, 0.0]
+  ref_dir_2: [1.0, 0.0, 0.0]
+  threshold: 2.0e-3*meter
+  impulse_dof: [0, 1]

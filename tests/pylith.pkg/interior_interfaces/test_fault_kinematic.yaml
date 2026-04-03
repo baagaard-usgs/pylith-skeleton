@@ -1,0 +1,10 @@
+test_subject:
+  interface: fault_cohesive_kinematic#fault
+
+pylith.interior_interfaces.fault_cohesive_kinematic#fault:
+  label_name: fault
+  label_value: 3
+  edge_label_name: edge_fault
+  edge_label_value: 4
+  ref_dir_1: [1.0, 0.0, 0.0]
+  ref_dir_2: [0.0, 0.0, 1.0]

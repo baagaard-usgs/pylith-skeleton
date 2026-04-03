@@ -13,10 +13,10 @@ def load_yaml():
 
 
 def test_traits_defaults():
-    bc = boundary_conditions.dirichlet() # Actor
+    bc = boundary_conditions.dirichlet()  # Actor
     assert bc().__class__ == boundary_conditions.Dirichlet.Dirichlet
     assert bc.field == "displacement"
-    assert bc.label_name == None
+    assert bc.label_name is None
     assert bc.label_value == 1
     assert bc.constrained_dof == ["x", "y", "z"]
 

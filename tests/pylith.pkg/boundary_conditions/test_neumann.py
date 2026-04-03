@@ -13,10 +13,10 @@ def load_yaml():
 
 
 def test_traits_defaults():
-    bc = boundary_conditions.neumann() # Actor
+    bc = boundary_conditions.neumann()  # Actor
     assert bc().__class__ == boundary_conditions.Neumann.Neumann
     assert bc.field == "displacement"
-    assert bc.label_name == None
+    assert bc.label_name is None
     assert bc.label_value == 1
     assert bc.scale_name == "stress"
     assert bc.ref_dir_1 == [0.0, 0.0, 1.0]

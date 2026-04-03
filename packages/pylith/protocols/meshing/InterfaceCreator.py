@@ -10,12 +10,12 @@
 import pylith
 
 
-class Interfaces(pylith.protocol, family="pylith.meshing.interfaces"):
+class InterfaceCreator(pylith.protocol, family="pylith.meshing.interface_creators"):
     """Interior interfaces in a finite-element mesh."""
 
     @classmethod
     def pyre_default(cls, **kwds):
         """The default {Interfaces} implementation"""
-        from ...meshing.interfaces import insert
+        from ...meshing.interface_creators import create_cohesive_cells
 
-        return insert
+        return create_cohesive_cells

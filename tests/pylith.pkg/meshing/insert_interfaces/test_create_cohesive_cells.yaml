@@ -1,4 +1,0 @@
-test_subject:
-  insert_interfaces: create_cohesive_cells#mesher
-
-pylith.meshing.interfaces.create_cohesive_cells#mesher: {}

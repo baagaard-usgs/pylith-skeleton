@@ -1,7 +1,7 @@
 import pytest
 
 import pylith
-from pylith import protocols
+from pylith.protocols import mesh_initializers
 
 
 @pytest.fixture
@@ -12,4 +12,4 @@ def local_test_subject():
 
 class LocalTestSubject(pylith.component):
 
-    reordering = protocols.mesh_initializers.reordering()
+    reordering = mesh_initializers.reordering()

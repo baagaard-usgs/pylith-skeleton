@@ -20,6 +20,6 @@ def test_traits_defaults():
 
 def test_traits_yaml(load_yaml, local_test_subject):
     test_subject = local_test_subject(name="test_subject")
-    ic = test_subject.initial_condition
+    ic = test_subject.ic
     assert ic.__class__.__name__ == "InitialConditionDomain"
     assert ic.subfields == ["displacement", "velocity"]

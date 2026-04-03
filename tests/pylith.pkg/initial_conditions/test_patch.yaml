@@ -1,5 +1,5 @@
 test_subject:
-  initial_condition: patch#ic_patch
+  ic: patch#ic_patch
 
 pylith.initial_conditions.patch#ic_patch:
   subfields: [velocity, fluid_pressure]

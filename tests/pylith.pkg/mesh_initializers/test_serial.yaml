@@ -1,5 +1,5 @@
 test_subject:
-  mesh_initializer: serial#initializer_serial
+  initializer: serial#initializer_serial
 
 pylith.mesh_initializers.serial#initializer_serial:
   read_mesh: ascii

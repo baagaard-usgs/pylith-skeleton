@@ -22,4 +22,4 @@ def test_traits_yaml(load_yaml, local_test_subject):
     test_subject = local_test_subject(name="test_subject")
     reader = test_subject.mesh_io
     assert reader.__class__ == mesh_io.MeshIOCubit.MeshIOCubit
-    assert reader.uri == "mesh.exo"
+    assert str(reader.uri) == "mesh.exo"

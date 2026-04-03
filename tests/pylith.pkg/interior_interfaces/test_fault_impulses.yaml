@@ -1,5 +1,5 @@
 test_subject:
-  interior_interface: fault_cohesive_impulses#fault
+  interface: fault_cohesive_impulses#fault
 
 pylith.interior_interfaces.fault_cohesive_impulses#fault:
   label_name: impulse_fault

@@ -26,4 +26,4 @@ def test_traits_yaml(load_yaml, local_test_subject):
     assert observer.__class__ == observers.OutputSolnPoints.OutputSolnPoints
     assert observer.output_basis_order == 0
     assert observer.refine_levels == 1
-    assert observer.uri == "points.txt"
+    assert str(observer.uri) == "points.txt"

@@ -1,7 +1,7 @@
 import pytest
 
 import pylith
-from pylith import protocols
+from pylith.protocols import meshing
 
 
 @pytest.fixture
@@ -12,4 +12,4 @@ def local_test_subject():
 
 class LocalTestSubject(pylith.component):
 
-    mesher = protocols.meshing.interfaces()
+    mesher = meshing.interface_creator()

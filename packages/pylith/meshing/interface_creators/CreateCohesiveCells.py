@@ -13,7 +13,7 @@ from ...protocols import meshing
 
 
 class CreateCohesiveCells(
-    pylith.component, implements=meshing.interfaces, family="pylith.meshing.interfaces.create_cohesive_cells"
+    pylith.component, implements=meshing.interface_creator, family="pylith.meshing.interface_creators.create_cohesive_cells"
 ):
 
     def __init__(self, name, locator, implicit, **kwds):

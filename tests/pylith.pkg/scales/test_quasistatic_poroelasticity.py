@@ -17,21 +17,21 @@ def load_yaml():
 
 
 def test_traits_defaults():
-    scales_component = scales.quasistatic_poroelasticity() # Actor
-    assert scales_component().__class__ == scales.QuasistaticPoroelasticity.QuasistaticPoroelasticity
-    assert scales_component.length_scale == 100.0 * km
-    assert scales_component.displacement_scale == 1.0 * meter
-    assert scales_component.shear_modulus == 10.0 * GPa
-    assert scales_component.viscosity == 0.001 * pascal * second
-    assert scales_component.permeability == 1.0e-13 * meter**2
+    poroelasticity_scales = scales.quasistatic_poroelasticity() # Actor
+    assert poroelasticity_scales().__class__ == scales.QuasistaticPoroelasticity.QuasistaticPoroelasticity
+    assert poroelasticity_scales.length_scale == 100.0 * km
+    assert poroelasticity_scales.displacement_scale == 1.0 * meter
+    assert poroelasticity_scales.shear_modulus == 10.0 * GPa
+    assert poroelasticity_scales.viscosity == 0.001 * pascal * second
+    assert poroelasticity_scales.permeability == 1.0e-13 * meter**2
 
 
 def test_traits_yaml(load_yaml, local_test_subject):
     test_subject = local_test_subject(name="test_subject")
-    scales_component = test_subject.scales
-    assert scales_component.__class__ == scales.QuasistaticPoroelasticity.QuasistaticPoroelasticity
-    assert scales_component.length_scale == 50.0 * km
-    assert scales_component.displacement_scale == 0.5 * meter
-    assert scales_component.shear_modulus == 5.0 * GPa
-    assert scales_component.viscosity == 0.0005 * pascal * second
-    assert scales_component.permeability == 5.0e-14 * meter**2
+    poroelasticity_scales = test_subject.scales
+    assert poroelasticity_scales.__class__ == scales.QuasistaticPoroelasticity.QuasistaticPoroelasticity
+    assert poroelasticity_scales.length_scale == 50.0 * km
+    assert poroelasticity_scales.displacement_scale == 0.5 * meter
+    assert poroelasticity_scales.shear_modulus == 5.0 * GPa
+    assert poroelasticity_scales.viscosity == 0.0005 * pascal * second
+    assert poroelasticity_scales.permeability == 5.0e-14 * meter**2

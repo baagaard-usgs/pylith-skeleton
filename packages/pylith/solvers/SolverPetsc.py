@@ -49,7 +49,7 @@ class SolverPetsc(pylith.component, implements=solver, family="pylith.solvers.pe
 
         from ..petsc.options.groups import group_list
 
-        if hasattr(self.petsc_options, "solver") and isinstance(self.petsc_options.solver, group_list):
+        if hasattr(self.petsc_options, "solver") and isinstance(self.petsc_options.solver, group_list()):
             options = self.petsc_options.solver
             if options.enabled and len(options.options) == 0:
                 msg = (

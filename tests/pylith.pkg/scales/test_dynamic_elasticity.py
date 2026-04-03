@@ -17,19 +17,19 @@ def load_yaml():
 
 
 def test_traits_defaults():
-    scales_component = scales.dynamic_elasticity() # Actor
-    assert scales_component().__class__ == scales.DynamicElasticity.DynamicElasticity
-    assert scales_component.length_scale == 100.0 * km
-    assert scales_component.displacement_scale == 1.0 * meter
-    assert scales_component.density == 2500.0 * kg / meter**3
-    assert scales_component.shear_wave_speed == 3.0 * km / second
+    elasticity_scales = scales.dynamic_elasticity() # Actor
+    assert elasticity_scales().__class__ == scales.DynamicElasticity.DynamicElasticity
+    assert elasticity_scales.length_scale == 100.0 * km
+    assert elasticity_scales.displacement_scale == 1.0 * meter
+    assert elasticity_scales.density == 2500.0 * kg / meter**3
+    assert elasticity_scales.shear_wave_speed == 3.0 * km / second
 
 
 def test_traits_yaml(load_yaml, local_test_subject):
     test_subject = local_test_subject(name="test_subject")
-    scales_component = test_subject.scales
-    assert scales_component.__class__ == scales.DynamicElasticity.DynamicElasticity
-    assert scales_component.length_scale == 50.0 * km
-    assert scales_component.displacement_scale == 0.5 * meter
-    assert scales_component.density == 2000.0 * kg / meter**3
-    assert scales_component.shear_wave_speed == 2.5 * km / second
+    elasticity_scales = test_subject.scales
+    assert elasticity_scales.__class__ == scales.DynamicElasticity.DynamicElasticity
+    assert elasticity_scales.length_scale == 50.0 * km
+    assert elasticity_scales.displacement_scale == 0.5 * meter
+    assert elasticity_scales.density == 2000.0 * kg / meter**3
+    assert elasticity_scales.shear_wave_speed == 2.5 * km / second

@@ -24,6 +24,6 @@ def test_traits_yaml(load_yaml, local_test_subject):
     test_subject = local_test_subject(name="test_subject")
     reader = test_subject.mesh_io
     assert reader.__class__ == mesh_io.MeshIOPetsc.MeshIOPetsc
-    assert reader.uri == "mesh.h5"
+    assert str(reader.uri) == "mesh.h5"
     assert reader.gmsh_mark_recursive == True
     assert reader.petsc_options_prefix == "mesh_"

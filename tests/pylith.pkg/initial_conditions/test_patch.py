@@ -24,6 +24,6 @@ def test_traits_yaml(load_yaml, local_test_subject):
     test_subject = local_test_subject(name="test_subject")
     ic = test_subject.ic
     assert ic.__class__.__name__ == "InitialConditionPatch"
-    assert ic.subfields == ["velcity", "fluid_pressure"]
+    assert ic.subfields == ["velocity", "fluid_pressure"]
     assert ic.label_name == "test_patch"
     assert ic.label_value == 2

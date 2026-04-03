@@ -23,5 +23,5 @@ def test_traits_yaml(load_yaml, local_test_subject):
     test_subject = local_test_subject(name="test_subject")
     monitor = test_subject.monitor
     assert monitor.__class__ == monitors.ProgressMonitorStep.ProgressMonitorStep
-    assert monitor.uri == "progress.txt"
+    assert str(monitor.uri) == "progress.txt"
     assert monitor.update_percent == 10.0

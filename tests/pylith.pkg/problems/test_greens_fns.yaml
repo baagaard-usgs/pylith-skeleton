@@ -2,3 +2,8 @@ test_subject:
   problem: greens_fns#greens_fns
 
 pylith.problems.greens_fns#greens_fns:
+  initialzie_only: True
+  scales:
+    length_scale: 0.1*m
+  progress_monitor:
+    update_percent: 10.0

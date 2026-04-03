@@ -1,5 +1,5 @@
 test_subject:
-  mesh_initializer: convert#converter
+  initializer: convert#converter
 
 pylith.mesh_initializers.convert#converter:
   read_mesh: ascii

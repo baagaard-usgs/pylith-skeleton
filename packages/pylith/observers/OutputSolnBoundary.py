@@ -19,7 +19,7 @@ class OutputSolnBoundary(OutputObserver, family="pylith.observers.solution_bound
     label_name = pylith.properties.str(default=None)
     label_name.doc = "Name of label for patch."
 
-    label_value = pylith.properties.str(default=1)
+    label_value = pylith.properties.int(default=1)
     label_value.doc = "Value of label for patch."
 
     def __init__(self, name, locator, implicit, **kwds):

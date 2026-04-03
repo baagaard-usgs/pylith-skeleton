@@ -29,7 +29,7 @@ def test_traits_defaults():
 
 def test_traits_yaml(load_yaml, local_test_subject):
     test_subject = local_test_subject(name="test_subject")
-    fault = test_subject.interior_interface
+    fault = test_subject.interface
     assert fault.__class__.__name__ == "FaultCohesiveImpulses"
     assert fault.label_name == "impulse_fault"
     assert fault.label_value == 2

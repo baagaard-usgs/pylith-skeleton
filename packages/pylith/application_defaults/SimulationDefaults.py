@@ -14,21 +14,21 @@ import pylith
 from ..protocols import application_defaults
 
 
-class SimulationDefaults(pyre.component, implements=application_defaults, family="pylith.defaults.simulation_defaults"):
+class SimulationDefaults(pyre.component, implements=application_defaults, family="pylith.application_defaults.simulation_defaults"):
     """Default parameters for simulation."""
 
-    output_dir = pylith.properties.str(default="output")
+    output_dir = pylith.properties.uri(default="output")
     output_dir.doc = "Directory for output."
 
     output_name = pylith.properties.str(default=None)
     output_name.doc = "Name for the problem (used with output_directory for default output filenames)."
 
     quadrature_order = pylith.properties.int(default=1)
-    quadrature_order = pyre.constraints.isPositive()
+    quadrature_order.constraints = pyre.constraints.isPositive()
     quadrature_order.doc = "Default quadrature order for finite-element integration."
 
     output_basis_order = pylith.properties.int(default=1)
-    output_basis_order = pyre.constraints.isPositive()
+    output_basis_order.constraints = pyre.constraints.isPositive()
     output_basis_order.doc = "Default basis order for output of fields."
 
     def __init__(self, name, locator, implicit, **kwds):

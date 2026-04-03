@@ -10,7 +10,7 @@
 import pylith
 
 
-class ApplicationDefaults(pylith.protocol, family="pylith.defaults"):
+class ApplicationDefaults(pylith.protocol, family="pylith.application_defaults"):
     """Protocol declarator for application-level defaults." """
 
     @classmethod
@@ -18,6 +18,6 @@ class ApplicationDefaults(pylith.protocol, family="pylith.defaults"):
         """
         The default {ApplicationDefaults} implementation
         """
-        from ..defaults import simulation_defaults
+        from ..application_defaults import simulation_defaults
 
         return simulation_defaults

@@ -1,0 +1,8 @@
+test_subject:
+  bc: dirichlet#bc_north
+
+pylith.boundary_conditions.dirichlet#bc_north:
+  field: velocity
+  label_name: boundary_north
+  label_value: 2
+  constrained_dof: [x, y]

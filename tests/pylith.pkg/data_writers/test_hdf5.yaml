@@ -1,0 +1,5 @@
+test_subject:
+  writer: hdf5#writer_hdf5
+
+pylith.data_writers.hdf5#writer_hdf5:
+  uri: test.h5

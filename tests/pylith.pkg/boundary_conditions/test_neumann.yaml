@@ -1,0 +1,10 @@
+test_subject:
+  bc: neumann#bc_south
+
+pylith.boundary_conditions.neumann#bc_south:
+  field: velocity
+  label_name: boundary_south
+  label_value: 3
+  scale_name: displacement
+  ref_dir_1: [1, 0, 0]
+  ref_dir_2: [0, 0, 1]

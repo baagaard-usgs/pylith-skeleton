@@ -1,0 +1,8 @@
+test_subject:
+  problem: time_dependent#time_dependent
+
+pylith.problems.time_dependent#time_dependent:
+  start_time: 1.0*second
+  end_time: 10.0*second
+  initial_time_step: 0.5*second
+  max_time_steps: 1000

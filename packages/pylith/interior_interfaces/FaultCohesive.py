@@ -23,7 +23,7 @@ class FaultCohesive(pylith.component, implements=interior_interface):
     label_value = pylith.properties.int(default=1)
     label_value.doc = "Value of label identifying boundary (tag of physical group in Gmsh files)."
 
-    edge_label_name = pylith.properties.str()
+    edge_label_name = pylith.properties.str(default=None)
     edge_label_name.doc = "Name of label identifier for buried fault edges."
 
     edge_label_value = pylith.properties.int(default=1)

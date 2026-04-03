@@ -16,6 +16,6 @@ class Reordering(pylith.protocol, family="pylith.mesh_initializers.reorderings")
     @classmethod
     def pyre_default(cls, **kwds):
         """The default {Reordring} implementation"""
-        from ...mesh_initializers.reoderings import petsc
+        from ...mesh_initializers.reorderings import petsc
 
         return petsc

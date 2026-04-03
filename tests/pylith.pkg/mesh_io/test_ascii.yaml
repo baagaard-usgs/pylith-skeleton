@@ -1,0 +1,5 @@
+test_subject:
+  mesh_io: ascii#reader
+
+pylith.mesh_io.ascii#reader:
+  uri: mesh.txt

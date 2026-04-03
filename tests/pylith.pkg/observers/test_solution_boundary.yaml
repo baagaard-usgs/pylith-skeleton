@@ -1,0 +1,8 @@
+test_subject:
+  observer: solution_boundary#observer_boundary
+
+pylith.observers.solution_boundary#observer_boundary:
+  output_basis_order: 0
+  refine_levels: 2
+  label_name: test_boundary
+  label_value: 3

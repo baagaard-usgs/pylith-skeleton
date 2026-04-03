@@ -17,8 +17,8 @@ import pylith
 from .FaultCohesive import FaultCohesive
 
 
-class FaultCohesiveImpulses(FaultCohesive, family="pylith.interior_interfaces.fault_cohesive_kinematic"):
-    """Fault with kinematic earthquake sources."""
+class FaultCohesiveImpulses(FaultCohesive, family="pylith.interior_interfaces.fault_cohesive_impulses"):
+    """Fault with slip impulse functions."""
 
     # db_auxiliary_field = spatialdb_auxiliary_field()
     # db_auxiliary_field.doc = ""

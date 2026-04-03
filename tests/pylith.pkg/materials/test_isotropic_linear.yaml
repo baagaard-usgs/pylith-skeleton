@@ -1,0 +1,5 @@
+test_subject:
+  # no direct application of materials protocol here; just check that loadConfiguration is valid
+
+pylith.governing_eqns.elasticity_eqn.bulk_rheologies.isotropic_linear#iso_test:
+  # no explicit trait overrides; use defaults

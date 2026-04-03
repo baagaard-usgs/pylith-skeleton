@@ -23,11 +23,13 @@ class ElasticityScales:
 
     @staticmethod
     def setQuasistaticElasticity(scales, lengthScale=100.0 * km, timeScale=year):
-        scales.cxx.setQuasistaticElasticity(scales, lengthScale.value, timeScale.value)
+        #scales.cxx.setQuasistaticElasticity(scales, lengthScale.value, timeScale.value)
+        return
 
     @staticmethod
     def setDynamicElasticity(scales, lengthScale=100.0 * km, velocityScale=3.0 * km / second):
-        scales.cxx.setDynamicElasticity(scales, lengthScale.value, velocityScale.value)
+        #scales.cxx.setDynamicElasticity(scales, lengthScale.value, velocityScale.value)
+        return
 
     @staticmethod
     def setQuasistaticPoroelasticity(
@@ -37,12 +39,13 @@ class ElasticityScales:
         viscosity=1.0e-3 * pascal * second,
         rigidity=25.0e9 * pascal,
     ):
-        scales.cxx.setQuasistaticPoroelasticity(
-            lengthScale.value,
-            permeability.value,
-            viscosity.value,
-            rigidity.value,
-        )
+        # scales.cxx.setQuasistaticPoroelasticity(
+        #     lengthScale.value,
+        #     permeability.value,
+        #     viscosity.value,
+        #     rigidity.value,
+        # )
+        return
 
     @staticmethod
     def computePoroelasticityTimeScale(viscosity, permeability, length, rigidity):

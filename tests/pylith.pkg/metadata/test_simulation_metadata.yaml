@@ -1,0 +1,12 @@
+test_subject:
+  metadata: simulation_metadata#sim_metadata
+
+pylith.metadata.simulation_metadata#sim_metadata:
+  description: Test run
+  authors: [Alice, Bob]
+  keywords: [test, pylith]
+  features: [feature1, feature2]
+  arguments: [--verbose]
+  base: [base.yaml]
+  version: 1.0
+  pylith_version: [">=1.11"]

@@ -7,34 +7,38 @@
 #
 # See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
-import pylith
+# import pylith
 
 
-@pylith.foundry(tip="Action shell")
-def action():
-    try:
-        from .Action import Action
-    except ImportError:
-        return
-    __doc__ = Action.__doc__
-    return Action
+# @pylith.foundry(tip="Action shell")
+# def action():
+#     try:
+#         from .Action import Action
+#     except ImportError:
+#         return
+#     __doc__ = Action.__doc__
+#     return Action
 
 
-@pylith.foundry(tip="Command shell")
-def command():
-    try:
-        from .Command import Command
-    except ImportError:
-        return
-    __doc__ = Command.__doc__
-    return Command
+# @pylith.foundry(tip="Command shell")
+# def command():
+#     try:
+#         from .Command import Command
+#     except ImportError:
+#         return
+#     __doc__ = Command.__doc__
+#     return Command
 
 
-@pylith.foundry(tip="PyLith shell")
-def pylith():
-    try:
-        from .Plexus import Plexus
-    except ImportError:
-        return
-    __doc__ = Plexus.__doc__
-    return Plexus
+# @pylith.foundry(tip="PyLith shell")
+# def pylith():
+#     try:
+#         from .Plexus import Plexus
+#     except ImportError:
+#         return
+#     __doc__ = Plexus.__doc__
+#     return Plexus
+from .Action import Action as action
+from .Command import Command as command
+
+from .Plexus import Plexus as pylith

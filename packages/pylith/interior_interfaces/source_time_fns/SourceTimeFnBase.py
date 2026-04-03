@@ -16,8 +16,8 @@ from ...protocols.interior_interfaces import source_time_fn
 
 class SourceTimeFnBase(pylith.component, implements=source_time_fn):
 
-    auxiliary_field = field()
-    auxiliary_field.doc = "Auxiliary field with source time function parameters."
+    auxiliary_field_db = field()
+    auxiliary_field_db.doc = "Spatial database for populating auxiliary field with source time function parameters."
 
     def __init__(self, name, locator, implicit, **kwds):
         """Constructor."""
@@ -28,7 +28,7 @@ class SourceTimeFnBase(pylith.component, implements=source_time_fn):
             (
                 f"{self}",
                 "Implement SourceTimeFnBase.__init__(). Pass parameters to C++.",
-                f"auxiliary field={self.auxiliary_field}",
+                f"auxiliary field db = {self.auxiliary_field_db}",
             )
         )
         todo.log()

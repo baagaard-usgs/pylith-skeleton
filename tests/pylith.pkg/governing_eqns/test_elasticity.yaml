@@ -1,0 +1,6 @@
+test_subject:
+  governing_eqn: elasticity#elasticity_eqn
+
+pylith.governing_eqns.elasticity#elasticity_eqn:
+  materials: [isotropic_linear]
+  interior_interfaces: [fault_cohesive_kinematic]

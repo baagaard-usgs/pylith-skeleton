@@ -1,0 +1,8 @@
+test_subject:
+  app_defaults: simulation_defaults#sim_defaults
+
+pylith.application_defaults.simulation_defaults#sim_defaults:
+  output_dir: sim_output
+  output_name: step01
+  quadrature_order: 0
+  output_basis_order: 0

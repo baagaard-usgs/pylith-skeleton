@@ -1,0 +1,8 @@
+test_subject:
+  scales: dynamic_elasticity#elasticity_scales
+
+pylith.scales.dynamic_elasticity#elasticity_scales:
+  length_scale: 50.0*km
+  displacement_scale: 0.5*meter
+  density: 2000.0*kg/meter**3
+  shear_wave_speed: 2.5*km/second

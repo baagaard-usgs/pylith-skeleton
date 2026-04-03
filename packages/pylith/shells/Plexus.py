@@ -20,6 +20,7 @@ from ..petsc import options
 class Plexus(pyre.plexus, family="pylith.shells.plexus"):
     """The main action dispatcher."""
 
+    # Required by pyre.plexus
     from .Action import Action as pyre_action
 
     metadata = protocols.application_metadata()

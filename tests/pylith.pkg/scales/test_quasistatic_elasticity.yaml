@@ -1,0 +1,8 @@
+test_subject:
+  scales: quasistatic_elasticity#elasticity_scales
+
+pylith.scales.quasistatic_elasticity#elasticity_scales:
+  length_scale: 50.0*km
+  displacement_scale: 0.5*meter
+  shear_modulus: 5.0*GPa
+  time_scale: 50.0*year

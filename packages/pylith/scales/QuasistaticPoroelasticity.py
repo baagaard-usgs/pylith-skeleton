@@ -34,11 +34,11 @@ class QuasistaticPoroelasticity(ScalesBase, family="pylith.scales.quasistatic_po
     shear_modulus.doc = "Nominal shear modulus in boundary value problem."
 
     viscosity = pylith.properties.dimensional(default=0.001 * pascal * second)
-    viscosity.validators = pyre.constraints.isGreater(value=0.0 * pascal)
+    viscosity.validators = pyre.constraints.isGreater(value=0.0 * pascal * second)
     viscosity.doc = "Nominal fluid viscosity in boundary value problem."
 
     permeability = pylith.properties.dimensional(default=1.0e-13 * meter**2)
-    permeability.validator = pyre.constraints.isGreater(value=0.0 * pascal)
+    permeability.validator = pyre.constraints.isGreater(value=0.0 * meter**2)
     permeability.doc = "Nominal permeability in boundary value problem."
 
     # PUBLIC METHODS /////////////////////////////////////////////////////

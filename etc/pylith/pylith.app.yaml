@@ -23,7 +23,7 @@ journal:
     - debug, mesh
     - debug, mms-test
     - debug, solver
-    - debug, TODOß
+    - debug, TODO
 
 # -----------------------------------------------------------------------------
 # General PETSc options

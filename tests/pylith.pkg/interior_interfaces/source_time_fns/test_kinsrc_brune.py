@@ -9,7 +9,7 @@ from pylith.interior_interfaces import source_time_fns
 @pytest.fixture
 def load_yaml():
     cur_path = pathlib.Path(__file__).parent
-    pylith.loadConfiguration(cur_path / "test_brune.yaml")
+    pylith.loadConfiguration(cur_path / "test_kinsrc_brune.yaml")
 
 
 def test_traits_defaults():

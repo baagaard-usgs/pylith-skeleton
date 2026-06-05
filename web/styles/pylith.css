@@ -1,0 +1,102 @@
+/*  -*- CSS -*-  */
+/*
+ * This code is part of PyLith, developed through the Computational Infrastructure
+ * for Geodynamics (https://github.com/geodynamics/pylith).
+ */
+
+/* the anchor for the react content */
+#pylith {
+    width: 100%;
+    height: 100%;
+}
+
+
+/* placeholder while the react components load */
+div#placeholder {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    display: flex;
+    flex-direction: column;
+}
+
+p#placeholder_text {
+    font-family: "inconsolata", monospace;
+    font-size: 120%;
+    text-align: center;
+}
+
+* {
+    margin: 0.0em;
+    padding: 0.0em;
+}
+
+html {
+    /* defaults */
+    font-family: "geneva", "arial", "helvetica", sans-serif;
+    /* 1.0 rem = 20 pixels */
+    font-size: 20px;
+
+    /* placement */
+    height: 100%;
+    width: 100%;
+}
+
+body {
+    /* placement */
+    height: 100%;
+    width: 100%;
+    margin: 0em;
+    padding: 0em;
+
+    /* clip to my extent */
+    overflow: clip;
+    /* colors */
+    color: #666;
+    background-color: #1b1b1b;
+}
+
+code,
+tt,
+kbd,
+samp {
+    font-family: "inconsolata", monospace;
+}
+
+a:link,
+a:visited,
+a:hover,
+a:active {
+    color: #666;
+    text-decoration: none;
+}
+
+
+/* animations */
+@keyframes busy {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes fadeInOut {
+    from {
+        opacity: 0.0;
+    }
+
+    50% {
+        opacity: 1.0;
+    }
+
+    to {
+        opacity: 0.0;
+    }
+}
+
+/* end of file */

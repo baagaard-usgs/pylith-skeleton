@@ -23,8 +23,9 @@ UI stack. It mirrors the `apps/ux` + `apps/gql` + `apps/cli` layout sketched in
 - **Locator provenance**: Pyre exposes **source name + line + column** — full precision is
   available for detail badges and for round-trip patching.
 - **YAML editor**: **CodeMirror 6**.
-- **Monitor dashboard**: parse **TS monitor output** now, behind a **modular adapter** so it can
-  later be swapped for a GraphQL interface that reads TS state directly from PyLith.
+- **Progress dashboard**: Use a GraphQL interface that reads progress state (TS or Green's function impulse step) directly from PyLith.
+- **Monitor dashboard**: Show journal output.
+- **Journal selector**: Check boxes for activating and deactivating predefined journals.
 - **Launch**: new activity for local execution and remote SLURM submission via SSH.
 
 ---
@@ -78,18 +79,15 @@ Concrete pieces from the qed `ux/client` tree — the "React components provided
 | Data layer           | Relay `Environment`, `useQED`/`useFetchQED` context                  | `environment.js`, `context/*`         |
 | Server side          | `GraphQL` request handler, `ux` dispatcher                           | `pkg/ux/*`                            |
 
-Each activity is a routed view rendered into the `Outlet`; three-panel layouts are built from
-nested `flex.Box`/`flex.Panel`. We add PyLith-specific **shapes** (icons) and **widgets** (tree,
-property editor, CodeMirror YAML editor, dashboard, launch form).
+Each activity is a routed view rendered into the `Outlet`; three-panel layouts are built from nested `flex.Box`/`flex.Panel`.
+We add PyLith-specific **shapes** (icons) and **widgets** (tree, property editor, CodeMirror YAML editor, dashboard, launch form).
 
 ---
 
 ## 4. Data model & GraphQL schema
 
-The detail panel needs what Pyre already tracks per trait: `doc`, default, current value,
-type/`schema`, `validators` (constraints), and the **locator** (provenance: source + line +
-column). Seen directly in `Uniform.py` (`values.doc`, `values.validators = constraints.notEmptyList()`)
-and the `locator`/`implicit` constructor args.
+The detail panel needs what Pyre already tracks per trait: `doc`, default, current value, type/`schema`, `validators` (constraints), and the **locator** (provenance: source + line + column).
+Seen directly in `Uniform.py` (`values.doc`, `values.validators = constraints.notEmptyList()`) and the `locator`/`implicit` constructor args.
 
 ```graphql
 type Component {
@@ -148,8 +146,7 @@ type Subscription {
 }
 ```
 
-`SetResult` returns the affected component subtree **and** the regenerated YAML span, so a single
-mutation refreshes both the detail panel and the editor (the round-trip glue in §6).
+`SetResult` returns the affected component subtree **and** the regenerated YAML span, so a single mutation refreshes both the detail panel and the editor (the round-trip glue in §6).
 
 ---
 
@@ -172,27 +169,19 @@ Routed view; three resizable panels in a horizontal `flex.Box`:
 └──────┴──────────────┴───────────────────────────┴─────────────────────┘
 ```
 
-**Panel 1 — Tree.** Renders the live component dag from `Query.root`. Nodes = components; facility
-edges expand to children; **list facilities** (materials, boundary_conditions) show as expandable
-groups with add/remove affordances — matching `materials:`/`boundary_conditions:` lists of named
-components in `examples/yaml/elasticity-axial-extension.yaml`. Selecting a node sets the detail
-target. Visual cue distinguishes **set** vs **default** subtrees (provenance-driven).
+**Panel 1 — Tree.** Renders the live component dag from `Query.root`. Nodes = components; facility edges expand to children; **list facilities** (materials, boundary_conditions) show as expandable groups with add/remove affordances — matching `materials:`/`boundary_conditions:` lists of named components in `examples/yaml/elasticity-axial-extension.yaml`.
+Selecting a node sets the detail target.
+Visual cue distinguishes **set** vs **default** subtrees (provenance-driven).
 
 **Panel 2 — Detail.** For the selected component: docstring header, then properties and facilities.
-Per item: current value (editable widget chosen by `typename` — text, dimensional value+units,
-dropdown for facility `choices`, list editor), default shown alongside, constraints surfaced as
-inline validation (e.g. `notEmptyList`, ranges, choices), and a provenance badge using the full
-locator ("set in elasticity-axial-extension.yaml:43:3" vs "default"). Editing fires
-`setProperty`/`setFacility`.
+Per item: current value (editable widget chosen by `typename` — text, dimensional value+units, dropdown for facility `choices`, list editor), default shown alongside, constraints surfaced as inline validation (e.g. `notEmptyList`, ranges, choices), and a provenance badge using the full locator ("set in elasticity-axial-extension.yaml:43:3" vs "default").
+Editing fires `setProperty`/`setFacility`.
 
-**Panel 3 — YAML editor (CodeMirror 6).** Edits the active YAML config with Pyre-flavored
-highlighting (the `family#name` keys, dotted paths). On edit → `writeYaml`; parser diagnostics
-shown as gutter markers. Because locators carry line/column, the editor can **jump to / highlight**
-the exact span backing a tree/detail selection and vice versa.
+**Panel 3 — YAML editor (CodeMirror 6).** Edits the active YAML config with Pyre-flavored highlighting (the `family#name` keys, dotted paths). On edit → `writeYaml`; parser diagnostics shown as gutter markers.
+Because locators carry line/column, the editor can **jump to / highlight** the exact span backing a tree/detail selection and vice versa.
 
-**Live instantiation:** resolvers drive a real Pyre executive that instantiates the dag, so
-defaults, validators, and locators are authoritative. Partial configs are handled by instantiating
-lazily and reporting unresolved facilities as `current: null` (use default) rather than erroring —
+**Live instantiation:** resolvers drive a real Pyre executive that instantiates the dag, so defaults, validators, and locators are authoritative.
+Partial configs are handled by instantiating lazily and reporting unresolved facilities as `current: null` (use default) rather than erroring —
 important because example configs leave TODOs (`# :TODO: Set spatial database`).
 
 ---
@@ -239,21 +228,18 @@ Three panels; depends on Pyre **journal channel streaming** (not yet implemented
 ```
 
 - **Dashboard** — current time step, simulation time, wall-clock ETA, progress bar (reuse
-  `widgets/slider`/badge). **Data source is modular**: a `ProgressAdapter` interface with two
-  implementations.
-  - `TSMonitorLogAdapter` (now): subscribes to the TS monitor journal channel and parses its
-    text lines into `{ step, totalSteps, simTime, dt, wallClock }`.
+  `widgets/slider`/badge). **Data source is modular**: a `ProgressAdapter` interface.
   - `TSGraphQLAdapter` (future): reads the same fields from a structured GraphQL query/subscription
-    backed by PyLith's TS directly. The dashboard components consume only the adapter's normalized
+    backed by updated PyLith progress monitors. The dashboard components consume only the adapter's normalized
     shape, so swapping adapters needs no UI changes.
 - **Channel selector** — checklist of available journal channels (`pylith.*`, `spatialdata.*`,
   PETSc `ts/snes/ksp`). Drives the subscription's `channels` argument.
 - **Output** — virtualized, append-only log view of selected channels, with severity coloring
   (info/warning/error/debug) reusing Pyre's ANSI/severity semantics (`notes_2025-11-19.md`).
 
-**Backend requirement:** a journal endpoint that multiplexes channel records as structured events
-(not pickled) feeding a GraphQL subscription. Anticipated in notes ("Journal demon — would use
-graphql instead of pickle"). Design now, gate behind that Pyre work.
+**Backend requirement:** a journal endpoint that multiplexes channel records as structured events (not pickled) feeding a GraphQL subscription.
+Anticipated in notes ("Journal demon — would use graphql instead of pickle").
+Design now, gate behind that Pyre work.
 
 ---
 
@@ -284,8 +270,7 @@ dashboard adapter):
   config + inputs, renders an `sbatch` script from the resource form, submits, then polls
   `squeue`/`sacct` for state and tails the job's stdout/stderr back over the subscription.
 
-Form fields (remote): host, username/SSH key (or agent), account, partition/queue, nodes, tasks,
-cpus-per-task, walltime, memory, modules/env to load, working directory, and the config file to run.
+Form fields (remote): host, username/SSH key (or agent), account, partition/queue, nodes, tasks, cpus-per-task, walltime, memory, modules/env to load, working directory, and the config file to run.
 **Dry run** renders and shows the generated `sbatch` script without submitting.
 
 GraphQL surface:
@@ -338,57 +323,40 @@ web/                 # mirrors pyre/qed web layout
 
 ## 10. Key decisions & risks
 
-1. **Round-trip YAML** (§6) is the dominant risk — mitigated by comment-preserving AST +
-   line/column locator bridge, and phased delivery.
-2. **Live instantiation of partial configs** — resolvers must tolerate unset facilities and
-   configuration errors; ties to the open todo "Trap configuration errors" (`todo.md`).
-3. **List traits** (`list(schema=...)`) need first-class add/remove UI and schema-aware item
-   editors; note that list/set/tuple schemas were "not applied correctly because could not extract"
-   (`notes_2026-03-09.md`) — the GUI depends on that extraction working.
-4. **Monitor depends on unbuilt Pyre journal streaming** — design now, ship later; dashboard
-   isolated behind `ProgressAdapter` so the TS-log parser can be replaced by a GraphQL TS interface.
-5. **Launch / SLURM-over-SSH** — connection lifecycle, auth, and remote state staging are the new
-   moving parts; keep `Launcher` backends swappable and scheduler-state normalized.
+1. **Round-trip YAML** (§6) is the dominant risk — mitigated by comment-preserving AST + line/column locator bridge, and phased delivery.
+2. **Live instantiation of partial configs** — resolvers must tolerate unset facilities and configuration errors; ties to the open todo "Trap configuration errors" (`todo.md`).
+3. **List traits** (`list(schema=...)`) need first-class add/remove UI and schema-aware item editors; note that list/set/tuple schemas were "not applied correctly because could not extract" (`notes_2026-03-09.md`) — the GUI depends on that extraction working.
+4. **Monitor depends on unbuilt Pyre journal streaming** — design now, ship later; dashboard isolated behind `ProgressAdapter`.
+5. **Launch / SLURM-over-SSH** — connection lifecycle, auth, and remote state staging are the new moving parts; keep `Launcher` backends swappable and scheduler-state normalized.
 
 ---
 
 ## 11. Phasing
 
-- **P0 — Frame**: stand up `apps/ux` + `apps/gql`, Relay env, `Main` + `ActivityBar` with
-  Configure/Monitor/Launch activities, empty routed layouts.
-- **P1 — Read-only config**: `Query.root`/`component`/`yaml`; tree + detail (read) + CodeMirror
-  YAML viewer from live instantiation.
-- **P2 — Editing (one-way)**: detail-panel mutations → regenerate YAML (tree authoritative);
-  validation + provenance badges from full locators.
-- **P3 — Round-trip**: YAML-editor edits reparse into the model; comment-preserving AST; conflict
-  handling.
+- **P0 — Frame**: stand up `apps/ux` + `apps/gql`, Relay env, `Main` + `ActivityBar` with Configure/Monitor/Launch activities, empty routed layouts.
+- **P1 — Read-only config**: `Query.root`/`component`/`yaml`; tree + detail (read) + CodeMirror YAML viewer from live instantiation.
+- **P6 — Progress dashboard**: dashboard (`ProgressMonitorAdapter`) + channel selector + output, once PyLith progress monitors are updated.
+- **P6 — Monitor**: channel selector + output, once Pyre journal streaming lands.
+- **P2 — Editing (one-way)**: detail-panel mutations → regenerate YAML (tree authoritative); validation + provenance badges from full locators.
+- **P3 — Round-trip**: YAML-editor edits reparse into the model; comment-preserving AST; conflict handling.
 - **P4 — Launch (local)**: `LocalLauncher`, submit/cancel, live log via `jobStatus` subscription.
 - **P5 — Launch (SLURM/SSH)**: `SlurmSshLauncher`, sbatch render + dry run, squeue/sacct polling.
-- **P6 — Monitor**: dashboard (`TSMonitorLogAdapter`) + channel selector + output, once Pyre journal
-  streaming lands; later swap in `TSGraphQLAdapter`.
 
 ---
 
 ## 12. Assumptions
 
-- The GUI is local/single-user (a developer running sims), served by the Pyre `ux` server — no
-  auth/multi-tenant concerns for the web app itself.
-- SSH auth for remote launch uses the user's agent or a configured key; the GUI stores no
-  credentials.
+- The GUI is local/single-user (a developer running sims), served by the Pyre `ux` server — no auth/multi-tenant concerns for the web app itself.
+- SSH auth for remote launch uses the user's agent or a configured key; the GUI stores no credentials.
 - Node toolchain (webpack/babel/Relay compiler) is acceptable, matching qed.
-- One "active" YAML config per session; multi-file include/override ordering is shown via
-  provenance, but a single editable target at a time.
-- `graphene` (or qed's equivalent) is the GraphQL library; subscriptions ride the same `ux`
-  server's WebSocket support.
+- One "active" YAML config per session; multi-file include/override ordering is shown via provenance, but a single editable target at a time.
+- `graphene` (or qed's equivalent) is the GraphQL library; subscriptions ride the same `ux` server's WebSocket support.
 
 ---
 
 ## 13. Resolved questions
 
-- **Provenance granularity** — Pyre locators expose source + **line + column** (resolved): enables
-  precise detail badges and round-trip patching.
+- **Provenance granularity** — Pyre locators expose source + **line + column** (resolved): enables precise detail badges and round-trip patching.
 - **Editor** — **CodeMirror 6** (resolved).
-- **Monitor progress source** — **TS monitor output now**, behind a modular `ProgressAdapter`;
-  replaceable by a GraphQL TS interface from PyLith later (resolved).
-- **Run control** — a dedicated **Launch** activity handles local execution and remote SLURM
-  submission via SSH (resolved).
+- **Monitor progress source** — a modular `ProgressAdapter`; GraphQL interface from PyLith later (resolved).
+- **Run control** — a dedicated **Launch** activity handles local execution and remote SLURM submission via SSH (resolved).

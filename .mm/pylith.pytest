@@ -1,0 +1,14 @@
+# -*- Makefile -*-
+#
+# pytest runner suite for the pylith Python package
+
+
+# stem maps to tests/pylith.pkg/ (the actual test directory)
+pylith.pytest.stem          := pylith.pkg
+# delegate discovery and execution to pytest
+pylith.pytest.runner        := pytest
+# pylith must be installed and importable before tests run
+pylith.pytest.prerequisites := pylith.pkg
+
+
+# end of file

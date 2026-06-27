@@ -9,6 +9,7 @@ A browser GUI for PyLith (a Pyre application) with three **activities**:
 - **Monitor** — watch a running simulation: progress dashboard, journal-channel selector,
   and channel output.
 - **Launch** — run a job locally or submit it to SLURM on a remote machine over SSH.
+- **Documentation** - display documentation with an outline view and current page.
 
 The design reuses the Pyre/qed React + Relay + GraphQL foundation rather than inventing a new
 UI stack. It mirrors the `apps/ux` + `apps/gql` + `apps/cli` layout sketched in
@@ -292,9 +293,86 @@ output. Reuses `cli/Run.py` for the local path where practical.
 **Security/assumptions:** SSH auth via the user's agent or a configured key; no credentials stored
 by the GUI. Remote paths and module setup are user-supplied per host.
 
+## 9. Activity 4 — Documentation
+
+Browse the PyLith documentation in-app: a hierarchical outline (Sphinx-sidebar style) on the left
+and the rendered page on the right, with full-text search and links that cross into the
+Configuration activity.
+
+```
+┌──────┬───────────────────────┬────────────────────────────────────────┐
+│ Act. │ Outline (TOC tree)    │ Page (rendered Markdown)                │
+│ bar  │  🔍 [search…]         │  # Governing Equations                  │
+│ [⚙]  │  ▼ User Guide         │  Elasticity is governed by …            │
+│ [▶]  │   ├ Introduction      │  ── equation (KaTeX) ──                 │
+│ [🚀] │   ▼ Governing Eqns ◀  │     ∇·σ + f = 0                         │
+│ [📖]◀│   │ ├ Elasticity      │  ```yaml  (code block, highlighted)     │
+│      │   │ └ Poroelasticity  │    governing_eqn: elasticity            │
+│      │   └ Boundary Cond.    │  [→ Open in Configuration]              │
+└──────┴───────────────────────┴────────────────────────────────────────┘
+```
+
+Two resizable panels in a horizontal `flex.Box` (outline | page); a search box sits atop the
+outline.
+
+**Source & rendering.** Docs are authored as **Sphinx/MyST Markdown** under `docs/` (today only a
+stub — content sourcing is a prerequisite, see risks). The page panel renders Markdown with
+**`react-markdown`** plus a remark/rehype plugin chain:
+
+- `remark-math` + `rehype-katex` for LaTeX equations,
+- a syntax highlighter for fenced code blocks (Python/C++/YAML) — library TBD, no preference yet
+  (e.g. `rehype-highlight`, Prism, or Shiki),
+- inline **SVG** images,
+- a resolver that rewrites MyST cross-reference roles/links (`{doc}`, `{ref}`, relative `.md`
+  links) into in-app router links so navigation stays inside the activity.
+
+  > **MyST caveat:** Sphinx/MyST uses directives and roles (admonitions, `{ref}`/`{doc}`,
+  > `:::{math}`, toctree) that vanilla `react-markdown` does not understand. Either preprocess with
+  > a MyST-aware parser (e.g. `mystmd`/`myst-to-react`) on the server, or carry the needed
+  > remark/rehype plugins client-side. Called out in risks (§11).
+
+**Panel 1 — Outline.** Hierarchical TOC mirroring the Sphinx sidebar, built from the doc tree
+(`toctree`/`_toc.yml` or the MyST project structure). Reuses the same **tree widget** as the
+Configuration activity. The search box performs **full-text search** and filters/jumps the outline
+to matching pages; selecting a node loads that page.
+
+**Panel 2 — Page.** The rendered Markdown for the selected page, with anchored headings (deep-link
+and scroll-to-section), highlighted code blocks, KaTeX equations, and SVG figures.
+
+**Cross-references — bidirectional bridge to Configuration.** Most links stay within the doc
+activity, but doc ↔ config crossing is a first-class feature:
+
+- **Doc → Config:** a page describing a component carries a Pyre path (MyST front-matter or a
+  custom directive, e.g. `pyre-path: pylith.problem.governing_eqn`), which the renderer surfaces as
+  an **"Open in Configuration"** affordance that routes to the Configuration activity and selects
+  that node.
+- **Config → Doc:** the detail panel and YAML editor expose a **"docs"** link per property/facility
+  (from the trait `doc` plus a path→doc-anchor map), opening the Documentation activity at the
+  relevant page/section. This reuses the locator/anchor bridge idea from §6, but mapping Pyre paths
+  to doc anchors instead of YAML spans.
+
+**GraphQL surface:**
+
+```graphql
+type DocNode { id: ID!, title: String!, path: String, children: [DocNode!]! }  # sidebar tree
+type DocPage { path: String!, title: String!, markdown: String!, pyrePaths: [String!]! }
+type DocHit  { path: String!, title: String!, excerpt: String!, anchor: String }
+
+type Query {
+  docToc: DocNode!                      # hierarchical outline
+  docPage(path: String!): DocPage       # raw MyST Markdown + page→component links
+  searchDocs(query: String!): [DocHit!]!
+}
+```
+
+Search may be served either by a server-side `searchDocs` resolver over a prebuilt index or by a
+client-side index (lunr/FlexSearch) loaded once; the panel consumes the same `DocHit` shape either
+way. Because docs are static per release, the TOC and search index can be generated at build time
+and cached.
+
 ---
 
-## 9. Proposed directory layout
+## 10. Proposed directory layout
 
 ```
 packages/pylith/apps/
@@ -314,24 +392,27 @@ web/                 # mirrors pyre/qed web layout
       configure/      # tree | detail | yaml three-panel view
       monitor/        # dashboard | channels | output three-panel view
       launch/         # target/resources | submission/status two-panel view
+      docs/           # outline (TOC) | page two-panel view (search + react-markdown)
     widgets/          # reuse flex/toolbar/slider + new: tree, property-editor,
-                      #   yaml-editor (CodeMirror 6), dashboard, launch-form
+                      #   yaml-editor (CodeMirror 6), dashboard, launch-form,
+                      #   doc-page (react-markdown + math/code/svg), doc-search
     adapters/         # ProgressAdapter (TSMonitorLog now, TSGraphQL later)
 ```
 
 ---
 
-## 10. Key decisions & risks
+## 11. Key decisions & risks
 
 1. **Round-trip YAML** (§6) is the dominant risk — mitigated by comment-preserving AST + line/column locator bridge, and phased delivery.
 2. **Live instantiation of partial configs** — resolvers must tolerate unset facilities and configuration errors; ties to the open todo "Trap configuration errors" (`todo.md`).
 3. **List traits** (`list(schema=...)`) need first-class add/remove UI and schema-aware item editors; note that list/set/tuple schemas were "not applied correctly because could not extract" (`notes_2026-03-09.md`) — the GUI depends on that extraction working.
 4. **Monitor depends on unbuilt Pyre journal streaming** — design now, ship later; dashboard isolated behind `ProgressAdapter`.
 5. **Launch / SLURM-over-SSH** — connection lifecycle, auth, and remote state staging are the new moving parts; keep `Launcher` backends swappable and scheduler-state normalized.
+6. **MyST fidelity in `react-markdown`** — Sphinx/MyST directives and cross-reference roles are not native to `react-markdown`; need a MyST-aware preprocessor or a remark/rehype plugin chain, plus a path→doc-anchor map for the config↔doc links. Doc content itself is currently a stub (`docs/`), so authoring/sourcing is a prerequisite.
 
 ---
 
-## 11. Phasing
+## 12. Phasing
 
 - **P0 — Frame**: stand up `apps/ux` + `apps/gql`, Relay env, `Main` + `ActivityBar` with Configure/Monitor/Launch activities, empty routed layouts.
 - **P1 — Read-only config**: `Query.root`/`component`/`yaml`; tree + detail (read) + CodeMirror YAML viewer from live instantiation.
@@ -341,10 +422,11 @@ web/                 # mirrors pyre/qed web layout
 - **P3 — Round-trip**: YAML-editor edits reparse into the model; comment-preserving AST; conflict handling.
 - **P4 — Launch (local)**: `LocalLauncher`, submit/cancel, live log via `jobStatus` subscription.
 - **P5 — Launch (SLURM/SSH)**: `SlurmSshLauncher`, sbatch render + dry run, squeue/sacct polling.
+- **P7 — Documentation**: `docToc`/`docPage`/`searchDocs`; outline + `react-markdown` page (math/code/SVG) + full-text search; bidirectional doc↔config links. Gated on doc content landing in `docs/`.
 
 ---
 
-## 12. Assumptions
+## 13. Assumptions
 
 - The GUI is local/single-user (a developer running sims), served by the Pyre `ux` server — no auth/multi-tenant concerns for the web app itself.
 - SSH auth for remote launch uses the user's agent or a configured key; the GUI stores no credentials.
@@ -354,9 +436,10 @@ web/                 # mirrors pyre/qed web layout
 
 ---
 
-## 13. Resolved questions
+## 14. Resolved questions
 
 - **Provenance granularity** — Pyre locators expose source + **line + column** (resolved): enables precise detail badges and round-trip patching.
 - **Editor** — **CodeMirror 6** (resolved).
 - **Monitor progress source** — a modular `ProgressAdapter`; GraphQL interface from PyLith later (resolved).
 - **Run control** — a dedicated **Launch** activity handles local execution and remote SLURM submission via SSH (resolved).
+- **Documentation source/rendering** — Sphinx/MyST Markdown in `docs/`, rendered with `react-markdown`; hierarchical (Sphinx-sidebar) outline; full-text search; bidirectional doc↔YAML-config links; code-block highlighter still open (resolved except highlighter choice).

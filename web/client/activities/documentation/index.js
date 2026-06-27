@@ -12,13 +12,13 @@ import { useLocation } from 'react-router-dom'
 // widgets
 import { Activity } from '~/activities'
 // my shape
-import { Help as Icon } from '~/shapes'
+import { Book as Icon } from '~/shapes'
 // styles
 import styles from './styles'
 
 
-// show the embedded documentation
-export const Help = ({ size, style }) => {
+// browse the embedded documentation
+export const Documentation = ({ size, style }) => {
     // get the current location
     const location = useLocation().pathname
     // my url

@@ -15,6 +15,7 @@ export { Status } from './status'
 export { Configure } from './configure'
 export { Monitor } from './monitor'
 export { Launch } from './launch'
+export { Documentation } from './docs'
 
 // not yet implemented
 export { NYI } from './nyi'

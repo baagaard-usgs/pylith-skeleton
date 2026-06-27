@@ -5,6 +5,7 @@
 
 
 // publish
+export { Book } from './book'
 export { Gear } from './gear'
 export { Hammer } from './hammer'
 export { Help } from './help'

@@ -13,7 +13,7 @@ they are filled in by later phases.
 ```
 web/
   client/        the React client (jsx)
-    activities/  the activity bar and its buttons (Configure, Monitor, Launch, ...)
+    activities/  the activity bar and its buttons (Configure, Monitor, Launch, Documentation, ...)
     views/       the routed views (Main, Status, the activity panels, NYI, Loading)
     widgets/     reusable UI primitives (Badge, Toolbar, Flex, Spacer, Colophon)
     shapes/      SVG icon fragments

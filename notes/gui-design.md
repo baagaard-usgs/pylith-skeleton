@@ -2,7 +2,7 @@
 
 ## 1. Goals & scope
 
-A browser GUI for PyLith (a Pyre application) with three **activities**:
+A browser GUI for PyLith (a Pyre application) with four **activities**:
 
 - **Configuration** — edit Pyre properties/components via three synchronized panels:
   component-hierarchy tree, detail view of the selected component, and a YAML editor.
@@ -23,8 +23,8 @@ UI stack. It mirrors the `apps/ux` + `apps/gql` + `apps/cli` layout sketched in
   with WebSocket/subscriptions for the monitor.
 - **Locator provenance**: Pyre exposes **source name + line + column** — full precision is
   available for detail badges and for round-trip patching.
-- **YAML editor**: **CodeMirror 6**.
-- **Progress dashboard**: Use a GraphQL interface that reads progress state (TS or Green's function impulse step) directly from PyLith.
+- **YAML editor**: **CodeMirror 6** (Syntax highlighting for multiple languages; bloat JS bundle).
+- **Progress dashboard**: Use a GraphQL interface that reads progress state (TS or Green's function impulse step) directly from PyLith (http 1.1 server side events now in Pyre).
 - **Monitor dashboard**: Show journal output.
 - **Journal selector**: Check boxes for activating and deactivating predefined journals.
 - **Launch**: new activity for local execution and remote SLURM submission via SSH.
@@ -33,6 +33,12 @@ UI stack. It mirrors the `apps/ux` + `apps/gql` + `apps/cli` layout sketched in
 
 ## 2. Architecture (the qed stack)
 
+NOTE: HTTP server in Pyre supports server side events (SSE).
+
+Client: Pyre component for responding to SSE.
+
+:TODO: Delete WS
+
 ```
 ┌────────────────────────────────────────────────────────────────┐
 │  Browser                                                         │
@@ -40,13 +46,13 @@ UI stack. It mirrors the `apps/ux` + `apps/gql` + `apps/cli` layout sketched in
 │  Relay (relay-runtime Environment, store + network)             │
 │  Pyre React foundation: ActivityBar, flex Box/Panel, Status...  │
 └───────────────┬───────────────────────────┬────────────────────┘
-                │ POST /graphql (queries,    │ WebSocket / GraphQL
-                │ mutations)                 │ subscriptions (monitor, launch logs)
+                │ POST /graphql (queries,   │ SSE / GraphQL
+                │ mutations)                │ subscriptions (monitor, launch logs)
 ┌───────────────▼───────────────────────────▼────────────────────┐
-│  pylith/apps/ux   — Pyre async HTTP/WS server (event loop)      │
-│  pylith/apps/gql  — GraphQL schema + resolvers (graphene)       │
-│      Resolvers talk to a live Pyre executive / component dag    │
-└───────────────┬─────────────────────────────────────────────────┘
+│  pylith/apps/ux   — Pyre async HTTP server (event loop)        │
+│  pylith/apps/gql  — GraphQL schema + resolvers (graphene)      │
+│      Resolvers talk to a live Pyre executive / component dag   │
+└───────────────┬────────────────────────────────────────────────┘
                 │ introspection + mutation of the component dag
 ┌───────────────▼─────────────────────────────────────────────────┐
 │  pylith / spatialdata Pyre components (traits, locators, journal)│

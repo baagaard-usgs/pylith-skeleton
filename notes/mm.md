@@ -6,6 +6,7 @@ If using a Conda environment, `mm` can detect all packages that it knows about u
 
 ## Targets
 
+- `mm help` (show targets; some not shown)
 - `mm builder.info` (show build configuration)
 - `mm host.info` (show host configuration)
 - `mm make.info` (Make information)
@@ -71,3 +72,9 @@ mm:
 
 The Pyre README.md installation instructions for `$HOME/.config/pyre/mm.yaml` have the line `local: Make.mmm`.
 This is **not** a typo. This is a temporary "fix" to avoid conflicts with legacy `Make.mm` files in the Pyre repo.
+
+## Adding support for external packages
+
+- Support for new external dependencies not known by mm go in `{PACKAGE}/.mm/extern`.
+- Use defined support for new external dependencies go in `{HOME}/.config/mm/extern`.
+- Add package `version` and `dir` in `{HOME}/.config/config.mm`.

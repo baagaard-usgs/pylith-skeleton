@@ -5,12 +5,27 @@
 
 
 // publish
-export { Book } from './book'
+
+// Configure
 export { Gear } from './gear'
-export { Hammer } from './hammer'
-export { Help } from './help'
+
+// Monitor
+export { Monitor } from './monitor'
+
+// Launch
 export { Play } from './play'
+
+// Documentation
+export { Info } from './info'
+
+// Stop
+export { Stop } from './stop'
+
+// About
 export { PyLith } from './pylith'
+
+export { Help } from './help'
+export { Hammer } from './hammer'
 export { X } from './x'
 
 

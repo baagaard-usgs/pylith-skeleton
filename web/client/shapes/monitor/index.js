@@ -10,16 +10,11 @@ import React from 'react'
 import styles from './styles'
 
 
-// the shape
 const data = `
-M 200 200
-L 800 500
-L 200 800
-Z`
-
+M67 68 H957 V818 H67 Z M356 782 V872 H584 V782 Z M206 895 H744 V963 H206 Z M334 438 V618 H402 V438 Z M440 368 V618 H508 V368 Z M546 268 V618 H614 V268 Z`
 
 // render the shape
-export const Play = ({ style }) => {
+export const Monitor = ({ style }) => {
     // mix my paint
     const ico = { ...styles.icon, ...style?.icon }
 

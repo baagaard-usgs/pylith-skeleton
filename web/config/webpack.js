@@ -10,7 +10,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 // local geography
 // the {web} directory, one level up from this {config} directory
-const rootDir = path.resolve(__dirname, '..')
+const rootDir = __dirname
 const sourceDir = path.join(rootDir, 'client')
 const buildDir = path.join(rootDir, 'build')
 const generatedDir = path.join(rootDir, 'generated')
@@ -48,10 +48,6 @@ module.exports = {
                 test: /\.jsx?$/,
                 loader: 'babel-loader',
                 include: [sourceDir],
-                options: {
-                    // pull the babel config from {config/babelrc}
-                    configFile: path.join(configDir, 'babelrc'),
-                },
             },
         ]
     },

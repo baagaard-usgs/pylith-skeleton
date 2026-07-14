@@ -12,13 +12,13 @@ import { useLocation } from 'react-router-dom'
 // widgets
 import { Activity } from '~/activities'
 // my shape
-import { X as Icon } from '~/shapes'
+import { Stop as Icon } from '~/shapes'
 // styles
 import styles from './styles'
 
 
-// kill the server
-export const Kill = ({ size, style }) => {
+// stop the server
+export const Stop = ({ size, style }) => {
     // get the current location
     const location = useLocation().pathname
     // my url
@@ -29,7 +29,7 @@ export const Kill = ({ size, style }) => {
     const paint = styles.activity(style)
     // and render
     return (
-        <Activity size={size} url={url} current={current} style={paint} >
+        <Activity size={size} url={url} current={current} style={paint} label="Stop">
             <Icon />
         </Activity>
     )

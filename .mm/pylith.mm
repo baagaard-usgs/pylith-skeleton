@@ -6,9 +6,10 @@
 # the project assets
 pylith.packages := pylith.pkg spatialdata.pkg
 
-# a web bundle
-pylith.webpack := pylith.web
+# web bundle
+pylith.webpack := pylith.ux
 
+# tests
 pylith.tests := pylith.pytest spatialdata.pytest
 
 # mpi is a Python runtime dependency (via mpi4py); declared here for documentation

@@ -7,11 +7,11 @@
 // externals
 import React from 'react'
 // locals
-import styles from '../styles'
+import styles from './styles'
 
 
 // the shape
-const play = `
+const data = `
 M 200 200
 L 800 500
 L 200 800
@@ -25,7 +25,7 @@ export const Play = ({ style }) => {
 
     // paint me
     return (
-        <path d={play} style={ico} />
+        <path d={data} style={ico} />
     )
 }
 

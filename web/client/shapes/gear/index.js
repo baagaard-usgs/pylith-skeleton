@@ -7,7 +7,7 @@
 // externals
 import React from 'react'
 // locals
-import styles from '../styles'
+import styles from './styles'
 
 
 const data = `
@@ -83,6 +83,8 @@ Z`
 export const Gear = ({ style }) => {
     // mix my paint
     const ico = { ...styles.icon, ...style?.icon }
+
+    console.log('gear ico:', ico, 'ink:', styles.icon.stroke)
 
     // paint me
     return (

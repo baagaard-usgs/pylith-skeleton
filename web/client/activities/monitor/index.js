@@ -12,7 +12,7 @@ import { useLocation } from 'react-router-dom'
 // widgets
 import { Activity } from '~/activities'
 // my shape
-import { Play as Icon } from '~/shapes'
+import { Monitor as Icon } from '~/shapes'
 // styles
 import styles from './styles'
 
@@ -24,12 +24,12 @@ export const Monitor = ({ size, style }) => {
     // my url
     const url = "/monitor"
     // check whether i'm the current activity
-    const current = location.startsWith(url)
+    const current = location === url
     // mix my paint
     const paint = styles.activity(style)
     // and render
     return (
-        <Activity size={size} url={url} current={current} style={paint} >
+        <Activity size={size} url={url} current={current} style={paint} label="Monitor">
             <Icon />
         </Activity>
     )

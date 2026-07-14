@@ -11,7 +11,7 @@ import pylith
 
 
 class GoverningEqn(pylith.protocol, family="pylith.governing_eqns"):
-    """Protocol declarator for governing equations." """
+    """Protocol declarator for governing equations."""
 
     @classmethod
     def pyre_default(cls, **kwds):

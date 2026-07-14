@@ -17,7 +17,7 @@ phases; every panel renders a labelled placeholder.
 | --- | --- | --- |
 | App frame | `Main` = activity bar + routed `Outlet` + `Status` | — |
 | Activities | Configure, Monitor, Launch, **Documentation** (routed, empty) | their panel contents (P1–P7) |
-| Utility activities | Kill (`/stop`), About (NYI) | About page content |
+| Utility activities | Stop (`/stop`), About (NYI) | About page content |
 | Backend server | Pyre `ux` dispatcher + static asset routing + `/graphql` | configuration/monitor/launch resolvers, subscriptions |
 | GraphQL schema | read-only `version` query | `Component`/`Yaml`/`Job`/`Doc*` types, mutations, subscriptions (§4, §8, §9) |
 | Web shell | `pylith --shell=web` mounts the bundle and dispatches HTTP | — |
@@ -73,7 +73,7 @@ group name *is* the handler method name (`match.lastgroup` → `getattr(self, to
 | Group | URL pattern | Handler |
 | --- | --- | --- |
 | `graphql` | `/graphql` | delegates to `GraphQL.respond` |
-| `stop` | `/stop` | returns an `Exit` document (kills the server) |
+| `stop` | `/stop` | returns an `Exit` document (Stops the server) |
 | `css` / `jscript` | `*.css` / `*.js` | serve from the `/ux` pfs as CSS/JS |
 | `document` | `graphics/…`, `fonts/…`, `figures/…` | static assets |
 | `favicon` | `/favicon.ico` | 404 (none yet) |
@@ -160,7 +160,7 @@ pushing utility activities to the bottom:
 ```
 Configure (Gear) · Monitor (Play) · Launch (Hammer) · Documentation (Book)
    … spacer …
-Kill (X → /stop) · About (PyLith logo → /about)
+Stop (X → /stop) · About (PyLith logo → /about)
 ```
 
 Each activity ([`activities/<name>/index.js`](../web/client/activities/)) is the same small

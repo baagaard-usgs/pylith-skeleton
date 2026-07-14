@@ -20,7 +20,7 @@ class Dispatcher:
     """The handler of web requests.
 
     P0 routes the GraphQL endpoint, the static client assets (the webpack bundle, css,
-    fonts, graphics), the kill command, and the application page. The dataset-specific
+    fonts, graphics), the stop command, and the application page. The dataset-specific
     handlers from qed (preview/data/profile) are intentionally omitted; configuration,
     monitor, and launch traffic ride GraphQL queries/mutations/subscriptions added in later
     phases (see notes/gui-design.md section 4).
@@ -100,7 +100,7 @@ class Dispatcher:
             [
                 # graphql requests
                 r"/(?P<graphql>graphql)",
-                # the kill command
+                # the stop command
                 r"/(?P<stop>stop)",
                 # document requests
                 r"/(?P<css>.+\.css)",

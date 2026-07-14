@@ -9,7 +9,7 @@ import React from 'react'
 
 // locals
 // the activities
-import { About, Configure, Documentation, Kill, Launch, Monitor } from '~/activities'
+import { About, Configure, Documentation, Stop, Launch, Monitor } from '~/activities'
 // widgets
 import { Toolbar, Spacer } from '~/widgets'
 // styles
@@ -35,7 +35,7 @@ export const Bar = ({ style }) => {
 
             <Spacer />
 
-            <Kill size={size} style={paint} />
+            <Stop size={size} style={paint} />
             <About size={size} style={paint} />
         </Toolbar>
     )

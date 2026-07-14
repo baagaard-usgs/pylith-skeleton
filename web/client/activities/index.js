@@ -15,7 +15,7 @@ export { Activity } from './activity'
 export { About } from './about'
 export { Configure } from './configure'
 export { Documentation } from './documentation'
-export { Kill } from './kill'
+export { Stop } from './stop'
 export { Launch } from './launch'
 export { Monitor } from './monitor'
 

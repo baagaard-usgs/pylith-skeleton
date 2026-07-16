@@ -8,7 +8,13 @@
     "scripts": {
         "build": "webpack --mode development",
         "dev": "webpack --mode development",
-        "relay": ""
+        "relay": "relay-compiler"
+    },
+    "relay": {
+        "src": "./client",
+        "artifactDirectory": "./generated",
+        "schema": "./schema/pylith.gql",
+        "language": "javascript"
     },
     "devDependencies": {
         "@babel/core": "<8",
@@ -17,21 +23,27 @@
         "@babel/plugin-proposal-export-default-from": "<8",
         "babel-loader": "latest",
         "babel-plugin-relay": "latest",
+        "babel-plugin-styled-components": "latest",
         "html-webpack-plugin": "latest",
         "relay-compiler": "latest",
+        "ts-loader": "latest",
+        "typescript": "<7",
         "webpack": "latest",
         "webpack-cli": "latest",
-        "webpack-dev-server": "latest"
+        "@types/react": "latest",
+        "@types/react-relay": "latest",
+        "@mdx-js/loader": "latest"
     },
     "dependencies": {
         "graphql": "latest",
         "lodash": "latest",
+        "path-browserify": "latest",
         "react": "<19",
         "react-dom": "<19",
         "react-relay": "latest",
         "react-router": "<8",
         "react-router-dom": "<8",
-        "regenerator-runtime": "latest",
-        "relay-runtime": "latest"
+        "react-syntax-highlighter": "latest",
+        "regenerator-runtime": "latest"
     }
 }

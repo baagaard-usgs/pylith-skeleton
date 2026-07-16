@@ -66,9 +66,9 @@ class Dispatcher:
         return self.gql.respond(**kwds)
 
     def stop(self, plexus, server, **kwds):
-        """The client is asking me to die."""
+        """The client is asking me to stop."""
         plexus.info.log("shutting down")
-        return server.documents.Exit(server=server, code=128 + signal.SIGQUIT)
+        return server.documents.Exit(server=server, exitCode=128 + signal.SIGQUIT)
 
     def document(self, plexus, server, request, **kwds):
         """The client requested a document from the {plexus} pfs."""

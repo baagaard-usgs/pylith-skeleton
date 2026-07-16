@@ -26,7 +26,7 @@ import {
     // the activity panels
     Configure, Monitor, Launch, Documentation,
     // boilerplate
-    Loading, NYI,
+    Loading, NYI, Stop, Dead
 } from '~/views'
 
 
@@ -34,6 +34,9 @@ import {
 const PyLithApp = ({ base }) => {
     // page layout and top-level navigation
     // the app renders a client area over a status bar
+    // most urls render the normal ui, but
+    // - /stop: the user clicked on the "stop the server" action; show a "close this window" page
+    // - /loading: shown while the app is fetching itself from the server
     return (
         <Routes >
             {/* the app */}
@@ -49,6 +52,9 @@ const PyLithApp = ({ base }) => {
                 {/* about; NYI in P0 */}
                 <Route path="about" element={<NYI base={base} />} />
             </Route>
+
+            {/* the closing page */}
+            <Route path="/stop" element={<Stop base={base} />} />
 
             {/* the page to render while waiting for data to arrive */}
             <Route path="/loading" element={<Loading />} />

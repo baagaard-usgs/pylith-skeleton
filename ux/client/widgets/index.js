@@ -8,6 +8,7 @@
 export { Badge } from './badge'
 export { Colophon } from './colophon'
 export * as Flex from './flex'
+export { Server } from './server'
 export { Spacer } from './spacer'
 export { Toolbar } from './toolbar'
 

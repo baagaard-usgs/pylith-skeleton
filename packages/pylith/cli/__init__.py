@@ -20,6 +20,15 @@ import pyre
 #     return Inspect
 
 
+@pyre.foundry(implements=action, tip="Export the PyLith GraphQL schema.")
+def schema():
+    # get the action
+    from .Schema import Schema
+
+    __doc__ = Schema.__doc__
+    return Schema
+
+
 @pyre.foundry(implements=action, tip="Information about this application.")
 def about(**kwds):
     from .About import About

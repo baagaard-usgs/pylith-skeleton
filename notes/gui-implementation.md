@@ -80,7 +80,7 @@ group name *is* the handler method name (`match.lastgroup` → `getattr(self, to
 | `root` | everything else | serves `<namespace>.html` (the SPA shell) |
 
 The catch-all `root` is what makes client-side routing work: any unknown path (`/configure`,
-`/doc`, …) returns the app page, and the React router takes over. The qed dataset handlers
+`/documentation`, …) returns the app page, and the React router takes over. The qed dataset handlers
 (preview/data/profile) are intentionally omitted.
 
 ### GraphQL handler — [`apps/ux/GraphQL.py`](../packages/pylith/apps/ux/GraphQL.py)

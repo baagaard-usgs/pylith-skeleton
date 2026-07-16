@@ -13,29 +13,28 @@ import style from '~/shapes/styles'
 
 // the shape color
 const ink = theme.page.bright
-const paint = theme.page.normal
 
 // publish
 export default {
     // the main shape
-    icon: {
+    sign: {
         // inherit
         ...style.icon,
         // stroke
         stroke: ink,
         strokeWidth: 1,
         // fill
-        fill: "none",
+        fill: "#ff0000",
     },
 
     // decorative touches
-    decoration: {
+    text: {
         // inherit
         ...style.decoration,
         // stroke
         stroke: ink,
         // fill
-        fill: paint,
+        fill: ink,
     },
 }
 

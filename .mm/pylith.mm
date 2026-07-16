@@ -2,6 +2,7 @@
 #
 # pylith project manifest
 
+#pylith.lib.c++.flags += $($(compiler.c++).std.c++23)
 
 # the project assets
 pylith.packages := pylith.pkg spatialdata.pkg

@@ -31,10 +31,29 @@ export default {
 
     // the server info
     server: {
-        // font
-        fontFamily: "inconsolata",
-        // styling
-        color: theme.page.appversion,
+        // no opinions on the overall container
+        box: {
+        },
+
+        // set font + color
+        text: {
+            // font
+            fontFamily: "inconsolata",
+            // styling
+            color: theme.page.appversion,
+        },
+
+        // color hints for the server status
+        status: {
+            // when everything is ok
+            good: {
+                color: wheel.pyre.green,
+            },
+            // when there is an error retrieving the state of the server
+            error: {
+                color: theme.journal.error,
+            },
+        },
     },
 
     // the box with copyright note

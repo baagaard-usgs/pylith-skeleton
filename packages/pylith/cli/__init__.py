@@ -2,13 +2,21 @@ from ..shells import action
 
 import pyre
 
-
 # @foundry(implements=action, tip="A collection of introspection utilities.")
 # def inspect():
 #     from .Inspect import Inspect
 
 #     __doc__ = Inspect.__doc__
 #     return Inspect
+
+
+@pyre.foundry(implements=action, tip="Export the PyLith GraphQL schema.")
+def schema():
+    # get the action
+    from .Schema import Schema
+
+    __doc__ = Schema.__doc__
+    return Schema
 
 
 @pyre.foundry(implements=action, tip="Information about this application.")

@@ -19,8 +19,11 @@ export { Documentation } from './docs'
 
 // not yet implemented
 export { NYI } from './nyi'
+
 // while {suspense} is waiting
 export { Loading } from './loading'
 
+// the page rendered when the user stops the server and support for the {stop} button
+export { Stop, Dead } from './stop'
 
 // end of file

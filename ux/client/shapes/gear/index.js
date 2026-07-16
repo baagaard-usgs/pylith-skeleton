@@ -84,8 +84,6 @@ export const Gear = ({ style }) => {
     // mix my paint
     const ico = { ...styles.icon, ...style?.icon }
 
-    console.log('gear ico:', ico, 'ink:', styles.icon.stroke)
-
     // paint me
     return (
         <path d={data} style={ico} />

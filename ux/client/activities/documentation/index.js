@@ -22,7 +22,7 @@ export const Documentation = ({ size, style }) => {
     // get the current location
     const location = useLocation().pathname
     // my url
-    const url = "/doc"
+    const url = "/documentation"
     // check whether i'm the current activity
     const current = location === url
     // mix my paint

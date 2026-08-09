@@ -10,7 +10,7 @@
 import pylith
 
 
-@pylith.foundry(tip="Solution subfields no fault")
+@pylith.foundry(tip="Solution subfields without a fault")
 def nofault():
     try:
         from .SubfieldsNoFault import SubfieldsNoFault

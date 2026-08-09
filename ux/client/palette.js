@@ -30,7 +30,7 @@ const wheel = {
     // pyre colors
     pyre: {
         blue: "hsl(203deg, 77%, 60%)",
-        green: "hsl(63deg, 40%, 50%)",
+        green: "hsl(120deg, 40%, 50%)",
         orange: "hsl(31deg, 80%, 58%)",
     },
 

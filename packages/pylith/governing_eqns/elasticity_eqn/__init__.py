@@ -7,14 +7,3 @@
 #
 # See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
-import pylith
-
-
-@pylith.foundry(tip="Elasticity equation")
-def elasticity_eqn():
-    try:
-        from .ElasticityEqn import ElasticityEqn
-    except ImportError:
-        return
-    __doc__ = ElasticityEqn.__doc__
-    return ElasticityEqn

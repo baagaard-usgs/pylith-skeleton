@@ -9,23 +9,23 @@
 # =================================================================================================
 import pylith
 
-from ... import protocols
-from ...protocols.governing_eqns import elasticity
-from ..GoverningEqnBase import GoverningEqnBase
-from ...interior_interfaces import fault_cohesive_kinematic
-from ...utils import constraints
+from .. import protocols
+from ..protocols.governing_eqns import elasticity_eqn
+from .GoverningEqnBase import GoverningEqnBase
+from ..interior_interfaces import fault_cohesive_kinematic
+from ..utils import constraints
 
-from . import solution_subfields as subfields
-from .bulk_rheologies import isotropic_linear
+from .elasticity_eqn import solution_subfields as subfields
+from .elasticity_eqn.bulk_rheologies import isotropic_linear
 
 
-class ElasticityEqn(GoverningEqnBase, family="pylith.governing_eqns.elasticity"):
+class Elasticity(GoverningEqnBase, family="pylith.governing_eqns.elasticity"):
     """Elasticity governing equation."""
 
-    solution_subfields = elasticity.solution_subfields(default=subfields.nofault)
+    solution_subfields = elasticity_eqn.solution_subfields(default=subfields.nofault)
     solution_subfields.doc = "Solution subfields for elasticity equation."
 
-    materials = pylith.properties.list(schema=elasticity.bulk_rheology(default=isotropic_linear))
+    materials = pylith.properties.list(schema=elasticity_eqn.bulk_rheology(default=isotropic_linear))
     materials.validators = constraints.notEmptyList()
     materials.doc = "Materials in boundary value problem."
 
@@ -50,5 +50,5 @@ class ElasticityEqn(GoverningEqnBase, family="pylith.governing_eqns.elasticity")
         info.log()
 
         todo = pylith.journal.debug_factory().todo()
-        todo.report(("Implement ElasticityEqn.__init__(). Pass parameters to C++.",))
+        todo.report(("Implement Elasticity.__init__(). Pass parameters to C++.",))
         todo.log()

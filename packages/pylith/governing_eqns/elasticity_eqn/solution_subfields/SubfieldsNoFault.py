@@ -19,7 +19,7 @@ from ....fields.subfields import basic
 class SubfieldsNoFault(
     pylith.component,
     implements=solution_subfields,
-    family="pylith.governing_eqns.elasticity.solution_subfields.nofault",
+    family="pylith.governing_eqns.elasticity_eqn.solution_subfields.nofault",
 ):
     """Solution subfields for elasticity equation without a fault."""
 

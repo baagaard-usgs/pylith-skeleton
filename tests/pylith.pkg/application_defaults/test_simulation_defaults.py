@@ -5,8 +5,6 @@ import pytest
 import pylith
 from pylith import application_defaults
 
-from pylith.application_defaults import SimulationDefaults
-
 
 @pytest.fixture
 def load_yaml():

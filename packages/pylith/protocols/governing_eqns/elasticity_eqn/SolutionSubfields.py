@@ -10,5 +10,5 @@
 import pylith
 
 
-class SolutionSubfields(pylith.protocol, family="pylith.governing_eqns.elasticity.solution_subfields"):
+class SolutionSubfields(pylith.protocol, family="pylith.governing_eqns.elasticity_eqn.solution_subfields"):
     """Protocol declarator for Solution subfields."""

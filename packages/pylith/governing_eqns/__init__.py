@@ -13,8 +13,8 @@ import pylith
 @pylith.foundry(tip="Elasticity governing equation")
 def elasticity():
     try:
-        from .elasticity_eqn.ElasticityEqn import ElasticityEqn
+        from .Elasticity import Elasticity
     except ImportError:
         return
-    __doc__ = ElasticityEqn.__doc__
-    return ElasticityEqn
+    __doc__ = Elasticity.__doc__
+    return Elasticity

@@ -15,8 +15,7 @@ def load_yaml():
 def test_traits_defaults():
     #pass
     eqn = governing_eqns.elasticity()  # Actor
-    import pdb; pdb.set_trace()
-    #assert eqn().__class__ == governing_eqns.Elasticity.Elasticity
+    assert eqn().__class__ == governing_eqns.Elasticity.Elasticity
     #assert len(eqn.materials) == 1
     #assert eqn.materials[0].__class__ == pylith.governing_eqns.elastcity.bulk_rheologies.IsotropicLinear.IsotropicLinear
 

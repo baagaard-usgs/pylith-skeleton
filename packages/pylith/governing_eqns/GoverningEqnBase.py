@@ -11,8 +11,8 @@ import pylith
 
 from .. import protocols
 from ..observers import solution_domain
-from .. import boundary_conditions
-from .. import initial_conditions
+from ..boundary_conditions import dirichlet
+from ..initial_conditions import domain
 
 
 class GoverningEqnBase(pylith.component, implements=protocols.governing_eqn):
@@ -21,11 +21,11 @@ class GoverningEqnBase(pylith.component, implements=protocols.governing_eqn):
     solver.doc = "Solver for governing equation."
 
     boundary_conditions = pylith.properties.list(
-        schema=protocols.boundary_condition(default=boundary_conditions.dirichlet)
+        schema=protocols.boundary_condition(default=dirichlet)
     )
     boundary_conditions.doc = "Boundary conditions."
 
-    initial_conditions = pylith.properties.list(schema=protocols.initial_condition(default=initial_conditions.domain))
+    initial_conditions = pylith.properties.list(schema=protocols.initial_condition(default=domain))
     initial_conditions.doc = "Boundary conditions."
 
     observers = pylith.properties.list(schema=solution_domain())

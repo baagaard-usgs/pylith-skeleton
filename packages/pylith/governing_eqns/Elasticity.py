@@ -22,11 +22,11 @@ from .elasticity_eqn.bulk_rheologies import isotropic_linear
 class Elasticity(GoverningEqnBase, family="pylith.governing_eqns.elasticity"):
     """Elasticity governing equation."""
 
-    solution_subfields = elasticity_eqn.solution_subfields(default=subfields.nofault)
-    solution_subfields.doc = "Solution subfields for elasticity equation."
+    #solution_subfields = elasticity_eqn.solution_subfields(default=subfields.nofault)
+    #solution_subfields.doc = "Solution subfields for elasticity equation."
 
     materials = pylith.properties.list(schema=elasticity_eqn.bulk_rheology(default=isotropic_linear))
-    materials.validators = constraints.notEmptyList()
+    #materials.validators = constraints.notEmptyList()
     materials.doc = "Materials in boundary value problem."
 
     interior_interfaces = pylith.properties.list(schema=protocols.interior_interface(default=fault_cohesive_kinematic))
@@ -42,7 +42,7 @@ class Elasticity(GoverningEqnBase, family="pylith.governing_eqns.elasticity"):
         info.report(
             (
                 f"{self}",
-                f"solution subfields = {self.solution_subfields}",
+                #f"solution subfields = {self.solution_subfields}",
                 f"materials = {self.materials}",
                 f"interior interfaces = {self.interior_interfaces}",
             )

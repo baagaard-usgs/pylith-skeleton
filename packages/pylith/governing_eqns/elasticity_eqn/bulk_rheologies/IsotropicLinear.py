@@ -20,7 +20,7 @@ from .ElasticityRheology import DerivedSubfields as DerivedBase
 
 class AuxiliarySubfields(
     AuxiliaryBase,
-    family="pylith.materials.elasticity_eqn.rheologies.isotropic_linear.auxiliary_subfields",
+    family="pylith.governing_eqns.elasticity_eqn.bulk_rheologies.isotropic_linear.auxiliary_subfields",
 ):
     """Auxiliary subfields for the isotropic linear bulk rheology."""
 

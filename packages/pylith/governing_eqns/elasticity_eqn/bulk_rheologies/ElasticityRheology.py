@@ -14,7 +14,7 @@ from .... import observers
 from ....protocols.fields import subfield
 from ....fields import subfields
 
-from ....protocols.governing_eqns.elasticity import bulk_rheology
+from ....protocols.governing_eqns.elasticity_eqn import bulk_rheology
 
 
 class AuxiliarySubfields(pylith.component, implements=protocols.field):

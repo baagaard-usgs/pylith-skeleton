@@ -34,7 +34,6 @@ mm.activate() {
     eval "$(mm --quiet --activate)"
 }
 
-
 - `mm.branch` (activates `{compiler}/{project}/{branch}` build and installation)
 - `mm.clear` (deactivates branch setup)
 

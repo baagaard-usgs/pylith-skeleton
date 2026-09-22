@@ -4,9 +4,8 @@ import journal
 
 import pylith
 
-# attempt to
 try:
-    app = pylith.shells.pylith(name="pylith.app")
+    app = pylith.shells.pylith(name="pylith_app")
     status = app.run()
 except pylith.shells.pylith.ConfigurationError as ex:
     error = pylith.journal.error_factory.configuration_error()

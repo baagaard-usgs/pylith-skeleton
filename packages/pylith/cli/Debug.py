@@ -6,14 +6,14 @@ class Debug(pylith.shells.command, family="pylith.cli.debug"):
 
     root = pylith.properties.str()
     root.default = None
-    root.tip = "Specify the portion of the namespace to display."
+    root.tip = "Specify the namespace to display."
 
     full = pylith.properties.bool(default=True)
     full.doc = "Display the full configuration."
 
-    @pylith.export(tip="Generate a list of encountered configuration files.")
+    @pylith.export(tip="Show the detailed configuration (schema, values, defaults, and description).")
     def config(self, plexus, **kwds):
-        """Generate a list of encountered configuration files."""
+        """Show the detailed configuration (schema, values, defaults, and description)."""
         lines = []
         cfg = self.pyre_configurator
         for uri, priority in cfg.sources:
@@ -26,14 +26,15 @@ class Debug(pylith.shells.command, family="pylith.cli.debug"):
         info.log()
         return 0
 
-    @pylith.export(tip="Print the application configuration namespace.")
-    def nfs(self, plexus, **kwds):
-        """Print the application configuration namespace"""
+    @pylith.export(tip="Print the configuration namespace specified by 'root'.")
+    def namespace(self, plexus, **kwds):
+        """Print the configuration namespace specified by 'root'."""
         indent = " " * 2
         channel = pylith.journal.info_factory().debug_config()
 
-        prefix = "pylith" if self.root is None else self.root
+        prefix = "pylith_app" if self.root is None else self.root
         nameserver = self.pyre_nameserver
+        channel.line(f"{indent}Namespace {prefix}")
 
         # get all nodes that match my {prefix}
         for info, node in nameserver.find(pattern=prefix):
@@ -77,7 +78,7 @@ class Debug(pylith.shells.command, family="pylith.cli.debug"):
 
         report = folder.dump(indent=1)
         channel = pylith.journal.info_factory().debug_config()
-        channel.line(f"vfs: prefix='{prefix}'")
+        channel.line(f"vfs: prefix={prefix}")
         channel.report(report=report)
         channel.log()
         return 0

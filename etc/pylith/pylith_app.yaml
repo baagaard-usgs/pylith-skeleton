@@ -49,7 +49,7 @@ pylith.petsc.options.group_list#attach_debugger:
     - check_pointer_intensity, False
 
 # Default options for instance.
-pylith.app.petsc_options:
+pylith_app.petsc_options:
   testing: pylith.petsc.options.group_list#simulation_testing
   collective_io: pylith.petsc.options.group_list#collective_io
   attach_debugger: pylith.petsc.options.group_list#attach_debugger
@@ -111,7 +111,7 @@ pylith.petsc.options.group_list#solver_elasticity_nofault:
     - mg_fine_ksp_max_it, 5
 
 # Default options for solver
-pylith.app.problem.governing_eqn.solver.petsc_options:
+pylith_app.problem.governing_eqn.solver.petsc_options:
   solver: pylith.petsc.options.group_list#solver_enable_defaults
   initial_guess: pylith.petsc.options.group_list#solver_initial_guess
   tolerances: pylith.petsc.options.group_list#solver_tolerances

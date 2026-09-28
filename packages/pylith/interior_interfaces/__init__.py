@@ -11,20 +11,18 @@ import pylith
 
 
 @pylith.foundry(tip="Fault cohesive kinematic")
-def fault_cohesive_kinematic():
-    try:
-        from .FaultCohesiveKinematic import FaultCohesiveKinematic
-    except ImportError:
-        return
+def fault_cohesive_kinematic(**kwds):
+    from .FaultCohesiveKinematic import FaultCohesiveKinematic
     __doc__ = FaultCohesiveKinematic.__doc__
+    if kwds:
+        return FaultCohesiveKinematic(**kwds)
     return FaultCohesiveKinematic
 
 
 @pylith.foundry(tip="Fault cohesive impulses")
-def fault_cohesive_impulses():
-    try:
-        from .FaultCohesiveImpulses import FaultCohesiveImpulses
-    except ImportError:
-        return
+def fault_cohesive_impulses(**kwds):
+    from .FaultCohesiveImpulses import FaultCohesiveImpulses
     __doc__ = FaultCohesiveImpulses.__doc__
+    if kwds:
+        return FaultCohesiveImpulses(**kwds)
     return FaultCohesiveImpulses

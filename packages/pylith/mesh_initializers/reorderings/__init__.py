@@ -11,10 +11,9 @@ import pylith
 
 
 @pylith.foundry(tip="PETSc reordering")
-def petsc():
-    try:
-        from .ReorderingPetsc import ReorderingPetsc
-    except ImportError:
-        return
+def petsc(**kwds):
+    from .ReorderingPetsc import ReorderingPetsc
     __doc__ = ReorderingPetsc.__doc__
+    if kwds:
+        return ReorderingPetsc(**kwds)
     return ReorderingPetsc

@@ -11,12 +11,11 @@ import spatialdata
 
 
 @spatialdata.foundry(tip="Points stream")
-def stream():
-    try:
-        from .Stream import Stream
-    except ImportError:
-        return
+def stream(**kwds):
+    from .Stream import Stream
     __doc__ = Stream.__doc__
+    if kwds:
+        return Stream(**kwds)
     return Stream
 
 

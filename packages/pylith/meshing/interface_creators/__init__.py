@@ -11,10 +11,9 @@ import pylith
 
 
 @pylith.foundry(tip="Create cohesive cells")
-def create_cohesive_cells():
-    try:
-        from .CreateCohesiveCells import CreateCohesiveCells
-    except ImportError:
-        return
+def create_cohesive_cells(**kwds):
+    from .CreateCohesiveCells import CreateCohesiveCells
     __doc__ = CreateCohesiveCells.__doc__
+    if kwds:
+        return CreateCohesiveCells(**kwds)
     return CreateCohesiveCells

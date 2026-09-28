@@ -11,20 +11,18 @@ import pylith
 
 
 @pylith.foundry(tip="Simulation options")
-def simulation_options():
-    try:
-        from .SimulationOptions import SimulationOptions
-    except ImportError:
-        return
+def simulation_options(**kwds):
+    from .SimulationOptions import SimulationOptions
     __doc__ = SimulationOptions.__doc__
+    if kwds:
+        return SimulationOptions(**kwds)
     return SimulationOptions
 
 
 @pylith.foundry(tip="Solver options")
-def solver_options():
-    try:
-        from .SolverOptions import SolverOptions
-    except ImportError:
-        return
+def solver_options(**kwds):
+    from .SolverOptions import SolverOptions
     __doc__ = SolverOptions.__doc__
+    if kwds:
+        return SolverOptions(**kwds)
     return SolverOptions

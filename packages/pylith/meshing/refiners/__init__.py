@@ -11,10 +11,9 @@ import pylith
 
 
 @pylith.foundry(tip="Uniform refiner")
-def uniform():
-    try:
-        from .RefineUniform import RefineUniform
-    except ImportError:
-        return
+def uniform(**kwds):
+    from .RefineUniform import RefineUniform
     __doc__ = RefineUniform.__doc__
+    if kwds:
+        return RefineUniform(**kwds)
     return RefineUniform

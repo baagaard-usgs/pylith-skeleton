@@ -11,20 +11,18 @@ import pylith
 
 
 @pylith.foundry(tip="VTK data writer")
-def vtk():
-    try:
-        from .DataWriterVTK import DataWriterVTK
-    except ImportError:
-        return
+def vtk(**kwds):
+    from .DataWriterVTK import DataWriterVTK
     __doc__ = DataWriterVTK.__doc__
+    if kwds:
+        return DataWriterVTK(**kwds)
     return DataWriterVTK
 
 
 @pylith.foundry(tip="HDF5 data writer")
-def hdf5():
-    try:
-        from .DataWriterHDF5 import DataWriterHDF5
-    except ImportError:
-        return
+def hdf5(**kwds):
+    from .DataWriterHDF5 import DataWriterHDF5
     __doc__ = DataWriterHDF5.__doc__
+    if kwds:
+        return DataWriterHDF5(**kwds)
     return DataWriterHDF5

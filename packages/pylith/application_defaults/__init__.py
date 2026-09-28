@@ -11,10 +11,9 @@ import pylith
 
 
 @pylith.foundry(tip="Simulation defaults")
-def simulation_defaults():
-    try:
-        from .SimulationDefaults import SimulationDefaults
-    except ImportError:
-        return
+def simulation_defaults(**kwds):
+    from .SimulationDefaults import SimulationDefaults
     __doc__ = SimulationDefaults.__doc__
+    if kwds:
+        return SimulationDefaults(**kwds)
     return SimulationDefaults

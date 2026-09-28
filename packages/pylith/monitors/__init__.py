@@ -11,20 +11,18 @@ import pylith
 
 
 @pylith.foundry(tip="Progress monitor time")
-def progress_monitor_time():
-    try:
-        from .ProgressMonitorTime import ProgressMonitorTime
-    except ImportError:
-        return
+def progress_monitor_time(**kwds):
+    from .ProgressMonitorTime import ProgressMonitorTime
     __doc__ = ProgressMonitorTime.__doc__
+    if kwds:
+        return ProgressMonitorTime(**kwds)
     return ProgressMonitorTime
 
 
 @pylith.foundry(tip="Progress monitor step")
-def progress_monitor_step():
-    try:
-        from .ProgressMonitorStep import ProgressMonitorStep
-    except ImportError:
-        return
+def progress_monitor_step(**kwds):
+    from .ProgressMonitorStep import ProgressMonitorStep
     __doc__ = ProgressMonitorStep.__doc__
+    if kwds:
+        return ProgressMonitorStep(**kwds)
     return ProgressMonitorStep

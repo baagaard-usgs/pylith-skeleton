@@ -11,30 +11,27 @@ import pylith
 
 
 @pylith.foundry(tip="Quasistatic elasticity scale")
-def quasistatic_elasticity():
-    try:
-        from .QuasistaticElasticity import QuasistaticElasticity
-    except ImportError:
-        return
+def quasistatic_elasticity(**kwds):
+    from .QuasistaticElasticity import QuasistaticElasticity
     __doc__ = QuasistaticElasticity.__doc__
+    if kwds:
+        return QuasistaticElasticity(**kwds)
     return QuasistaticElasticity
 
 
 @pylith.foundry(tip="Dynamic elasticity scale")
-def dynamic_elasticity():
-    try:
-        from .DynamicElasticity import DynamicElasticity
-    except ImportError:
-        return
+def dynamic_elasticity(**kwds):
+    from .DynamicElasticity import DynamicElasticity
     __doc__ = DynamicElasticity.__doc__
+    if kwds:
+        return DynamicElasticity(**kwds)
     return DynamicElasticity
 
 
 @pylith.foundry(tip="Quasistatic poroelasticity scale")
-def quasistatic_poroelasticity():
-    try:
-        from .QuasistaticPoroelasticity import QuasistaticPoroelasticity
-    except ImportError:
-        return
+def quasistatic_poroelasticity(**kwds):
+    from .QuasistaticPoroelasticity import QuasistaticPoroelasticity
     __doc__ = QuasistaticPoroelasticity.__doc__
+    if kwds:
+        return QuasistaticPoroelasticity(**kwds)
     return QuasistaticPoroelasticity

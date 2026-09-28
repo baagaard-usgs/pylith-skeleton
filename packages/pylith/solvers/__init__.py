@@ -11,10 +11,9 @@ import pylith
 
 
 @pylith.foundry(tip="PETSc solver")
-def petsc():
-    try:
-        from .SolverPetsc import SolverPetsc
-    except ImportError:
-        return
+def petsc(**kwds):
+    from .SolverPetsc import SolverPetsc
     __doc__ = SolverPetsc.__doc__
+    if kwds:
+        return SolverPetsc(**kwds)
     return SolverPetsc

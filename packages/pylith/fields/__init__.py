@@ -11,20 +11,18 @@ import pylith
 
 
 @pylith.foundry(tip="Basic field")
-def basic():
-    try:
-        from .FieldBasic import FieldBasic
-    except ImportError:
-        return
+def basic(**kwds):
+    from .FieldBasic import FieldBasic
     __doc__ = FieldBasic.__doc__
+    if kwds:
+        return FieldBasic(**kwds)
     return FieldBasic
 
 
 @pylith.foundry(tip="Optional field")
-def optional():
-    try:
-        from .FieldOptional import FieldOptional
-    except ImportError:
-        return
+def optional(**kwds):
+    from .FieldOptional import FieldOptional
     __doc__ = FieldOptional.__doc__
+    if kwds:
+        return FieldOptional(**kwds)
     return FieldOptional

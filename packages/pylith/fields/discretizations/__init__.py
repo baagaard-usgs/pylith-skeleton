@@ -11,10 +11,9 @@ import pylith
 
 
 @pylith.foundry(tip="PETSc discretization")
-def petsc():
-    try:
-        from .DiscretizationPetsc import DiscretizationPetsc
-    except ImportError:
-        return
+def petsc(**kwds):
+    from .DiscretizationPetsc import DiscretizationPetsc
     __doc__ = DiscretizationPetsc.__doc__
+    if kwds:
+        return DiscretizationPetsc(**kwds)
     return DiscretizationPetsc

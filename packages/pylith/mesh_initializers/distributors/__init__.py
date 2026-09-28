@@ -11,10 +11,9 @@ import pylith
 
 
 @pylith.foundry(tip="PETSc distributor")
-def petsc():
-    try:
-        from .DistributorPetsc import DistributorPetsc
-    except ImportError:
-        return
+def petsc(**kwds):
+    from .DistributorPetsc import DistributorPetsc
     __doc__ = DistributorPetsc.__doc__
+    if kwds:
+        return DistributorPetsc(**kwds)
     return DistributorPetsc

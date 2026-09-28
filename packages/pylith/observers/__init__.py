@@ -11,50 +11,45 @@ import pylith
 
 
 @pylith.foundry(tip="Output observer")
-def output_observer():
-    try:
-        from .OutputObserver import OutputObserver
-    except ImportError:
-        return
+def output_observer(**kwds):
+    from .OutputObserver import OutputObserver
     __doc__ = OutputObserver.__doc__
+    if kwds:
+        return OutputObserver(**kwds)
     return OutputObserver
 
 
 @pylith.foundry(tip="Output solution domain")
-def solution_domain():
-    try:
-        from .OutputSolnDomain import OutputSolnDomain
-    except ImportError:
-        return
+def solution_domain(**kwds):
+    from .OutputSolnDomain import OutputSolnDomain
     __doc__ = OutputSolnDomain.__doc__
+    if kwds:
+        return OutputSolnDomain(**kwds)
     return OutputSolnDomain
 
 
 @pylith.foundry(tip="Output solution boundary")
-def solution_boundary():
-    try:
-        from .OutputSolnBoundary import OutputSolnBoundary
-    except ImportError:
-        return
+def solution_boundary(**kwds):
+    from .OutputSolnBoundary import OutputSolnBoundary
     __doc__ = OutputSolnBoundary.__doc__
+    if kwds:
+        return OutputSolnBoundary(**kwds)
     return OutputSolnBoundary
 
 
 @pylith.foundry(tip="Output solution points")
-def solution_points():
-    try:
-        from .OutputSolnPoints import OutputSolnPoints
-    except ImportError:
-        return
+def solution_points(**kwds):
+    from .OutputSolnPoints import OutputSolnPoints
     __doc__ = OutputSolnPoints.__doc__
+    if kwds:
+        return OutputSolnPoints(**kwds)
     return OutputSolnPoints
 
 
 @pylith.foundry(tip="Output physics")
-def output_physics():
-    try:
-        from .OutputPhysics import OutputPhysics
-    except ImportError:
-        return
+def output_physics(**kwds):
+    from .OutputPhysics import OutputPhysics
     __doc__ = OutputPhysics.__doc__
+    if kwds:
+        return OutputPhysics(**kwds)
     return OutputPhysics

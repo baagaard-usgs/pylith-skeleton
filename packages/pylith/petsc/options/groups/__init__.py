@@ -11,10 +11,9 @@ import pylith
 
 
 @pylith.foundry(tip="Group list")
-def group_list():
-    try:
-        from .GroupList import GroupList
-    except ImportError:
-        return
+def group_list(**kwds):
+    from .GroupList import GroupList
     __doc__ = GroupList.__doc__
+    if kwds:
+        return GroupList(**kwds)
     return GroupList

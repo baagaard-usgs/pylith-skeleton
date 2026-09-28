@@ -11,20 +11,18 @@ import pylith
 
 
 @pylith.foundry(tip="Output trigger step")
-def step():
-    try:
-        from .OutputTriggerStep import OutputTriggerStep
-    except ImportError:
-        return
+def step(**kwds):
+    from .OutputTriggerStep import OutputTriggerStep
     __doc__ = OutputTriggerStep.__doc__
+    if kwds:
+        return OutputTriggerStep(**kwds)
     return OutputTriggerStep
 
 
 @pylith.foundry(tip="Output trigger time")
-def time():
-    try:
-        from .OutputTriggerTime import OutputTriggerTime
-    except ImportError:
-        return
+def time(**kwds):
+    from .OutputTriggerTime import OutputTriggerTime
     __doc__ = OutputTriggerTime.__doc__
+    if kwds:
+        return OutputTriggerTime(**kwds)
     return OutputTriggerTime

@@ -11,20 +11,18 @@ import pylith
 
 
 @pylith.foundry(tip="Initial condition domain")
-def domain():
-    try:
-        from .InitialConditionDomain import InitialConditionDomain
-    except ImportError:
-        return
+def domain(**kwds):
+    from .InitialConditionDomain import InitialConditionDomain
     __doc__ = InitialConditionDomain.__doc__
+    if kwds:
+        return InitialConditionDomain(**kwds)
     return InitialConditionDomain
 
 
 @pylith.foundry(tip="Initial condition patch")
-def patch():
-    try:
-        from .InitialConditionPatch import InitialConditionPatch
-    except ImportError:
-        return
+def patch(**kwds):
+    from .InitialConditionPatch import InitialConditionPatch
     __doc__ = InitialConditionPatch.__doc__
+    if kwds:
+        return InitialConditionPatch(**kwds)
     return InitialConditionPatch

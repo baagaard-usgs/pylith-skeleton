@@ -11,20 +11,18 @@ import pylith
 
 
 @pylith.foundry(tip="Elasticity rheology")
-def elasticity_rheology():
-    try:
-        from .ElasticityRheology import ElasticityRheology
-    except ImportError:
-        return
+def elasticity_rheology(**kwds):
+    from .ElasticityRheology import ElasticityRheology
     __doc__ = ElasticityRheology.__doc__
+    if kwds:
+        return ElasticityRheology(**kwds)
     return ElasticityRheology
 
 
 @pylith.foundry(tip="Isotropic linear rheology")
-def isotropic_linear():
-    try:
-        from .IsotropicLinear import IsotropicLinear
-    except ImportError:
-        return
+def isotropic_linear(**kwds):
+    from .IsotropicLinear import IsotropicLinear
     __doc__ = IsotropicLinear.__doc__
+    if kwds:
+        return IsotropicLinear(**kwds)
     return IsotropicLinear

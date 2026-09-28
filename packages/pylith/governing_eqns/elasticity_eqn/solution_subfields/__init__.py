@@ -11,16 +11,18 @@ import pylith
 
 
 @pylith.foundry(tip="Solution subfields without a fault")
-def no_fault():
+def no_fault(**kwds):
     from .SubfieldsNoFault import SubfieldsNoFault
-
     __doc__ = SubfieldsNoFault.__doc__
+    if kwds:
+        return SubfieldsNoFault(**kwds)
     return SubfieldsNoFault
 
 
 @pylith.foundry(tip="Solution subfields fault")
-def fault():
+def fault(**kwds):
     from .SubfieldsFault import SubfieldsFault
-
     __doc__ = SubfieldsFault.__doc__
+    if kwds:
+        return SubfieldsFault(**kwds)
     return SubfieldsFault

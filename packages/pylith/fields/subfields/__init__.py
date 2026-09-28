@@ -11,20 +11,18 @@ import pylith
 
 
 @pylith.foundry(tip="Basic subfield")
-def basic():
-    try:
-        from .SubfieldBasic import SubfieldBasic
-    except ImportError:
-        return
+def basic(**kwds):
+    from .SubfieldBasic import SubfieldBasic
     __doc__ = SubfieldBasic.__doc__
+    if kwds:
+        return SubfieldBasic(**kwds)
     return SubfieldBasic
 
 
 @pylith.foundry(tip="Optional subfield")
-def optional():
-    try:
-        from .SubfieldOptional import SubfieldOptional
-    except ImportError:
-        return
+def optional(**kwds):
+    from .SubfieldOptional import SubfieldOptional
     __doc__ = SubfieldOptional.__doc__
+    if kwds:
+        return SubfieldOptional(**kwds)
     return SubfieldOptional

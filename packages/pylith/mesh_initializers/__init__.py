@@ -11,30 +11,27 @@ import pylith
 
 
 @pylith.foundry(tip="Serial initializer")
-def serial():
-    try:
-        from .InitializerSerial import InitializerSerial
-    except ImportError:
-        return
+def serial(**kwds):
+    from .InitializerSerial import InitializerSerial
     __doc__ = InitializerSerial.__doc__
+    if kwds:
+        return InitializerSerial(**kwds)
     return InitializerSerial
 
 
 @pylith.foundry(tip="Parallel initializer")
-def parallel():
-    try:
-        from .InitializerParallel import InitializerParallel
-    except ImportError:
-        return
+def parallel(**kwds):
+    from .InitializerParallel import InitializerParallel
     __doc__ = InitializerParallel.__doc__
+    if kwds:
+        return InitializerParallel(**kwds)
     return InitializerParallel
 
 
 @pylith.foundry(tip="Convert initializer")
-def convert():
-    try:
-        from .InitializerConvert import InitializerConvert
-    except ImportError:
-        return
+def convert(**kwds):
+    from .InitializerConvert import InitializerConvert
     __doc__ = InitializerConvert.__doc__
+    if kwds:
+        return InitializerConvert(**kwds)
     return InitializerConvert

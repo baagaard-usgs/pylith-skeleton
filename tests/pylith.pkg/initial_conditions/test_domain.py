@@ -13,8 +13,9 @@ def load_yaml():
 
 
 def test_traits_defaults():
-    ic = initial_conditions.domain()  # Actor
-    assert ic().__class__ == initial_conditions.InitialConditionDomain.InitialConditionDomain
+    actor = initial_conditions.domain()
+    ic = actor()  # Component intsance
+    assert ic.__class__ == initial_conditions.InitialConditionDomain.InitialConditionDomain
     assert ic.subfields == ["displacement"]
 
 

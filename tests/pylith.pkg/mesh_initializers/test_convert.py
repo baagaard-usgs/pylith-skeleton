@@ -15,11 +15,12 @@ def load_yaml():
 
 
 def test_traits_defaults():
-    initializer = mesh_initializers.convert()  # Actor
-    assert initializer().__class__ == mesh_initializers.InitializerConvert.InitializerConvert
-    assert initializer.read_mesh().__class__ == mesh_io.MeshIOPetsc.MeshIOPetsc
-    assert initializer.reorder_mesh().__class__ == reorderings.ReorderingPetsc.ReorderingPetsc
-    assert initializer.write_mesh().__class__ == mesh_io.MeshIOPetsc.MeshIOPetsc
+    actor = mesh_initializers.convert()
+    initializer = actor()  # Component instance
+    assert initializer.__class__ == mesh_initializers.InitializerConvert.InitializerConvert
+    assert initializer.read_mesh.__class__ == mesh_io.MeshIOPetsc.MeshIOPetsc
+    assert initializer.reorder_mesh.__class__ == reorderings.ReorderingPetsc.ReorderingPetsc
+    assert initializer.write_mesh.__class__ == mesh_io.MeshIOPetsc.MeshIOPetsc
 
 
 def test_traits_yaml(load_yaml, local_test_subject):

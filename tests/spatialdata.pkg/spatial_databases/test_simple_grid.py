@@ -13,8 +13,9 @@ def load_yaml():
 
 
 def test_traits_defaults():
-    db = spatial_databases.simple_grid() # Actor
-    assert db().__class__ == spatial_databases.SimpleGrid.SimpleGrid
+    actor = spatial_databases.simple_grid()
+    db = actor()  # Component instance
+    assert db.__class__ == spatial_databases.SimpleGrid.SimpleGrid
     assert db.uri is None
     assert db.query_type == "linear"
 

@@ -13,8 +13,9 @@ def load_yaml():
 
 
 def test_traits_defaults():
-    monitor = monitors.progress_monitor_step()  # Actor
-    assert monitor().__class__ == monitors.ProgressMonitorStep.ProgressMonitorStep
+    actor = monitors.progress_monitor_step()
+    monitor = actor()  # Component instance
+    assert monitor.__class__ == monitors.ProgressMonitorStep.ProgressMonitorStep
     assert monitor.uri is None
     assert monitor.update_percent == 5.0
 

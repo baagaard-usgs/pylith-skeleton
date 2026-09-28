@@ -13,8 +13,9 @@ def load_yaml():
 
 
 def test_traits_defaults():
-    ic = initial_conditions.patch()  # Actor
-    assert ic().__class__ == initial_conditions.InitialConditionPatch.InitialConditionPatch
+    actor = initial_conditions.patch()
+    ic = actor()  # Component instance
+    assert ic.__class__ == initial_conditions.InitialConditionPatch.InitialConditionPatch
     assert ic.subfields == ["displacement"]
     assert ic.label_name is None
     assert ic.label_value == 1

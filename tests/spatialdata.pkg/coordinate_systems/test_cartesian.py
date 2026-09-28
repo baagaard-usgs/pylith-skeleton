@@ -14,8 +14,9 @@ def load_yaml():
 
 
 def test_traits_defaults():
-    cs = coordinate_systems.cartesian() # Actor
-    assert cs().__class__ == coordinate_systems.Cartesian.Cartesian
+    actor = coordinate_systems.cartesian()
+    cs = actor()  # Component instance
+    assert cs.__class__ == coordinate_systems.Cartesian.Cartesian
     assert cs.units == meter
     assert cs.space_dim == 3
 

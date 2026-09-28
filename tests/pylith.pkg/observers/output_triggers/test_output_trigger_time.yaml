@@ -1,0 +1,5 @@
+test_subject:
+  trigger: time#time_trigger
+
+pylith.observers.output_triggers.time#time_trigger:
+  elapsed_time: 3*year

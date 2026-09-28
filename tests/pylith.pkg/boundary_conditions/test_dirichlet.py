@@ -13,8 +13,9 @@ def load_yaml():
 
 
 def test_traits_defaults():
-    bc = boundary_conditions.dirichlet()  # Actor
-    assert bc().__class__ == boundary_conditions.Dirichlet.Dirichlet
+    actor = boundary_conditions.dirichlet()
+    bc = actor()  # Component instance
+    assert bc.__class__ == boundary_conditions.Dirichlet.Dirichlet
     assert bc.field == "displacement"
     assert bc.label_name is None
     assert bc.label_value == 1
@@ -23,7 +24,7 @@ def test_traits_defaults():
 
 def test_traits_yaml(load_yaml, local_test_subject):
     test_subject = local_test_subject(name="test_subject")
-    bc = test_subject.bc
+    bc = test_subject.bc  # Component instance
     assert bc.__class__ == boundary_conditions.Dirichlet.Dirichlet
     assert bc.field == "velocity"
     assert bc.label_name == "boundary_north"

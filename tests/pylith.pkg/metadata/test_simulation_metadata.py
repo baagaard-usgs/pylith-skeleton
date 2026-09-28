@@ -13,8 +13,9 @@ def load_yaml():
 
 
 def test_traits_defaults():
-    sim_metadata = metadata.simulation_metadata()  # Actor
-    assert sim_metadata().__class__ == metadata.SimulationMetadata.SimulationMetadata
+    actor = metadata.simulation_metadata()  # Actor
+    sim_metadata = actor()  # Component instance
+    assert sim_metadata.__class__ == metadata.SimulationMetadata.SimulationMetadata
     assert sim_metadata.description is None
     assert sim_metadata.authors == []
     assert sim_metadata.keywords == []

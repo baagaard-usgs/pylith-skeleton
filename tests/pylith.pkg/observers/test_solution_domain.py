@@ -13,8 +13,9 @@ def load_yaml():
 
 
 def test_traits_defaults():
-    observer = observers.solution_domain()  # Actor
-    assert observer().__class__ == observers.OutputSolnDomain.OutputSolnDomain
+    actor = observers.solution_domain()
+    observer = actor()  # Component instance
+    assert observer.__class__ == observers.OutputSolnDomain.OutputSolnDomain
     assert observer.output_basis_order == 1
     assert observer.refine_levels == 0
 

@@ -13,8 +13,9 @@ def load_yaml():
 
 
 def test_traits_defaults():
-    reader = mesh_io.cubit()  # Actor
-    assert reader().__class__ == mesh_io.MeshIOCubit.MeshIOCubit
+    actor = mesh_io.cubit()
+    reader = actor()  # Component instance
+    assert reader.__class__ == mesh_io.MeshIOCubit.MeshIOCubit
     assert reader.uri is None
 
 

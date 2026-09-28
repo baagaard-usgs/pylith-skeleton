@@ -17,8 +17,9 @@ def load_yaml():
 
 
 def test_traits_defaults():
-    elasticity_scales = scales.quasistatic_elasticity() # Actor
-    assert elasticity_scales().__class__ == scales.QuasistaticElasticity.QuasistaticElasticity
+    actor = scales.quasistatic_elasticity()
+    elasticity_scales = actor()  # Component instance
+    assert elasticity_scales.__class__ == scales.QuasistaticElasticity.QuasistaticElasticity
     assert elasticity_scales.length_scale == 100.0 * km
     assert elasticity_scales.displacement_scale == 1.0 * meter
     assert elasticity_scales.shear_modulus == 10.0 * GPa

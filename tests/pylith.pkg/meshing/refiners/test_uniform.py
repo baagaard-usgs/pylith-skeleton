@@ -13,8 +13,9 @@ def load_yaml():
 
 
 def test_traits_defaults():
-    refiner = refiners.uniform()  # Actor
-    assert refiner().__class__ == refiners.RefineUniform.RefineUniform
+    actor = refiners.uniform()
+    refiner = actor()  # Component instance
+    assert refiner.__class__ == refiners.RefineUniform.RefineUniform
     assert refiner.levels == 0
 
 

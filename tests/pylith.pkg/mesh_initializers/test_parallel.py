@@ -16,12 +16,13 @@ def load_yaml():
 
 
 def test_traits_defaults():
-    initializer = mesh_initializers.parallel()  # Actor
-    assert initializer().__class__ == mesh_initializers.InitializerParallel.InitializerParallel
-    assert initializer.read_mesh().__class__ == mesh_io.MeshIOPetsc.MeshIOPetsc
-    assert initializer.distribute_mesh().__class__ == distributors.DistributorPetsc.DistributorPetsc
-    assert initializer.insert_interface().__class__ == interface_creators.CreateCohesiveCells.CreateCohesiveCells
-    assert initializer.refine_mesh().__class__ == refiners.RefineUniform.RefineUniform
+    actor = mesh_initializers.parallel()
+    initializer = actor()  # Component instance
+    assert initializer.__class__ == mesh_initializers.InitializerParallel.InitializerParallel
+    assert initializer.read_mesh.__class__ == mesh_io.MeshIOPetsc.MeshIOPetsc
+    assert initializer.distribute_mesh.__class__ == distributors.DistributorPetsc.DistributorPetsc
+    assert initializer.insert_interface.__class__ == interface_creators.CreateCohesiveCells.CreateCohesiveCells
+    assert initializer.refine_mesh.__class__ == refiners.RefineUniform.RefineUniform
 
 
 def test_traits_yaml(load_yaml, local_test_subject):

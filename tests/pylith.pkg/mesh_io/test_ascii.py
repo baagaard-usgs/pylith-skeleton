@@ -13,8 +13,9 @@ def load_yaml():
 
 
 def test_traits_defaults():
-    reader = mesh_io.ascii()  # Actor
-    assert reader().__class__ == mesh_io.MeshIOAscii.MeshIOAscii
+    actor = mesh_io.ascii()
+    reader = actor()  # Component instance
+    assert reader.__class__ == mesh_io.MeshIOAscii.MeshIOAscii
     assert reader.uri is None
 
 

@@ -13,8 +13,9 @@ def load_yaml():
 
 
 def test_traits_defaults():
-    writer = data_writers.hdf5()  # Actor
-    assert writer().__class__ == data_writers.DataWriterHDF5.DataWriterHDF5
+    actor = data_writers.hdf5()
+    writer = actor()  # Component instance
+    assert writer.__class__ == data_writers.DataWriterHDF5.DataWriterHDF5
     assert writer.uri is None
 
 

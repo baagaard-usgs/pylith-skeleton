@@ -13,8 +13,9 @@ def load_yaml():
 
 
 def test_traits_defaults():
-    observer = observers.solution_boundary()  # Actor
-    assert observer().__class__ == observers.OutputSolnBoundary.OutputSolnBoundary
+    actor = observers.solution_boundary()
+    observer = actor()  # Component instance
+    assert observer.__class__ == observers.OutputSolnBoundary.OutputSolnBoundary
     assert observer.output_basis_order == 1
     assert observer.refine_levels == 0
     assert observer.label_name is None

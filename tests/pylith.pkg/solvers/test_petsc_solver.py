@@ -13,8 +13,9 @@ def load_yaml():
 
 
 def test_traits_defaults():
-    solver = solvers.petsc()  # Actor
-    assert solver().__class__ == solvers.SolverPetsc.SolverPetsc
+    actor = solvers.petsc()
+    solver = actor()  # Component instance
+    assert solver.__class__ == solvers.SolverPetsc.SolverPetsc
     assert solver.formulation == "implicit"
 
 

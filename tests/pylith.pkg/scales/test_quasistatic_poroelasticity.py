@@ -17,8 +17,9 @@ def load_yaml():
 
 
 def test_traits_defaults():
-    poroelasticity_scales = scales.quasistatic_poroelasticity() # Actor
-    assert poroelasticity_scales().__class__ == scales.QuasistaticPoroelasticity.QuasistaticPoroelasticity
+    actor = scales.quasistatic_poroelasticity()
+    poroelasticity_scales = actor()  # Component instance
+    assert poroelasticity_scales.__class__ == scales.QuasistaticPoroelasticity.QuasistaticPoroelasticity
     assert poroelasticity_scales.length_scale == 100.0 * km
     assert poroelasticity_scales.displacement_scale == 1.0 * meter
     assert poroelasticity_scales.shear_modulus == 10.0 * GPa

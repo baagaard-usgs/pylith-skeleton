@@ -13,8 +13,9 @@ def load_yaml():
 
 
 def test_traits_defaults():
-    app_defaults = application_defaults.simulation_defaults()  # Actor
-    assert app_defaults().__class__ == application_defaults.SimulationDefaults.SimulationDefaults
+    actor = application_defaults.simulation_defaults()
+    app_defaults = actor()  # Component instance
+    assert app_defaults.__class__ == application_defaults.SimulationDefaults.SimulationDefaults
     assert str(app_defaults.output_dir) == "output"
     assert app_defaults.output_name is None
     assert app_defaults.quadrature_order == 1

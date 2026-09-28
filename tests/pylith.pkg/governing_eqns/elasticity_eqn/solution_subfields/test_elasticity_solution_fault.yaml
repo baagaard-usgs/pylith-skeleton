@@ -1,0 +1,13 @@
+test_subject:
+  solution: fault#solution_field
+
+pylith.governing_eqns.elasticity_eqn.solution_subfields.fault#solution_field:
+  displacement:
+    alias: displacement
+    discretization.basis_order: 2
+  velocity:
+    alias: velocity
+    discretization.basis_order: 3
+  lagrange_multiplier_fault:
+    alias: lagrange_multiplier
+    discretization.basis_order: 1

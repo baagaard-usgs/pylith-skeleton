@@ -1,0 +1,10 @@
+test_subject:
+  solution: no_fault#solution_field
+
+pylith.governing_eqns.elasticity_eqn.solution_subfields.no_fault#solution_field:
+  displacement:
+    alias: displacement
+    discretization.basis_order: 2
+  velocity:
+    alias: velocity
+    discretization.basis_order: 3

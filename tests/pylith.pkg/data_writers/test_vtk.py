@@ -14,8 +14,9 @@ def load_yaml():
 
 
 def test_traits_defaults():
-    writer = data_writers.vtk()  # Actor
-    assert writer().__class__ == data_writers.DataWriterVTK.DataWriterVTK
+    actor = data_writers.vtk()
+    writer = actor()  # Component instance
+    assert writer.__class__ == data_writers.DataWriterVTK.DataWriterVTK
     assert writer.uri is None
     assert writer.time_format == "%f"
     assert writer.time_scale == 1.0 * second

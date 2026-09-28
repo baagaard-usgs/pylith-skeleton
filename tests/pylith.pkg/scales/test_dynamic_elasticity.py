@@ -17,8 +17,9 @@ def load_yaml():
 
 
 def test_traits_defaults():
-    elasticity_scales = scales.dynamic_elasticity() # Actor
-    assert elasticity_scales().__class__ == scales.DynamicElasticity.DynamicElasticity
+    actor = scales.dynamic_elasticity()
+    elasticity_scales = actor()  # Component instance
+    assert elasticity_scales.__class__ == scales.DynamicElasticity.DynamicElasticity
     assert elasticity_scales.length_scale == 100.0 * km
     assert elasticity_scales.displacement_scale == 1.0 * meter
     assert elasticity_scales.density == 2500.0 * kg / meter**3

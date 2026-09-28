@@ -1,0 +1,5 @@
+test_subject:
+  trigger: step#step_trigger
+
+pylith.observers.output_triggers.step#step_trigger:
+  num_skip: 5

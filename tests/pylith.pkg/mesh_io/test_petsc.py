@@ -13,8 +13,9 @@ def load_yaml():
 
 
 def test_traits_defaults():
-    reader = mesh_io.petsc()  # Actor
-    assert reader().__class__ == mesh_io.MeshIOPetsc.MeshIOPetsc
+    actor = mesh_io.petsc()  # Actor
+    reader = actor()  # Component instance
+    assert reader.__class__ == mesh_io.MeshIOPetsc.MeshIOPetsc
     assert reader.uri is None
     assert reader.gmsh_mark_recursive == False
     assert reader.petsc_options_prefix == ""

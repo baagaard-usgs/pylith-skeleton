@@ -1,0 +1,6 @@
+test_subject:
+  subfield: basic#bulk_modulus
+
+pylith.fields.subfields.basic#bulk_modulus:
+  alias: bulky_modulus
+  discretization.basis_order: 2

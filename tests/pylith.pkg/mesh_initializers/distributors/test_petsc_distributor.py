@@ -7,6 +7,7 @@ from pylith.mesh_initializers import distributors
 
 from pylith import data_writers
 
+
 @pytest.fixture
 def load_yaml():
     cur_path = pathlib.Path(__file__).parent
@@ -14,12 +15,13 @@ def load_yaml():
 
 
 def test_traits_defaults():
-    distributor = distributors.petsc()  # Actor
-    assert distributor().__class__ == distributors.DistributorPetsc.DistributorPetsc
+    actor = distributors.petsc()
+    distributor = actor()  # Component instance
+    assert distributor.__class__ == distributors.DistributorPetsc.DistributorPetsc
     assert distributor.partitioner == "parmetis"
     assert distributor.use_edge_weighting is True
     assert distributor.write_partition is False
-    assert distributor.data_writer().__class__ == data_writers.DataWriterHDF5.DataWriterHDF5
+    assert distributor.data_writer.__class__ == data_writers.DataWriterHDF5.DataWriterHDF5
 
 
 def test_traits_yaml(load_yaml, local_test_subject):

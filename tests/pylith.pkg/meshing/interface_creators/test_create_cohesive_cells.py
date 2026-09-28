@@ -13,8 +13,9 @@ def load_yaml():
 
 
 def test_traits_defaults():
-    mesher = interface_creators.create_cohesive_cells()  # Actor
-    assert mesher().__class__ == interface_creators.CreateCohesiveCells.CreateCohesiveCells
+    actor = interface_creators.create_cohesive_cells()
+    mesher = actor()  # Component instance
+    assert mesher.__class__ == interface_creators.CreateCohesiveCells.CreateCohesiveCells
 
 
 def test_traits_yaml(load_yaml, local_test_subject):

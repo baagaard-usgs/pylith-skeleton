@@ -1,0 +1,19 @@
+test_subject:
+  options_manager: simulation_options#options
+
+pylith.petsc.options.simulation_options#options:
+  testing:
+    enabled: True
+    options:
+      - malloc_debug
+  collective_io:
+    enabled: False
+    options:
+      - viewer_hdf5_collective
+  attach_debugger:
+    enabled: True
+    options:
+      - stop_for_debugger
+      - debugger_pause, 10
+      - malloc_debug, False
+      - check_pointer_intensity, False

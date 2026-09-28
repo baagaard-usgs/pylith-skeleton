@@ -15,8 +15,9 @@ def load_yaml():
 
 
 def test_traits_defaults():
-    monitor = monitors.progress_monitor_time()  # Actor
-    assert monitor().__class__ == monitors.ProgressMonitorTime.ProgressMonitorTime
+    actor = monitors.progress_monitor_time()
+    monitor = actor()  # Component instance
+    assert monitor.__class__ == monitors.ProgressMonitorTime.ProgressMonitorTime
     assert monitor.uri is None
     assert monitor.update_percent == 5.0
     assert monitor.time_units == 1.0 * year

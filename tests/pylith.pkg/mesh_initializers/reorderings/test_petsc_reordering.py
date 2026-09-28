@@ -13,8 +13,9 @@ def load_yaml():
 
 
 def test_traits_defaults():
-    reordering = reorderings.petsc()  # Actor
-    assert reordering().__class__ == reorderings.ReorderingPetsc.ReorderingPetsc
+    actor = reorderings.petsc()
+    reordering = actor()  # Component instance
+    assert reordering.__class__ == reorderings.ReorderingPetsc.ReorderingPetsc
 
 
 def test_traits_yaml(load_yaml, local_test_subject):

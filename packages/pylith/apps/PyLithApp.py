@@ -12,10 +12,9 @@ class PyLithApp(pylith.application):
     metadata = simulation_metadata()
     metadata.doc = "Application metadata"
 
-    # :TODO: Remove list
     problems = pylith.properties.list(
         schema=protocols.problem(default=time_dependent),
-        default=[time_dependent],
+        default=[time_dependent(name="problem")],
     )
     problems.doc = "Problems to solve."
 

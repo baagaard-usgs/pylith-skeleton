@@ -9,11 +9,11 @@
 # =================================================================================================
 import pylith
 
-from ....protocols.petsc.options import group
+from ....protocols.petsc.options.groups import group
 
 
-class GroupList(pylith.component, implements=group, family="pylith.petsc.options.group_list"):
-    """PETSc options manager."""
+class GroupList(pylith.component, implements=group, family="pylith.petsc.options.groups.group_list"):
+    """A group of PETSc options as a list of tuples."""
 
     enabled = pylith.properties.bool(default=False)
     enabled.doc = "Use group of options if True."

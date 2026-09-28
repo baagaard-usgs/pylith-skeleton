@@ -7,12 +7,4 @@
 #
 # See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
-import pylith
-
-
-@pylith.foundry(tip="Elasticity governing equation")
-def elasticity():
-    from .Elasticity import Elasticity
-
-    __doc__ = Elasticity.__doc__
-    return Elasticity
+from .Group import Group as group

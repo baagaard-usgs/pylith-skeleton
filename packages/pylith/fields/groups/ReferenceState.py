@@ -11,7 +11,6 @@ import pylith
 
 from ...protocols import fields
 
-
 from ..subfields import basic
 
 

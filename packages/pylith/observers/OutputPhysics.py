@@ -13,7 +13,13 @@ from .OutputObserver import OutputObserver
 
 
 class OutputPhysics(OutputObserver, family="pylith.observers.output_physics"):
-    """Output of the solution over the domain."""
+    """Output for physics component."""
+
+    info_fields = pylith.properties.strings(default=["all"])
+    info_fields.doc = "Names of auxiliary subfields to include in info output."
+
+    data_fields = pylith.properties.strings(default=["all"])
+    data_fields.doc = "Names of solution, auxiliary, and derived subfields to include in data output."
 
     def __init__(self, name, locator, implicit, **kwds):
         """Constructor."""

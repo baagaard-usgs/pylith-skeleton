@@ -10,7 +10,7 @@
 import pylith
 
 
-class Group(pylith.protocol, family="pylith.petsc.options"):
+class Group(pylith.protocol, family="pylith.petsc.options.groups"):
     """Protocol declarator for group of PETSc options." """
 
     @classmethod
@@ -18,6 +18,6 @@ class Group(pylith.protocol, family="pylith.petsc.options"):
         """
         The default {Group} implementation
         """
-        from ....petsc.options.groups import group_list
+        from .....petsc.options.groups import group_list
 
         return group_list

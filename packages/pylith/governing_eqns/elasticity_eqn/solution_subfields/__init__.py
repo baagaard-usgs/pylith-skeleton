@@ -11,20 +11,16 @@ import pylith
 
 
 @pylith.foundry(tip="Solution subfields without a fault")
-def nofault():
-    try:
-        from .SubfieldsNoFault import SubfieldsNoFault
-    except ImportError:
-        return
+def no_fault():
+    from .SubfieldsNoFault import SubfieldsNoFault
+
     __doc__ = SubfieldsNoFault.__doc__
     return SubfieldsNoFault
 
 
 @pylith.foundry(tip="Solution subfields fault")
 def fault():
-    try:
-        from .SubfieldsFault import SubfieldsFault
-    except ImportError:
-        return
+    from .SubfieldsFault import SubfieldsFault
+
     __doc__ = SubfieldsFault.__doc__
     return SubfieldsFault

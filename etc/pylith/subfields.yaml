@@ -40,7 +40,7 @@ subfields:
   - fluid_pressure_dot:
     scale: stress_rate
     vector_field_type: scalar
-  - trace_strain_dor:
+  - trace_strain_dot:
     scale: strain_rate
     vector_field_type: scalar
 
@@ -78,16 +78,16 @@ subfields:
       - reference_stress_xy
       - reference_stress_yz
       - reference_stress_xz
-  - reference_strain:
-    scale: strain
-    vector_field_type: tensor
-    component_names:
-      - reference_strain_xx
-      - reference_strain_yy
-      - reference_strain_zz
-      - reference_strain_xy
-      - reference_strain_yz
-      - reference_strain_xz
+  # - reference_strain:
+  #   scale: strain
+  #   vector_field_type: tensor
+  #   component_names:
+  #     - reference_strain_xx
+  #     - reference_strain_yy
+  #     - reference_strain_zz
+  #     - reference_strain_xy
+  #     - reference_strain_yz
+  #     - reference_strain_xz
   - cauchy_stress:
     scale: stress
     vector_field_type: tensor
@@ -115,6 +115,13 @@ subfields:
       - traction_normal
       - traction_tangential_1
       - traction_tangential_2
+  - fault_traction:
+    scale: stress
+    vector_field_type: vector
+    component_names:
+      - traction_normal
+      - traction_left_lateral
+      - traction_reverse
   - fault_traction_change:
     scale: stress
     vector_field_type: vector

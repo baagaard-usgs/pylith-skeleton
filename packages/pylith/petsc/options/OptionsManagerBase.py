@@ -9,36 +9,26 @@
 # =================================================================================================
 import pylith
 
-from ..protocols import field
-
-# from ..protocols.fields import subfield
+from ...protocols.petsc import options_manager
 
 
-class FieldOptional(pylith.component, implements=field, family="pylith.fields.optional"):
-    """Field with required and optional subfields."""
-
-    # # :TODO: Convert to dict
-    # required = pylith.properties.list(schema=subfield())
-    # required.doc = "Required subfields in field."
-
-    # # :TODO: Convert to dict
-    # optional = pylith.properties.list(schema=group())
-    # optional.doc = "Optional subfields in field."
+class OptionsManagerBase(pylith.component, implements=options_manager):
+    """Abstract base class for PETSc options managers."""
 
     def __init__(self, name, locator, implicit, **kwds):
         """Constructor."""
         super().__init__(name, locator, implicit, **kwds)
 
         info = pylith.journal.info_factory().initialization()
-        info.report(
-            (
-                f"{self}",
-                f"required={self.required}",
-                f"optional={self.optional}",
-            )
-        )
+        lines = [
+            "Implement ManagerBase.__init__(). Pass parameters to C++.",
+            f"{self}",
+            "Option sections:",
+        ]
+        lines += [f"    - {trait}" for trait in self.pyre_traits()]
+        info.report(lines)
         info.log()
 
         todo = pylith.journal.debug_factory().todo()
-        todo.report(("Implement FieldOptional.__init__(). Pass parameters to C++.",))
+        todo.report(("Implement ManagerBase.__init__(). Pass parameters to C++.",))
         todo.log()

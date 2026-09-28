@@ -30,17 +30,17 @@ journal:
 # -----------------------------------------------------------------------------
 # Singletons for default groups of PETSc options.
 
-pylith.petsc.options.group_list#simulation_testing:
+pylith.petsc.options.groups.group_list#simulation_testing:
   enabled: False
   options:
     - malloc_debug
 
-pylith.petsc.options.group_list#collective_io:
+pylith.petsc.options.groups.group_list#collective_io:
   enabled: True
   options:
     - viewer_hdf5_collective
 
-pylith.petsc.options.group_list#attach_debugger:
+pylith.petsc.options.groups.group_list#attach_debugger:
   enabled: False
   options:
     - stop_for_debugger
@@ -50,25 +50,25 @@ pylith.petsc.options.group_list#attach_debugger:
 
 # Default options for instance.
 pylith_app.petsc_options:
-  testing: pylith.petsc.options.group_list#simulation_testing
-  collective_io: pylith.petsc.options.group_list#collective_io
-  attach_debugger: pylith.petsc.options.group_list#attach_debugger
+  testing: pylith.petsc.options.groups.group_list#simulation_testing
+  collective_io: pylith.petsc.options.groups.group_list#collective_io
+  attach_debugger: pylith.petsc.options.groups.group_list#attach_debugger
 
 # -----------------------------------------------------------------------------
 # General solver related settings
 # -----------------------------------------------------------------------------
 # Singletons for default groups of PETSc options.
 
-pylith.petsc.options.group_list#solver_enable_defaults:
+pylith.petsc.options.groups.group_list#solver_enable_defaults:
   enabled: True
 
-pylith.petsc.options.group_list#solver_initial_guess:
+pylith.petsc.options.groups.group_list#solver_initial_guess:
   enabled: True
   options:
     - ksp_guess_type, pod
     - ksp_guess_pod_size,  8
 
-pylith.petsc.options.group_list#solver_tolerances:
+pylith.petsc.options.groups.group_list#solver_tolerances:
   enabled: True
   options:
     - ksp_rtol, 1.0e-12
@@ -76,7 +76,7 @@ pylith.petsc.options.group_list#solver_tolerances:
     - snes_rtol, 5.0e-6
     - snes_atol, 5.0e-2
 
-pylith.petsc.options.group_list#solver_adaptive_ts:
+pylith.petsc.options.groups.group_list#solver_adaptive_ts:
   enabled: False
   options:
     - ts_adapt_type, basic

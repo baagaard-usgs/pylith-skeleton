@@ -17,6 +17,7 @@
 - metadata
 - monitors
 - petsc
+- problems
 - observers
 - scales
 - solvers
@@ -30,21 +31,6 @@
 
 - apps
 - utils
-
-### Issues
-
-Can't use full name specification.
-
-```yaml
-pylith.fields.subfields.basic#bulk_modulus
-pylith.petsc.options.simulation_options#options:
-pylith.governing_eqns.elasticity_eqn.bulk_rheologies.isotropic_linear#iso_test:
-pylith.governing_eqns.elasticity_eqn.solution_subfields.fault#solution_field:
-```
-
-### Check/Fix
-
-- problems
 
 ## full-scale
 

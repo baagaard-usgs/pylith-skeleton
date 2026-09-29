@@ -1,7 +1,7 @@
 test_subject:
-  problem: greens_fns#greens_fns
+  problem: greens_fns#greens_fns_problem
 
-pylith.problems.greens_fns#greens_fns:
+pylith.problems.greens_fns#greens_fns_problem:
   initialize_only: True
   scales:
     length_scale: 0.1*m

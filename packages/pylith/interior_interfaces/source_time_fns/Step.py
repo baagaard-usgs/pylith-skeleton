@@ -12,8 +12,48 @@ import pylith
 from .SourceTimeFnBase import SourceTimeFnBase
 
 
+from ...protocols import field
+from ...protocols.fields import subfield
+from ...fields import subfields
+
+
+class AuxiliarySubfields(
+    pylith.component,
+    implements=field,
+    family="pylith.interior_interfaces.source_time_fns.step.auxiliary_subfields",
+):
+    """Auxiliary subfields for the step source time function."""
+
+    initiation_time = subfield(default=subfields.basic)
+    initiation_time.doc = "Initiation time."
+
+    final_slip = subfield(default=subfields.basic)
+    final_slip.doc = "Final slip."
+
+    def __init__(self, name, locator, implicit, **kwds):
+        """Constructor."""
+        super().__init__(name, locator, implicit, **kwds)
+
+        info = pylith.journal.info_factory().initialization()
+        info.report(
+            (
+                f"{self}",
+                f"initiation time = {self.initiation_time}",
+                f"final slip = {self.final_slip}",
+            )
+        )
+        info.log()
+
+        todo = pylith.journal.debug_factory().todo()
+        todo.report(("Implement AuxiliarySubfields.__init__(). Pass parameters to C++.",))
+        todo.log()
+
+
 class Step(SourceTimeFnBase, family="pylith.interior_interfaces.source_time_fns.step"):
     """Step source time function."""
+
+    auxiliary_field = field(default=AuxiliarySubfields)
+    auxiliary_field.doc = "Auxiliary field with the step source time function parameters."
 
     def __init__(self, name, locator, implicit, **kwds):
         """Constructor."""

@@ -13,8 +13,9 @@ def load_yaml():
 
 
 def test_traits_defaults():
-    fault = interior_interfaces.fault_cohesive_kinematic()  # Actor
-    assert fault().__class__ == interior_interfaces.FaultCohesiveKinematicFaultCohesiveKinematic
+    actor = interior_interfaces.fault_cohesive_kinematic()  # Actor
+    fault = actor()  # Component instance
+    assert fault.__class__ == interior_interfaces.FaultCohesiveKinematic.FaultCohesiveKinematic
     assert fault.label_name is None
     assert fault.label_value == 1
     assert fault.edge_label_name is None
@@ -27,7 +28,7 @@ def test_traits_defaults():
 def test_traits_yaml(load_yaml, local_test_subject):
     test_subject = local_test_subject(name="test_subject")
     fault = test_subject.interface
-    assert fault.__class__ == interior_interfaces.FaultCohesiveKinematicFaultCohesiveKinematic
+    assert fault.__class__ == interior_interfaces.FaultCohesiveKinematic.FaultCohesiveKinematic
     assert fault.label_name == "fault"
     assert fault.label_value == 3
     assert fault.edge_label_name == "edge_fault"

@@ -9,12 +9,13 @@ from pylith.interior_interfaces import source_time_fns
 @pytest.fixture
 def load_yaml():
     cur_path = pathlib.Path(__file__).parent
-    pylith.loadConfiguration(cur_path / "test_constant_rate.yaml")
+    pylith.loadConfiguration(cur_path / "test_kinsrc_constant_rate.yaml")
 
 
 def test_traits_defaults():
-    source_fn = source_time_fns.constant_rate()  # Actor
-    assert source_fn().__class__ == source_time_fns.ConstantRate.ConstantRate
+    actor = source_time_fns.constant_rate()
+    source_fn = actor()  # Component instance
+    assert source_fn.__class__ == source_time_fns.ConstantRate.ConstantRate
 
 
 def test_traits_yaml(load_yaml, local_test_subject):

@@ -15,6 +15,7 @@ from ...protocols import field
 from ...protocols.fields import subfield
 from ...fields import subfields
 
+
 class AuxiliarySubfields(
     pylith.component,
     implements=field,
@@ -23,13 +24,13 @@ class AuxiliarySubfields(
     """Auxiliary subfields for the Brune source time function."""
 
     initiation_time = subfield(default=subfields.basic)
-    initiation_time.doc = "Shear modulus."
+    initiation_time.doc = "Initiation time."
 
     final_slip = subfield(default=subfields.basic)
-    final_slip.doc = "Bulk modulus."
+    final_slip.doc = "Final slip."
 
     rise_time = subfield(default=subfields.basic)
-    rise_time.doc = "Bulk modulus."
+    rise_time.doc = "Rise time."
 
     def __init__(self, name, locator, implicit, **kwds):
         """Constructor."""

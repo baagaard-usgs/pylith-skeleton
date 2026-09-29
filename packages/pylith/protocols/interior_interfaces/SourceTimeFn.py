@@ -9,8 +9,6 @@
 # =================================================================================================
 import pylith
 
-from .. import field
-
 
 class SourceTimeFn(pylith.protocol, family="pylith.interior_interfaces.source_time_fns"):
     """Protocol declarator for source time functions."""
@@ -21,23 +19,3 @@ class SourceTimeFn(pylith.protocol, family="pylith.interior_interfaces.source_ti
         from ...interior_interfaces.source_time_fns import step
 
         return step
-
-
-class SourceTimeFnBase(pylith.component, implements=SourceTimeFn):
-
-    auxiliary_field = field()
-    auxiliary_field.doc = "Auxiliary field with source time function parameters."
-
-    def __init__(self, name, locator, implicit, **kwds):
-        """Constructor."""
-        super().__init__(name, locator, implicit, **kwds)
-
-        todo = pylith.journal.debug_factory().todo()
-        todo.report(
-            (
-                f"{self}",
-                "Implement SourceTimeFnBase.__init__(). Pass parameters to C++.",
-                f"auxiliary field={self.auxiliary_field}",
-            )
-        )
-        todo.log()

@@ -10,6 +10,7 @@
 - fields
 - governing_eqns
 - initial_conditions
+- interior_interfaces/source_time_fns
 - journal
 - mesh_io
 - meshing
@@ -24,10 +25,9 @@
 
 ### Missing
 
-- fields [not used; subfields only (tested)]
-
 - interior_interfaces
-- interior_interfaces/source_time_fns
+
+- fields [not used; subfields only (tested)]
 
 - apps
 - utils

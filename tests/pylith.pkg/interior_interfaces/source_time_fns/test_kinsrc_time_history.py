@@ -9,12 +9,13 @@ from pylith.interior_interfaces import source_time_fns
 @pytest.fixture
 def load_yaml():
     cur_path = pathlib.Path(__file__).parent
-    pylith.loadConfiguration(cur_path / "test_time_history.yaml")
+    pylith.loadConfiguration(cur_path / "test_kinsrc_time_history.yaml")
 
 
 def test_traits_defaults():
-    source_fn = source_time_fns.time_history()  # Actor
-    assert source_fn().__class__ == source_time_fns.TimeHistory.TimeHistory
+    actor = source_time_fns.time_history()
+    source_fn = actor()  # Component instance
+    assert source_fn.__class__ == source_time_fns.TimeHistory.TimeHistory
 
 
 def test_traits_yaml(load_yaml, local_test_subject):

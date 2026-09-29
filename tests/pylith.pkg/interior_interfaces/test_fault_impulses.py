@@ -15,8 +15,9 @@ def load_yaml():
 
 
 def test_traits_defaults():
-    fault = interior_interfaces.fault_cohesive_impulses()  # Actor
-    assert fault().__class__ == interior_interfaces.FaultCohesiveImpulses.FaultCohesiveImpulses
+    actor = interior_interfaces.fault_cohesive_impulses()
+    fault = actor()  # Component instance
+    assert fault.__class__ == interior_interfaces.FaultCohesiveImpulses.FaultCohesiveImpulses
     assert fault.label_name is None
     assert fault.label_value == 1
     assert fault.edge_label_name is None

@@ -13,8 +13,9 @@ def load_yaml():
 
 
 def test_traits_defaults():
-    source_fn = source_time_fns.brune()  # Actor
-    assert source_fn().__class__ == source_time_fns.Brune.Brune
+    actor = source_time_fns.brune()
+    source_fn = actor()  # Component instance
+    assert source_fn.__class__ == source_time_fns.Brune.Brune
 
 
 def test_traits_yaml(load_yaml, local_test_subject):

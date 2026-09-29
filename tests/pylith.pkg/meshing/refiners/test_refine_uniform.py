@@ -9,7 +9,7 @@ from pylith.meshing import refiners
 @pytest.fixture
 def load_yaml():
     cur_path = pathlib.Path(__file__).parent
-    pylith.loadConfiguration(cur_path / "test_uniform.yaml")
+    pylith.loadConfiguration(cur_path / "test_refine_uniform.yaml")
 
 
 def test_traits_defaults():

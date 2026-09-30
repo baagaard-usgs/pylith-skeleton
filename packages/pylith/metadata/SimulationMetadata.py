@@ -41,7 +41,7 @@ class SimulationMetadata(
     base = pylith.properties.strings()
     base.doc = "Parameter files with metadata that complement this metadata."
 
-    version = pylith.properties.str()
+    version = pylith.properties.str(default=None)
     version.doc = "Version of this simulation."
 
     pylith_version = pylith.properties.strings()

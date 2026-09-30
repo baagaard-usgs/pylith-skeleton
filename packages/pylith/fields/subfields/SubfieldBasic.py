@@ -17,7 +17,7 @@ from ..discretizations import petsc
 class SubfieldBasic(pylith.component, implements=fields.subfield, family="pylith.fields.subfields.basic"):
     """Subfield in PETSc field."""
 
-    alias = pylith.properties.str()
+    alias = pylith.properties.str(default=None)
     alias.doc = "User-preferred name of Subfield (used in output)."
 
     discretization = fields.discretization(default=petsc)

@@ -1,0 +1,11 @@
+test_subject:
+  discretization: petsc#petsc_discretization
+
+pylith.fields.discretizations.petsc#petsc_discretization:
+  basis_order: 1
+  quadrature_order: 2
+  dimension: 3
+  finite_element_space: point
+  cell_basis: tensor
+  is_basis_continuous: False
+  is_cohesive_only: True

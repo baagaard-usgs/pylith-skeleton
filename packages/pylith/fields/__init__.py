@@ -7,5 +7,22 @@
 #
 # See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
-from .FieldBasic import FieldBasic as basic
-from .FieldOptional import FieldOptional as optional
+import pylith
+
+
+@pylith.foundry(tip="Basic field")
+def basic(**kwds):
+    from .FieldBasic import FieldBasic
+    __doc__ = FieldBasic.__doc__
+    if kwds:
+        return FieldBasic(**kwds)
+    return FieldBasic
+
+
+@pylith.foundry(tip="Optional field")
+def optional(**kwds):
+    from .FieldOptional import FieldOptional
+    __doc__ = FieldOptional.__doc__
+    if kwds:
+        return FieldOptional(**kwds)
+    return FieldOptional

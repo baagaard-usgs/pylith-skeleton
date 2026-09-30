@@ -7,4 +7,13 @@
 #
 # See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
-from .RefineUniform import RefineUniform as uniform
+import pylith
+
+
+@pylith.foundry(tip="Uniform refiner")
+def uniform(**kwds):
+    from .RefineUniform import RefineUniform
+    __doc__ = RefineUniform.__doc__
+    if kwds:
+        return RefineUniform(**kwds)
+    return RefineUniform

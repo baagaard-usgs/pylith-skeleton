@@ -10,8 +10,8 @@
 import pylith
 
 from ....protocols import field
-from ....protocols.fields import subfield, group
-from ....fields import subfields, groups
+from ....protocols.fields import subfield
+from ....fields import subfields
 
 from .ElasticityRheology import ElasticityRheology
 from .ElasticityRheology import AuxiliarySubfields as AuxiliaryBase
@@ -20,7 +20,7 @@ from .ElasticityRheology import DerivedSubfields as DerivedBase
 
 class AuxiliarySubfields(
     AuxiliaryBase,
-    family="pylith.materials.elasticity.rheologies.isotropic_linear.auxiliary_subfields",
+    family="pylith.governing_eqns.elasticity_eqn.bulk_rheologies.isotropic_linear.auxiliary_subfields",
 ):
     """Auxiliary subfields for the isotropic linear bulk rheology."""
 
@@ -30,8 +30,8 @@ class AuxiliarySubfields(
     bulk_modulus = subfield(default=subfields.basic)
     bulk_modulus.doc = "Bulk modulus."
 
-    reference_state = group(default=groups.reference_state)
-    reference_state.doc = "Reference state (optional)."
+    reference_stress = subfield(default=subfields.optional)
+    reference_stress.doc = "Reference stress (optional)."
 
     def __init__(self, name, locator, implicit, **kwds):
         """Constructor."""
@@ -43,7 +43,7 @@ class AuxiliarySubfields(
                 f"{self}",
                 f"shear modulus = {self.shear_modulus}",
                 f"bulk modulus = {self.bulk_modulus}",
-                f"reference state = {self.reference_state}",
+                f"reference stress = {self.reference_stress}",
             )
         )
         info.log()

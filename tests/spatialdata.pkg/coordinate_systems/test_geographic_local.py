@@ -13,8 +13,9 @@ def load_yaml():
 
 
 def test_traits_defaults():
-    cs = coordinate_systems.geographic_local() # Actor
-    assert cs().__class__ == coordinate_systems.GeographicLocal.GeographicLocal
+    actor = coordinate_systems.geographic_local()
+    cs = actor()  # Component instance
+    assert cs.__class__ == coordinate_systems.GeographicLocal.GeographicLocal
     assert cs.crs_string == "EPSG:4326"
     assert cs.space_dim == 3
     assert cs.origin_x == 0.0

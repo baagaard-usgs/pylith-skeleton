@@ -1,0 +1,4 @@
+test_subject:
+  reordering: petsc#petsc_reordering
+
+pylith.mesh_initializers.reorderings.petsc#petsc_reordering: {}

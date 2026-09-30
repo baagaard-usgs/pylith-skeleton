@@ -1,0 +1,5 @@
+test_subject:
+  mesh_io: cubit#reader
+
+pylith.mesh_io.cubit#reader:
+  uri: mesh.exo

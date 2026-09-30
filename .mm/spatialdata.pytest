@@ -1,0 +1,14 @@
+# -*- Makefile -*-
+#
+# pytest runner suite for the spatialdata Python package
+
+
+# stem maps to tests/spatialdata.pkg/ (the actual test directory)
+spatialdata.pytest.stem          := spatialdata.pkg
+# delegate discovery and execution to pytest
+spatialdata.pytest.runner        := pytest
+# spatialdata must be installed and importable before tests run
+spatialdata.pytest.prerequisites := spatialdata.pkg
+
+
+# end of file

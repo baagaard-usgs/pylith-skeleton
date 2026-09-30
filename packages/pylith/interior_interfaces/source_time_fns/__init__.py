@@ -7,9 +7,58 @@
 #
 # See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
-from .Brune import Brune as brune
-from .ConstantRate import ConstantRate as constant_rate
-from .LuiCosine import LiuCosine as liu_cosine
-from .Ramp import Ramp as ramp
-from .Step import Step as step
-from .TimeHistory import TimeHistory as time_history
+import pylith
+
+
+@pylith.foundry(tip="Brune source time function")
+def brune(**kwds):
+    from .Brune import Brune
+    __doc__ = Brune.__doc__
+    if kwds:
+        return Brune(**kwds)
+    return Brune
+
+
+@pylith.foundry(tip="Constant rate source time function")
+def constant_rate(**kwds):
+    from .ConstantRate import ConstantRate
+    __doc__ = ConstantRate.__doc__
+    if kwds:
+        return ConstantRate(**kwds)
+    return ConstantRate
+
+
+@pylith.foundry(tip="Liu cosine source time function")
+def liu_cosine(**kwds):
+    from .LuiCosine import LiuCosine
+    __doc__ = LiuCosine.__doc__
+    if kwds:
+        return LiuCosine(**kwds)
+    return LiuCosine
+
+
+@pylith.foundry(tip="Ramp source time function")
+def ramp(**kwds):
+    from .Ramp import Ramp
+    __doc__ = Ramp.__doc__
+    if kwds:
+        return Ramp(**kwds)
+    return Ramp
+
+
+@pylith.foundry(tip="Step source time function")
+def step(**kwds):
+    from .Step import Step
+    __doc__ = Step.__doc__
+    if kwds:
+        return Step(**kwds)
+    return Step
+
+
+@pylith.foundry(tip="Time history source time function")
+def time_history(**kwds):
+    from .TimeHistory import TimeHistory
+    __doc__ = TimeHistory.__doc__
+    if kwds:
+        return TimeHistory(**kwds)
+    return TimeHistory

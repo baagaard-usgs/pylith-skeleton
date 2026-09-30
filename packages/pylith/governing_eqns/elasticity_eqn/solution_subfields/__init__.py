@@ -7,5 +7,22 @@
 #
 # See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
-from .SubfieldsNoFault import SubfieldsNoFault as nofault
-from .SubfieldsFault import SubfieldsFault as fault
+import pylith
+
+
+@pylith.foundry(tip="Solution subfields without a fault")
+def no_fault(**kwds):
+    from .SubfieldsNoFault import SubfieldsNoFault
+    __doc__ = SubfieldsNoFault.__doc__
+    if kwds:
+        return SubfieldsNoFault(**kwds)
+    return SubfieldsNoFault
+
+
+@pylith.foundry(tip="Solution subfields fault")
+def fault(**kwds):
+    from .SubfieldsFault import SubfieldsFault
+    __doc__ = SubfieldsFault.__doc__
+    if kwds:
+        return SubfieldsFault(**kwds)
+    return SubfieldsFault

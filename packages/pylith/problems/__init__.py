@@ -7,5 +7,22 @@
 #
 # See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
-from .TimeDependent import TimeDependent as time_dependent
-from .GreensFns import GreensFns as greens_fns
+import pylith
+
+
+@pylith.foundry(tip="Time dependent problem")
+def time_dependent(**kwds):
+    from .TimeDependent import TimeDependent
+    __doc__ = TimeDependent.__doc__
+    if kwds:
+        return TimeDependent(**kwds)
+    return TimeDependent
+
+
+@pylith.foundry(tip="Greens functions problem")
+def greens_fns(**kwds):
+    from .GreensFns import GreensFns
+    __doc__ = GreensFns.__doc__
+    if kwds:
+        return GreensFns(**kwds)
+    return GreensFns

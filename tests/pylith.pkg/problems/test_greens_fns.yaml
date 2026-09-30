@@ -1,0 +1,9 @@
+test_subject:
+  problem: greens_fns#greens_fns_problem
+
+pylith.problems.greens_fns#greens_fns_problem:
+  initialize_only: True
+  scales:
+    length_scale: 0.1*m
+  progress_monitor:
+    update_percent: 10.0

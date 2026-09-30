@@ -7,5 +7,22 @@
 #
 # See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
-from .InitialConditionDomain import InitialConditionDomain as domain
-from .InitialConditionPatch import InitialConditionPatch as patch
+import pylith
+
+
+@pylith.foundry(tip="Initial condition domain")
+def domain(**kwds):
+    from .InitialConditionDomain import InitialConditionDomain
+    __doc__ = InitialConditionDomain.__doc__
+    if kwds:
+        return InitialConditionDomain(**kwds)
+    return InitialConditionDomain
+
+
+@pylith.foundry(tip="Initial condition patch")
+def patch(**kwds):
+    from .InitialConditionPatch import InitialConditionPatch
+    __doc__ = InitialConditionPatch.__doc__
+    if kwds:
+        return InitialConditionPatch(**kwds)
+    return InitialConditionPatch

@@ -1,0 +1,8 @@
+test_subject:
+  group: group_list#group_one
+
+pylith.petsc.options.groups.group_list#group_one:
+  enabled: True
+  options:
+    - yes, 1
+    - no, 2

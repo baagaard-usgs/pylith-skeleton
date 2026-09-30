@@ -1,0 +1,8 @@
+test_subject:
+  writer: vtk#writer_vtk
+
+pylith.data_writers.vtk#writer_vtk:
+  uri: test.vtu
+  time_format: "%14.4e"
+  time_scale: 1.0*year
+  float_precision: 4

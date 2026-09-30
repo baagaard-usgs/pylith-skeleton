@@ -1,0 +1,7 @@
+test_subject:
+  distributor: petsc#petsc_distributor
+
+pylith.mesh_initializers.distributor.petsc#petsc_distributor:
+  partitioner: simple
+  use_edge_weighting: false
+  write_partition: true

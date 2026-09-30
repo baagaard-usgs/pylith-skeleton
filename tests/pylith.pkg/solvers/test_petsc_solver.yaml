@@ -1,0 +1,5 @@
+test_subject:
+  solver: petsc#petsc_solver
+
+pylith.solvers.petsc#petsc_solver:
+  formulation: explicit

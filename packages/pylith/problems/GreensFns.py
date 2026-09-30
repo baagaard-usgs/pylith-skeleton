@@ -15,10 +15,7 @@ from .ProblemBase import ProblemBase
 from .. import monitors
 
 
-class GreensFns(
-    ProblemBase,
-    family="pylith.problems.greens_fns",
-):
+class GreensFns(ProblemBase, family="pylith.problems.greens_fns"):
     """Problem for generating Green's functions."""
 
     # - fields

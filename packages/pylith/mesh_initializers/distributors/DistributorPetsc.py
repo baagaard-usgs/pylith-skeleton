@@ -13,8 +13,7 @@ import pylith
 
 from ... import protocols
 from ...protocols.mesh_initializers import distributor
-
-# from pylith.data_writers import data_writer_hdf5
+from ... import data_writers
 
 
 class DistributorPetsc(pylith.component, implements=distributor, family="pylith.mesh_initializers.distributor.petsc"):
@@ -29,7 +28,7 @@ class DistributorPetsc(pylith.component, implements=distributor, family="pylith.
     write_partition = pylith.properties.bool(default=False)
     write_partition.doc = "Write partition information to file."
 
-    data_writer = protocols.data_writer()
+    data_writer = protocols.data_writer(default=data_writers.hdf5)
     data_writer.doc = "Data writer for partition information."
 
     def __init__(self, name, locator, implicit, **kwds):

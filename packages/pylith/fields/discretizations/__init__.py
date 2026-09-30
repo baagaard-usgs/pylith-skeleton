@@ -7,4 +7,13 @@
 #
 # See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
-from .DiscretizationPetsc import DiscretizationPetsc as petsc
+import pylith
+
+
+@pylith.foundry(tip="PETSc discretization")
+def petsc(**kwds):
+    from .DiscretizationPetsc import DiscretizationPetsc
+    __doc__ = DiscretizationPetsc.__doc__
+    if kwds:
+        return DiscretizationPetsc(**kwds)
+    return DiscretizationPetsc

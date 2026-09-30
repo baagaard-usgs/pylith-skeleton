@@ -1,0 +1,7 @@
+test_subject:
+  observer: solution_points#observer_points
+
+pylith.observers.solution_points#observer_points:
+  output_basis_order: 0
+  refine_levels: 1
+  uri: points.txt

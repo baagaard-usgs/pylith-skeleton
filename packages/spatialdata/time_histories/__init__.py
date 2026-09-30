@@ -11,12 +11,11 @@ import spatialdata
 
 
 @spatialdata.foundry(tip="Time history defined by points.")
-def points():
-    try:
-        from .Points import Points
-    except ImportError:
-        return
+def points(**kwds):
+    from .Points import Points
     __doc__ = Points.__doc__
+    if kwds:
+        return Points(**kwds)
     return Points
 
 

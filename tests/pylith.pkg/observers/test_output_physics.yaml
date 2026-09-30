@@ -1,0 +1,8 @@
+test_subject:
+  observer: output_physics#observer_material
+
+pylith.observers.output_physics#observer_material:
+  output_basis_order: 0
+  refine_levels: 2
+  info_fields: ["shear_modulus", "bulk_modulus"]
+  data_fields: ["cauchy_stress", "cauchy_strain"]

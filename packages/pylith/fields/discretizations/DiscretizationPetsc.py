@@ -17,13 +17,13 @@ from ...protocols.fields import discretization
 class DiscretizationPetsc(pylith.component, implements=discretization, family="pylith.fields.discretizations.petsc"):
     """PETSc discretization of a subfield."""
 
-    basis_order = pylith.properties.int(default=-1)
+    basis_order = pylith.properties.int(default=None)
     basis_order.doc = "Order of basis functions."
 
-    quadrature_order = pylith.properties.int(default=-1)
+    quadrature_order = pylith.properties.int(default=None)
     quadrature_order.doc = "Order of numerical quadrature."
 
-    dimension = pylith.properties.int(default=-1)
+    dimension = pylith.properties.int(default=None)
     dimension.doc = "Topological dimension associated with subfield (=-1 will use dimension of domain)."
 
     finite_element_space = pylith.properties.str(default="polynomial")

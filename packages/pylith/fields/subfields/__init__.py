@@ -7,5 +7,22 @@
 #
 # See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
-from .SubfieldBasic import SubfieldBasic as basic
-from .SubfieldOptional import SubfieldOptional as optional
+import pylith
+
+
+@pylith.foundry(tip="Basic subfield")
+def basic(**kwds):
+    from .SubfieldBasic import SubfieldBasic
+    __doc__ = SubfieldBasic.__doc__
+    if kwds:
+        return SubfieldBasic(**kwds)
+    return SubfieldBasic
+
+
+@pylith.foundry(tip="Optional subfield")
+def optional(**kwds):
+    from .SubfieldOptional import SubfieldOptional
+    __doc__ = SubfieldOptional.__doc__
+    if kwds:
+        return SubfieldOptional(**kwds)
+    return SubfieldOptional

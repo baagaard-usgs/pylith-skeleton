@@ -9,8 +9,47 @@
 # =================================================================================================
 from journal import *
 
-from .InfoFactory import InfoFactory as info_factory
-from .WarningFactory import WarningFactory as warning_factory
-from .ErrorFactory import ErrorFactory as error_factory
-from .FirewallFactory import FirewallFactory as firewall_factory
-from .DebugFactory import DebugFactory as debug_factory
+
+def info_factory():
+    try:
+        from .InfoFactory import InfoFactory
+    except ImportError:
+        return
+    __doc__ = InfoFactory.__doc__
+    return InfoFactory
+
+
+def warning_factory():
+    try:
+        from .WarningFactory import WarningFactory
+    except ImportError:
+        return
+    __doc__ = WarningFactory.__doc__
+    return WarningFactory
+
+
+def error_factory():
+    try:
+        from .ErrorFactory import ErrorFactory
+    except ImportError:
+        return
+    __doc__ = ErrorFactory.__doc__
+    return ErrorFactory
+
+
+def firewall_factory():
+    try:
+        from .FirewallFactory import FirewallFactory
+    except ImportError:
+        return
+    __doc__ = FirewallFactory.__doc__
+    return FirewallFactory
+
+
+def debug_factory():
+    try:
+        from .DebugFactory import DebugFactory
+    except ImportError:
+        return
+    __doc__ = DebugFactory.__doc__
+    return DebugFactory

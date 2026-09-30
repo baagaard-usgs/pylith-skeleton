@@ -11,10 +11,10 @@ import pylith
 
 from .. import protocols
 from ..protocols.mesh_initializers import distributor, reordering
-from ..protocols.meshing import refiner, interfaces
+from ..protocols.meshing import refiner, interface_creator
 
 from .. import mesh_io
-from ..meshing import refiners, insert_interfaces
+from ..meshing import refiners, interface_creators
 from . import distributors, reorderings
 
 
@@ -31,8 +31,8 @@ class InitializerSerial(
     distribute_mesh = distributor(default=distributors.petsc)
     distribute_mesh.doc = "Distribute mesh."
 
-    insert_interfaces = interfaces(default=insert_interfaces.create_cohesive_cells)
-    insert_interfaces.doc = "Insert interior interfaces."
+    insert_interface = interface_creator(default=interface_creators.create_cohesive_cells)
+    insert_interface.doc = "Insert interior interfaces."
 
     refine_mesh = refiner(default=refiners.uniform)
     refine_mesh.doc = "Refine mesh."
@@ -48,7 +48,7 @@ class InitializerSerial(
                 f"read mesh = {self.read_mesh}",
                 f"reorder mesh = {self.reorder_mesh}",
                 f"distribute mesh = {self.distribute_mesh}",
-                f"insert interfaces = {self.insert_interfaces}",
+                f"insert interfaces = {self.insert_interface}",
                 f"refine mesh = {self.refine_mesh}",
             )
         )

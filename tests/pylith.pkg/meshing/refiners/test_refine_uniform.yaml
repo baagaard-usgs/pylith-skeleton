@@ -1,0 +1,5 @@
+test_subject:
+  refiner: uniform#refine_uniform
+
+pylith.meshing.refiners.uniform#refine_uniform:
+  levels: 2

@@ -1,0 +1,7 @@
+test_subject:
+  subfield: optional#body_force
+
+pylith.fields.subfields.optional#body_force:
+  alias: body_force
+  enabled: True
+  discretization.basis_order: 3

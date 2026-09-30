@@ -19,7 +19,7 @@ class SubfieldOptional(pylith.component, implements=fields.subfield, family="pyl
     enabled = pylith.properties.bool(default=False)
     enabled.doc = "Turn on/off use of subfield."
 
-    alias = pylith.properties.str()
+    alias = pylith.properties.str(default=None)
     alias.doc = "User preferred name of Subfield (used in output)."
 
     discretization = fields.discretization(default=petsc)

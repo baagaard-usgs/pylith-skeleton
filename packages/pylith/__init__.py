@@ -18,9 +18,12 @@ from pyre import (
     provides,
     # manager of pyre runtime
     executive,
+    loadConfiguration,
     # shells
     application,
     plexus,
+    # helper functions
+    reset,
 )
 
 package = executive.registerPackage(name="pylith", file=__file__)

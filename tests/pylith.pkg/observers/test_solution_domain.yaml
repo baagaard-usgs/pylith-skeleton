@@ -1,0 +1,6 @@
+test_subject:
+  observer: solution_domain#observer_domain
+
+pylith.observers.solution_domain#observer_domain:
+  output_basis_order: 0
+  refine_levels: 1

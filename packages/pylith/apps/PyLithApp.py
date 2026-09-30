@@ -1,20 +1,19 @@
 import pylith
 
-from pylith.metadata import metadata as app_metadata
+from pylith.metadata import simulation_metadata
 
-from pylith.problems import problem
+from pylith import protocols
 from pylith.problems import time_dependent
 
 
 class PyLithApp(pylith.application):
     """Application for running PyLith simulations."""
 
-    metadata = app_metadata()
+    metadata = simulation_metadata()
     metadata.doc = "Application metadata"
 
-    # :TODO: Remove list
     problems = pylith.properties.list(
-        schema=problem(default=time_dependent),
+        schema=protocols.problem(default=time_dependent),
         default=[time_dependent(name="problem")],
     )
     problems.doc = "Problems to solve."

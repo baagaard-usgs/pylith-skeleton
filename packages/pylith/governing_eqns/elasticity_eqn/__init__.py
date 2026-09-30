@@ -7,4 +7,3 @@
 #
 # See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
-from .ElasticityEqn import ElasticityEqn as elasticity_eqn

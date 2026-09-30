@@ -11,10 +11,9 @@ import pylith
 
 
 @pylith.foundry(tip="Elasticity governing equation")
-def elasticity():
-    try:
-        from .elasticity_eqn import elasticity_eqn
-    except ImportError:
-        return
-    __doc__ = elasticity_eqn.__doc__
-    return elasticity_eqn
+def elasticity(**kwds):
+    from .Elasticity import Elasticity
+    __doc__ = Elasticity.__doc__
+    if kwds:
+        return Elasticity(**kwds)
+    return Elasticity

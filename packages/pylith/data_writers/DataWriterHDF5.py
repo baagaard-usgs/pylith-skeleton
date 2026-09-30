@@ -15,8 +15,8 @@ from .DataWriterBase import DataWriterBase
 class DataWriterHDF5(DataWriterBase, family="pylith.data_writers.hdf5"):
     """VTK data writer."""
 
-    uri = pylith.properties.uri()
-    uri.doc = "Name of VTK file."
+    uri = pylith.properties.uri(default=None)
+    uri.doc = "Name of HDF5 file."
 
     def __init__(self, name, locator, implicit, **kwds):
         """Constructor."""

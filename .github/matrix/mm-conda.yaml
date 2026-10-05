@@ -1,0 +1,23 @@
+# -*- yaml -*-
+# -*- coding: utf-8 -*-
+#
+# Adapted from pyre.
+
+
+# configuration for the {mm} build of pylith against a conda-forge toolchain
+mm:
+    # use conda for package dependencies
+    pkgdb: conda
+    # build straight in to the conda environment
+    mode: conda
+    # intermediate build products
+    bldroot: /home/runner/work/build
+    # targets
+    target: "{pyre.environ.target},shared"
+    # compilers
+    compilers: "{pyre.environ.suite}, python/python3"
+    # the name of the make utility; conda-forge make satisfies the >= 4.4 requirement
+    make: make
+
+
+# end of file

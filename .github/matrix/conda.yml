@@ -1,0 +1,41 @@
+# -*- yaml -*-
+# -*- coding: utf-8 -*-
+#
+# Adapted from pyre.
+
+
+# the conda-forge environment with the pylith-skeleton build dependencies; the per-matrix
+# toolchain (gcc/clang) is layered on top of this base by the workflow, so they are deliberately absent here
+
+# the environment name must not collide with the name of any project in {.mm}: {mm} seeds its
+# configuration search with {$(user.environment).mm}, and the project config directory is on
+# make's include path, so an environment named {pylith} makes the engine read {.mm/pylith.mm} as a
+# user config file, long before {extern.available} exists
+name: conda-pr
+
+# stick to conda-forge only
+channels:
+  - conda-forge
+
+# packages
+dependencies:
+  # the build driver: conda-forge ships GNU make >= 4.4, which mm needs for {.WAIT}
+  - make
+  # the interpreter and its build-time helpers
+  - python
+  # pin the standard ABI; left to itself the solver prefers the free-threaded {cp314t} build,
+  # whose headers live in {include/python3.14t} rather than {include/python3.14}
+  - python-gil
+  - pybind11
+  - pyyaml
+  # the round trip editor of yaml documents rides on it; optional, but the tests want it
+  - ruamel.yaml
+  # the native external packages
+  - hdf5
+  # numpy, for the gsl test suite
+  - numpy
+  # {pyre.platforms} discovers mpi in the environment through its conda engine
+  - openmpi
+
+
+# end of file

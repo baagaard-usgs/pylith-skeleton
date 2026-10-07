@@ -10,5 +10,6 @@ pylith.pytest.runner        := pytest
 # pylith must be installed and importable before tests run
 pylith.pytest.prerequisites := pylith.pkg
 
+pylith.pytest.clean :=
 
 # end of file

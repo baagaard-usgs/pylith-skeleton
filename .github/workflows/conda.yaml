@@ -73,7 +73,7 @@ jobs:
         uses: mamba-org/setup-micromamba@v3
         with:
           micromamba-version: latest
-          environment-file: pylith-skeleton/.github/matrix/conda.yml
+          environment-file: pylith-skeleton/.github/matrix/conda.yaml
           # conda-forge only, with strict priority so nothing leaks in from defaults
           condarc: |
             channels:
@@ -96,18 +96,17 @@ jobs:
           echo " -- python"
           python --version
 
-      # QUESTION: pyre or pylith?
       - name: configure mm
         run: |
           echo " -- creating the mm configuration directory"
-          mkdir -p ~/.pyre
-          echo " -- installing the mm configuration as ~/.pyre/mm.yaml so mm auto-discovers it"
-          cp pyre/.github/matrix/mm-conda.yaml ~/.pyre/mm.yaml
+          mkdir -p ~/.pylith
+          echo " -- installing the mm configuration as ~/.pylith/mm.yaml so mm auto-discovers it"
+          cp pylith-skeleton/.github/matrix/mm-conda.yaml ~/.pylith/mm.yaml
 
       - name: package database
         run: |
           echo " -- switching to the pylith source directory"
-          cd pylith-skelton
+          cd pylith-skeleton
           echo " -- discovering the conda packages"
           ${mm} --setup
           echo " -- where the build products will be deposited"
@@ -122,6 +121,7 @@ jobs:
           ${mm} extern.python.info
           ${mm} extern.pybind11.info
           ${mm} extern.hdf5.info
+          ${mm} extern.mpi.info
 
       - name: build pyre
         run: |

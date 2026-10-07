@@ -62,7 +62,7 @@ jobs:
       - name: install dependencies
         run: |
           python${pythonVersion} -m pip install --upgrade pip
-          pip3 install pybind11 PyYAML ruamel.yaml numpy
+          pip3 install pybind11 PyYAML ruamel.yaml
         env:
           pythonVersion: ${{matrix.python}}
 
@@ -119,6 +119,8 @@ jobs:
         run: |
           echo " -- cloning mm"
           git clone https://github.com/aivazis/mm
+          echo " -- cloning pyre"
+          git clone https://github.com/pyre/pyre
           echo " -- cloning pyre"
           git clone https://github.com/pyre/pyre
 

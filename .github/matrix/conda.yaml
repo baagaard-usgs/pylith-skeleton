@@ -32,10 +32,10 @@ dependencies:
   - ruamel.yaml
   # the native external packages
   - hdf5
-  # numpy, for the gsl test suite
-  - numpy
   # {pyre.platforms} discovers mpi in the environment through its conda engine
   - openmpi
+  # test runner
+  - pytest
 
 
 # end of file

@@ -10,5 +10,6 @@ spatialdata.pytest.runner        := pytest
 # spatialdata must be installed and importable before tests run
 spatialdata.pytest.prerequisites := spatialdata.pkg
 
+spatialdata.pytest.clean :=
 
 # end of file

@@ -48,6 +48,7 @@ pylith_app.problem.governing_eqn:
     adaptive_ts.enabled: True
   boundary_conditions:
     - dirichlet#bc_xneg
+    - dirichlet#bc_yneg
     - neumann#bc_xpos
   materials:
     - isotropic_linear#crust
@@ -64,8 +65,7 @@ crust:
     shear_modulus.discretization.basis_order: 0
     reference_state:
       enabled: True
-      refrence_stress.discretization.basis_order: 0
-      reference_strain.discretization.basis_order: 0
+      reference_stress.discretization.basis_order: 0
 
 # -----------------------------------------------------------------------------
 # Boundary conditions

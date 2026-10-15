@@ -1,3 +1,11 @@
+# =================================================================================================
+# This code is part of PyLith, developed through the Computational Infrastructure
+# for Geodynamics (https://github.com/geodynamics/pylith).
+#
+# Copyright (c) 2010-2026 All rights reserved.
+#
+# See https://mit-license.org/ and LICENSE.md and for license information.
+# =================================================================================================
 # Default settings for the PyLith application.
 
 # -----------------------------------------------------------------------------
@@ -117,3 +125,6 @@ pylith_app.problem.governing_eqn.solver.petsc_options:
   tolerances: pylith.petsc.options.group_list#solver_tolerances
   adaptive_ts: pylith.petsc.options.group_list#solver_adaptive_ts
   monitoring: pylith.petsc.options.group_list#solver_monitoring
+
+
+# End of file

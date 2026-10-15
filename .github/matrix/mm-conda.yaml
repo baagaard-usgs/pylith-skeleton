@@ -1,7 +1,12 @@
-# -*- yaml -*-
-# -*- coding: utf-8 -*-
+# =================================================================================================
+# This code is part of PyLith, developed through the Computational Infrastructure
+# for Geodynamics (https://github.com/geodynamics/pylith).
 #
-# Adapted from pyre.
+# Copyright (c) 2010-2026 All rights reserved.
+#
+# See https://mit-license.org/ and LICENSE.md and for license information.
+# =================================================================================================
+# Adapted from Pyre.
 
 
 # configuration for the {mm} build of pylith against a conda-forge toolchain
@@ -20,4 +25,4 @@ mm:
     make: make
 
 
-# end of file
+# End of file

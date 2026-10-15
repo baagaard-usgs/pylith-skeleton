@@ -1,3 +1,12 @@
+# =================================================================================================
+# This code is part of PyLith, developed through the Computational Infrastructure
+# for Geodynamics (https://github.com/geodynamics/pylith).
+#
+# Copyright (c) 2010-2026 All rights reserved.
+#
+# See https://mit-license.org/ and LICENSE.md and for license information.
+# =================================================================================================
+
 import pathlib
 
 import pytest
@@ -22,3 +31,6 @@ def test_traits_yaml(load_yaml, local_test_subject):
     test_subject = local_test_subject(name="test_subject")
     source_fn = test_subject.source_fn
     assert source_fn.__class__ == source_time_fns.ConstantRate.ConstantRate
+
+
+# End of file

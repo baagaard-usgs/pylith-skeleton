@@ -1,3 +1,12 @@
+# =================================================================================================
+# This code is part of PyLith, developed through the Computational Infrastructure
+# for Geodynamics (https://github.com/geodynamics/pylith).
+#
+# Copyright (c) 2010-2026 All rights reserved.
+#
+# See https://mit-license.org/ and LICENSE.md and for license information.
+# =================================================================================================
+
 import pathlib
 
 import pytest
@@ -28,3 +37,6 @@ def test_traits_yaml(load_yaml, local_test_subject):
     assert ic.subfields == ["velocity", "fluid_pressure"]
     assert ic.label_name == "test_patch"
     assert ic.label_value == 2
+
+
+# End of file

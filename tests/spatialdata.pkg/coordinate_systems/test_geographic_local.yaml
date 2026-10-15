@@ -1,3 +1,12 @@
+# =================================================================================================
+# This code is part of PyLith, developed through the Computational Infrastructure
+# for Geodynamics (https://github.com/geodynamics/pylith).
+#
+# Copyright (c) 2010-2026 All rights reserved.
+#
+# See https://mit-license.org/ and LICENSE.md and for license information.
+# =================================================================================================
+
 test_subject:
   cs: geographic_local#geo_local_2d
 
@@ -7,3 +16,6 @@ spatialdata.coordinate_systems.geographic_local#geo_local_2d:
   origin_x: 1.0
   origin_y: 2.0
   y_azimuth: 3.0
+
+
+# End of file

@@ -42,7 +42,7 @@
 3. The subfields of the solution field are set based on the governing equation used.
    1. Elasticity: displacement (no fault), displacement + Lagrange multiplier (with fault);
    2. Incompressible elasticity: displacement + pressure (no fault).
-   3. Poroelasticity: displacement, fluid pressure, trace strain (no fault), displacement, fluid pressure, trace strain, Lagrange multipler (with fault).
+   3. Poroelasticity: displacement, fluid pressure, trace strain (no fault), displacement, fluid pressure, trace strain, Lagrange multiplier (with fault).
 4. Subfield need not have values at points, for example, the Lagrange multiplier field only exists for degrees of freedom on cohesive cells (interior interfaces).
 5. Integration of terms in the finite-element weak form is done by Integrators (domain, boundary, interface). The physics is implemented via point-wise functions (integration of terms in weak form; projection of fields for output) associated with each material, boundary condition, and interface. Point-wise functions are passed the auxiliary field and the solution field evaluated at the (quadrature) point.
 6. Can have an arbitrary number of boundary conditions, initial conditions, and interior interfaces.

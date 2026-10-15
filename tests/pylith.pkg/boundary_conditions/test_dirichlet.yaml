@@ -1,3 +1,12 @@
+# =================================================================================================
+# This code is part of PyLith, developed through the Computational Infrastructure
+# for Geodynamics (https://github.com/geodynamics/pylith).
+#
+# Copyright (c) 2010-2026 All rights reserved.
+#
+# See https://mit-license.org/ and LICENSE.md and for license information.
+# =================================================================================================
+
 test_subject:
   bc: dirichlet#bc_north
 
@@ -6,3 +15,6 @@ pylith.boundary_conditions.dirichlet#bc_north:
   label_name: boundary_north
   label_value: 2
   constrained_dof: [x, y]
+
+
+# End of file

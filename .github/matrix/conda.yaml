@@ -1,12 +1,16 @@
-# -*- yaml -*-
-# -*- coding: utf-8 -*-
+# =================================================================================================
+# This code is part of PyLith, developed through the Computational Infrastructure
+# for Geodynamics (https://github.com/geodynamics/pylith).
 #
+# Copyright (c) 2010-2026 All rights reserved.
+#
+# See https://mit-license.org/ and LICENSE.md and for license information.
+# =================================================================================================
 # Adapted from pyre.
-
-
+#
 # the conda-forge environment with the pylith-skeleton build dependencies; the per-matrix
 # toolchain (gcc/clang) is layered on top of this base by the workflow, so they are deliberately absent here
-
+#
 # the environment name must not collide with the name of any project in {.mm}: {mm} seeds its
 # configuration search with {$(user.environment).mm}, and the project config directory is on
 # make's include path, so an environment named {pylith} makes the engine read {.mm/pylith.mm} as a
@@ -38,4 +42,4 @@ dependencies:
   - pytest
 
 
-# end of file
+# End of file

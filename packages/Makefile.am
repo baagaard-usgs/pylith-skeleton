@@ -20,3 +20,6 @@ endif
 
 install-exec-local: make-manifest
 	$(PYTHON) -m pip install --no-build-isolation $(top_srcdir)
+
+
+# End of file

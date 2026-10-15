@@ -2,8 +2,7 @@
 # This code is part of PyLith, developed through the Computational Infrastructure
 # for Geodynamics (https://github.com/geodynamics/pylith).
 #
-# Copyright (c) 2010-2025, University of California, Davis and the PyLith Development Team.
-# All rights reserved.
+# Copyright (c) 2010-2026 All rights reserved.
 #
 # See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
@@ -20,7 +19,7 @@ class OutputTriggerTime(pyre.component, implements=output_trigger, family="pylit
 
     elapsed_time = pylith.properties.dimensional(default=0 * year)
     elapsed_time.validators = pyre.constraints.isGreaterEqual(value=0 * year)
-    elapsed_time.doc = "Elasped time between writes."
+    elapsed_time.doc = "Elapsed time between writes."
 
     def __init__(self, name, locator, implicit, **kwds):
         """Constructor."""
@@ -38,3 +37,6 @@ class OutputTriggerTime(pyre.component, implements=output_trigger, family="pylit
         todo = pylith.journal.debug_factory().todo()
         todo.report(("Implement OutputTriggerStep.__init__(). Pass parameters to C++.",))
         todo.log()
+
+
+# End of file

@@ -1,3 +1,12 @@
+# =================================================================================================
+# This code is part of PyLith, developed through the Computational Infrastructure
+# for Geodynamics (https://github.com/geodynamics/pylith).
+#
+# Copyright (c) 2010-2026 All rights reserved.
+#
+# See https://mit-license.org/ and LICENSE.md and for license information.
+# =================================================================================================
+
 test_subject:
   scales: dynamic_elasticity#elasticity_scales
 
@@ -6,3 +15,6 @@ pylith.scales.dynamic_elasticity#elasticity_scales:
   displacement_scale: 0.5*meter
   density: 2000.0*kg/meter**3
   shear_wave_speed: 2.5*km/second
+
+
+# End of file

@@ -1,3 +1,12 @@
+# =================================================================================================
+# This code is part of PyLith, developed through the Computational Infrastructure
+# for Geodynamics (https://github.com/geodynamics/pylith).
+#
+# Copyright (c) 2010-2026 All rights reserved.
+#
+# See https://mit-license.org/ and LICENSE.md and for license information.
+# =================================================================================================
+
 test_subject:
   interface: fault_cohesive_impulses#fault
 
@@ -10,3 +19,6 @@ pylith.interior_interfaces.fault_cohesive_impulses#fault:
   ref_dir_2: [1.0, 0.0, 0.0]
   threshold: 2.0e-3*meter
   impulse_dof: [0, 1]
+
+
+# End of file

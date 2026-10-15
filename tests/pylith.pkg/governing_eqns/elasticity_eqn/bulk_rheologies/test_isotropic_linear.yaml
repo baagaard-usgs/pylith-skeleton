@@ -1,3 +1,12 @@
+# =================================================================================================
+# This code is part of PyLith, developed through the Computational Infrastructure
+# for Geodynamics (https://github.com/geodynamics/pylith).
+#
+# Copyright (c) 2010-2026 All rights reserved.
+#
+# See https://mit-license.org/ and LICENSE.md and for license information.
+# =================================================================================================
+
 test_subject:
   material: isotropic_linear#iso_test
 
@@ -12,3 +21,6 @@ pylith.governing_eqns.elasticity_eqn.bulk_rheologies.isotropic_linear#iso_test:
   derived_subfields:
     cauchy_stress.enabled: True
     cauchy_strain.enabled: True
+
+
+# End of file

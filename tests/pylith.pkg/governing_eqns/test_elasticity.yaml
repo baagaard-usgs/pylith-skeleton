@@ -1,6 +1,18 @@
+# =================================================================================================
+# This code is part of PyLith, developed through the Computational Infrastructure
+# for Geodynamics (https://github.com/geodynamics/pylith).
+#
+# Copyright (c) 2010-2026 All rights reserved.
+#
+# See https://mit-license.org/ and LICENSE.md and for license information.
+# =================================================================================================
+
 test_subject:
   governing_eqn: elasticity#my_eqn
 
 pylith.governing_eqns.elasticity#my_eqn:
   materials: [isotropic_linear#crust, isotropic_linear#mantle]
   interior_interfaces: [fault_cohesive_kinematic]
+
+
+# End of file

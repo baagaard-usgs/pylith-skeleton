@@ -1,3 +1,12 @@
+# =================================================================================================
+# This code is part of PyLith, developed through the Computational Infrastructure
+# for Geodynamics (https://github.com/geodynamics/pylith).
+#
+# Copyright (c) 2010-2026 All rights reserved.
+#
+# See https://mit-license.org/ and LICENSE.md and for license information.
+# =================================================================================================
+
 import pathlib
 
 import pytest
@@ -34,3 +43,6 @@ def test_traits_yaml(load_yaml, local_test_subject):
     assert elasticity_scales.displacement_scale == 0.5 * meter
     assert elasticity_scales.density == 2000.0 * kg / meter**3
     assert elasticity_scales.shear_wave_speed == 2.5 * km / second
+
+
+# End of file

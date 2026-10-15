@@ -1,3 +1,12 @@
+# =================================================================================================
+# This code is part of PyLith, developed through the Computational Infrastructure
+# for Geodynamics (https://github.com/geodynamics/pylith).
+#
+# Copyright (c) 2010-2026 All rights reserved.
+#
+# See https://mit-license.org/ and LICENSE.md and for license information.
+# =================================================================================================
+
 import pathlib
 
 import pytest
@@ -35,3 +44,6 @@ def test_traits_yaml(load_yaml, local_test_subject):
     assert initializer.distribute_mesh.__class__ == distributors.DistributorPetsc.DistributorPetsc
     assert initializer.insert_interface.__class__ == interface_creators.CreateCohesiveCells.CreateCohesiveCells
     assert initializer.refine_mesh.__class__ == refiners.RefineUniform.RefineUniform
+
+
+# End of file

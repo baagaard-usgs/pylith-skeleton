@@ -1,3 +1,12 @@
+# =================================================================================================
+# This code is part of PyLith, developed through the Computational Infrastructure
+# for Geodynamics (https://github.com/geodynamics/pylith).
+#
+# Copyright (c) 2010-2026 All rights reserved.
+#
+# See https://mit-license.org/ and LICENSE.md and for license information.
+# =================================================================================================
+
 import pathlib
 
 import pytest
@@ -46,3 +55,6 @@ def test_traits_yaml(load_yaml, local_test_subject):
     lagrange_multiplier_fault = solution.lagrange_multiplier_fault
     assert lagrange_multiplier_fault.alias == "lagrange_multiplier"
     assert lagrange_multiplier_fault.discretization.basis_order == 1
+
+
+# End of file

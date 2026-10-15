@@ -1,3 +1,12 @@
+# =================================================================================================
+# This code is part of PyLith, developed through the Computational Infrastructure
+# for Geodynamics (https://github.com/geodynamics/pylith).
+#
+# Copyright (c) 2010-2026 All rights reserved.
+#
+# See https://mit-license.org/ and LICENSE.md and for license information.
+# =================================================================================================
+
 test_subject:
   db: analytic#analytic_properties
 
@@ -16,3 +25,6 @@ spatialdata.spatial_databases.analytic_values.basic#vs:
   units: m/s
   expression: x + y
   coord_sys: geographic
+
+
+# End of file

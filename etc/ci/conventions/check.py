@@ -1,9 +1,13 @@
 #!/usr/bin/env python3
-# -*- Python -*-
-# -*- coding: utf-8 -*-
+# =================================================================================================
+# This code is part of PyLith, developed through the Computational Infrastructure
+# for Geodynamics (https://github.com/geodynamics/pylith).
 #
-# michael a.g. aïvázis <michael.aivazis@para-sim.com>
-# (c) 1998-2026 all rights reserved
+# Copyright (c) 2010-2026 All rights reserved.
+#
+# See https://mit-license.org/ and LICENSE.md and for license information.
+# =================================================================================================
+# Based on corresponding code in Pyre.
 
 
 # externals
@@ -15,15 +19,22 @@ import subprocess
 import sys
 
 # the description of the program, for the help screen
-DESCRIPTION = """
-Check a checkout against the conventions of the repository: spelling, the formatting of python
-and c++ sources, file preambles and closing markers, and, given the branch the work is based on,
-the commits on top of it and the copyright year of the files they touch. The same checks run on
-every pull request; running them before pushing saves a round trip
+DESCRIPTION = """Check a checkout against the conventions of the repository:
+  (1) spelling,
+  (2) the formatting of Python and C++ sources,
+  (3) file preambles and closing markers, and
+  (4) commit messages,
+The same checks also run on every pull request.
 """
 
 # the checks, in the order they run
 CHECKS = ("spelling", "python", "cxx", "preambles", "commits")
+
+# black formatting options
+BLACK_OPTIONS = (
+    "--line-length",
+    "120",
+)
 
 # the sources whose preambles and closing markers are checked, by extension
 SOURCES = (
@@ -54,25 +65,19 @@ SUBJECT = re.compile(rf"^{AREA}(, ?{AREA})*: \S")
 # control, such as the dependency updates dependabot proposes
 BOTS = ("dependabot[bot]",)
 # the copyright line, with any closing year
-COPYRIGHT = re.compile(r"\(c\) 1998-(\d{4}) all rights reserved")
+COPYRIGHT = re.compile(r"\(c\) 2010-(\d{4}) All rights reserved.")
 
 
 class ConventionError(Exception):
-    """
-    The base class of the reasons a check could not run
-    """
+    """The base class of the reasons a check could not run."""
 
 
 class ToolError(ConventionError):
-    """
-    A tool a check relies on is missing
-    """
+    """A tool a check relies on is missing."""
 
 
 def run(*, command: list, cwd: str) -> subprocess.CompletedProcess:
-    """
-    Run {command} in {cwd} and capture what it says, complaining if the tool is missing
-    """
+    """Run {command} in {cwd} and capture what it says, complaining if the tool is missing."""
     # attempt to
     try:
         # run the command
@@ -80,15 +85,11 @@ def run(*, command: list, cwd: str) -> subprocess.CompletedProcess:
     # if the tool is not installed
     except FileNotFoundError as error:
         # say which one, and where to get it
-        raise ToolError(
-            f"'{command[0]}' is not installed; see etc/ci/conventions/requirements.txt"
-        ) from error
+        raise ToolError(f"'{command[0]}' is not installed; see etc/ci/conventions/requirements.txt") from error
 
 
 def tracked(*, root: str, extensions: tuple = (), exempt: tuple = ()) -> list:
-    """
-    The files git tracks under {root}, narrowed to {extensions} and outside the {exempt} trees
-    """
+    """The files git tracks under {root}, narrowed to {extensions} and outside the {exempt} trees."""
     # ask git
     names = run(command=["git", "ls-files"], cwd=root).stdout.split("\n")
     # keep the ones of interest
@@ -103,9 +104,7 @@ def tracked(*, root: str, extensions: tuple = (), exempt: tuple = ()) -> list:
 
 
 def spelling(*, root: str, base: str | None) -> list:
-    """
-    Spell check the prose of every tracked file, with the exclusions in {pyproject.toml}
-    """
+    """Spell check the prose of every tracked file, with the exclusions in {pyproject.toml}."""
     # the files
     files = tracked(root=root)
     # check them
@@ -116,7 +115,7 @@ def spelling(*, root: str, base: str | None) -> list:
     if problems:
         # a word codespell does not know is either a typo or belongs on the reviewed lists
         problems.append(
-            "fix the typos; a real word goes in etc/ci/conventions/codespell-words.txt, and a "
+            "Fix the typos; a real word goes in etc/ci/conventions/codespell-words.txt, and a "
             "line that is right as it is goes in etc/ci/conventions/codespell-lines.txt"
         )
     # hand off the complaints
@@ -124,14 +123,12 @@ def spelling(*, root: str, base: str | None) -> list:
 
 
 def python(*, root: str, base: str | None) -> list:
-    """
-    Check that every tracked python source is formatted by black
-    """
+    """Check that every tracked python source is formatted by black."""
     # the files
     files = tracked(root=root, extensions=(".py",))
     # check them
     # the exclusions in {pyproject.toml} apply even to files named on the command line
-    result = run(command=["black", "--check", *files], cwd=root)
+    result = run(command=["black", *BLACK_OPTIONS, "--check", *files], cwd=root)
     # black names each file it would change
     problems = [line for line in result.stderr.split("\n") if line.startswith("would reformat")]
     # a failure that named no file is a failure of black itself
@@ -145,25 +142,22 @@ def python(*, root: str, base: str | None) -> list:
 
 
 def cxx(*, root: str, base: str | None) -> list:
-    """
-    Check that every tracked c++ source is formatted by clang-format
-    """
+    """Check that every tracked c++ source is formatted by clang-format."""
     # the files
     files = tracked(root=root, extensions=CXX, exempt=EXEMPT)
     # check them
+    if not files:
+        return []
     result = run(command=["clang-format", "--dry-run", *files], cwd=root)
     # clang-format warns once per change it would make; one complaint per file is enough
-    names = sorted(
-        {line.split(":")[0] for line in result.stderr.split("\n") if ": warning:" in line}
-    )
+    names = sorted({line.split(":")[0] for line in result.stderr.split("\n") if ": warning:" in line})
     # hand off the complaints
     return [f"{name}: not formatted by clang-format" for name in names]
 
 
 def preambles(*, root: str, base: str | None) -> list:
-    """
-    Check that every tracked source opens with a copyright line and closes with an end of file
-    marker, and that the files touched since {base} carry the current year
+    """Check that every tracked source opens with a copyright line and closes with an end of file
+    marker, and that the files touched since {base} carry the current year.
     """
     # the complaints
     problems = []
@@ -180,13 +174,11 @@ def preambles(*, root: str, base: str | None) -> list:
             # as lines
             lines = stream.read().split("\n")
         # the copyright line sits in the preamble, near the top
-        copyright = next(
-            (COPYRIGHT.search(line) for line in lines[:12] if COPYRIGHT.search(line)), None
-        )
+        copyright = next((COPYRIGHT.search(line) for line in lines[:12] if COPYRIGHT.search(line)), None)
         # a file without one
         if copyright is None:
             # is missing its preamble
-            problems.append(f"{name}: no '(c) 1998-{year} all rights reserved' in its preamble")
+            problems.append(f"{name}: no '(c) 2010-{year} All rights reserved.' in its preamble")
         # a file touched by the work
         elif name in touched and copyright.group(1) != year:
             # carries the current year
@@ -196,16 +188,15 @@ def preambles(*, root: str, base: str | None) -> list:
         # is the closing marker, in the comment syntax of the file
         if not last.lower().removesuffix("*/").strip().endswith("end of file"):
             # or else the file is not closed
-            problems.append(f"{name}: does not end with an 'end of file' marker")
+            problems.append(f"{name}: does not end with an 'End of file' marker.")
     # hand off the complaints
     return problems
 
 
 def commits(*, root: str, base: str | None) -> list:
-    """
-    Check the commits since {base}: a subject that names its area and says what the commit does,
+    """Check the commits since {base}: a subject that names its area and says what the commit does,
     and nothing after it; the commits of the bots in {BOTS}, whose messages are beyond our
-    control, are left out
+    control, are left out.
     """
     # without a base there is nothing to check
     if not base:
@@ -254,9 +245,7 @@ def changed(*, root: str, base: str) -> list:
     The files added or modified since {base}
     """
     # ask git
-    result = run(
-        command=["git", "diff", "--name-only", "--diff-filter=AM", f"{base}...HEAD"], cwd=root
-    )
+    result = run(command=["git", "diff", "--name-only", "--diff-filter=AM", f"{base}...HEAD"], cwd=root)
     # hand off the names
     return [name for name in result.stdout.split("\n") if name]
 
@@ -271,22 +260,20 @@ def parse() -> argparse.Namespace:
     parser.add_argument(
         "--base",
         default=None,
-        help="the branch the work is based on, e.g. origin/main; enables the commit and year checks",
+        help="The branch the work is based on, e.g. origin/main; enables the commit and year checks",
     )
     # a subset of the checks
     parser.add_argument(
         "--only",
         default=",".join(CHECKS),
-        help=f"a comma separated subset of the checks: {', '.join(CHECKS)}",
+        help=f"A comma separated subset of the checks: {', '.join(CHECKS)}",
     )
     # parse and hand off
     return parser.parse_args()
 
 
 def main() -> int:
-    """
-    Run the requested checks and report what each one found
-    """
+    """Run the requested checks and report what each one found."""
     # read the command line
     options = parse()
     # the top of the checkout
@@ -300,7 +287,7 @@ def main() -> int:
     # so refuse it
     if unknown:
         # say which
-        print(f"unknown checks: {', '.join(unknown)}; the checks are {', '.join(CHECKS)}")
+        print(f"Unknown checks: {', '.join(unknown)}; the checks are {', '.join(CHECKS)}")
         # and bail
         return 2
     # the number of checks that found something
@@ -316,7 +303,7 @@ def main() -> int:
             # it counts as a failure
             problems = [str(error)]
         # report the verdict
-        print(f"{name}: {'ok' if not problems else f'{len(problems)} problems'}")
+        print(f"{name}: {'OK' if not problems else f'{len(problems)} problems'}")
         # and the details
         for problem in problems:
             # one per line
@@ -333,4 +320,4 @@ if __name__ == "__main__":
     sys.exit(main())
 
 
-# end of file
+# End of file

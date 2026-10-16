@@ -37,6 +37,13 @@ mm.activate() {
 - `mm.branch` (activates `{compiler}/{project}/{branch}` build and installation)
 - `mm.clear` (deactivates branch setup)
 
+`mm --tag=foo` to manually set tag (project/branch)
+`source `mm --tag=foo --activate`` to activate tag `foo`
+
+`mm pyre.fedora-gcc.launch` to launch docker image (launch=interactive, build, run=run tests)
+
+Claude: What are useful targets that would be build useful things?
+
 ## Configuration
 
 ```make

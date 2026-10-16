@@ -1,3 +1,12 @@
+# =================================================================================================
+# This code is part of PyLith, developed through the Computational Infrastructure
+# for Geodynamics (https://github.com/geodynamics/pylith).
+#
+# Copyright (c) 2010-2026 All rights reserved.
+#
+# See https://mit-license.org/ and LICENSE.md and for license information.
+# =================================================================================================
+
 test_subject:
   bc: neumann#bc_south
 
@@ -8,3 +17,6 @@ pylith.boundary_conditions.neumann#bc_south:
   scale_name: displacement
   ref_dir_1: [1, 0, 0]
   ref_dir_2: [0, 0, 1]
+
+
+# End of file

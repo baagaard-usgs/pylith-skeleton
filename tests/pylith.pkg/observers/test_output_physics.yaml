@@ -1,3 +1,12 @@
+# =================================================================================================
+# This code is part of PyLith, developed through the Computational Infrastructure
+# for Geodynamics (https://github.com/geodynamics/pylith).
+#
+# Copyright (c) 2010-2026 All rights reserved.
+#
+# See https://mit-license.org/ and LICENSE.md and for license information.
+# =================================================================================================
+
 test_subject:
   observer: output_physics#observer_material
 
@@ -6,3 +15,6 @@ pylith.observers.output_physics#observer_material:
   refine_levels: 2
   info_fields: ["shear_modulus", "bulk_modulus"]
   data_fields: ["cauchy_stress", "cauchy_strain"]
+
+
+# End of file

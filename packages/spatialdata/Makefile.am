@@ -18,3 +18,6 @@ EXTRA_DIST = \
 	journal/FirewallFactory.py \
 	journal/InfoFactory.py \
 	journal/WarningFactory.py
+
+
+# End of file

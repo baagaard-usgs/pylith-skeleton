@@ -1,3 +1,12 @@
+# =================================================================================================
+# This code is part of PyLith, developed through the Computational Infrastructure
+# for Geodynamics (https://github.com/geodynamics/pylith).
+#
+# Copyright (c) 2010-2026 All rights reserved.
+#
+# See https://mit-license.org/ and LICENSE.md and for license information.
+# =================================================================================================
+
 import pathlib
 
 import pytest
@@ -35,7 +44,10 @@ def test_traits_yaml(load_yaml, local_test_subject):
     problem = test_subject.problem
     assert problem.__class__ == problems.GreensFns.GreensFns
     assert problem.initialize_only == True
-    assert problem.scales.length_scale == 0.1*meter
+    assert problem.scales.length_scale == 0.1 * meter
     assert problem.mesh_initializer.__class__ == InitializerSerial.InitializerSerial
     assert problem.progress_monitor.update_percent == 10.0
     assert problem.governing_eqn.__class__ == Elasticity.Elasticity
+
+
+# End of file

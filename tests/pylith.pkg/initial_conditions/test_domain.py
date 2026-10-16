@@ -1,3 +1,12 @@
+# =================================================================================================
+# This code is part of PyLith, developed through the Computational Infrastructure
+# for Geodynamics (https://github.com/geodynamics/pylith).
+#
+# Copyright (c) 2010-2026 All rights reserved.
+#
+# See https://mit-license.org/ and LICENSE.md and for license information.
+# =================================================================================================
+
 import pathlib
 
 import pytest
@@ -14,7 +23,7 @@ def load_yaml():
 
 def test_traits_defaults():
     actor = initial_conditions.domain()
-    ic = actor()  # Component intsance
+    ic = actor()  # Component instance
     assert ic.__class__ == initial_conditions.InitialConditionDomain.InitialConditionDomain
     assert ic.subfields == ["displacement"]
 
@@ -24,3 +33,6 @@ def test_traits_yaml(load_yaml, local_test_subject):
     ic = test_subject.ic
     assert ic.__class__ == initial_conditions.InitialConditionDomain.InitialConditionDomain
     assert ic.subfields == ["displacement", "velocity"]
+
+
+# End of file

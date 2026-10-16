@@ -2,8 +2,7 @@
 # This code is part of PyLith, developed through the Computational Infrastructure
 # for Geodynamics (https://github.com/geodynamics/pylith).
 #
-# Copyright (c) 2010-2025, University of California, Davis and the SpatialData Development Team.
-# All rights reserved.
+# Copyright (c) 2010-2026 All rights reserved.
 #
 # See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
@@ -23,12 +22,12 @@ class ElasticityScales:
 
     @staticmethod
     def setQuasistaticElasticity(scales, lengthScale=100.0 * km, timeScale=year):
-        #scales.cxx.setQuasistaticElasticity(scales, lengthScale.value, timeScale.value)
+        # scales.cxx.setQuasistaticElasticity(scales, lengthScale.value, timeScale.value)
         return
 
     @staticmethod
     def setDynamicElasticity(scales, lengthScale=100.0 * km, velocityScale=3.0 * km / second):
-        #scales.cxx.setDynamicElasticity(scales, lengthScale.value, velocityScale.value)
+        # scales.cxx.setDynamicElasticity(scales, lengthScale.value, velocityScale.value)
         return
 
     @staticmethod

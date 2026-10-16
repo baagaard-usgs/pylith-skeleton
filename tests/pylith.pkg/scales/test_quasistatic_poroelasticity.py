@@ -1,3 +1,12 @@
+# =================================================================================================
+# This code is part of PyLith, developed through the Computational Infrastructure
+# for Geodynamics (https://github.com/geodynamics/pylith).
+#
+# Copyright (c) 2010-2026 All rights reserved.
+#
+# See https://mit-license.org/ and LICENSE.md and for license information.
+# =================================================================================================
+
 import pathlib
 
 import pytest
@@ -36,3 +45,6 @@ def test_traits_yaml(load_yaml, local_test_subject):
     assert poroelasticity_scales.shear_modulus == 5.0 * GPa
     assert poroelasticity_scales.viscosity == 0.0005 * pascal * second
     assert poroelasticity_scales.permeability == 5.0e-14 * meter**2
+
+
+# End of file

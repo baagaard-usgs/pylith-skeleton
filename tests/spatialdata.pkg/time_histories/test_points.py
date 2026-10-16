@@ -1,3 +1,12 @@
+# =================================================================================================
+# This code is part of PyLith, developed through the Computational Infrastructure
+# for Geodynamics (https://github.com/geodynamics/pylith).
+#
+# Copyright (c) 2010-2026 All rights reserved.
+#
+# See https://mit-license.org/ and LICENSE.md and for license information.
+# =================================================================================================
+
 import pathlib
 
 import pytest
@@ -13,7 +22,7 @@ def load_yaml():
 
 
 def test_traits_defaults():
-    th = time_histories.points() # Actor
+    th = time_histories.points()  # Actor
     assert th().__class__ == time_histories.Points.Points
     assert th.description is None
     assert th.uri is None
@@ -25,3 +34,6 @@ def test_traits_yaml(load_yaml, local_test_subject):
     assert th.__class__ == time_histories.Points.Points
     assert th.description == "Slip time history"
     assert str(th.uri) == "slip.timedb"
+
+
+# End of file

@@ -1,3 +1,12 @@
+# =================================================================================================
+# This code is part of PyLith, developed through the Computational Infrastructure
+# for Geodynamics (https://github.com/geodynamics/pylith).
+#
+# Copyright (c) 2010-2026 All rights reserved.
+#
+# See https://mit-license.org/ and LICENSE.md and for license information.
+# =================================================================================================
+
 test_subject:
   solution: fault#solution_field
 
@@ -11,3 +20,6 @@ pylith.governing_eqns.elasticity_eqn.solution_subfields.fault#solution_field:
   lagrange_multiplier_fault:
     alias: lagrange_multiplier
     discretization.basis_order: 1
+
+
+# End of file

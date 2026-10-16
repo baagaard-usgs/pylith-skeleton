@@ -1,3 +1,12 @@
+# =================================================================================================
+# This code is part of PyLith, developed through the Computational Infrastructure
+# for Geodynamics (https://github.com/geodynamics/pylith).
+#
+# Copyright (c) 2010-2026 All rights reserved.
+#
+# See https://mit-license.org/ and LICENSE.md and for license information.
+# =================================================================================================
+
 import pathlib
 
 import pytest
@@ -38,3 +47,6 @@ def test_traits_yaml(load_yaml, local_test_subject):
     assert value.units == meter / second
     assert value.expression == "x + y"
     assert value.coord_sys.pyre_family() == "spatialdata.coordinate_systems.geographic"
+
+
+# End of file

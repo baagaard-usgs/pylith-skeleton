@@ -2,8 +2,7 @@
 # This code is part of SpatialData, developed through the Computational Infrastructure
 # for Geodynamics (https://github.com/geodynamics/spatialdata).
 #
-# Copyright (c) 2010-2025, University of California, Davis and the SpatialData Development Team.
-# All rights reserved.
+# Copyright (c) 2010-2026 All rights reserved.
 #
 # See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
@@ -31,7 +30,7 @@ def write(data: dict, filename: str):
     from ._spatial_databases import SimpleWriter as CxxSimpleWriter
     from ._spatial_databases import SimpleData as CssSimpleData
 
-    (numLocs, spaceDim) = data["points"].shape
+    numLocs, spaceDim = data["points"].shape
     dataDim = data["data_dim"]
     numValues = len(data["values"])
     names = [value["name"] for value in data["values"]]
@@ -49,3 +48,6 @@ def write(data: dict, filename: str):
     cxxData.setData(data["points"], values)
 
     CxxSimpleWriter.write(cxxData, filename)
+
+
+# End of file

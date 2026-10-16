@@ -1,0 +1,222 @@
+# =================================================================================================
+# This code is part of PyLith, developed through the Computational Infrastructure
+# for Geodynamics (https://github.com/geodynamics/pylith).
+#
+# Copyright (c) 2010-2026 All rights reserved.
+#
+# See https://mit-license.org/ and LICENSE.md and for license information.
+# =================================================================================================
+# Adapted from pyre.
+
+
+name: pr-conda
+# invoke
+on:
+  # when a commit to a PR is made
+  pull_request:
+  # and manually
+  workflow_dispatch:
+
+# a new push to a pull request replaces the runs of the commits it supersedes, so they stop
+# holding runners; runs for any other event are never cancelled
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  # build and test the ref that launched this action against a conda-forge toolchain
+  build:
+    name: >-
+      ${{matrix.target}}
+      ${{matrix.compiler}}
+      on ${{matrix.os}}
+    runs-on: ${{matrix.os}}
+    # a login shell so the micromamba environment is active in every step
+    defaults:
+      run:
+        shell: bash -el {0}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest]
+        target: [debug, opt]
+        compiler: [gcc, clang]
+        include:
+          - target: debug
+            assertions: yes
+          - target: opt
+            assertions: no
+          - compiler: gcc
+            suite: gcc
+            toolchain: gcc gxx
+            cc: gcc
+            cxx: g++
+          - compiler: clang
+            suite: clang
+            toolchain: clang clangxx
+            cc: clang
+            cxx: clang++
+
+    env:
+      # mm discovers its settings from the {mm.yaml} we install into ~/.pyre below; the assertion
+      # disposition rides on the command line, since the packaging workflow shares that file
+      mm: python3 ${{github.workspace}}/mm/mm --assertions=${{matrix.assertions}}
+      target: ${{matrix.target}}
+      suite: ${{matrix.suite}}
+
+    steps:
+      - name: runner information
+        run: |
+          echo " -- runner home"
+          pwd
+
+      - name: checkout pylith
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+          path: pylith
+
+      - name: conda-forge environment
+        uses: mamba-org/setup-micromamba@v3
+        with:
+          micromamba-version: latest
+          environment-file: pylith/.github/configs/conda.yaml
+          # conda-forge only, with strict priority so nothing leaks in from defaults
+          condarc: |
+            channels:
+              - conda-forge
+            channel_priority: strict
+          # layer the per-matrix toolchain and the optional cuda compiler onto the base env; the
+          # full {cuda-toolkit} metapackage would drag in cublas, cufft, cusolver and friends, but
+          # {pyre-cuda} needs only {nvcc}, {cuda_runtime.h} and {libcudart} — exactly what these
+          # two provide, and exactly what {mm} probes for when it configures {extern.cuda}
+          create-args: >-
+            ${{matrix.toolchain}}
+
+      - name: versions
+        run: |
+          echo " -- conda prefix"
+          echo "${CONDA_PREFIX}"
+          echo " -- make"
+          make --version
+          echo " -- C compiler"
+          ${{matrix.cc}} --version
+          echo " -- C++ compiler"
+          ${{matrix.cxx}} --version
+          echo " -- python"
+          python3 --version
+          echo "    -- prefix"
+          python3-config --prefix
+          echo "    -- includes"
+          python3-config --includes
+          echo "    -- libs"
+          python3-config --libs
+          echo " -- platform tag from python"
+          python3 -c "import sys; print(sys.platform)"
+          echo " -- distribution tag from python"
+          python3 -c "import platform; print(platform.freedesktop_os_release().get('PRETTY_NAME'))"
+
+      - name: clone mm and pyre
+        run: |
+          echo " -- cloning mm"
+          git clone --depth 1 https://github.com/aivazis/mm
+          echo " -- cloning pyre"
+          git clone --depth 1  --branch issue171 https://github.com/pyre/pyre
+
+      - name: configure mm
+        run: |
+          echo " -- creating the ~/.config/pyre configuration directory"
+          mkdir -p ~/.config/pyre
+          echo " -- installing the mm configuration as ~/.config/pyre/mm.yaml so mm auto-discovers it"
+          cp pylith/.github/configs/conda-mm.yaml ~/.config/pyre/mm.yaml
+          echo " -- creating ~/.config/mm"
+          mkdir ~/.config/mm
+          echo " -- copying the external dependencies configuration file there"
+          cp pylith/.github/configs/conda-config.mm ~/.config/mm/config.mm
+
+      - name: package database
+        run: |
+          echo " -- switching to the pylith source directory"
+          cd pylith
+          echo " -- host.info"
+          ${mm} host.info
+          echo " -- make.info"
+          ${mm} make.info
+          echo " -- discovering the conda packages"
+          ${mm} --setup
+          echo " -- where the build products will be deposited"
+          ${mm} builder.info
+          echo " -- the resulting package database"
+          ${mm} extern.db.info
+          echo " -- the externals, as the make engine reads them back"
+          ${mm} extern.info
+
+      - name: pyre mm configuration
+        run: |
+          cd pyre
+          echo " -- checking whether mm can run in the pyre directory"
+          echo now at: ${PWD}
+          ${mm} --help
+          ${mm} host.info
+          ${mm} builder.info
+          ${mm} make.info
+          # and each external that {pyre} actually builds against; a package that is not available
+          # is never loaded, so its {info} target does not exist and asking for it is a hard error
+          echo " -- the individual packages"
+          ${mm} extern.python.info
+          ${mm} extern.pybind11.info
+          ${mm} extern.hdf5.info
+          ${mm} extern.mpi.info
+          echo " -- verifying the pyre extension"
+          ${mm} pyre.ext.info
+          echo " -- verifying the pyre host extension"
+          ${mm} pyre-host.ext.info
+          echo " -- verifying the journal extension"
+          ${mm} journal.ext.info
+          echo " -- verifying the h5 extension"
+          ${mm} pyre-h5.ext.info
+
+      - name: pylith mm diagnostics
+        run: |
+          cd pylith
+          echo " -- checking whether mm can run in the pylith directory"
+          echo now at: ${PWD}
+          ${mm} builder.info
+          # and each external that {pyre} actually builds against; a package that is not available
+          # is never loaded, so its {info} target does not exist and asking for it is a hard error
+          #echo " -- the individual packages"
+          #${mm} extern.mpi.info
+          #${mm} extern.hdf5.info
+          #${mm} extern.pybind11.info
+          #echo " -- verifying the pylith extension"
+          #${mm} pylith.ext.info
+          #echo " -- verifying the pylith host extension"
+          #${mm} pylith-host.ext.info
+          #echo " -- verifying the journal extension"
+          #${mm} journal.ext.info
+          #echo " -- verifying the h5 extension"
+          #${mm} pylith-h5.ext.info
+
+      - name: build pyre
+        run: |
+          echo " -- switching to the pyre source directory"
+          cd pyre
+          echo " -- building pyre into the conda prefix"
+          ${mm} --jobs=$(nproc)
+
+      - name: build pylith
+        run: |
+          echo " -- switching to the pylith source directory"
+          cd pylith
+          echo " -- building pylith into the conda prefix"
+          ${mm} --jobs=$(nproc)
+
+      - name: test pylith
+        run: |
+          echo " -- switching to the pylith source directory"
+          cd pylith
+          echo " -- testing pylith"
+          ${mm} --jobs=$(nproc) tests
+
+
+# end of file

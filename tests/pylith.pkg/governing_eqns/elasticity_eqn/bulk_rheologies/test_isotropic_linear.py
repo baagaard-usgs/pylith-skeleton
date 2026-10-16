@@ -1,3 +1,12 @@
+# =================================================================================================
+# This code is part of PyLith, developed through the Computational Infrastructure
+# for Geodynamics (https://github.com/geodynamics/pylith).
+#
+# Copyright (c) 2010-2026 All rights reserved.
+#
+# See https://mit-license.org/ and LICENSE.md and for license information.
+# =================================================================================================
+
 import pathlib
 
 import pytest
@@ -43,3 +52,6 @@ def test_traits_yaml(load_yaml, local_test_subject):
     assert cauchy_stress.enabled
     cauchy_strain = material.derived_subfields.cauchy_strain
     assert cauchy_strain.enabled
+
+
+# End of file

@@ -2,8 +2,7 @@
 # This code is part of PyLith, developed through the Computational Infrastructure
 # for Geodynamics (https://github.com/geodynamics/pylith).
 #
-# Copyright (c) 2010-2025, University of California, Davis and the PyLith Development Team.
-# All rights reserved.
+# Copyright (c) 2010-2026 All rights reserved.
 #
 # See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
@@ -21,19 +20,18 @@ class Neumann(
 ):
     """Neumann boundary condition.
 
-        This boundary condition applies a Neumann boundary condition for a single solution subfield on a boundary.
-        To apply Neumann boundary conditions for multiple solution subfields on a boundary, use multiple Neumann boundary conditions.
+    This boundary condition applies a Neumann boundary condition for a single solution subfield on a boundary.
+    To apply Neumann boundary conditions for multiple solution subfields on a boundary, use multiple Neumann boundary conditions.
 
-        :::{important}
-        The components are specified in the local normal-tangential coordinate system for the boundary. Ambiguities in specifying the shear (tangential) tracti
-    ons in 3D problems are resolved using the `ref_dir_1` and `ref_dir_2` properties.
-        The first tangential direction is $\\vec{z} \\times \\vec{r}_1$ unless these are colinear, then $\\vec{r}_2$ (`ref_dir_2`) is used.
-        The second tangential direction is $\\vec{n} \\times \\vec{t}_1$.
-        :::
+    :::{important}
+    The components are specified in the local normal-tangential coordinate system for the boundary. Ambiguities in specifying the shear (tangential) tractions in 3D problems are resolved using the `ref_dir_1` and `ref_dir_2` properties.
+    The first tangential direction is $\\vec{z} \\times \\vec{r}_1$ unless these are colinear, then $\\vec{r}_2$ (`ref_dir_2`) is used.
+    The second tangential direction is $\\vec{n} \\times \\vec{t}_1$.
+    :::
 
-        :::{seealso}
-        See [`AuxSubfieldsTimeDependent` Component](AuxSubfieldsTimeDependent.md) for the functional form of the time depenence.
-        :::
+    :::{seealso}
+    See [`AuxSubfieldsTimeDependent` Component](AuxSubfieldsTimeDependent.md) for the functional form of the time dependence.
+    :::
     """
 
     scale_name = pylith.properties.str(default="stress")
@@ -75,3 +73,6 @@ class Neumann(
             )
         )
         todo.log()
+
+
+# End of file

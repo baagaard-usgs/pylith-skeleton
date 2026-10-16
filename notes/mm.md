@@ -19,6 +19,10 @@ If using a Conda environment, `mm` can detect all packages that it knows about u
 - `mm TESTSUITE.info` (test suite information)
 - `mm TESTSUITE.info.staging.targets` (list test suite targets)
 
+`mm pyre.fedora-gcc.launch` to launch docker image (launch=interactive, build, run=run tests)
+
+Claude: What are useful targets that would be build useful things?
+
 ## Build separation
 
 Requires bash aliases
@@ -39,10 +43,6 @@ mm.activate() {
 
 `mm --tag=foo` to manually set tag (project/branch)
 `source `mm --tag=foo --activate`` to activate tag `foo`
-
-`mm pyre.fedora-gcc.launch` to launch docker image (launch=interactive, build, run=run tests)
-
-Claude: What are useful targets that would be build useful things?
 
 ## Configuration
 
@@ -73,7 +73,6 @@ mm:
   make: make
   local: Make.mmm
 ```
-
 
 The Pyre README.md installation instructions for `$HOME/.config/pyre/mm.yaml` have the line `local: Make.mmm`.
 This is **not** a typo. This is a temporary "fix" to avoid conflicts with legacy `Make.mm` files in the Pyre repo.

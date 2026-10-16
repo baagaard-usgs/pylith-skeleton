@@ -1,3 +1,12 @@
+# =================================================================================================
+# This code is part of PyLith, developed through the Computational Infrastructure
+# for Geodynamics (https://github.com/geodynamics/pylith).
+#
+# Copyright (c) 2010-2026 All rights reserved.
+#
+# See https://mit-license.org/ and LICENSE.md and for license information.
+# =================================================================================================
+
 # :TODO: Why does this work? This is configuring `pylith_app.journal` not `pylith.journal`.
 journal:
   decor: 1
@@ -81,3 +90,6 @@ bc_xpos:
   label_name: boundary_xpos
   label_value: 1
   # :TODO: Set spatial database
+
+
+# End of file

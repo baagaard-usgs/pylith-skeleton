@@ -6,10 +6,11 @@
 #
 # See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
-# Adapted from pyre.
+# micromamba environment with the pylith-skeleton build dependencies
+# the per-matrix toolchain (gcc/clang) is layered on top of this base by the workflow,
+# so they are deliberately absent here.
 #
-# the conda-forge environment with the pylith-skeleton build dependencies; the per-matrix
-# toolchain (gcc/clang) is layered on top of this base by the workflow, so they are deliberately absent here
+# Adapted from pyre.
 #
 # the environment name must not collide with the name of any project in {.mm}: {mm} seeds its
 # configuration search with {$(user.environment).mm}, and the project config directory is on

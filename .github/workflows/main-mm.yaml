@@ -9,7 +9,7 @@
 # Adapted from pyre.
 
 
-name: mm
+name: main-mm
 on:
   workflow_dispatch:
   push:
@@ -28,11 +28,9 @@ jobs:
       matrix:
         os: [ubuntu-26.04]
         target: [debug, opt]
-        python: ["3.11", "3.12", "3.13", "3.14"]
-        compiler: [
-          "gcc-15",
-          "clang-21"
-        ]
+        #python: ["3.11", "3.12", "3.13", "3.14"]
+        python: ["3.11", "3.14"]
+        compiler: ["gcc-15", "clang-21"]
         # define the names of the compilers
         include:
           - compiler: gcc-15
@@ -56,9 +54,16 @@ jobs:
           echo " -- upgrade"
           sudo apt dist-upgrade
           echo " -- install our dependencies"
-          sudo apt install -y openssh-server libopenmpi-dev libhdf5-dev
+          sudo apt install -y openssh-server libgsl-dev libopenmpi-dev libhdf5-dev
+
+      - name: runner information
+        run: |
+          echo " -- runner home"
+          pwd
 
       - name: python ${{matrix.python}} setup
+        # installs pythonX.XX-dev
+        # defines pythonVersion, pythonLocation
         uses: actions/setup-python@v7
         with:
           python-version: ${{matrix.python}}
@@ -66,7 +71,7 @@ jobs:
       - name: install dependencies
         run: |
           python${pythonVersion} -m pip install --upgrade pip
-          pip3 install pybind11 PyYAML ruamel.yaml
+          pip3 install pybind11 PyYAML ruamel.yaml pytest
         env:
           pythonVersion: ${{matrix.python}}
 
@@ -82,6 +87,10 @@ jobs:
           python${pythonVersion} -c "import platform; print(platform.freedesktop_os_release().get('PRETTY_NAME'))"
           echo " -- make"
           make --version
+          echo " -- C compiler"
+          ${{matrix.cc}} --version
+          echo " -- C++ compiler"
+          ${{matrix.cxx}} --version
           echo " -- python"
           python${pythonVersion} --version
           echo "    -- prefix"
@@ -90,17 +99,11 @@ jobs:
           python${pythonVersion}-config --includes
           echo "    -- libs"
           python${pythonVersion}-config --libs
-          echo " -- ${{matrix.cc}}"
-          ${{matrix.cc}} --version
-          echo " -- ${{matrix.cxx}}"
-          ${{matrix.cxx}} --version
         env:
           pythonVersion: ${{matrix.python}}
 
       - name: external dependencies
         run: |
-          echo " -- gsl"
-          sudo dpkg-query -L libgsl-dev
           echo " -- openmpi"
           sudo dpkg-query -L libopenmpi-dev
           echo " -- hdf5"
@@ -108,53 +111,69 @@ jobs:
 
       - name: locations of python packages
         run: |
-          echo " -- numpy"
-          pip3 show numpy
           echo " -- pybind11"
           pip3 show pybind11
           echo " -- its headers"
           find ${pythonLocation}/lib/python${pythonVersion}/site-packages/pybind11
           echo " -- yaml"
           pip3 show PyYAML
+          echo " -- pytest"
+          pip3 show pytest
         env:
           pythonVersion: ${{matrix.python}}
 
-      - name: clone mm + pyre
+      - name: checkout pylith
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+          path: pylith
+
+      - name: clone mm and pyre
         run: |
           echo " -- cloning mm"
-          git clone https://github.com/aivazis/mm
+          git clone --depth 1 https://github.com/aivazis/mm
           echo " -- cloning pyre"
-          git clone https://github.com/pyre/pyre
-          echo " -- cloning pyre"
-          git clone https://github.com/pyre/pyre
+          git clone --depth 1 --branch issue171 https://github.com/pyre/pyre
 
-      - name: checkout pyre
+      - name: configure mm
         run: |
-          echo " -- runner home"
-          pwd
-          echo " -- switching to the pyre source directory"
-          cd pyre
-          echo " -- pyre source directory"
-          pwd
-          echo " -- checking out the correct ref"
-          git checkout ${GITHUB_SHA}
-          echo " -- creating ~/.pyre"
-          mkdir ~/.pyre
-          echo " -- copying the mm configuration file"
-          cp .github/matrix/mm.pfg ~/.pyre
-          echo " -- creating ~/.mm"
-          mkdir ~/.mm
-          echo " -- copying the package configuration file there"
-          cp .github/matrix/config.mm ~/.mm
-          echo " -- checking whether mm can run from here"
+          echo " -- creating the ~/.config/pyre configuration directory"
+          mkdir -p ~/.config/pyre
+          echo " -- installing the mm configuration as ~/.config/pyre/mm.yaml so mm auto-discovers it"
+          cp pylith/.github/configs/ubuntu-mm.yaml ~/.config/pyre/mm.yaml
+          echo " -- creating ~/.config/mm"
+          mkdir ~/.config/mm
+          echo " -- copying the external dependencies configuration file there"
+          cp pylith/.github/configs/ubuntu-config.mm ~/.config/mm/config.mm
+
+      - name: mm diagnostics
+        run: |
+          echo " -- switching to the pylith source directory"
+          cd pylith
           echo now at: ${PWD}
           echo mm: ${mm}
           ${mm} --help
+          echo " -- host.info"
           ${mm} host.info
-          ${mm} builder.info
+          echo " -- make.info"
           ${mm} make.info
+        env:
+          mm: python3 ${{github.workspace}}/mm/mm
+          target: ${{matrix.target}}
+          suite: ${{matrix.suite}}
+          suiteVersion: ${{matrix.suiteVersion}}
+          pythonVersion: ${{matrix.python}}
+
+      - name: pyre mm diagnostics
+        run: |
+          cd pyre
+          echo " -- checking whether mm can run in the pyre directory"
+          echo now at: ${PWD}
+          echo " -- where the build products will be deposited"
+          ${mm} builder.info
+          echo " -- the externals, as the make engine reads them back"
+          ${mm} extern.info
           echo " -- verifying external packages"
-          ${mm} extern.gsl.info
           ${mm} extern.mpi.info
           ${mm} extern.hdf5.info
           ${mm} extern.pybind11.info
@@ -167,7 +186,35 @@ jobs:
           echo " -- verifying the h5 extension"
           ${mm} pyre-h5.ext.info
         env:
-          mm: python3 ${{github.workspace}}/mm/mm --config=.github/matrix/mm.pfg
+          mm: python3 ${{github.workspace}}/mm/mm
+          target: ${{matrix.target}}
+          suite: ${{matrix.suite}}
+          suiteVersion: ${{matrix.suiteVersion}}
+          pythonVersion: ${{matrix.python}}
+
+      - name: pylith mm diagnostics
+        run: |
+          cd pylith
+          echo " -- checking whether mm can run in the pylith directory"
+          echo now at: ${PWD}
+          echo " -- where the build products will be deposited"
+          ${mm} builder.info
+          echo " -- the externals, as the make engine reads them back"
+          ${mm} extern.info
+          #echo " -- verifying external packages"
+          #${mm} extern.mpi.info
+          #${mm} extern.hdf5.info
+          #${mm} extern.pybind11.info
+          #echo " -- verifying the pyre extension"
+          #${mm} pyre.ext.info
+          #echo " -- verifying the pyre host extension"
+          #${mm} pyre-host.ext.info
+          #echo " -- verifying the journal extension"
+          #${mm} journal.ext.info
+          #echo " -- verifying the h5 extension"
+          #${mm} pyre-h5.ext.info
+        env:
+          mm: python3 ${{github.workspace}}/mm/mm
           target: ${{matrix.target}}
           suite: ${{matrix.suite}}
           suiteVersion: ${{matrix.suiteVersion}}
@@ -180,28 +227,37 @@ jobs:
           echo " -- building pyre"
           ${mm} --jobs=$(nproc)
         env:
-          mm: python3 ${{github.workspace}}/mm/mm --config=.github/matrix/mm.pfg
+          mm: python3 ${{github.workspace}}/mm/mm
           target: ${{matrix.target}}
           suite: ${{matrix.suite}}
           suiteVersion: ${{matrix.suiteVersion}}
           pythonVersion: ${{matrix.python}}
 
-      - name: test pyre
+      - name: build pylith
         run: |
-          echo " -- pwd"
-          pwd
-          echo " -- switching to the pyre home directory"
-          cd pyre
-          echo " -- testing pyre"
-          ${mm} --jobs=$(nproc) tests
+          echo " -- switching to the pylith source directory"
+          cd pylith
+          echo " -- building pylith"
+          ${mm} --jobs=$(nproc)
         env:
-          mm: python3 ${{github.workspace}}/mm/mm --config=.github/matrix/mm.pfg
+          mm: python3 ${{github.workspace}}/mm/mm
           target: ${{matrix.target}}
           suite: ${{matrix.suite}}
           suiteVersion: ${{matrix.suiteVersion}}
           pythonVersion: ${{matrix.python}}
-          LD_LIBRARY_PATH: /home/runner/work/products/lib
-#
+
+      - name: test pylith
+        run: |
+          echo " -- switching to the pylith source directory"
+          cd pylith
+          echo " -- testing pylith"
+          ${mm} --jobs=$(nproc) tests
+        env:
+          mm: python3 ${{github.workspace}}/mm/mm
+          target: ${{matrix.target}}
+          suite: ${{matrix.suite}}
+          suiteVersion: ${{matrix.suiteVersion}}
+          pythonVersion: ${{matrix.python}}
 
 
 # end of file

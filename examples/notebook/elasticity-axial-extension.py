@@ -122,22 +122,6 @@ def _(app, pylith):
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    ```yaml
-    pylith_app.problem.governing_eqn:
-        materials:
-            - component 'crust', an instance of 'pylith.governing_eqns.elasticity_eqn.bulk_rheologies.isotropic_linear'
-        boundary_conditions:
-            - component 'bc_xneg', an instance of 'pylith.boundary_conditions.dirichlet'
-            - component 'bc_yneg', an instance of 'pylith.boundary_conditions.dirichlet'
-            - component 'bc_xpos', an instance of 'pylith.boundary_conditions.neumann'
-    ```
-    """)
-    return
-
-
-@app.cell(hide_code=True)
-def _(mo):
-    mo.md(r"""
     ## Save configuration
     """)
     return
@@ -152,6 +136,23 @@ def _(app):
 @app.cell
 def _(solver_options):
     print("\n".join(solver_options.pyre_showConfiguration()))
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    ```yaml
+    pylith_app.problem.governing_eqn:
+        solver: pylith.solvers.petsc
+        materials:
+            - pylith.governing_eqns.elasticity_eqn.bulk_rheologies.isotropic_linear#crust
+        boundary_conditions:
+            - pylith.boundary_conditions.dirichlet#bc_xneg
+            - pylith.boundary_conditions.dirichlet#bc_yneg
+            - pylith.boundary_conditions.neumann#bc_xpos
+    ```
+    """)
     return
 
 

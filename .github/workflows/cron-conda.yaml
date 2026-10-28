@@ -8,7 +8,9 @@ name: conda
 # invoke
 on:
   # once a week: this workflow guards against drift in {conda-forge}, which moves without any
-  # commit to {pylith}, so a merge is the wrong thing to key on; mondays at 07:00 UTC
+  # commit to {pylith};
+  # Run Monday at 07:00 UTC (pending availability)
+  # 0=minute, 7=hour, *=every day, *=every month, 1=Monday.
   schedule:
     - cron: "0 7 * * 1"
   # and manually

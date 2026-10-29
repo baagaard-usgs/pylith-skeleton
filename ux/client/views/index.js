@@ -12,6 +12,7 @@ export { Main, useActivityPanel } from './main'
 export { Status } from './status'
 
 // the activity panels
+export { About } from './about'
 export { Configure } from './configure'
 export { Launch } from './launch'
 export { Monitor } from './monitor'

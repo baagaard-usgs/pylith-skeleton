@@ -9,6 +9,7 @@ import pylith
 
 # types
 from .Version import Version
+from .About import About
 from .journal import JournalChannel, channels
 
 
@@ -21,6 +22,8 @@ class Query(graphene.ObjectType):
     # the known queries
     # server version info
     version = graphene.Field(Version, required=True)
+    # server "about" info
+    about = graphene.Field(About, required=True)
     # the journal channels the GUI offers
     journal = graphene.List(graphene.NonNull(JournalChannel), required=True)
 
@@ -33,6 +36,15 @@ class Query(graphene.ObjectType):
         Build and return the server version
         """
         # supply the context for the {version} resolution
+        return pylith.meta
+
+    # about
+    @staticmethod
+    def resolve_about(root, info):
+        """
+        Build and return the server "about" information
+        """
+        # supply {pylith.meta} as the context for resolving the {About} fields
         return pylith.meta
 
     # journal

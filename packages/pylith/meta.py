@@ -18,7 +18,7 @@ revision = "0"
 
 version = (major, minor, micro)
 
-copyright = "Copyright (c) 2005-2025 all rights reserved"
+copyright = "Copyright (c) 2005-2026 all rights reserved"
 
 banner = f"""
     PyLith v{major}.{minor}.{micro}
@@ -27,9 +27,9 @@ banner = f"""
 
 
 authors = """
-    Brad T. Aagaard, U.S. Geological Survey, USA
-    Mathew G. Knepley, University at Buffalo, USA
-    Charlies A. Williams, Earth Sciences New Zealand, New Zealand
+Brad T. Aagaard, U.S. Geological Survey, USA
+Matthew G. Knepley, University at Buffalo, USA
+Charlies A. Williams, Earth Sciences New Zealand, New Zealand
 """
 
 acknowledgments = """"""

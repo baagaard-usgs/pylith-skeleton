@@ -24,14 +24,16 @@ banner = f"""
 
 
 authors = """
-    Brad T. Aagaard, U.S. Geological Survey, USA
+Brad T. Aagaard, U.S. Geological Survey, USA
 """
 
 acknowledgments = """"""
 
 header = banner + authors
 
-license = header + """
+license = (
+    header
+    + """
 license:
     Redistribution and use in source and binary forms, with or without
     modification, are permitted provided that the following conditions
@@ -62,6 +64,7 @@ license:
     ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
     POSSIBILITY OF SUCH DAMAGE.
 """
+)
 
 
 # End of file

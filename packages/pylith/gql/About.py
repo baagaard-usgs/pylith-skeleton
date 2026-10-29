@@ -36,7 +36,7 @@ class About(graphene.ObjectType):
         Return the author roster
         """
         # read the roster off {pylith.meta}
-        return root.authors
+        return root.authors.strip()
 
     # copyright
     @staticmethod
@@ -45,7 +45,7 @@ class About(graphene.ObjectType):
         Return the copyright notice
         """
         # read the notice off {pylith.meta}
-        return root.copyright
+        return root.copyright.strip()
 
 
 # End of file

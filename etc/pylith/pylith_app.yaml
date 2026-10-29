@@ -33,6 +33,10 @@ journal:
     - debug, solver
     - debug, TODO
 
+
+# pin the port for serving web content to some number in user space
+pylith_app.nexus.services.web.address: ip4:0.0.0.0:8009
+
 # -----------------------------------------------------------------------------
 # General PETSc options
 # -----------------------------------------------------------------------------

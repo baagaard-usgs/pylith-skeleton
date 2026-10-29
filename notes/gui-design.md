@@ -387,7 +387,7 @@ packages/pylith/apps/
   launch/    # Launcher interface + LocalLauncher + SlurmSshLauncher (sbatch render, ssh)
   cli/       # existing: About/Config/Run/...   (unchanged)
   shells/    # existing
-web/                 # mirrors pyre/qed web layout
+ux/                 # mirrors pyre/qed web layout
   config/            # webpack, babel, package.json
   client/
     main.js, environment.js

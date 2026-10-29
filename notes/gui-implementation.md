@@ -36,7 +36,7 @@ This realizes the qed topology from `gui-design.md` §2 (Pyre `ux` server → Gr
 → live plexus; React + Relay client posting to `/graphql`):
 
 ```
-Browser  (web/client)
+Browser  (ux/client)
   React + react-router-dom  — Main frame, ActivityBar, one routed view per activity
   Relay Environment         — relay-runtime store + fetch('graphql') network
         │  POST /graphql  (no queries wired yet; status bar is static in P0)
@@ -96,17 +96,17 @@ traceback) and the error channel is made non-fatal so a bad query can't take dow
 - [`Query.py`](../packages/pylith/apps/gql/Query.py) — `Query.version` resolves from `pylith.version()`.
 - [`Version.py`](../packages/pylith/apps/gql/Version.py) — `Version { major, minor, micro, revision }`.
 
-The schema mirrors [`web/schema/pylith.gql`](../web/schema/pylith.gql); the two are kept in
+The schema mirrors [`ux/schema/pylith.gql`](../ux/schema/pylith.gql); the two are kept in
 sync by hand (P0 has no Relay artifacts to compile yet).
 
 ---
 
-## 4. Frontend implementation (`web/`)
+## 4. Frontend implementation (`ux/`)
 
 ### Layout
 
 ```
-web/
+ux/
   pylith.html        SPA shell; loads styles/pylith.css, hosts <div id="pylith">
   schema/pylith.gql  GraphQL schema (mirror of apps/gql)
   styles/pylith.css  global stylesheet (height chain, fonts, placeholder)
@@ -123,7 +123,7 @@ web/
     hooks/           small React hooks
 ```
 
-### Entry & routing — [`client/pylith.js`](../web/client/pylith.js)
+### Entry & routing — [`client/pylith.js`](../ux/client/pylith.js)
 
 `Root` wraps the app in `RelayEnvironmentProvider` → `ErrorBoundary` → `Suspense` →
 `BrowserRouter`. The `basename` is derived from the URL (supports being hosted at `/` or
@@ -143,16 +143,16 @@ embedded under `…/pylith/`). Routes:
 > at `/` (which the `ux` dispatcher's `root` handler does). This matters when previewing
 > with a bare static server; see §6.
 
-### App frame — [`views/main/main.js`](../web/client/views/main/main.js)
+### App frame — [`views/main/main.js`](../ux/client/views/main/main.js)
 
 `Main` is a `Provider` (the `main` context) wrapping a page that stacks the `ActivityBar`,
 the routed `Outlet`, and the `Status` footer. The context
-([`context.js`](../web/client/views/main/context.js)) holds a single piece of state —
+([`context.js`](../ux/client/views/main/context.js)) holds a single piece of state —
 `activityPanel` (visible/hidden) — exposed through the
-[`useActivityPanel`](../web/client/views/main/useActivityPanel.js) hook
+[`useActivityPanel`](../ux/client/views/main/useActivityPanel.js) hook
 (`show`/`hide`/`toggle`).
 
-### Activity bar — [`activities/bar/index.js`](../web/client/activities/bar/index.js)
+### Activity bar — [`activities/bar/index.js`](../ux/client/activities/bar/index.js)
 
 A vertical `Toolbar` of activity buttons, sized by screen resolution, with a `Spacer`
 pushing utility activities to the bottom:
@@ -163,10 +163,10 @@ Configure (Gear) · Monitor (Play) · Launch (Hammer) · Documentation (Book)
 Stop (X → /stop) · About (PyLith logo → /about)
 ```
 
-Each activity ([`activities/<name>/index.js`](../web/client/activities/)) is the same small
+Each activity ([`activities/<name>/index.js`](../ux/client/activities/)) is the same small
 component: read the current location, compare against its own URL to compute `current`, and
-render an [`Activity`](../web/client/activities/activity/index.js). `Activity` is a
-react-router `Link` wrapping a [`Badge`](../web/client/widgets/badge/index.js) (the SVG icon
+render an [`Activity`](../ux/client/activities/activity/index.js). `Activity` is a
+react-router `Link` wrapping a [`Badge`](../ux/client/widgets/badge/index.js) (the SVG icon
 in an interactive button); clicking a non-current activity shows the panel, clicking the
 current one toggles it.
 
@@ -177,40 +177,40 @@ placeholder text — so the frame layout is proven end-to-end before content lan
 
 | View | File | Panels (P0 placeholders) |
 | --- | --- | --- |
-| Configure | [`views/configure`](../web/client/views/configure/index.js) | `navigator` \| `configure` |
-| Monitor | [`views/monitor`](../web/client/views/monitor/index.js) | `runs` \| `monitor` |
-| Launch | [`views/launch`](../web/client/views/launch/index.js) | `settings` \| `launch` |
-| **Documentation** | [`views/docs`](../web/client/views/docs/index.js) | `outline` \| `documentation` |
+| Configure | [`views/configure`](../ux/client/views/configure/index.js) | `navigator` \| `configure` |
+| Monitor | [`views/monitor`](../ux/client/views/monitor/index.js) | `runs` \| `monitor` |
+| Launch | [`views/launch`](../ux/client/views/launch/index.js) | `settings` \| `launch` |
+| **Documentation** | [`views/docs`](../ux/client/views/docs/index.js) | `outline` \| `documentation` |
 
 The Documentation view mirrors `gui-design.md` §9's **outline (TOC) \| page** layout and is
 modelled on qed's `ux/client/views/doc/guide` two-panel structure; P7 fills the outline
 (tree + search) and the page (react-markdown + math/code/SVG).
 
-### Status bar — [`views/status/index.js`](../web/client/views/status/index.js)
+### Status bar — [`views/status/index.js`](../ux/client/views/status/index.js)
 
 Footer with a **static** `pylith` label (the live `version` query is wired in a later phase
 once Relay artifacts exist) and a `Colophon` (copyright + repo link).
 
-### Widgets — [`widgets/`](../web/client/widgets/)
+### Widgets — [`widgets/`](../ux/client/widgets/)
 
 Reused/adapted from the qed React foundation: `Badge`, `Colophon`, `Flex` (the resizable
 `Box`/`Panel`/`Separator` system), `Spacer`, `Toolbar`. `Flex` is the workhorse behind every
 multi-panel view.
 
-### Shapes — [`shapes/`](../web/client/shapes/)
+### Shapes — [`shapes/`](../ux/client/shapes/)
 
 SVG icon fragments on a 0–1000 viewBox, rendered into the `Badge`'s `<svg><g>` (scaled to
 the requested size). Each exports a component returning `<path>` (or a `<g>` of paths) styled
-from [`shapes/styles.js`](../web/client/shapes/styles.js) (`icon` + optional `decoration`).
+from [`shapes/styles.js`](../ux/client/shapes/styles.js) (`icon` + optional `decoration`).
 Icons are **filled silhouettes** (the theme colors them via `fill`, not `stroke`).
 
 - `gear`, `play`, `hammer`, `x`, `pylith` (logo) — existing.
-- **`book`** ([`shapes/book/index.js`](../web/client/shapes/book/index.js)) — the new
+- **`book`** ([`shapes/book/index.js`](../ux/client/shapes/book/index.js)) — the new
   Documentation icon: two filled pages with a gap between them forming the spine, so it reads
   as an open book at activity-bar size.
 - `help` (`?`) — retained but no longer used by an activity (Documentation now uses `book`).
 
-### Data layer — [`client/environment.js`](../web/client/environment.js)
+### Data layer — [`client/environment.js`](../ux/client/environment.js)
 
 A relay-runtime `Environment` whose network `POST`s `{query, variables}` to `graphql` and
 throws on `errors`. No components issue queries in P0, so nothing hits the network on load
@@ -222,17 +222,17 @@ throws on `errors`. No components issue queries in P0, so nothing hits the netwo
 
 | `gui-design.md` concept | Where it lives now |
 | --- | --- |
-| §2 qed stack topology | `shells/Plexus.py` + `apps/ux/*` + `web/client` |
+| §2 qed stack topology | `shells/Plexus.py` + `apps/ux/*` + `ux/client` |
 | §2 `ux` dispatcher | `apps/ux/Dispatcher.py` |
 | §2 GraphQL handler | `apps/ux/GraphQL.py`, `apps/gql/` |
 | §3 ActivityBar / Main / Status / Flex | `activities/bar`, `views/main`, `views/status`, `widgets/flex` |
-| §3 Relay Environment | `web/client/environment.js` |
-| §4 schema (types/mutations/subscriptions) | only `Query.version` so far (`apps/gql`, `web/schema/pylith.gql`) |
+| §3 Relay Environment | `ux/client/environment.js` |
+| §4 schema (types/mutations/subscriptions) | only `Query.version` so far (`apps/gql`, `ux/schema/pylith.gql`) |
 | §5 Configuration (3-panel) | `views/configure` (2-panel scaffold; tree/detail/YAML are P1+) |
 | §7 Monitor (3-panel) | `views/monitor` (2-panel scaffold) |
 | §8 Launch (2-panel) | `views/launch` (scaffold) |
 | §9 Documentation (2-panel, book icon) | `views/docs` + `activities/documentation` + `shapes/book` |
-| §10 directory layout (`apps/ux`, `apps/gql`, `web/…`) | matches, minus not-yet-built `apps/launch`, `adapters/`, content widgets |
+| §10 directory layout (`apps/ux`, `apps/gql`, `ux/…`) | matches, minus not-yet-built `apps/launch`, `adapters/`, content widgets |
 
 ---
 
@@ -252,7 +252,7 @@ A Node toolchain is required (present in the `pylith-skeleton` micromamba env). 
 ```
 cd web
 cp config/package.json . && npm install
-npm run build                 # webpack → web/build/
+npm run build                 # webpack → ux/build/
 npm run dev                   # webpack-dev-server (see gotchas)
 npm run relay                 # relay-compiler (nothing to compile until a query lands)
 ```

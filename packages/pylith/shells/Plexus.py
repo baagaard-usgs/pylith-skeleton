@@ -110,7 +110,11 @@ class Plexus(pyre.plexus, family="pylith.shells.plexus"):
         # if i don't have one, there is something wrong with my installation
         if ux is None:
             return server.responses.NotFound(server=server)
-        # otherwise, ask the dispatcher to do its thing
+        # the stock Pyre web shell gives me no server until a request arrives; this is the
+        # earliest the dispatcher can reach the server, so install the journal publishing
+        # device now, before any client connects, rather than on the first stream subscription
+        ux.install(server=server)
+        # ask the dispatcher to do its thing
         return ux.dispatch(plexus=self, server=server, request=request)
 
     # private data

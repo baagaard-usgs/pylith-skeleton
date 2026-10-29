@@ -24,7 +24,7 @@ import {
     // the main page
     Main,
     // the activity panels
-    Configure, Monitor, Launch, Documentation,
+    Configure, Launch, Monitor, Documentation,
     // boilerplate
     Loading, NYI, Stop, Dead
 } from '~/views'
@@ -46,8 +46,8 @@ const PyLithApp = ({ base }) => {
 
                 {/* the activities */}
                 <Route path="configure/*" element={<Configure />} />
-                <Route path="monitor/*" element={<Monitor />} />
                 <Route path="launch/*" element={<Launch />} />
+                <Route path="monitor/*" element={<Monitor />} />
                 <Route path="documentation/*" element={<Documentation />} />
                 {/* about; NYI in P0 */}
                 <Route path="about" element={<NYI base={base} />} />

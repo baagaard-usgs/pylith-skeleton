@@ -9,6 +9,7 @@ import pylith
 
 # types
 from .Version import Version
+from .journal import JournalChannel, channels
 
 
 # the query
@@ -20,6 +21,8 @@ class Query(graphene.ObjectType):
     # the known queries
     # server version info
     version = graphene.Field(Version, required=True)
+    # the journal channels the GUI offers
+    journal = graphene.List(graphene.NonNull(JournalChannel), required=True)
 
     # the resolvers
 
@@ -31,6 +34,15 @@ class Query(graphene.ObjectType):
         """
         # supply the context for the {version} resolution
         return pylith.meta
+
+    # journal
+    @staticmethod
+    def resolve_journal(root, info):
+        """
+        List the journal channels the GUI offers, from {pylith_app.yaml}
+        """
+        # the roster the configuration defines
+        return channels()
 
 
 # end of file

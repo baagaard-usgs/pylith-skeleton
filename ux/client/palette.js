@@ -34,9 +34,14 @@ const wheel = {
         orange: "hsl(31deg, 80%, 58%)",
     },
 
-    // journal colors
+    // journal colors, by severity; the hues match pyre's dark journal palette
+    // (packages/journal/palettes.py) so the GUI agrees with the terminal
     journal: {
+        debug: "hsl(219deg, 79%, 66%)",
+        info: "hsl(120deg, 61%, 34%)",
+        warning: "hsl(39deg, 100%, 50%)",
         error: "hsl(0deg, 90%, 50%)",
+        firewall: "hsl(300deg, 100%, 50%)",
     }
 }
 

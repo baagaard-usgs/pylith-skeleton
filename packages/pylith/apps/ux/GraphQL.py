@@ -13,7 +13,7 @@ import traceback
 
 import journal
 
-from .. import gql
+from pylith import gql
 
 
 class GraphQL:

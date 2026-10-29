@@ -13,8 +13,8 @@ export { Status } from './status'
 
 // the activity panels
 export { Configure } from './configure'
-export { Monitor } from './monitor'
 export { Launch } from './launch'
+export { Monitor } from './monitor'
 export { Documentation } from './docs'
 
 // not yet implemented

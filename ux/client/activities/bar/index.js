@@ -29,8 +29,8 @@ export const Bar = ({ style }) => {
     return (
         <Toolbar direction="column" style={paint} >
             <Configure size={size} style={paint} />
-            <Monitor size={size} style={paint} />
             <Launch size={size} style={paint} />
+            <Monitor size={size} style={paint} />
             <Documentation size={size} style={paint} />
 
             <Spacer />

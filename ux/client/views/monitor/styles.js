@@ -20,17 +20,20 @@ export default {
         },
     },
 
-    // the runs panel
-    runs: {
+    // the simulation progress panel
+    progress: {
         panel: {
             backgroundColor: theme.page.shaded,
         },
     },
 
-    // the log panel
-    log: {
+    // the journal pane
+    journal: {
         panel: {
             backgroundColor: theme.page.background,
+            display: "flex",
+            flexDirection: "row",
+            overflow: "hidden",
         },
     },
 

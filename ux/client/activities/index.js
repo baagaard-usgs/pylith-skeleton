@@ -14,10 +14,10 @@ export { Activity } from './activity'
 // activities
 export { About } from './about'
 export { Configure } from './configure'
-export { Documentation } from './documentation'
-export { Stop } from './stop'
 export { Launch } from './launch'
 export { Monitor } from './monitor'
+export { Documentation } from './documentation'
+export { Stop } from './stop'
 
 
 // end of file

@@ -2,7 +2,7 @@
 # This code is part of PyLith, developed through the Computational Infrastructure
 # for Geodynamics (https://github.com/geodynamics/pylith).
 #
-# Copyright (c) 2010-2025, University of California, Davis and the PyLith Development Team.
+# Copyright (c) 2010-2026, University of California, Davis and the PyLith Development Team.
 # All rights reserved.
 #
 # See https://mit-license.org/ and LICENSE.md and for license information.
@@ -14,6 +14,7 @@ import signal
 import journal
 
 from .GraphQL import GraphQL
+from .Journal import Journal
 
 
 class Dispatcher:
@@ -59,11 +60,27 @@ class Dispatcher:
         pfs["ux"] = docroot
         # instantiate the {GraphQL} handler
         self.gql = GraphQL(plexus=plexus, dispatcher=self)
+        # the journal device that publishes records to clients; installed on the chronicler the
+        # first time the server is in reach (see {install})
+        self.device = None
 
     # handlers
     def graphql(self, **kwds):
         """Handle a {graphql} request."""
         return self.gql.respond(**kwds)
+
+    def journal(self, server, **kwds):
+        """Open a server-sent event stream that carries journal records.
+
+        The stream opens with the history the device has gathered, so a client that connects
+        late still sees the records that came before it.
+        """
+        # the device is installed when the server first comes in reach; get it
+        device = self.device
+        # the history it holds, framed for a newcomer, or nothing if there is none
+        opening = device.opening()
+        # hand back a streaming response on the journal topic
+        return server.eventStream(server=server, topic=device.topic, opening=opening)
 
     def stop(self, plexus, server, **kwds):
         """The client is asking me to stop."""
@@ -94,12 +111,39 @@ class Dispatcher:
         uri = "/ux/{0.pyre_namespace}.html".format(plexus)
         return server.documents.File(uri=uri, server=server, application=plexus)
 
+    # interface
+    def install(self, server):
+        """Install the journal publishing device on the chronicler, once.
+
+        Called the first time {server} is in reach, before any client connects, so the history
+        begins at server contact rather than at the first stream subscription. The device
+        mirrors every entry to the device that was writing before it, typically the terminal, so
+        the records keep reaching the console.
+        """
+        # if the device is already installed
+        if self.device is not None:
+            # hand it back
+            return self.device
+        # the device the journal has been writing to, typically the terminal
+        terminal = journal.chronicler.device
+        # build my device, mirroring to the terminal
+        self.device = Journal(server=server, mirror=terminal)
+        # install it as the chronicler's device, so every entry reaches it
+        journal.chronicler.device = self.device
+        # the server exposes its device to the GraphQL layer, which adds a channel to the
+        # census when a mutation turns one on
+        server.journal = self.device
+        # hand it back
+        return self.device
+
     # the app api
     regex = re.compile(
         "|".join(
             [
                 # graphql requests
                 r"/(?P<graphql>graphql)",
+                # the journal event stream
+                r"/(?P<journal>journal)",
                 # the stop command
                 r"/(?P<stop>stop)",
                 # document requests

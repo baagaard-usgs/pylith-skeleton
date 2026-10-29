@@ -14,7 +14,7 @@ import { theme } from '~/palette'
 
 // the severities, in the order they are shown in the selector and the output; `help` is not
 // used by the PyLith journal channels in etc/pylith/pylith_app.yaml, so it is omitted
-const severities = ["debug", "info", "warning", "error", "firewall"]
+const severities = ["info", "warning", "error", "debug", "firewall"]
 
 // the color of a severity; falls back to the normal page color for anything unexpected
 const color = severity => theme.journal[severity] ?? theme.page.normal

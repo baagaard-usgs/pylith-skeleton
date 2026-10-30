@@ -19,6 +19,9 @@ const severities = ["info", "warning", "error", "debug", "firewall"]
 // the color of a severity; falls back to the normal page color for anything unexpected
 const color = severity => theme.journal[severity] ?? theme.page.normal
 
+// the marker the terminal prefixes each body line with, so the output reads like the console
+const bodyMarker = " -- "
+
 
 // the journal pane: output on the left, selector on the right
 const pane = {
@@ -163,69 +166,46 @@ const output = {
     },
 }
 
-// one record in the output
+// one record in the output, laid out like a block of terminal output
 const entry = {
     // the container
     housing: {
         cursor: "pointer",
         padding: "0.15rem 0.5rem",
-        borderBottom: `1px solid ${theme.page.relief}`,
         fontFamily: "inconsolata, monospace",
         fontSize: "80%",
     },
-    // the one line summary
-    summary: {
+    // the header line: {severity} ({channel}):, colored per severity
+    header: {
+        whiteSpace: "pre-wrap",
+        wordBreak: "break-word",
+    },
+    // a body line: the terminal's body marker, then the text of the line
+    body: {
         display: "flex",
-        gap: "0.4rem",
         alignItems: "baseline",
         minWidth: 0,
     },
-    // the severity tag
-    severity: {
+    // the body marker, colored per severity like the terminal
+    marker: {
         flex: "0 0 auto",
-        width: "4.5em",
+        whiteSpace: "pre",
     },
-    // the channel name
-    channel: {
-        flex: "0 0 auto",
-        maxWidth: "40%",
-        color: theme.page.dim,
-        overflow: "hidden",
-        textOverflow: "ellipsis",
-        whiteSpace: "nowrap",
-    },
-    // the first line of the message
-    line: {
-        flex: "1 1 auto",
-        minWidth: 0,
-        color: theme.page.bright,
-        overflow: "hidden",
-        textOverflow: "ellipsis",
-        whiteSpace: "nowrap",
-    },
-    // the first line when the record is expanded
-    lineExpanded: {
-        flex: "1 1 auto",
-        minWidth: 0,
-        color: theme.page.bright,
-        whiteSpace: "pre-wrap",
-    },
-    // the expanded detail
-    details: {
-        padding: "0.15rem 0 0.15rem 4.9em",
-    },
-    // a line of the page
+    // the text of a body line
     text: {
+        flex: "1 1 auto",
+        minWidth: 0,
         color: theme.page.bright,
         whiteSpace: "pre-wrap",
         wordBreak: "break-word",
     },
-    // the metadata row
+    // the metadata row, shown when the record is expanded
     meta: {
         display: "flex",
         flexWrap: "wrap",
         gap: "0.6rem",
         marginTop: "0.15rem",
+        paddingLeft: `${bodyMarker.length}ch`,
         color: theme.page.dim,
     },
     // one piece of metadata
@@ -239,6 +219,7 @@ const entry = {
 export default {
     severities,
     color,
+    bodyMarker,
     pane,
     selector,
     output,

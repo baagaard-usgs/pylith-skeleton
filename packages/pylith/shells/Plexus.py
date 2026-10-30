@@ -6,6 +6,8 @@
 #
 # See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
+import os
+
 import pyre
 import journal
 
@@ -41,9 +43,16 @@ class Plexus(pyre.plexus, family="pylith.shells.plexus"):
 
     def __init__(self, **kwds):
         super().__init__(**kwds)
+        # the pyre application shell registers my nickname as the journal application name;
+        # clear it so user-facing channels tag messages with the channel severity
+        # ("info (application-flow)") rather than the nickname
+        journal.application("")
         if self.log_file:
             # redirect all journal output to the file
             journal.logfile(name=str(self.log_file), mode="w")
+        # when launched as a child of the web server, ship journal records to the parent in
+        # their wire form, so the Monitor renders them as the native channels they are
+        self._shipJournal()
 
         todo = pylith.journal.debug_factory().todo()
         todo.report(
@@ -73,7 +82,7 @@ class Plexus(pyre.plexus, family="pylith.shells.plexus"):
         # get my namespace
         namespace = self.pyre_namespace
 
-        # this is early times, so {prefix} may not be explored; tread carefully.
+        # this is early times, so {prefix} may not be explored; proceed carefully.
         # the web client bundle is installed under {prefix}/etc/{namespace}/ux; the source
         # tree that produces it lives in the repo's web/ directory (see notes/gui-design.md
         # section 9).
@@ -103,6 +112,33 @@ class Plexus(pyre.plexus, family="pylith.shells.plexus"):
         # all done
         return pfs
 
+    def _shipJournal(self):
+        """Send journal records to the parent process in their wire form, if asked.
+
+        The web-server launcher runs me as a child and hands me a pipe to its event loop,
+        naming the write descriptor in the {journalPipe} environment variable. When it is
+        set, I make a courier on that descriptor my journal device, so my records reach the
+        parent as structured records it can render as the native channels they are.
+
+        The courier does not mirror to the console it replaces: the launcher reads my {stdout}
+        to catch output that is not a journal record, and a console that rendered every record
+        there as well would feed each one back as a second, {stdout} record. The pipe is the
+        one path my journal takes to the parent.
+        """
+        # the descriptor the parent handed me, if any
+        descriptor = os.environ.get(self.journalPipe)
+        # if the parent did not ask for records, there is nothing to do
+        if descriptor is None:
+            # all done
+            return
+        # make a courier on the pipe my journal device; hold a reference of my own so it stays
+        # alive for as long as i am producing records, rather than resting only on the
+        # chronicler's device slot
+        self._courier = journal.courier(descriptor=int(descriptor))
+        journal.chronicler.device = self._courier
+        # all done
+        return
+
     def pyre_respond(self, server, request):
         """Fulfill an HTTP request."""
         # get my dispatcher
@@ -117,8 +153,15 @@ class Plexus(pyre.plexus, family="pylith.shells.plexus"):
         # ask the dispatcher to do its thing
         return ux.dispatch(plexus=self, server=server, request=request)
 
+    # constants
+    # the environment variable that names the descriptor on which the web-server launcher
+    # wants my journal records shipped in their wire form; shared with the launcher that
+    # spawns me (see pylith.apps.launch.LocalLauncher)
+    journalPipe = "PYLITH_JOURNAL_FD"
+
     # private data
     _ux = None  # the UX manager
+    _courier = None  # the journal courier that ships my records to the launcher, if any
 
 
 # End of file

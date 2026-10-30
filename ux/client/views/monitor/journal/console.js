@@ -25,10 +25,12 @@ import styles from './styles'
 
 // render a record the way the terminal would, for the clipboard
 const plain = record => {
-    // the identity
-    const head = `${record.notes.severity} ${record.notes.channel}:`
-    // the page, one line each
-    return [head, ...record.page.map(line => `  ${line}`)].join("\n")
+    // the header: {severity} ({channel}):, as the terminal writes it
+    const head = `${record.notes.severity} (${record.notes.channel}):`
+    // the body, each line under the terminal's body marker
+    const body = record.page.map(line => `${styles.bodyMarker}${line}`)
+    // the whole block
+    return [head, ...body].join("\n")
 }
 
 

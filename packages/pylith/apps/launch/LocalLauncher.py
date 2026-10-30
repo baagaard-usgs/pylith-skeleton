@@ -18,11 +18,14 @@ import signal
 import subprocess
 
 import journal
+from journal.Record import Record
+from journal.exceptions import RecordError
 from pyre.ipc.Pipe import Pipe
 from pyre.units.SI import second
 
 import pylith
 
+from ...shells.Plexus import Plexus
 from .Job import Job
 from .Launcher import Launcher
 
@@ -32,10 +35,17 @@ class LocalLauncher(Launcher):
 
     A start spawns {pylith run} with the server's own environment and working directory, so
     the child resolves the same configuration the server read, the local equivalent of the
-    {run} subcommand. The child runs alongside the server rather than inside it: its output
-    pipes are watched on the server's event loop, its lines are re-logged into the server
-    journal so they ride the journal stream the Monitor already renders, and it is reaped
-    through a {SIGCHLD} handler, so the server keeps answering requests while the job runs.
+    {run} subcommand. The child runs alongside the server rather than inside it, watched on
+    the server's event loop and reaped through a {SIGCHLD} handler, so the server keeps
+    answering requests while the job runs.
+
+    The child's journal reaches the server over a pipe of its own, in the wire form of the
+    journal record, so a record arrives with the channel and severity it was flushed with and
+    the Monitor renders it as the native channel it is. The child writes that pipe through a
+    journal courier the shell installs when it sees the pipe (see {Plexus._shipJournal}).
+    Anything the child writes to {stdout} or {stderr} is not a journal record; those lines are
+    converted into the {stdout} and {stderr} journal channels, so incidental output a library
+    or the C++ layer prints is rendered alongside the native records rather than lost.
 
     The launcher holds one job at a time (single-user, local GUI). A start while a job is
     RUNNING is refused; a start after a job has ended replaces the record.
@@ -69,6 +79,12 @@ class LocalLauncher(Launcher):
 
         # build the command that reproduces a CLI {pylith run}
         command = self._command()
+        # a pipe for the child's journal: it writes wire-form records on the write end, i read
+        # them on the read end
+        readfd, writefd = os.pipe()
+        # the child learns the write end through the environment and gets to inherit it
+        env = dict(os.environ)
+        env[Plexus.journalPipe] = str(writefd)
         # spawn the child with its output on pipes we can watch
         process = subprocess.Popen(
             command,
@@ -77,8 +93,14 @@ class LocalLauncher(Launcher):
             # the server's own environment and working directory, so the child resolves the
             # same configuration files the server read
             cwd=os.getcwd(),
-            env=os.environ,
+            env=env,
+            # the journal pipe is not inherited by default, since it is above the standard
+            # three; hand the write end to the child explicitly
+            pass_fds=(writefd,),
         )
+        # the write end is the child's now; close my copy so the pipe reports end of stream
+        # when the child exits and releases its own
+        os.close(writefd)
         # record the job
         job = Job(
             id=f"job:{process.pid}",
@@ -90,7 +112,12 @@ class LocalLauncher(Launcher):
         # remember it and the child that backs it
         self._job = job
         self._process = process
-        # watch the child's output on the event loop, re-logging each line into the journal
+        # watch the child's journal pipe, replaying each record into the server journal so it
+        # rides the Monitor stream as the native channel it was flushed on
+        self._watchJournal(fd=readfd, pid=process.pid)
+        # watch the child's output, converting each line into the matching journal channel;
+        # this is incidental output, not a journal record, so it rides the {stdout}/{stderr}
+        # channels rather than the channel it would have had as a record
         self._watch(stream=process.stdout, sink=self.stdoutChannel, pid=process.pid)
         self._watch(stream=process.stderr, sink=self.stderrChannel, pid=process.pid)
         # make sure the child is reaped when it exits
@@ -158,6 +185,94 @@ class LocalLauncher(Launcher):
         executable = pylith.prefix / "bin" / "pylith"
         # invoked with the {run} action
         return [str(executable), "run"]
+
+    def _watchJournal(self, fd, pid):
+        """Watch the child's journal pipe {fd} on the event loop, replaying each record.
+
+        The child ships its journal as wire-form records, one per line, through a courier on
+        this pipe; each line decodes into a record that is replayed into the server journal,
+        so it reaches the Monitor stream as the channel and severity it was flushed with. A
+        line that does not decode as a record is incidental output that reached the journal
+        pipe; it is converted into the {stdout} channel, so it is not lost.
+        """
+        # a non-blocking read, so the handler never stalls the loop when a line is partway in
+        os.set_blocking(fd, False)
+        # wrap the raw descriptor as a channel the dispatcher can watch
+        pipe = Pipe(infd=fd, outfd=fd)
+        # start its carry-over buffer empty
+        self._buffers[fd] = b""
+        # register the reader; it works from the descriptor and the child {pid} bound here,
+        # and ignores the {channel} the dispatcher passes, which names the pipe
+        self._server.dispatcher.whenReadReady(
+            channel=pipe,
+            call=functools.partial(self._drainJournal, fd=fd, pipe=pipe, pid=pid),
+        )
+        # all done
+        return
+
+    def _drainJournal(self, fd, pipe, pid, **kwds):
+        """Read what is available on the journal pipe {fd}, replaying each whole record.
+
+        Returns {True} while the pipe is open, so the dispatcher reschedules the reader, and a
+        falsy value at end of stream, so it is released. This is a read-readiness handler; the
+        dispatcher passes the pipe it watched as the {channel} keyword, which this handler
+        does not need and absorbs through {kwds}.
+        """
+        # read what is available
+        try:
+            # an empty read means the child closed this end
+            chunk = os.read(fd, 64 * 1024)
+        # a descriptor closed behind our back reads as end of stream, not an error that stalls
+        # the loop
+        except OSError:
+            # treat it as the end
+            chunk = b""
+        # if the stream is at its end
+        if not chunk:
+            # a courier never leaves a partial record behind, so there is nothing to flush;
+            # drop the carry-over buffer and stop watching, so the descriptor can be recycled
+            self._buffers.pop(fd, None)
+            self._server.dispatcher.forget(channel=pipe)
+            # release the reader
+            return False
+        # otherwise, append to the carry-over buffer
+        data = self._buffers[fd] + chunk
+        # split into whole lines, keeping any trailing partial for the next read
+        *lines, self._buffers[fd] = data.split(b"\n")
+        # replay each whole line
+        for line in lines:
+            # a blank line between records carries nothing
+            if not line:
+                # skip it
+                continue
+            # replay it, falling back to the {stdout} channel for anything that is not a record
+            self._replay(line=line, pid=pid)
+        # keep watching
+        return True
+
+    def _replay(self, line, pid):
+        """Replay one wire-form record {line} into the server journal.
+
+        A line that decodes as a record is replayed on the channel and severity it carries,
+        so the Monitor renders it natively. A line that does not decode is incidental output
+        that reached the journal pipe; it is logged on the {stdout} channel instead, so it is
+        rendered rather than dropped.
+        """
+        # attempt to
+        try:
+            # decode the line into a record
+            record = Record.decode(line)
+        # a line that is not a record
+        except RecordError:
+            # is incidental output; log it on the {stdout} channel
+            self._log(sink=self.stdoutChannel, pid=pid, text=line.decode("utf-8", "replace"))
+            # all done
+            return
+        # replay the record into the server journal, where the installed device frames it for
+        # the Monitor stream; the child already stamped its origin, so replay preserves it
+        journal.replay(record)
+        # all done
+        return
 
     def _watch(self, stream, sink, pid):
         """Watch {stream} on the event loop, re-logging each line it carries to the journal.

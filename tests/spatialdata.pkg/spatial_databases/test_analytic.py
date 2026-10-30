@@ -7,9 +7,9 @@
 # See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
 
-import pathlib
-
 import pytest
+
+import pyre
 
 import spatialdata
 from spatialdata import spatial_databases
@@ -19,7 +19,7 @@ from pyre.units.time import second
 
 @pytest.fixture
 def load_yaml():
-    cur_path = pathlib.Path(__file__).parent
+    cur_path = pyre.primitives.path(__file__).parent
     spatialdata.loadConfiguration(cur_path / "test_analytic.yaml")
 
 

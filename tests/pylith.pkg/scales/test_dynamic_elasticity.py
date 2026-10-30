@@ -7,9 +7,9 @@
 # See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
 
-import pathlib
-
 import pytest
+
+import pyre
 
 from pyre.units.length import km, meter
 from pyre.units.mass import kg
@@ -21,7 +21,7 @@ from pylith import scales
 
 @pytest.fixture
 def load_yaml():
-    cur_path = pathlib.Path(__file__).parent
+    cur_path = pyre.primitives.path(__file__).parent
     pylith.loadConfiguration(cur_path / "test_dynamic_elasticity.yaml")
 
 

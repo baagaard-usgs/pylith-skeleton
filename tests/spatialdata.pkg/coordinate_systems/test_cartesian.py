@@ -7,9 +7,9 @@
 # See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
 
-import pathlib
-
 import pytest
+
+import pyre
 
 import spatialdata
 from spatialdata import coordinate_systems
@@ -18,7 +18,7 @@ from pyre.units.length import meter, kilometer
 
 @pytest.fixture
 def load_yaml():
-    cur_path = pathlib.Path(__file__).parent
+    cur_path = pyre.primitives.path(__file__).parent
     spatialdata.loadConfiguration(cur_path / "test_cartesian.yaml")
 
 

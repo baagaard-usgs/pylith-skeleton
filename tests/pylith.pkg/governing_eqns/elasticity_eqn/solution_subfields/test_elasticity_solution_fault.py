@@ -7,9 +7,9 @@
 # See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
 
-import pathlib
-
 import pytest
+
+import pyre
 
 import pylith
 from pylith.governing_eqns.elasticity_eqn import solution_subfields
@@ -17,7 +17,7 @@ from pylith.governing_eqns.elasticity_eqn import solution_subfields
 
 @pytest.fixture
 def load_yaml():
-    cur_path = pathlib.Path(__file__).parent
+    cur_path = pyre.primitives.path(__file__).parent
     pylith.loadConfiguration(cur_path / "test_elasticity_solution_fault.yaml")
 
 

@@ -7,9 +7,9 @@
 # See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
 
-import pathlib
-
 import pytest
+
+import pyre
 
 from pyre.units.time import year
 
@@ -19,7 +19,7 @@ from pylith import monitors
 
 @pytest.fixture
 def load_yaml():
-    cur_path = pathlib.Path(__file__).parent
+    cur_path = pyre.primitives.path(__file__).parent
     pylith.loadConfiguration(cur_path / "test_progress_monitor_time.yaml")
 
 

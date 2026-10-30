@@ -7,9 +7,9 @@
 # See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
 
-import pathlib
-
 import pytest
+
+import pyre
 
 import pylith
 from pylith.petsc import options
@@ -18,7 +18,7 @@ from pylith.petsc.options import groups
 
 @pytest.fixture
 def load_yaml():
-    cur_path = pathlib.Path(__file__).parent
+    cur_path = pyre.primitives.path(__file__).parent
     pylith.loadConfiguration(cur_path / "test_simulation_options.yaml")
 
 

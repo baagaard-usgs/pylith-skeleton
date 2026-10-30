@@ -364,7 +364,7 @@ Configuration activity.
 
 ```
 ┌──────┬───────────────────────┬────────────────────────────────────────┐
-│ Act. │ Outline (TOC tree)    │ Page (rendered Markdown)                │
+│ Act. │ [Intro][User][Dev]    │ Page (rendered Markdown)                │
 │ bar  │  🔍 [search…]         │  # Governing Equations                  │
 │ [⚙]  │  ▼ User Guide         │  Elasticity is governed by …            │
 │ [▶]  │   ├ Introduction      │  ── equation (KaTeX) ──                 │
@@ -375,8 +375,8 @@ Configuration activity.
 └──────┴───────────────────────┴────────────────────────────────────────┘
 ```
 
-Two resizable panels in a horizontal `flex.Box` (outline | page); a search box sits atop the
-outline.
+Two resizable panels in a horizontal `flex.Box` (outline | page). The outline panel stacks, top to
+bottom, a row of chapter tabs, a search box, and the collapsible outline tree.
 
 **Source & rendering.** Docs are authored as **Sphinx/MyST Markdown** under `docs/` (today only a
 stub — content sourcing is a prerequisite, see risks). The page panel renders Markdown with
@@ -394,10 +394,25 @@ stub — content sourcing is a prerequisite, see risks). The page panel renders 
   > a MyST-aware parser (e.g. `mystmd`/`myst-to-react`) on the server, or carry the needed
   > remark/rehype plugins client-side. Called out in risks (§11).
 
-**Panel 1 — Outline.** Hierarchical TOC mirroring the Sphinx sidebar, built from the doc tree
-(`toctree`/`_toc.yml` or the MyST project structure). Reuses the same **tree widget** as the
-Configuration activity. The search box performs **full-text search** and filters/jumps the outline
-to matching pages; selecting a node loads that page.
+**Panel 1 — Outline.** Three stacked regions, top to bottom: the chapter tabs, the search box, and
+the outline tree.
+
+- **Chapter tabs.** A row of tabs across the top selects which top-level chapter the outline shows:
+  **Introduction**, **User Guide**, and **Developer Guide**. Each chapter is a distinct doc subtree
+  (its own `toctree`/`_toc.yml` root), so the tabs partition the documentation rather than stacking
+  all three roots in one long tree. Selecting a tab swaps the tree below to that chapter's outline
+  and remembers each chapter's expansion and scroll position, so switching back restores where the
+  reader was. The active tab tracks the chapter of the current page, so a cross-reference that
+  lands on a Developer Guide page raises the Developer Guide tab.
+- **Outline tree.** A **collapsible** hierarchical TOC for the selected chapter, mirroring the
+  Sphinx sidebar and built from that chapter's doc tree (`toctree`/`_toc.yml` or the MyST project
+  structure). Reuses the same **tree widget** as the Configuration activity: each node with
+  children carries a disclosure control that expands and collapses its subtree, the ancestors of
+  the current page are expanded and the current node highlighted, and selecting a node loads that
+  page.
+- **Search box.** Performs **full-text search** and filters/jumps the outline to matching pages;
+  selecting a node loads that page. Search ranges across all three chapters, and a hit outside the
+  active chapter raises that chapter's tab before jumping to the node.
 
 **Panel 2 — Page.** The rendered Markdown for the selected page, with anchored headings (deep-link
 and scroll-to-section), highlighted code blocks, KaTeX equations, and SVG figures.
@@ -417,16 +432,21 @@ activity, but doc ↔ config crossing is a first-class feature:
 **GraphQL surface:**
 
 ```graphql
+enum DocChapter { INTRODUCTION, USER_GUIDE, DEVELOPER_GUIDE }  # the outline tabs
 type DocNode { id: ID!, title: String!, path: String, children: [DocNode!]! }  # sidebar tree
-type DocPage { path: String!, title: String!, markdown: String!, pyrePaths: [String!]! }
-type DocHit  { path: String!, title: String!, excerpt: String!, anchor: String }
+type DocPage { path: String!, title: String!, chapter: DocChapter!, markdown: String!, pyrePaths: [String!]! }
+type DocHit  { path: String!, title: String!, chapter: DocChapter!, excerpt: String!, anchor: String }
 
 type Query {
-  docToc: DocNode!                      # hierarchical outline
-  docPage(path: String!): DocPage       # raw MyST Markdown + page→component links
-  searchDocs(query: String!): [DocHit!]!
+  docToc(chapter: DocChapter!): DocNode!   # the selected chapter's collapsible outline
+  docPage(path: String!): DocPage          # raw MyST Markdown + chapter + page→component links
+  searchDocs(query: String!): [DocHit!]!   # spans all chapters; each hit names its chapter
 }
 ```
+
+`docToc` takes the chapter chosen by the tabs and returns that chapter's outline root; `docPage`
+and `DocHit` carry the owning `chapter` so a cross-reference or a search hit can raise the right
+tab before selecting the node.
 
 Search may be served either by a server-side `searchDocs` resolver over a prebuilt index or by a
 client-side index (lunr/FlexSearch) loaded once; the panel consumes the same `DocHit` shape either

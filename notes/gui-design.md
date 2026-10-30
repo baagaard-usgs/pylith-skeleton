@@ -8,7 +8,7 @@ A browser GUI for PyLith (a Pyre application) with four **activities**:
   component-hierarchy tree, detail view of the selected component, and a YAML editor.
 - **Monitor** — watch a running simulation: progress dashboard, journal-channel selector,
   and channel output.
-- **Launch** — run a job locally or submit it to SLURM on a remote machine over SSH.
+- **Launch** — launch a simulation locally or submit it to SLURM on a remote machine over SSH.
 - **Documentation** - display documentation with an outline view and current page.
 
 The design reuses the Pyre/qed React + Relay + GraphQL foundation rather than inventing a new
@@ -184,8 +184,15 @@ Visual cue distinguishes **set** vs **default** subtrees (provenance-driven).
 Per item: current value (editable widget chosen by `typename` — text, dimensional value+units, dropdown for facility `choices`, list editor), default shown alongside, constraints surfaced as inline validation (e.g. `notEmptyList`, ranges, choices), and a provenance badge using the full locator ("set in elasticity-axial-extension.yaml:43:3" vs "default").
 Editing fires `setProperty`/`setFacility`.
 
-**Panel 3 — YAML editor (CodeMirror 6).** Edits the active YAML config with Pyre-flavored highlighting (the `family#name` keys, dotted paths). On edit → `writeYaml`; parser diagnostics shown as gutter markers.
-Because locators carry line/column, the editor can **jump to / highlight** the exact span backing a tree/detail selection and vice versa.
+**Panel 3 — YAML.** The active configuration as text. The **round-trip engine is server-side** —
+`pyre.config.yaml.editor` renders the document (`render`) and patches it by key path (§6) — so
+the client panel is a view and input surface over text the server produces, not the holder of
+the serialized form. Read-only first (P1): rendered text with the span of the current selection
+highlighted via `editor.find`. Editable later (P3): a **CodeMirror 6** surface with Pyre-flavored
+highlighting (the `family#name` keys, dotted paths); on edit → `writeYaml`, whose diagnostics
+(from the Pyre YAML codec) show as gutter markers.
+Because locators carry line/column, selection **jumps to / highlights** the exact span backing a
+tree/detail selection, and a YAML edit maps back to the owning component trait (§6).
 
 **Live instantiation:** resolvers drive a real Pyre executive that instantiates the dag, so defaults, validators, and locators are authoritative.
 Partial configs are handled by instantiating lazily and reporting unresolved facilities as `current: null` (use default) rather than erroring —
@@ -195,28 +202,79 @@ important because example configs leave TODOs (`# :TODO: Set spatial database`).
 
 ## 6. Bidirectional YAML round-trip
 
-Two editing surfaces, one model:
+Two editing surfaces, two mechanisms, one dag. The text and the live component dag are kept in
+step by two distinct Pyre facilities that already exist: the **editor** handles the text, and
+**`pyre_setTrait`** handles the dag. They are not one mechanism, and conflating them is the
+mistake the earlier draft of this section made.
 
 ```
- Tree/Detail edit ──setProperty──▶ executive applies ──▶ AST patch ──▶ YAML text (comments preserved)
-        ▲                                                                   │
-        └────────── reparse ◀── writeYaml ◀── YAML editor edit ◀───────────┘
+ Tree/Detail edit ──pyre_setTrait──▶ live dag updated
+                  └──editor.set────▶ YAML text (comments preserved)
+        ▲                                               │
+        └── diff → per-trait pyre_setTrait ◀── parse (YAML codec) ◀── YAML editor edit
 ```
 
-Mechanism:
+### The two Pyre facilities
 
-- Keep the YAML as a **comment-preserving AST** (e.g. `ruamel.yaml`) as the canonical serialized
-  form. Detail-panel mutations apply *targeted node edits* (set scalar, add/remove list item)
-  keyed by the Pyre dotted path, leaving comments, ordering, and untouched keys intact.
-- YAML-side edits go the other way: parse text → diff against current AST → translate into
-  configuration events applied to the executive → re-introspect the dag.
-- **Locators are the bridge.** With source + line + column, a tree edit knows the exact YAML span
-  to patch, and a YAML edit maps a changed span back to the owning component trait.
-- Conflict/invalid handling: while the editor holds unparseable text, tree/detail keep showing the
-  last valid model and the editor shows diagnostics; tree mutations are queued/disabled until the
-  text reparses (prevents clobbering in-progress edits).
+- **The text: `pyre.config.yaml.editor`** (`../pyre/packages/pyre/config/yaml/Editor.py`). A
+  round-trip, comment-preserving YAML editor on `ruamel.yaml` — this *is* the canonical
+  serialized form, not something to build. It edits by Pyre key path (`set`, `delete`,
+  `append`, `remove`), renders the whole document (`render`), and saves atomically (`save`),
+  leaving every comment, blank line, quote, and ordering the user wrote intact. It requires
+  `ruamel.yaml`; `Editor.available()` reports whether the backend is importable, and the YAML
+  panel degrades to raw file text when it is not (an optional-dependency concern, `AGENTS.md`).
+- **The dag: `instance.pyre_setTrait(alias, value, priority=, locator=)`**
+  (`../pyre/packages/pyre/components/Component.py`). The supported, metadata-aware way to change
+  a live component's trait: it writes through the shared `pyre.calc` slot, updating the value,
+  its priority, and its locator, and notifies dependents. `setattr` on a component routes here.
 
-Riskiest area; phased so a one-way path (tree→YAML) ships first and full round-trip follows.
+### Why the dag must be updated per trait, not by replaying config
+
+A tempting shortcut — parse the edited YAML and feed it back through
+`executive.loadConfiguration` — **does not reliably update a running dag**, confirmed by tracing
+the Pyre configuration machinery:
+
+- A component's instance slot is a `keep=True` reference to the store slot that **detaches on
+  first read** (`Slotted.__get__` → `pyre_keepTrait` → `Reference.detach`). A running dag has
+  already read its traits, so a later `loadConfiguration` silently misses every already-read
+  trait — the common case.
+- `NameServer.insert` has a **priority gate**: a replayed edit is dropped if the existing value
+  was set at a higher priority (for example on the command line).
+
+So replaying parsed configuration is fine for *not-yet-read* traits and for pre-instantiation
+configuration, but it is not a dependable "update the live dag" mechanism. The dependable path,
+in **both** directions, is per-trait `pyre_setTrait` on the specific component instances.
+`pyre_setTrait` defaults the priority to `explicit`, which clears the gate for a user edit.
+
+### The two directions
+
+- **Tree/detail → YAML (one-way, ships first; P2).** A detail-panel mutation calls
+  `instance.pyre_setTrait(...)` on the live component (the only reliable dag update), then
+  `editor.set(*path, value=…)` patches the YAML text. Two grounded calls per edit; no event
+  replay. Every API it touches is verified.
+- **YAML → dag (round-trip; P3).** A YAML-side edit is parsed by the Pyre YAML **codec**
+  (`YAML.decode`, which yields configuration events with key paths, values, and file locators,
+  and raises `DecodingError` for the diagnostics below), then **diffed** against the current
+  editor document by key path. Each changed key is resolved to its owning component and trait
+  (via `editor.find`/`editor.locate` and the dotted path) and applied with `pyre_setTrait`;
+  the dag is then re-introspected. The codec validates the text; `pyre_setTrait` applies the
+  change. This diff-to-trait translator is the one genuinely new piece of P3 — everything it
+  calls already exists.
+
+### The bridge and conflict handling
+
+- **Locators are the bridge.** `editor.find(name)` maps a dotted Pyre name (a tree/detail
+  selection) to the YAML key path and span to patch or highlight; `editor.locate(line)` maps a
+  position in the text back to the owning entry. Config-file positions carry source + line +
+  column; a value left at its default has no entry, so `find` returns nothing and there is no
+  span — consistent with the detail badge reading "default."
+- **Conflict/invalid handling.** While the editor holds unparsable text, tree/detail keep
+  showing the last valid model and the editor shows the codec's diagnostics; tree mutations are
+  queued or disabled until the text reparses, so an in-progress edit is not clobbered.
+
+Phased so the one-way path (tree→YAML) ships first and the full round-trip follows. With the
+editor and `pyre_setTrait` both in hand, the remaining P3 risk is contained to the
+diff-to-trait translator, not the whole round-trip.
 
 ---
 
@@ -225,20 +283,19 @@ Riskiest area; phased so a one-way path (tree→YAML) ships first and full round
 Three panels; depends on Pyre **journal channel streaming** (not yet implemented).
 
 ```
-┌──────┬───────────────────────┬───────────────┬────────────────────────┐
-│ Act. │ Dashboard             │ Channel select│ Channel output (stream)│
-│ bar  │  step 42 / 500        │ ☑ pylith.info │ [12:01] info: solve... │
-│ [⚙]  │  t = 1.2 yr           │ ☑ ts.monitor  │ [12:01] ts: dt=0.1     │
-│ [▶]◀ │  ETA 00:07:30         │ ☐ snes        │ [12:02] snes: ‖r‖=...  │
-│ [🚀] │  ▓▓▓▓▓░░░ 8.4%        │ ☐ ksp         │ ...                    │
+┌──────┬──────────────────────┬─────────────────────────┬───────────────┐
+│ Act. │ Dashboard            │ Channel output (stream) │ Channel select|
+│ bar  │  step 42 / 500       │ [12:01] info: solve...  │ ☑ pylith.info │
+│ [⚙]  │  t = 1.2 yr          │ [12:01] ts: dt=0.1      │ ☑ ts.monitor  │
+│ [▶]◀ │  ETA 00:07:30        │ [12:02] snes: ‖r‖=...   │ ☐ snes        │
+│ [🚀] │  ▓▓▓▓▓░░░ 8.4%       │ ...                     │ ☐ ksp         │
 └──────┴───────────────────────┴───────────────┴────────────────────────┘
 ```
 
 - **Dashboard** — current time step, simulation time, wall-clock ETA, progress bar (reuse
   `widgets/slider`/badge). **Data source is modular**: a `ProgressAdapter` interface.
   - `TSGraphQLAdapter` (future): reads the same fields from a structured GraphQL query/subscription
-    backed by updated PyLith progress monitors. The dashboard components consume only the adapter's normalized
-    shape, so swapping adapters needs no UI changes.
+    backed by updated PyLith progress monitors. The dashboard components consume only the adapter's normalized shape, so swapping adapters needs no UI changes.
 - **Channel selector** — checklist of available journal channels (`pylith.*`, `spatialdata.*`,
   PETSc `ts/snes/ksp`). Drives the subscription's `channels` argument.
 - **Output** — virtualized, append-only log view of selected channels, with severity coloring
@@ -400,7 +457,9 @@ ux/                 # mirrors pyre/qed web layout
       launch/         # target/resources | submission/status two-panel view
       docs/           # outline (TOC) | page two-panel view (search + react-markdown)
     widgets/          # reuse flex/toolbar/slider + new: tree, property-editor,
-                      #   yaml-editor (CodeMirror 6), dashboard, launch-form,
+                      #   yaml-view (read-only render; CodeMirror 6 input added at P3 —
+                      #   the round-trip engine is server-side, pyre.config.yaml.editor),
+                      #   dashboard, launch-form,
                       #   doc-page (react-markdown + math/code/svg), doc-search
     adapters/         # ProgressAdapter (TSMonitorLog now, TSGraphQL later)
 ```
@@ -409,7 +468,14 @@ ux/                 # mirrors pyre/qed web layout
 
 ## 11. Key decisions & risks
 
-1. **Round-trip YAML** (§6) is the dominant risk — mitigated by comment-preserving AST + line/column locator bridge, and phased delivery.
+1. **Round-trip YAML** (§6) — no longer the dominant risk. Both halves exist in Pyre: the
+   comment-preserving patcher (`pyre.config.yaml.editor`) and the live-dag update
+   (`instance.pyre_setTrait`), bridged by the editor's line/column locators. Replaying parsed
+   configuration does *not* reliably update a running dag (instance slots detach from the store
+   on first read, and `NameServer.insert` has a priority gate), so the dag is updated per trait
+   via `pyre_setTrait`, not by event replay (§6). The remaining P3 work is contained to one new
+   piece — the translator that diffs a YAML-text edit into per-trait `pyre_setTrait` calls — plus
+   conflict handling and phased delivery.
 2. **Live instantiation of partial configs** — resolvers must tolerate unset facilities and configuration errors; ties to the open todo "Trap configuration errors" (`todo.md`).
 3. **List traits** (`list(schema=...)`) need first-class add/remove UI and schema-aware item editors; note that list/set/tuple schemas were "not applied correctly because could not extract" (`notes_2026-03-09.md`) — the GUI depends on that extraction working.
 4. **Monitor depends on unbuilt Pyre journal streaming** — design now, ship later; dashboard isolated behind `ProgressAdapter`.
@@ -421,11 +487,11 @@ ux/                 # mirrors pyre/qed web layout
 ## 12. Phasing
 
 - **P0 — Frame**: stand up `apps/ux` + `apps/gql`, Relay env, `Main` + `ActivityBar` with Configure/Monitor/Launch activities, empty routed layouts.
-- **P1 — Read-only config**: `Query.root`/`component`/`yaml`; tree + detail (read) + CodeMirror YAML viewer from live instantiation.
+- **P1 — Read-only config**: `Query.root`/`component`/`yaml`; tree + detail (read) + read-only YAML rendering (`editor.render`, span highlight via `editor.find`) from live instantiation.
 - **P6 — Progress dashboard**: dashboard (`ProgressMonitorAdapter`) + channel selector + output, once PyLith progress monitors are updated.
 - **P6 — Monitor**: channel selector + output, once Pyre journal streaming lands.
-- **P2 — Editing (one-way)**: detail-panel mutations → regenerate YAML (tree authoritative); validation + provenance badges from full locators.
-- **P3 — Round-trip**: YAML-editor edits reparse into the model; comment-preserving AST; conflict handling.
+- **P2 — Editing (one-way)**: detail-panel mutations apply to the live dag with `pyre_setTrait`, then patch the YAML text with `editor.set` (tree authoritative); validation + provenance badges from full locators.
+- **P3 — Round-trip**: YAML-editor edits are parsed by the Pyre YAML codec, diffed against the editor document, and applied per trait with `pyre_setTrait` (not by config replay); conflict handling. The diff-to-trait translator is the one new piece.
 - **P4 — Launch (local)**: `LocalLauncher`, submit/cancel, live log via `jobStatus` subscription.
 - **P5 — Launch (SLURM/SSH)**: `SlurmSshLauncher`, sbatch render + dry run, squeue/sacct polling.
 - **P7 — Documentation**: `docToc`/`docPage`/`searchDocs`; outline + `react-markdown` page (math/code/SVG) + full-text search; bidirectional doc↔config links. Gated on doc content landing in `docs/`.
@@ -445,7 +511,11 @@ ux/                 # mirrors pyre/qed web layout
 ## 14. Resolved questions
 
 - **Provenance granularity** — Pyre locators expose source + **line + column** (resolved): enables precise detail badges and round-trip patching.
-- **Editor** — **CodeMirror 6** (resolved).
+- **YAML engine and editor** — the round-trip engine is **server-side**: `pyre.config.yaml.editor`
+  renders and patches the document, and `instance.pyre_setTrait` applies changes to the live dag
+  (resolved; §6). The client **renders** YAML read-only in P1 and gains a **CodeMirror 6** input
+  surface at P3 for YAML-side edits (resolved) — CodeMirror is the editing surface, not the
+  serialized form.
 - **Monitor progress source** — a modular `ProgressAdapter`; GraphQL interface from PyLith later (resolved).
 - **Run control** — a dedicated **Launch** activity handles local execution and remote SLURM submission via SSH (resolved).
 - **Documentation source/rendering** — Sphinx/MyST Markdown in `docs/`, rendered with `react-markdown`; hierarchical (Sphinx-sidebar) outline; full-text search; bidirectional doc↔YAML-config links; code-block highlighter still open (resolved except highlighter choice).

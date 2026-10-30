@@ -14,8 +14,6 @@ The work reuses the patterns the monitor-journal activity established
 and mutation in `packages/pylith/gql`, a client module under `ux/client/views/launch/`, and
 the already-installed journal SSE device for live output.
 
-> **Status: DRAFT — awaiting approval.** No code is written until this document is approved.
-
 ---
 
 ## 1. Scope
@@ -411,9 +409,7 @@ on.
 
 ---
 
-## 10. Open questions
-
-**Please confirm:**
+## 10. Responses to questions
 
 1. **Launcher location** — put `Launcher.py` in `packages/pylith/apps/launch/` now with a
    `Launcher` interface in anticipation of the SLURM backend.
@@ -438,7 +434,7 @@ on.
 
 ---
 
-## 11. Deliverables (once approved)
+## 11. Deliverables
 
 Backend:
 
@@ -469,7 +465,5 @@ Build / conventions (per `AGENTS.md`):
   the same open item).
 - Run the conventions check: file preambles, current copyright year, `codespell`, and `black`
   formatting on new and modified Python files.
-
-No code is written until this draft is approved.
 
 <!-- end of file -->

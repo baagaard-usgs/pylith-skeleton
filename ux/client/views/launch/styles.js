@@ -20,24 +20,24 @@ export default {
         },
     },
 
-    // the settings panel
-    settings: {
+    // the target and controls panel
+    controls: {
         panel: {
             backgroundColor: theme.page.shaded,
         },
     },
 
-    // the summary panel
-    summary: {
+    // the status and output panel
+    status: {
         panel: {
             backgroundColor: theme.page.background,
         },
     },
 
-    // the temporary content
+    // the content while a region's query answers
     placeholder: {
         margin: "1.0rem",
-        fontFamily: "inconsolata",
+        fontFamily: "inconsolata, monospace",
         color: theme.page.dim,
     },
 }

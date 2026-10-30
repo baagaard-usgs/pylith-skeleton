@@ -15,6 +15,7 @@ import journal
 
 from .GraphQL import GraphQL
 from .Journal import Journal
+from ..launch import LocalLauncher
 
 
 class Dispatcher:
@@ -63,6 +64,9 @@ class Dispatcher:
         # the journal device that publishes records to clients; installed on the chronicler the
         # first time the server is in reach (see {install})
         self.device = None
+        # the launcher that runs simulations locally; built the first time the server is in
+        # reach, since it needs the server's event loop (see {install})
+        self.launcher = None
 
     # handlers
     def graphql(self, **kwds):
@@ -113,16 +117,17 @@ class Dispatcher:
 
     # interface
     def install(self, server):
-        """Install the journal publishing device on the chronicler, once.
+        """Install the journal publishing device and the launcher, once.
 
         Called the first time {server} is in reach, before any client connects, so the history
         begins at server contact rather than at the first stream subscription. The device
         mirrors every entry to the device that was writing before it, typically the terminal, so
-        the records keep reaching the console.
+        the records keep reaching the console. The launcher is built here too, since it needs
+        the server's event loop and hub to run and watch the child process.
         """
-        # if the device is already installed
+        # if the device is already installed, so is the launcher; hand the device back
         if self.device is not None:
-            # hand it back
+            # nothing more to do
             return self.device
         # the device the journal has been writing to, typically the terminal
         terminal = journal.chronicler.device
@@ -133,7 +138,12 @@ class Dispatcher:
         # the server exposes its device to the GraphQL layer, which adds a channel to the
         # census when a mutation turns one on
         server.journal = self.device
-        # hand it back
+        # build the launcher, which runs simulations on the server's event loop
+        self.launcher = LocalLauncher(server=server)
+        # and expose it on the server, so the GraphQL layer reaches it the way it reaches the
+        # journal device
+        server.launcher = self.launcher
+        # hand the device back
         return self.device
 
     # the app api

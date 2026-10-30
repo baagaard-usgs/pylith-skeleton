@@ -1,5 +1,15 @@
+# -*- Python -*-
 # -*- coding: utf-8 -*-
-
+#
+# =================================================================================================
+# This code is part of PyLith, developed through the Computational Infrastructure
+# for Geodynamics (https://github.com/geodynamics/pylith).
+#
+# Copyright (c) 2010-2026, University of California, Davis and the PyLith Development Team.
+# All rights reserved.
+#
+# See https://mit-license.org/ and LICENSE.md and for license information.
+# =================================================================================================
 
 # externals
 import graphene
@@ -11,6 +21,10 @@ import pylith
 from .Version import Version
 from .About import About
 from .journal import JournalChannel, channels
+from .launch import Job, launcher
+
+# the idle sentinel for a server that has not run anything yet
+from pylith.apps.launch.Job import Job as JobRecord
 
 
 # the query
@@ -26,6 +40,8 @@ class Query(graphene.ObjectType):
     about = graphene.Field(About, required=True)
     # the journal channels the GUI offers
     journal = graphene.List(graphene.NonNull(JournalChannel), required=True)
+    # the current launch job
+    job = graphene.Field(Job, required=True)
 
     # the resolvers
 
@@ -55,6 +71,21 @@ class Query(graphene.ObjectType):
         """
         # the roster the configuration defines
         return channels()
+
+    # job
+    @staticmethod
+    def resolve_job(root, info):
+        """
+        Report the current launch job, or an idle sentinel before anything has run
+        """
+        # reach the launcher the server owns
+        backend = launcher(info)
+        # if there is none, the server has not installed one; report an idle job
+        if backend is None:
+            # nothing has run
+            return JobRecord.idle()
+        # otherwise, report whatever the launcher holds
+        return backend.current()
 
 
 # end of file

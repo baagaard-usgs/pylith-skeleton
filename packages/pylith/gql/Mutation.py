@@ -11,6 +11,7 @@
 import graphene
 
 from .journal import journalChannelSet
+from .launch import launchStart, launchCancel
 
 
 class Mutation(graphene.ObjectType):
@@ -18,6 +19,10 @@ class Mutation(graphene.ObjectType):
 
     # turn a journal channel on or off
     journal_channel_set = journalChannelSet.Field()
+    # start a local run
+    launch_start = launchStart.Field()
+    # cancel the running job
+    launch_cancel = launchCancel.Field()
 
 
 # End of file

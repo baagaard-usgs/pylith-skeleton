@@ -18,11 +18,13 @@ journal:
     - info, application-flow-all
     - info, debug-config
     - info, initialization
+    - info, stdout
     - warning, user-input
     - warning, deprecation
     - error, configuration-error
     - error, input-error
     - error, external-error
+    - error, stderr
     - firewall, internal-error
     - firewall, logic-error
     - debug, application-flow
